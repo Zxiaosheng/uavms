@@ -130,6 +130,28 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   {
+    path: '/taskcenter',
+    component: Layout,
+    alwaysShow: true,
+    name: 'taskCenter',
+    meta: {
+      title: 'taskCenter',
+      icon: 'lock',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: 'tasklist',
+        name: 'taskList',
+        component: () => import('@/views/task'),
+        meta: {
+          title: 'taskList',
+          roles: ['admin']
+        }
+      }
+    ]
+  },
+  {
     path: '/permission',
     component: Layout,
     redirect: '/permission/page',
