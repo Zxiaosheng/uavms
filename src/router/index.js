@@ -11,7 +11,7 @@ import componentsRouter from './modules/components'
 import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
-import deviveRoter from './modules/devive'
+import deviceRouter from './modules/device'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -40,7 +40,7 @@ import deviveRoter from './modules/devive'
  * all roles can be accessed
  */
 export const constantRoutes = [
-  deviveRoter,
+  deviceRouter,
   {
     path: '/redirect',
     component: Layout,
