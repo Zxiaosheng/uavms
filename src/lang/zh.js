@@ -68,6 +68,14 @@ export default {
     externalLink: '外链',
     profile: '个人中心'
   },
+  rode: {
+    typeId: '型号',
+    date1: '出发时间',
+    date2: '到达时间',
+    start: '出发地点',
+    end: '到达地点',
+    task: '任务'
+  },
   navbar: {
     dashboard: '首页',
     github: '项目地址',

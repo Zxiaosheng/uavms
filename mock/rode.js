@@ -5,11 +5,11 @@ const count = 50
 
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
-    "id|1":["1","2","3"],
     "date1":"@date",
     "date2":"@date",
     "start":"@city()",
     "end":"@city()",
+    "typeId|1": [{id:'1',typeName:''},{id:'2',typeName:''},{id:'3',typeName:''}],
     "task":"@ctitle(10,20)"
   }))
 }

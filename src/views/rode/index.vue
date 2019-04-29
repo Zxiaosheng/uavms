@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.title" :placeholder="$t('news.title')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+      <el-input v-model="listQuery.start" :placeholder="$t('rode.start')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
       <el-date-picker v-model="listQuery.date" type="datetime" :placeholder="$t('news.date')" />
-      <el-select v-model="listQuery.type" value-key="id" :placeholder="$t('rode.id')" clearable class="filter-item" style="width: 130px" @change="getList">
-        <el-option v-for="item in typeId" :key="item.id" :label="item.id" :value="item.id" />
+      <el-select v-model="listQuery.type" value-key="id" @change="getList" :placeholder="$t('rode.typeId')" clearable class="filter-item" style="width: 130px">
+        <el-option v-for="item in typeId" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
@@ -16,25 +16,33 @@
         {{ $t('table.export') }}
       </el-button>
     </div>
-    <el-table v-loading="listLoading" :data="pageData" border style="width: 100%;text-align: center">
+    <el-table :data="pageData" v-loading="listLoading" border  style="width: 100%;text-align: center">
 
-      <el-table-column prop="id" :label="$t('rode.id')" sortable width="80" />
+      <el-table-column prop="typeId.typeName" :label="$t('rode.id')" sortable  width="80"></el-table-column>
 
-      <el-table-column prop="date1" :label="$t('rode.date1')"sortable width="110" />
+      <el-table-column prop="date1" :label="$t('rode.date1')"sortable width="110"></el-table-column>
 
-      <el-table-column prop="date2" :label="$t('rode.date2')"sortable width="110" />
+      <el-table-column prop="date2" :label="$t('rode.date2')"sortable width="110"></el-table-column>
 
-      <el-table-column prop="start" :label="$t('rode.start')"sortable width="110" />
+      <el-table-column prop="task" :label="$t('rode.task')" sortable width="100"></el-table-column>
 
-      <el-table-column prop="end" :label="$t('rode.end')"sortable width="110" />
-
-      <el-table-column prop="task" :label="$t('rode.task')" width="100" />
+      <!--<el-table-column prop="read" sortable label="热度"  width="100">-->
+        <!--<template slot-scope="scope">-->
+          <!--<el-tag :type="scope.row.read | hotFilter()">{{scope.row.read}}</el-tag>-->
+        <!--</template>-->
+      <!--</el-table-column>-->
 
       <el-table-column :label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             {{ $t('table.edit') }}
           </el-button>
+          <!--<el-button v-if="row.status!='published'" size="mini" type="success" @click="handleModifyStatus(row,'published')">-->
+          <!--{{ $t('table.publish') }}-->
+          <!--</el-button>-->
+          <!--<el-button v-if="row.status!='draft'" size="mini" @click="handleModifyStatus(row,'draft')">-->
+          <!--{{ $t('table.draft') }}-->
+          <!--</el-button>-->
           <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row)">
             {{ $t('table.delete') }}
           </el-button>
@@ -47,21 +55,17 @@
 
     <!--编辑弹出窗-->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item :label="$t('rode.id')" prop="id">
-          <el-select v-model="listQuery.type" value-key="id" :placeholder="$t('rode.id')" clearable class="filter-item" style="width: 130px" @change="getList">
-            <el-option v-for="item in typeId" :key="item.id" :label="item.id" :value="item.id" />
+      <el-form ref="dataForm"  :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+
+        <el-form-item :label="$t('rode.typeId')" prop="typeId">
+          <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select">
+            <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.id"/>
           </el-select>
         </el-form-item>
-        <!--<el-form-item :label="$t('news.newsType')" prop="newsType">-->
-        <!--<el-select v-model="temp.newsType.typeName" class="filter-item" placeholder="Please select">-->
-        <!--<el-option v-for="item in newsType"  :key="item.typeName" :label="item.typeName" :value="item.typeName"/>-->
-        <!--</el-select>-->
-        <!--</el-form-item>-->
-        <el-form-item :label="$t('rode.date1')" prop="date1">
-          <el-date-picker v-model="temp.date1" type="datetime" />
+        <el-form-item :label="$t('rode.date1')" prop="date">
+          <el-date-picker v-model="temp.date1" type="datetime" placeholder="Please pick a date" />
         </el-form-item>
-        <el-form-item :label="$t('rode.date2')" prop="date2">
+        <el-form-item :label="$t('rode.date2')" prop="date">
           <el-date-picker v-model="temp.date2" type="datetime" placeholder="Please pick a date" />
         </el-form-item>
         <el-form-item :label="$t('rode.start')" prop="title">
@@ -85,213 +89,213 @@
     </el-dialog>
     <!--新增弹出窗-->
     <el-dialog title="新增" :visible.sync="dialogFormAdd">
-      <el-form ref="AddForm" :model="addtemp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-
-        <el-form-item :label="$t('rode.id')" prop="id">
-          <el-select v-model="listQuery.type" value-key="id" :placeholder="$t('rode.id')" clearable class="filter-item" style="width: 130px" @change="getList">
-            <el-option v-for="item in typeId" :key="item.id" :label="item.id" :value="item.id" />
+      <el-form ref="AddForm"   :model="addtemp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+        <el-form-item  :label="$t('rode.typeId')" prop="typeId">
+          <el-select v-model="addtemp.typeId.typeName" class="filter-item" placeholder="Please select">
+            <el-option v-for="item in typeId"  :key="item.typeName" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
-
-        <el-form-item :label="$t('rode.date1')" prop="date1">
+        <el-form-item :label="$t('rode.date1')"  prop="date">
           <el-date-picker v-model="addtemp.date1" type="datetime" placeholder="Please pick a date" />
         </el-form-item>
-
-        <el-form-item :label="$t('rode.date2')" prop="date2">
+        <el-form-item :label="$t('rode.date2')"  prop="date">
           <el-date-picker v-model="addtemp.date2" type="datetime" placeholder="Please pick a date" />
         </el-form-item>
-
-        <el-form-item :label="$t('rode.start')">
-          <el-input v-model="addtemp.start" type="textarea" placeholder="Please input" />
+        <el-form-item :label="$t('rode.start')"  prop="title">
+          <el-input v-model="addtemp.start" />
         </el-form-item>
-
-        <el-form-item :label="$t('rode.end')">
-          <el-input v-model="addtemp.end" type="textarea" placeholder="Please input" />
+        <el-form-item :label="$t('rode.end')"  prop="title">
+          <el-input v-model="addtemp.end" />
         </el-form-item>
-
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormAdd = false">
-            {{ $t('table.cancel') }}
-          </el-button>
-          <el-button type="primary" @click="addData()">
-            {{ $t('table.confirm') }}
-          </el-button>
-        </div>
+        <el-form-item :label="$t('rode.task')" >
+          <el-input v-model="addtemp.task" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+        </el-form-item>
       </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormAdd = false">
+          {{ $t('table.cancel') }}
+        </el-button>
+        <el-button type="primary" @click="addData()">
+          {{ $t('table.confirm') }}
+        </el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { fetchNewsList, updateNews, createNews } from '@/api/rode'
-import waves from '@/directive/waves' // waves directive
-import Pagination from '@/components/Pagination' // secondary package based on el-pagination
+  import { fetchNewsList,updateNews,createNews } from '@/api/news'
+  import waves from '@/directive/waves' // waves directive
+  import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
-export default {
-  name: 'Index',
-  components: { Pagination },
-  directives: { waves },
-  filters: {
-    // 对热度数据进行过滤，生成不同颜色的标签
-    hotFilter(hot) {
-      return hot >= 200 ? 'danger' : (hot >= 100 ? 'waring' : 'success')
+  export default {
+    name: "index",
+    components: { Pagination },
+    directives: { waves },
+    filters: {
+      //对热度数据进行过滤，生成不同颜色的标签
+      // hotFilter(hot) {
+      //   return hot>=200 ? 'danger' : (hot>=100 ? 'waring' : 'success');
+      // },
+      // typeFilter(type) {
+      //   return newsType[type]
+      // }
     },
-    typeFilter(type) {
-      return newsType[type]
-    }
-  },
-  data() {
-    return {
-      list: [],
-      dialogFormVisible: false,
-      dialogFormAdd: false,
-      dialogStatus: '',
-      listLoading: false,
-      total: 0,
-      pageData: [],
-      typeId: [{ id: 1 }, { id: 2 }, { id: 3 }],
-      textMap: {
-        update: 'Edit',
-        create: 'Create'
-      },
-      temp: {
-        date1: '',
-        date2: '',
-        start: '',
-        end: '',
-        typeId: [{ id: 1 }]
-      },
-      addtemp: {
-        id: undefined,
-        date1: '',
-        date2: '',
-        start: '',
-        end: '',
-        typeId: [{ id: 1 }]
-      },
-      listLoading: true,
-      listQuery: {
-        page: 1,
-        limit: 20,
-        date: undefined,
-        title: undefined,
-        type: undefined
+    data(){
+      return{
+        list:[],
+        dialogFormVisible: false,
+        dialogFormAdd:false,
+        dialogStatus: '',
+        listLoading:false,
+        total: 0,
+        pageData:[],
+        typeId:[{id:1,typeName:'时政新闻'},{id:2,typeName:'财经新闻'},{id:3,typeName:'时事热点'}],
+        textMap: {
+          update: 'Edit',
+          create: 'Create'
+        },
+        temp: {
+          date1: new Date(),
+          date2: new Date(),
+          start: '',
+          end:'',
+          task:'',
+          typeId: [{id:1,typeName:'时政新闻'}]
+        },
+        addtemp: {
+          date1: new Date(),
+          date2: new Date(),
+          start: '',
+          end:'',
+          task:'',
+          typeId: [{id:1,typeName:'时政新闻'}]
+        },
+        listLoading: true,
+        listQuery: {
+          page: 1,
+          limit: 20,
+          date: undefined,
+          start: undefined,
+          end:undefined,
+          task:undefined,
+          type: undefined,
 
-      },
-      downloadLoading: false
-    }
-  },
-  mounted() {
-    this.listLoading = true
-    // 首次挂载列表组件
-    fetchNewsList(this.listQuery).then(response => {
-      this.list = response.data.items
-      this.total = response.data.total
-      this.getList()
-      // 关闭加载框
-      this.listLoading = false
-    })
-  },
-  methods: {
-    getList() {
-      this.listLoading = true
-      const { page, limit, title, date, type } = this.listQuery
-
-      const fiterData = this.list.filter(item => {
-        if (date && item.date !== date) return false
-        if (type && item.newsType.id !== type) return false
-        if (title && item.title.indexOf(title) < 0) return false
-        return true
-      })
-
-      this.pageData = fiterData.filter((item, index) => {
-        return index < page * limit && index >= limit * (page - 1)
+        },
+        downloadLoading: false
+      }
+    },
+    mounted(){
+      this.listLoading=true;
+      //首次挂载列表组件
+      fetchNewsList(this.listQuery).then(response => {
+        this.list = response.data.items
+        this.total = response.data.total
+        this.getList();
+        //关闭加载框
+        this.listLoading=false;
       })
     },
-    handleFilter() {
-      this.listQuery.page = 1
-      this.getList()
-    },
-    handleUpdate(row) {
-      this.temp = Object.assign({}, row) // copy obj
-      // this.temp.timestamp = new Date(this.temp.timestamp)
-      this.dialogStatus = 'update'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
-    handleCreate() {
-      this.dialogFormAdd = true
-      // this.$nextTick(() => {
-      //   this.$refs['dataForm'].clearValidate()
-      // })
-    },
-    addData() {
-      this.$refs['AddForm'].validate((valid) => {
-        if (valid) {
-          const time = new Date()
-          this.addtemp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-          this.addtemp.date = time.getFullYear() + '-' + time.getMonth() + 1 + '-' + time.getDay()
-          createNews(this.addtemp).then(() => {
-            this.pageData.unshift(this.addtemp)
-            this.dialogFormAdd = false
-            this.$notify({
-              title: '成功',
-              message: '创建成功',
-              type: 'success',
-              duration: 2000
+    methods:{
+      getList() {
+        this.listLoading = true;
+        // let{page,limit,title,date,type}=this.listQuery;
+        //
+        // let fiterData=this.list.filter(item=>{
+        //   if (date && item.date !== date) return false
+        //   if (type && item.newsType.id !== type) return false
+        //   if (title && item.title.indexOf(title) < 0) return false
+        //   return true
+        // })
+
+        this.pageData=fiterData.filter((item,index)=>{
+          return index<page*limit && index>=limit*(page-1)
+        });
+      },
+      handleFilter() {
+        this.listQuery.page = 1
+        this.getList()
+      },
+      handleUpdate(row) {
+        this.temp = Object.assign({}, row) // copy obj
+        // this.temp.timestamp = new Date(this.temp.timestamp)
+        this.dialogStatus = 'update'
+        this.dialogFormVisible = true
+        this.$nextTick(() => {
+          this.$refs['dataForm'].clearValidate()
+        })
+      },
+      handleCreate() {
+        this.dialogFormAdd = true
+        // this.$nextTick(() => {
+        //   this.$refs['dataForm'].clearValidate()
+        // })
+      },
+      addData() {
+        this.$refs['AddForm'].validate((valid) => {
+          if (valid) {
+            let time=new Date();
+            // this.addtemp.id = parseInt(Math.random() * 100) + 1024 // mock a id
+            this.addtemp.date=time.getFullYear()+"-"+time.getMonth()+1+"-"+time.getDay()
+            createNews(this.addtemp).then(() => {
+              this.pageData.unshift(this.addtemp)
+              this.dialogFormAdd = false
+              this.$notify({
+                title: '成功',
+                message: '创建成功',
+                type: 'success',
+                duration: 2000
+              })
+              // this.addtemp.title=''
+              // this.addtemp.content=''
+              // this.addtemp.read=''
             })
-            // this.addtemp.title=''
-            // this.addtemp.content=''
-            // this.addtemp.read=''
-          })
-        }
-      })
-    },
-    updateData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          const tempData = Object.assign({}, this.temp)
-          // tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-          updateNews(tempData).then(() => {
-            for (const v of this.pageData) {
-              if (v.id === this.temp.id) {
-                const index = this.pageData.indexOf(v)
-                this.pageData.splice(index, 1, this.temp)
-                break
-              }
-            }
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '更新成功',
-              type: 'success',
-              duration: 2000
+          }
+        })
+      },
+      updateData() {
+        this.$refs['dataForm'].validate((valid) => {
+          if (valid) {
+            const tempData = Object.assign({}, this.temp)
+            // tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
+            updateNews(tempData).then(() => {
+              // for (const v of this.pageData) {
+              //   if (v.id === this.temp.id) {
+              //     const index = this.pageData.indexOf(v)
+              //     this.pageData.splice(index, 1, this.temp)
+              //     break
+              //   }
+              // }
+              this.dialogFormVisible = false
+              this.$notify({
+                title: '成功',
+                message: '更新成功',
+                type: 'success',
+                duration: 2000
+              })
             })
-          })
-        }
-      })
-    },
-    handleModifyStatus(row, status) {
-      this.$message({
-        message: '操作成功',
-        type: 'success'
-      })
-      row.status = status
-    },
-    handleDelete(row) {
-      this.$notify({
-        title: '成功',
-        message: '删除成功',
-        type: 'success',
-        duration: 2000
-      })
-      const index = this.pageData.indexOf(row)
-      this.pageData.splice(index, 1)
-    },
-    handleDownload() {
-      this.downloadLoading = true
+          }
+        })
+      },
+      handleModifyStatus(row, status) {
+        this.$message({
+          message: '操作成功',
+          type: 'success'
+        })
+        row.status = status
+      },
+      handleDelete(row) {
+        this.$notify({
+          title: '成功',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+        const index = this.pageData.indexOf(row)
+        this.pageData.splice(index, 1)
+      },
+      handleDownload() {
+        this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
           const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
@@ -303,9 +307,9 @@ export default {
           })
           this.downloadLoading = false
         })
+      },
     }
   }
-}
 </script>
 
 <style scoped>

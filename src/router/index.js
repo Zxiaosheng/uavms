@@ -70,7 +70,7 @@ export const constantRoutes = [
     alwaysShow: true,
     meta: {
       title: 'rode',
-      icon: 'lock',
+      icon: 'guide',
       roles: ['admin']
     },
     children: [
@@ -92,7 +92,7 @@ export const constantRoutes = [
     name: 'taskCenter',
     meta: {
       title: 'taskCenter',
-      icon: 'lock',
+      icon: 'guide',
       roles: ['admin']
     },
     children: [
