@@ -112,46 +112,55 @@
     <!--page end-->
 
     <!--dialog start-->
-    <!--<el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">-->
-      <!--<el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">-->
-        <!--<el-form-item :label="$t('urls.date')" prop="timestamp">-->
-          <!--<el-date-picker v-model="temp.date" type="date" placeholder="Please pick a date" />-->
-        <!--</el-form-item>-->
-        <!--<el-form-item :label="$t('urls.title')" prop="title">-->
-          <!--<el-input v-model="temp.title" />-->
-        <!--</el-form-item>-->
-        <!--<el-form-item :label="$t('urls.creator')" prop="creator">-->
-          <!--<el-input v-model="temp.creator" />-->
-        <!--</el-form-item>-->
-        <!--<el-form-item :label="$t('urls.lastip')" prop="lastip">-->
-          <!--<el-input v-model="temp.lastip" />-->
-        <!--</el-form-item>-->
-        <!--<el-form-item :label="$t('urls.url')" prop="url">-->
-          <!--<el-input v-model="temp.url" />-->
-        <!--</el-form-item>-->
-        <!--<el-form-item :label="$t('urls.urlType')">-->
-          <!--<el-select v-model="temp.urlType" class="filter-item" placeholder="Please select">-->
-            <!--<el-option v-for="item in urlTypes" :key="item.id" :label="item.typeName" :value="item.id" />-->
-          <!--</el-select>-->
-        <!--</el-form-item>-->
-      <!--</el-form>-->
-      <!--<div slot="footer" class="dialog-footer">-->
-        <!--<el-button @click="dialogFormVisible = false">-->
-          <!--{{ $t('table.cancel') }}-->
-        <!--</el-button>-->
-        <!--<el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">-->
-          <!--{{ $t('table.confirm') }}-->
-        <!--</el-button>-->
-      <!--</div>-->
-    <!--</el-dialog>-->
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+        <el-form-item :label="$t('task.startTime')" prop="startTime">
+          <el-date-picker v-model="temp.startTime" type="date" placeholder="Please pick a date" />
+        </el-form-item>
+        <el-form-item :label="$t('task.endTime')" prop="endTime">
+          <el-date-picker v-model="temp.endTime" type="date" placeholder="Please pick a date" />
+        </el-form-item>
+        <el-form-item :label="$t('task.taskDesc')" prop="taskDesc">
+          <el-input v-model="temp.taskDesc" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+        </el-form-item>
+        <el-form-item :label="$t('task.beforeTask')" prop="beforeTask">
+          <el-input v-model="temp.beforeTask" />
+        </el-form-item>
+        <el-form-item :label="$t('task.afterTask')" prop="afterTask">
+          <el-input v-model="temp.afterTask" />
+        </el-form-item>
+        <el-form-item :label="$t('task.parentTask')" prop="parentTask">
+          <el-input v-model="temp.parentTask" />
+        </el-form-item>
+        <el-form-item :label="$t('task.taskUav')" prop="taskUav">
+          <el-input v-model="temp.taskUav" />
+        </el-form-item>
+        <el-form-item :label="$t('task.taskStatus')" prop="taskStatus">
+          <el-input v-model="temp.taskStatus" />
+        </el-form-item>
+        <el-form-item :label="$t('task.taskType')">
+          <el-select v-model="temp.taskType" class="filter-item" placeholder="Please select">
+            <el-option v-for="item in taskTypes" :key="item.typeId" :label="item.typeName" :value="item.typeId" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">
+          {{ $t('table.cancel') }}
+        </el-button>
+        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
+          {{ $t('table.confirm') }}
+        </el-button>
+      </div>
+    </el-dialog>
     <!--dialog end-->
   </div>
 </template>
 
 <script>
-import { fetchTasklist } from '@/api/task'
+import { fetchTasklist,updateTask,createTask } from '@/api/task'
 import waves from '@/directive/waves'
-import Pagination from '@/components/Pagination' // secondary package based on el-pagination
+import Pagination from '@/components/Pagination'
 
 const taskTypes = [
   { typeId: 1, typeName: '消防任务' },
@@ -182,13 +191,41 @@ export default {
         sort:'+id'
       },
       taskTypes,
-      //生成ID正序和倒序的选择框
+      // 生成ID正序和倒序的选择框
       sortOptions: [
         { label: '根据任务ID正序排列', key: '+id' },
         { label: '根据任务ID倒序排列', key: '-id' }
       ],
       statusOptions: ['published', 'draft', 'deleted'],
-      taskStatusOptions: ['Finished', 'outTime', 'Cancel','Pause']
+      taskStatusOptions: ['Finished', 'OutTime', 'Cancel','Pause'],
+      dialogFormVisible:false,
+      dialogStatus:'',
+      textMap: {
+        update: 'Edit',
+        create: 'Create'
+      },
+      temp: {
+        taskId: undefined,
+        taskName: '',
+        taskDesc: '',
+        startTime: new Date(),
+        endTime: new Date(),
+        taskType:'',
+        beforeTask:'',
+        afterTask:'',
+        parentTask:'',
+        taskUav:'',
+        taskStatus:'',
+        head:''
+      },
+      // dialogPvVisible: false,
+      // pvData: [],
+      // 表单校验规则定义
+      rules: {
+        type: [{ required: true, message: 'type is required', trigger: 'change' }],
+        timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
+        title: [{ required: true, message: 'title is required', trigger: 'blur' }]
+      }
     }
   },
   mounted() {
@@ -220,17 +257,111 @@ export default {
       // 分页过滤
       this.pageList = filterData
         .filter((item, index) => index < page * limit && index >= limit * (page - 1))
-      console.log(this.pageList)
+      // console.log(this.pageList)
     },
     handleFilter() {
       this.getList()
-    }
+    },
+    resetTemp() {
+      this.temp = {
+        taskId: undefined,
+        taskName: '',
+        taskDesc: '',
+        startTime: new Date(),
+        endTime: new Date(),
+        taskType:'',
+        beforeTask:'',
+        afterTask:'',
+        parentTask:'',
+        taskUav:'',
+        taskStatus:'',
+        head:''
+      }
+    },
+    handleCreate() {
+      this.resetTemp()
+      this.dialogStatus = 'create'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    createData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          // 建议本次模拟数据中ID最大值加一
+          this.temp.taskId = parseInt(Math.random() * 100) + 1024 // mock a id
+          createTask(this.temp).then(() => {
+            this.list.unshift(this.temp)
+            this.dialogFormVisible = false
+            this.$notify({
+              title: '成功',
+              message: '创建成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
+        }
+      })
+    },
+    handleUpdate(row){
+      this.temp = Object.assign({}, row)
+      this.temp.startTime = new Date(this.temp.startTime)
+      this.temp.endTime = new Date(this.temp.endTime)
+      this.dialogStatus = 'update'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    updateData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          const tempData = Object.assign({}, this.temp)
+          tempData.startTime = +new Date(tempData.startTime) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
+          tempData.endTime = +new Date(tempData.endTime)
+          updateTask(tempData).then(() => {
+            for (const v of this.totalData) {
+              if (v.taskId === this.temp.taskId) {
+                const index = this.totalData.indexOf(v)
+                this.totalData.splice(index, 1, this.temp)
+                break
+              }
+            }
+            this.dialogFormVisible = false
+            this.$notify({
+              title: '成功',
+              message: '更新成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
+        }
+      })
+    },
+    handleDelete(row) {
+      this.$notify({
+        title: '成功',
+        message: '删除成功',
+        type: 'success',
+        duration: 2000
+      })
+      const index = this.totalData.indexOf(row)
+      this.totalData.splice(index, 1)
+    },
+    handleModifyStatus(row, status) {
+      this.$message({
+        message: '操作成功',
+        type: 'success'
+      })
+      row.status = status
+    },
   },
   filters:{
     taskStatusValFilter(value){
       const statusMap = {
         Finished:'完成',
-        outTime:'超时',
+        OutTime:'超时',
         Cancel:'取消',
         Pause:'暂停'
       };
@@ -239,7 +370,7 @@ export default {
     taskStatusFilter(status){
       const statusMap = {
         Finished:'success',
-        outTime:'danger',
+        OutTime:'danger',
         Cancel:'info',
         Pause:'warn'
       };

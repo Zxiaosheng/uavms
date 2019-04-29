@@ -7,3 +7,17 @@ export function fetchTasklist(query) {
     params: query
   })
 }
+export function updateTask(data) {
+  return request({
+    url: '/task/update',
+    method: 'post',
+    data
+  })
+}
+export function createTask(data) {
+  return request({
+    url: '/task/create',
+    method: 'post',
+    data
+  })
+}
