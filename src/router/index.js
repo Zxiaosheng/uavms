@@ -94,7 +94,7 @@ export const constantRoutes = [
     name: 'taskCenter',
     meta: {
       title: 'taskCenter',
-      icon: 'lock',
+      icon: 'excel',
       roles: ['admin']
     },
     children: [
