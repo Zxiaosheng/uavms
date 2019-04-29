@@ -11,7 +11,11 @@ export default {
     endTime:'结束时间',
     taskUav:'任务机型',
     taskStatus:'任务状态',
-    head:'负责人'
+    head:'负责人',
+    btnFinished:'完成',
+    btnStart:'开始',
+    btnPause:'暂停',
+    btnDelete:'删除'
   },
   route: {
     taskCenter: '任务中心',

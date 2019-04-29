@@ -11,7 +11,11 @@ export default {
     endTime:'endTime',
     taskUav:'taskUav',
     taskStatus:'taskStatus',
-    head:'head'
+    head:'head',
+    btnFinished:'finished',
+    btnStart:'start',
+    btnPause:'pause',
+    btnDelete:'delete'
   },
   route: {
     taskCenter: 'TaskCenter',

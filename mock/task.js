@@ -15,7 +15,7 @@ for(let i = 0; i < count; i++){
     startTime:'@date',
     endTime:'@date',
     'taskUavs|1':['闪电F-28','科农A6-160','闪电F-35','猎鹰M6-84M6-84','天鹰M4-100','长空CK1B','长空CK1C','无侦5','ASN-12','WZ-2000','鲨鱼II'],
-    'taskStatus|1': ['Finished', 'OutTime', 'Cancel','Pause'],
+    'taskStatus|1': ['Finished','Wait','Normal','OutTime','Pause'],
     head:'@cname'
   }))
 }

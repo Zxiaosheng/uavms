@@ -89,17 +89,17 @@
       </el-table-column>
       <el-table-column fixed="right" :label="$t('table.actions')" align="center" width="312" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            {{ $t('table.edit') }}
+          <el-button :disabled="!(row.taskStatus=='OutTime'||row.taskStatus=='Normal')" size="mini" type="success" @click="handleModifyStatus(row,'finished')">
+            {{ $t('task.btnFinished') }}
           </el-button>
-          <el-button v-if="row.status!='published'" size="mini" type="success" @click="handleModifyStatus(row,'published')">
-            {{ $t('table.publish') }}
+          <el-button :disabled="!(row.taskStatus=='Wait'||row.taskStatus=='Pause')" size="mini" type="primary" @click="handleModifyStatus(row,'start')">
+            {{ $t('task.btnStart') }}
           </el-button>
-          <el-button v-if="row.status!='draft'" size="mini" @click="handleModifyStatus(row,'draft')">
-            {{ $t('table.draft') }}
+          <el-button :disabled="!(row.taskStatus=='OutTime'||row.taskStatus=='Normal')" size="mini" @click="handleModifyStatus(row,'pause')">
+            {{ $t('task.btnPause') }}
           </el-button>
-          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(row,'deleted')">
-            {{ $t('table.delete') }}
+          <el-button size="mini" type="danger" @click="handleModifyStatus(row,'delete')">
+            {{ $t('task.btnDelete') }}
           </el-button>
         </template>
       </el-table-column>
@@ -133,7 +133,7 @@
           <el-input v-model="temp.parentTask" />
         </el-form-item>
         <el-form-item :label="$t('task.taskUav')" prop="taskUav">
-          <el-input v-model="temp.taskUav" />
+          <el-input v-model="temp.taskUavs" />
         </el-form-item>
         <el-form-item :label="$t('task.taskStatus')" prop="taskStatus">
           <el-input v-model="temp.taskStatus" />
@@ -196,12 +196,12 @@ export default {
         { label: '根据任务ID正序排列', key: '+id' },
         { label: '根据任务ID倒序排列', key: '-id' }
       ],
-      statusOptions: ['published', 'draft', 'deleted'],
-      taskStatusOptions: ['Finished', 'OutTime', 'Cancel','Pause'],
+      // 任务只有完成按钮，暂停按钮，开启按钮，删除按钮四个按钮，完成，超时，暂停，正常四个状态
+      statusOptions: ['finished', 'pause','start', 'delete'],
+      taskStatusOptions: ['Finished','Wait','Normal' ,'OutTime','Pause'],
       dialogFormVisible:false,
       dialogStatus:'',
       textMap: {
-        update: 'Edit',
         create: 'Create'
       },
       temp: {
@@ -214,7 +214,7 @@ export default {
         beforeTask:'',
         afterTask:'',
         parentTask:'',
-        taskUav:'',
+        taskUavs:'',
         taskStatus:'',
         head:''
       },
@@ -273,7 +273,7 @@ export default {
         beforeTask:'',
         afterTask:'',
         parentTask:'',
-        taskUav:'',
+        taskUavs:'',
         taskStatus:'',
         head:''
       }
@@ -304,41 +304,6 @@ export default {
         }
       })
     },
-    handleUpdate(row){
-      this.temp = Object.assign({}, row)
-      this.temp.startTime = new Date(this.temp.startTime)
-      this.temp.endTime = new Date(this.temp.endTime)
-      this.dialogStatus = 'update'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
-    updateData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          const tempData = Object.assign({}, this.temp)
-          tempData.startTime = +new Date(tempData.startTime) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-          tempData.endTime = +new Date(tempData.endTime)
-          updateTask(tempData).then(() => {
-            for (const v of this.totalData) {
-              if (v.taskId === this.temp.taskId) {
-                const index = this.totalData.indexOf(v)
-                this.totalData.splice(index, 1, this.temp)
-                break
-              }
-            }
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '更新成功',
-              type: 'success',
-              duration: 2000
-            })
-          })
-        }
-      })
-    },
     handleDelete(row) {
       this.$notify({
         title: '成功',
@@ -354,15 +319,16 @@ export default {
         message: '操作成功',
         type: 'success'
       })
-      row.status = status
+      // row.status = status
     },
   },
   filters:{
     taskStatusValFilter(value){
       const statusMap = {
         Finished:'完成',
+        Wait:'等待',
         OutTime:'超时',
-        Cancel:'取消',
+        Normal:'正常',
         Pause:'暂停'
       };
       return statusMap[value]
@@ -371,19 +337,21 @@ export default {
       const statusMap = {
         Finished:'success',
         OutTime:'danger',
-        Cancel:'info',
-        Pause:'warn'
+        Wait:'warning',
+        Normal:'primary',
+        Pause:'info'
       };
       return statusMap[status];
     },
     statusFilter(status) {
       const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
+        finished: 'success',
+        pause: 'info',
+        start: 'primary',
+        delete: 'danger'
       };
       return statusMap[status]
-    },
+    }
   }
 }
 </script>
