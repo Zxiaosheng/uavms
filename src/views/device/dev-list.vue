@@ -5,41 +5,51 @@
     <el-table-column type="expand">
       <template slot-scope="props">
         <el-form label-position="left" inline class="demo-table-expand">
-          <el-form-item label="商品名称">
+
+          <el-form-item label="设备图片">
+            <img :src="props.row.imgUrl" alt="无人机" class="dev-img">
+          </el-form-item>
+          <el-form-item label="设备描述">
+            <span>{{ props.row.desc }}</span>
+          </el-form-item>
+          <el-form-item label="设备名称">
             <span>{{ props.row.name }}</span>
           </el-form-item>
-          <el-form-item label="所属店铺">
-            <span>{{ props.row.shop }}</span>
+          <el-form-item label="电池容量">
+            <span>{{ props.row.powerMax }} mAh</span>
           </el-form-item>
-          <el-form-item label="商品 ID">
-            <span>{{ props.row.id }}</span>
+          <el-form-item label="可持续飞行">
+            <span>{{ props.row.flyMileage }} km</span>
           </el-form-item>
-          <el-form-item label="店铺 ID">
-            <span>{{ props.row.shopId }}</span>
-          </el-form-item>
-          <el-form-item label="商品分类">
-            <span>{{ props.row.category }}</span>
-          </el-form-item>
-          <el-form-item label="店铺地址">
-            <span>{{ props.row.address }}</span>
-          </el-form-item>
-          <el-form-item label="商品描述">
-            <span>{{ props.row.desc }}</span>
+          <el-form-item label="总载重量">
+            <span>{{ props.row.capacity }} g</span>
           </el-form-item>
         </el-form>
       </template>
     </el-table-column>
     <el-table-column
-      label="商品 ID"
+      label="ID"
       prop="id">
     </el-table-column>
     <el-table-column
-      label="商品名称"
+      label="型号"
+      prop="num">
+    </el-table-column>
+    <el-table-column
+      label="设备名称"
       prop="name">
     </el-table-column>
     <el-table-column
-      label="描述"
-      prop="desc">
+      label="类型"
+      prop="type">
+    </el-table-column>
+    <el-table-column
+      label="状态"
+      prop="status">
+    </el-table-column>
+    <el-table-column
+      label="出厂日期"
+      prop="createTime">
     </el-table-column>
   </el-table>
 </template>
@@ -80,5 +90,9 @@
     margin-right: 0;
     margin-bottom: 0;
     width: 50%;
+  }
+  .dev-img{
+    width: 300px;
+    height: 400px;
   }
 </style>

@@ -8,11 +8,11 @@ const image_uri = 'http://file03.16sucai.com/2016/10/1100/16sucai_p20161012101_3
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
     id: '@increment',
-    'type|1': ['消防型', '物流型', '医疗型', '天眼型'],
+    'type|1': ['微型', '小型', '中型', '大型'],
     'status|1': ['飞行中', '待命中', '充电中', '故障中', '维修中' , '离线中', '电量低'],
     num: +Mock.Random.date('T'),
     name: '@cword(2,5)无人机',
-    desc: '@cword(30,60)',
+    desc: '@cword(300,400)',
     'powerMax|200-400': 300,
     'capacity|1000-4000': 3000,
     'flyMileage|2000-4000': 3000,
@@ -21,7 +21,7 @@ for (let i = 0; i < count; i++) {
     hitRes: '@float(0, 0, 1 ,2)',     //放撞击性
     flexibility: '@float(0, 0, 1 ,2)',  //灵活性
     emcRes: '@float(0, 0, 1 ,2)',  //抗电磁波干扰能力
-    creteTime: '@datetime',  //出厂日期
+    createTime: '@datetime',  //出厂日期
     imgUrl: image_uri
   }))
 }
