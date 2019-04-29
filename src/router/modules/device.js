@@ -5,7 +5,7 @@ import Layout from '@/layout'
 const deviceRouter = {
   path: '/device',
   component: Layout,
-  redirect: '/device/device-list',
+  redirect: '/device/list',
   name: 'Device',
   meta: {
     title: '设备管理',
@@ -13,16 +13,16 @@ const deviceRouter = {
   },
   children: [
     {
-      path: 'device-list',
+      path: 'list',
       component: () => import('@/views/device/dev-list'),
       name: 'DeviceList',
       meta: { title: '设备列表' }
     },
     {
-      path: 'device-list',
+      path: 'add',
       component: () => import('@/views/device/dev-list'),
       name: 'DeviceList',
-      meta: { title: '设备列表' }
+      meta: { title: '设备' }
     }
   ]
 }
