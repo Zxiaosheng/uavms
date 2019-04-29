@@ -61,7 +61,8 @@
     methods: {
       async getList(){
         const { data } = await fetchList(this.listQuery)
-        this.tableData=data.data.total
+        this.tableData=data.items
+
       }
     }
   }
