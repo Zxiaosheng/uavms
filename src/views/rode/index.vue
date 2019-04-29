@@ -124,7 +124,7 @@
 </template>
 
 <script>
-  import { fetchNewsList,updateNews,createNews } from '@/api/news'
+  import { fetchNewsList,updateNews,createNews } from '@/api/rode'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
@@ -199,14 +199,14 @@
     methods:{
       getList() {
         this.listLoading = true;
-        // let{page,limit,title,date,type}=this.listQuery;
-        //
-        // let fiterData=this.list.filter(item=>{
-        //   if (date && item.date !== date) return false
-        //   if (type && item.newsType.id !== type) return false
-        //   if (title && item.title.indexOf(title) < 0) return false
-        //   return true
-        // })
+        let{page,limit,title,date,type}=this.listQuery;
+
+        let fiterData=this.list.filter(item=>{
+          if (date && item.date !== date) return false
+          if (type && item.newsType.id !== type) return false
+          if (title && item.title.indexOf(title) < 0) return false
+          return true
+        })
 
         this.pageData=fiterData.filter((item,index)=>{
           return index<page*limit && index>=limit*(page-1)

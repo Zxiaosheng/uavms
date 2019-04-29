@@ -2,8 +2,12 @@
   <div class="app-container">
     <!--filter start-->
     <div class="filter-container">
+      <!--ID排序选择-->
+      <el-select v-model="listQuery.sort" style="width: 200px" class="filter-item" @change="handleFilter">
+        <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
+      </el-select>
       <el-input v-model="listQuery.taskName" :placeholder="$t('task.taskName')" style="width: 200px;" class="filter-item" @keyup.native.enter="handleFilter" />
-      <el-select v-model="listQuery.taskType" :placeholder="$t('task.taskType')" clearable style="width: 120px" class="filter-item">
+      <el-select v-model="listQuery.taskType" :placeholder="$t('task.taskType')" clearable style="width: 180px" class="filter-item">
         <el-option v-for="item in taskTypes" :key="item.typeId" :label="item.typeName+'('+item.typeId+')'" :value="item.typeId" />
       </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
@@ -25,6 +29,12 @@
       <el-table-column fixed="left" :label="$t('task.taskId')" sortable="custom" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.taskId }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('task.taskStatus')" width="100px" align="center">
+        <template slot-scope="{row}">
+          <!-- row.status ? 'success' : 'info'-->
+          <el-tag :type="row.taskStatus|taskStatusFilter">{{ row.taskStatus|taskStatusValFilter }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column :label="$t('task.taskName')" align="center" width="160">
@@ -77,12 +87,6 @@
       <span>{{ scope.row.taskUavs }}</span>
       </template>
       </el-table-column>
-      <el-table-column :label="$t('task.taskStatus')" width="100px" align="center">
-        <template slot-scope="{row}">
-          <!-- row.status ? 'success' : 'info'-->
-          <el-tag :type="row.status|tagTypeFilter">{{ row.status|outlineFilter }}</el-tag>
-        </template>
-      </el-table-column>
       <el-table-column fixed="right" :label="$t('table.actions')" align="center" width="312" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
@@ -107,6 +111,40 @@
                 :limit.sync="listQuery.limit" @pagination="getList" />
     <!--page end-->
 
+    <!--dialog start-->
+    <!--<el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">-->
+      <!--<el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">-->
+        <!--<el-form-item :label="$t('urls.date')" prop="timestamp">-->
+          <!--<el-date-picker v-model="temp.date" type="date" placeholder="Please pick a date" />-->
+        <!--</el-form-item>-->
+        <!--<el-form-item :label="$t('urls.title')" prop="title">-->
+          <!--<el-input v-model="temp.title" />-->
+        <!--</el-form-item>-->
+        <!--<el-form-item :label="$t('urls.creator')" prop="creator">-->
+          <!--<el-input v-model="temp.creator" />-->
+        <!--</el-form-item>-->
+        <!--<el-form-item :label="$t('urls.lastip')" prop="lastip">-->
+          <!--<el-input v-model="temp.lastip" />-->
+        <!--</el-form-item>-->
+        <!--<el-form-item :label="$t('urls.url')" prop="url">-->
+          <!--<el-input v-model="temp.url" />-->
+        <!--</el-form-item>-->
+        <!--<el-form-item :label="$t('urls.urlType')">-->
+          <!--<el-select v-model="temp.urlType" class="filter-item" placeholder="Please select">-->
+            <!--<el-option v-for="item in urlTypes" :key="item.id" :label="item.typeName" :value="item.id" />-->
+          <!--</el-select>-->
+        <!--</el-form-item>-->
+      <!--</el-form>-->
+      <!--<div slot="footer" class="dialog-footer">-->
+        <!--<el-button @click="dialogFormVisible = false">-->
+          <!--{{ $t('table.cancel') }}-->
+        <!--</el-button>-->
+        <!--<el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">-->
+          <!--{{ $t('table.confirm') }}-->
+        <!--</el-button>-->
+      <!--</div>-->
+    <!--</el-dialog>-->
+    <!--dialog end-->
   </div>
 </template>
 
@@ -140,9 +178,17 @@ export default {
         page: 1,
         limit: 20,
         taskType: undefined,
-        taskName: undefined
+        taskName: undefined,
+        sort:'+id'
       },
-      taskTypes
+      taskTypes,
+      //生成ID正序和倒序的选择框
+      sortOptions: [
+        { label: '根据任务ID正序排列', key: '+id' },
+        { label: '根据任务ID倒序排列', key: '-id' }
+      ],
+      statusOptions: ['published', 'draft', 'deleted'],
+      taskStatusOptions: ['Finished', 'outTime', 'Cancel','Pause']
     }
   },
   mounted() {
@@ -158,13 +204,19 @@ export default {
   },
   methods: {
     getList() {
-      let { page, limit, taskType, taskName } = this.listQuery
+      let { page, limit, taskType, taskName, sort } = this.listQuery
       // 过滤查询结果集
       let filterData = this.totalData.filter(item => {
         if (taskName && item.taskName.indexOf(taskName) < 0) return false
         if (taskType && item.taskType.taskId !== taskType) return false
         return true
       })
+
+      //排序
+      if(sort === '-id'){
+        filterData = filterData.reverse();
+      }
+
       // 分页过滤
       this.pageList = filterData
         .filter((item, index) => index < page * limit && index >= limit * (page - 1))
@@ -175,11 +227,23 @@ export default {
     }
   },
   filters:{
-    outlineFilter(value){
-      return value ?'在线':'离线'
+    taskStatusValFilter(value){
+      const statusMap = {
+        Finished:'完成',
+        outTime:'超时',
+        Cancel:'取消',
+        Pause:'暂停'
+      };
+      return statusMap[value]
     },
-    tagTypeFilter(value){
-      return value ? 'success' : 'info'
+    taskStatusFilter(status){
+      const statusMap = {
+        Finished:'success',
+        outTime:'danger',
+        Cancel:'info',
+        Pause:'warn'
+      };
+      return statusMap[status];
     },
     statusFilter(status) {
       const statusMap = {
