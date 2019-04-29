@@ -2,7 +2,9 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.start" :placeholder="$t('rode.start')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-date-picker v-model="listQuery.date" type="datetime" :placeholder="$t('news.date')" />
+      <el-input v-model="listQuery.end" :placeholder="$t('rode.end')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+      <el-date-picker v-model="listQuery.date1" type="datetime" :placeholder="$t('rode.date1')" />
+      <el-date-picker v-model="listQuery.date2" type="datetime" :placeholder="$t('rode.date2')" />
       <el-select v-model="listQuery.type" value-key="id" @change="getList" :placeholder="$t('rode.typeId')" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in typeId" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
@@ -18,13 +20,17 @@
     </div>
     <el-table :data="pageData" v-loading="listLoading" border  style="width: 100%;text-align: center">
 
-      <el-table-column prop="typeId.typeName" :label="$t('rode.id')" sortable  width="80"></el-table-column>
+      <el-table-column prop="typeId.typeName" :label="$t('rode.typeId')" sortable  width="100"></el-table-column>
 
-      <el-table-column prop="date1" :label="$t('rode.date1')"sortable width="110"></el-table-column>
+      <el-table-column prop="date1" :label="$t('rode.date1')"sortable width="150"></el-table-column>
 
-      <el-table-column prop="date2" :label="$t('rode.date2')"sortable width="110"></el-table-column>
+      <el-table-column prop="date2" :label="$t('rode.date2')"sortable width="150"></el-table-column>
 
-      <el-table-column prop="task" :label="$t('rode.task')" sortable width="100"></el-table-column>
+      <el-table-column prop="start" :label="$t('rode.start')"sortable width="150"></el-table-column>
+
+      <el-table-column prop="end" :label="$t('rode.end')"sortable width="150"></el-table-column>
+
+      <el-table-column prop="task" :label="$t('rode.task')" sortable ></el-table-column>
 
       <!--<el-table-column prop="read" sortable label="热度"  width="100">-->
         <!--<template slot-scope="scope">-->
@@ -59,7 +65,7 @@
 
         <el-form-item :label="$t('rode.typeId')" prop="typeId">
           <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.id"/>
+            <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('rode.date1')" prop="date">
@@ -92,7 +98,7 @@
       <el-form ref="AddForm"   :model="addtemp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
         <el-form-item  :label="$t('rode.typeId')" prop="typeId">
           <el-select v-model="addtemp.typeId.typeName" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in typeId"  :key="item.typeName" :label="item.typeName" :value="item.typeName"/>
+            <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('rode.date1')"  prop="date">
@@ -150,32 +156,36 @@
         listLoading:false,
         total: 0,
         pageData:[],
-        typeId:[{id:1,typeName:'时政新闻'},{id:2,typeName:'财经新闻'},{id:3,typeName:'时事热点'}],
+        typeId:[{id:'1',typeName:'消防型'},{id:'2',typeName:'物流型'},{id:'3',typeName:'医疗型'},{id:'4',typeName:'天眼型'}],
         textMap: {
           update: 'Edit',
           create: 'Create'
         },
         temp: {
+          id:'',
           date1: new Date(),
           date2: new Date(),
           start: '',
           end:'',
           task:'',
-          typeId: [{id:1,typeName:'时政新闻'}]
+          typeId: [{id:1,typeName:'消防型'}]
         },
         addtemp: {
+          id:'',
           date1: new Date(),
           date2: new Date(),
           start: '',
           end:'',
           task:'',
-          typeId: [{id:1,typeName:'时政新闻'}]
+          typeId: [{id:1,typeName:'消防型'}]
         },
         listLoading: true,
         listQuery: {
           page: 1,
           limit: 20,
-          date: undefined,
+          id:undefined,
+          date1: undefined,
+          date2: undefined,
           start: undefined,
           end:undefined,
           task:undefined,
@@ -199,12 +209,17 @@
     methods:{
       getList() {
         this.listLoading = true;
-        let{page,limit,title,date,type}=this.listQuery;
+        let{page,limit,task,date1,date2,start,end,type}=this.listQuery;
 
         let fiterData=this.list.filter(item=>{
-          if (date && item.date !== date) return false
-          if (type && item.newsType.id !== type) return false
-          if (title && item.title.indexOf(title) < 0) return false
+          console.log(start);
+          console.log(item.start);
+          if (date1 && item.date1 !== date1) return false
+          if (date2 && item.date2 !== date2) return false
+          if (type && item.typeName !== type) return false
+          if (start && item.start !== start) return false
+          if (end && item.date2 !== end) return false
+          if (task && item.task.indexOf(task) < 0) return false
           return true
         })
 
@@ -235,8 +250,9 @@
         this.$refs['AddForm'].validate((valid) => {
           if (valid) {
             let time=new Date();
-            // this.addtemp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-            this.addtemp.date=time.getFullYear()+"-"+time.getMonth()+1+"-"+time.getDay()
+            this.addtemp.id = parseInt(Math.random() * 100) + 1024 // mock a id
+            this.addtemp.date1=time.getFullYear()+"-"+time.getMonth()+1+"-"+time.getDay()
+            this.addtemp.date2=time.getFullYear()+"-"+time.getMonth()+1+"-"+time.getDay()
             createNews(this.addtemp).then(() => {
               this.pageData.unshift(this.addtemp)
               this.dialogFormAdd = false
@@ -250,6 +266,7 @@
               // this.addtemp.content=''
               // this.addtemp.read=''
             })
+            // this.addtemp=[];
           }
         })
       },
@@ -259,13 +276,13 @@
             const tempData = Object.assign({}, this.temp)
             // tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
             updateNews(tempData).then(() => {
-              // for (const v of this.pageData) {
-              //   if (v.id === this.temp.id) {
-              //     const index = this.pageData.indexOf(v)
-              //     this.pageData.splice(index, 1, this.temp)
-              //     break
-              //   }
-              // }
+              for (const v of this.pageData) {
+                if (v.id === this.temp.id) {
+                  const index = this.pageData.indexOf(v)
+                  this.pageData.splice(index, 1, this.temp)
+                  break
+                }
+              }
               this.dialogFormVisible = false
               this.$notify({
                 title: '成功',

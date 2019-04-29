@@ -22,6 +22,7 @@ export default {
     taskList: '任务列表',
     rode: '路线管理',
     rodelist: '路线统计',
+    rodeechart: '图表',
     dashboard: '首页',
     documentation: '文档',
     guide: '引导页',
@@ -92,7 +93,8 @@ export default {
     date2: '到达时间',
     start: '出发地点',
     end: '到达地点',
-    task: '任务'
+    task: '任务',
+
   },
   navbar: {
     dashboard: '首页',

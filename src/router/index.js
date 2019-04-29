@@ -84,7 +84,16 @@ export const constantRoutes = [
           title: 'rodelist',
           roles: ['admin']
         }
-      }
+      },
+      {
+        path: 'rode-echart',
+        name: 'rodeechart',
+        component: () => import('@/views/rode/rode-echart'),
+        meta: {
+          title: 'rodeechart',
+          roles: ['admin']
+        }
+      },
     ]
   },
   {
