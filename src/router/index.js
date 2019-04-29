@@ -11,6 +11,7 @@ import componentsRouter from './modules/components'
 import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
+import deviceRouter from './modules/device'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -39,6 +40,7 @@ import nestedRouter from './modules/nested'
  * all roles can be accessed
  */
 export const constantRoutes = [
+  deviceRouter,
   {
     path: '/redirect',
     component: Layout,
@@ -92,7 +94,7 @@ export const constantRoutes = [
     name: 'taskCenter',
     meta: {
       title: 'taskCenter',
-      icon: 'guide',
+      icon: 'excel',
       roles: ['admin']
     },
     children: [

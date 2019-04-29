@@ -1,4 +1,18 @@
 export default {
+  task:{
+    taskId:'任务ID',
+    taskName:'任务名称',
+    taskDesc:'任务描述',
+    taskType:'任务类型',
+    beforeTask:'前序任务',
+    afterTask:'后序任务',
+    parentTask:'父任务',
+    startTime:'开始时间',
+    endTime:'结束时间',
+    taskUav:'任务机型',
+    taskStatus:'任务状态',
+    head:'负责人'
+  },
   route: {
     taskCenter: '任务中心',
     taskList: '任务列表',

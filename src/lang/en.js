@@ -1,4 +1,18 @@
 export default {
+  task:{
+    taskId:'taskId',
+    taskName:'taskName',
+    taskDesc:'taskDesc',
+    taskType:'taskType',
+    beforeTask:'beforeTask',
+    afterTask:'afterTask',
+    parentTask:'parentTask',
+    startTime:'startTime',
+    endTime:'endTime',
+    taskUav:'taskUav',
+    taskStatus:'taskStatus',
+    head:'head'
+  },
   route: {
     taskCenter: 'TaskCenter',
     taskList: 'TaskList',
