@@ -3,8 +3,8 @@
     <div class="filter-container">
       <el-input v-model="listQuery.start" :placeholder="$t('rode.start')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
       <el-input v-model="listQuery.end" :placeholder="$t('rode.end')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-date-picker v-model="listQuery.date1" type="datetime" :placeholder="$t('rode.date1')" />
-      <el-date-picker v-model="listQuery.date2" type="datetime" :placeholder="$t('rode.date2')" />
+      <el-date-picker v-model="listQuery.date1" type="date" :placeholder="$t('rode.date1')" />
+      <el-date-picker v-model="listQuery.date2" type="date" :placeholder="$t('rode.date2')" />
       <el-select v-model="listQuery.type" value-key="id" @change="getList" :placeholder="$t('rode.typeId')" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in typeId" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
@@ -179,7 +179,6 @@
           task:'',
           typeId: [{id:1,typeName:'消防型'}]
         },
-        listLoading: true,
         listQuery: {
           page: 1,
           limit: 20,
@@ -212,13 +211,11 @@
         let{page,limit,task,date1,date2,start,end,type}=this.listQuery;
 
         let fiterData=this.list.filter(item=>{
-          // console.log(start);
-          // console.log(item.start);
           if (date1 && item.date1 !== date1) return false
           if (date2 && item.date2 !== date2) return false
-          if (type && item.typeName !== type) return false
-          if (start && item.start !== start) return false
-          if (end && item.end !== end) return false
+          if (type && item.typeId.id !== type) return false
+          if (start && item.start.indexOf(start) < 0) return false
+          if (end && item.end.indexOf(end) < 0) return false
           if (task && item.task.indexOf(task) < 0) return false
           return true
         })
@@ -226,7 +223,7 @@
         this.pageData=fiterData.filter((item,index)=>{
           return index<page*limit && index>=limit*(page-1)
         });
-        // console.log(this.pageData);
+        this.listLoading = false;
       },
       handleFilter() {
         this.listQuery.page = 1
