@@ -1,17 +1,15 @@
 <template>
+
   <el-table
     :data="tableData"
     style="width: 100%">
     <el-table-column type="expand">
       <template slot-scope="props">
+
+        <dev-chart></dev-chart>
+
         <el-form label-position="left" inline class="demo-table-expand">
 
-          <el-form-item label="设备图片">
-            <img :src="props.row.imgUrl" alt="无人机" class="dev-img">
-          </el-form-item>
-          <el-form-item label="设备描述">
-            <span>{{ props.row.desc }}</span>
-          </el-form-item>
           <el-form-item label="设备名称">
             <span>{{ props.row.name }}</span>
           </el-form-item>
@@ -24,6 +22,13 @@
           <el-form-item label="总载重量">
             <span>{{ props.row.capacity }} g</span>
           </el-form-item>
+          <el-form-item label="设备图片">
+            <img :src="props.row.imgUrl" alt="无人机" class="dev-img">
+          </el-form-item>
+          <el-form-item label="设备描述">
+            <span>{{ props.row.desc }}</span>
+          </el-form-item>
+
         </el-form>
       </template>
     </el-table-column>
@@ -56,6 +61,7 @@
 
 <script>
   import { fetchList } from '@/api/device'
+  import DevChart from './dev-chart'
 
   export default {
     name: "dev-list",
@@ -64,6 +70,9 @@
         tableData: [],
         listQuery: {}
       }
+    },
+    components: {
+      DevChart
     },
     created() {
       this.getList()
