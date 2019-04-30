@@ -16,6 +16,7 @@ export default {
   },
   route: {
     taskCenter: '任务中心',
+    taskBoard:'任务数据',
     taskList: '任务列表',
     rode: '路线管理',
     rodelist: '路线统计',

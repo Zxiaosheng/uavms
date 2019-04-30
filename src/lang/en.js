@@ -17,6 +17,7 @@ export default {
   route: {
     taskCenter: 'TaskCenter',
     taskList: 'TaskList',
+    taskBoard:'TaskBoard',
     dashboard: 'Dashboard',
     documentation: 'Documentation',
     guide: 'Guide',
