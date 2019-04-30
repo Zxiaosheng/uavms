@@ -103,7 +103,30 @@ export const constantRoutes = [
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
-  }
+  },
+  {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/page',
+    alwaysShow: true, // will always show the root menu
+    name: 'user',
+    meta: {
+      title: 'user',
+      icon: 'lock',
+      roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: '/user/manager',
+        component: () => import('@/views/user/index'),
+        name: 'userManager',
+        meta: {
+          title: 'userManager',
+          roles: ['admin'] // or you can only set roles in sub nav
+        }
+      },
+    ]
+  },
   // {
   //   path: '/auth-redirect',
   //   component: () => import('@/views/login/auth-redirect'),

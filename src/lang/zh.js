@@ -1,4 +1,17 @@
 export default {
+  user: {
+    id: '用户ID',
+    date: "日期",
+    userType: '用户权限',
+    sex: '性别',
+    telephone:'电话号码',
+    caption:"操作",
+    head:{
+      search:"搜索",
+      type:"类型",
+      title:"请输入搜索内容....",
+    }
+  },
   task:{
     taskId:'任务ID',
     taskName:'任务名称',
@@ -15,6 +28,8 @@ export default {
     btnDelete:'删除'
   },
   route: {
+    user:"用户管理",
+    userManager:"用户列表",
     taskCenter: '任务中心',
     taskBoard:'任务数据',
     taskList: '任务列表',

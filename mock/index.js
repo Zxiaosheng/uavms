@@ -8,6 +8,7 @@ import search from './remote-search'
 import task from './task'
 import rode from './rode'
 import device from './mock-device'
+import userManager from './userManager'
 
 const mocks = [
   ...user,
@@ -17,7 +18,8 @@ const mocks = [
   ...rode,
   ...search,
   ...task,
-  ...device
+  ...device,
+  ...userManager
 ]
 
 // for front mock

@@ -1,4 +1,18 @@
 export default {
+  //user用户列表的数据、
+  user: {
+    id: 'Id',
+    date: "Date",
+    userType: 'UserPrivileges',
+    sex: 'Sex',
+    telephone: 'Telephone',
+    caption: "Caption",
+    head: {
+      search: "Search",
+      type: "Type",
+      title: "Title",
+    }
+  },
   task:{
     taskId:'taskId',
     taskName:'taskName',
@@ -15,6 +29,8 @@ export default {
     btnDelete:'delete'
   },
   route: {
+    user: "User",
+    userManager: "UserManager",
     taskCenter: 'TaskCenter',
     taskList: 'TaskList',
     taskBoard:'TaskBoard',
