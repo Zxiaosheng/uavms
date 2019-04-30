@@ -13,6 +13,9 @@
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
+        {{ $t('table.search') }}
+      </el-button>
     </div>
     <!--filter end-->
 
@@ -62,27 +65,12 @@
           <span>{{ scope.row.taskTypes.typeName }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.beforeTask')" width="160px" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.beforeTask }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('task.afterTask')" width="160px" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.afterTask }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('task.parentTask')" align="center" width="120">
-        <template slot-scope="scope">
-          <span>{{ scope.row.parentTask }}</span>
-        </template>
-      </el-table-column>
       <el-table-column :label="$t('task.head')" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.head }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.taskUav')" align="center" width="120">
+      <el-table-column :label="$t('task.taskUav')" align="center" width="160">
       <template slot-scope="scope">
       <span>{{ scope.row.taskUavs }}</span>
       </template>
@@ -122,15 +110,6 @@
         </el-form-item>
         <el-form-item :label="$t('task.taskDesc')" prop="taskDesc">
           <el-input v-model="temp.taskDesc" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
-        </el-form-item>
-        <el-form-item :label="$t('task.beforeTask')" prop="beforeTask">
-          <el-input v-model="temp.beforeTask" />
-        </el-form-item>
-        <el-form-item :label="$t('task.afterTask')" prop="afterTask">
-          <el-input v-model="temp.afterTask" />
-        </el-form-item>
-        <el-form-item :label="$t('task.parentTask')" prop="parentTask">
-          <el-input v-model="temp.parentTask" />
         </el-form-item>
         <el-form-item :label="$t('task.taskUav')" prop="taskUav">
           <el-input v-model="temp.taskUavs" />
@@ -197,7 +176,7 @@ export default {
         { label: '根据任务ID倒序排列', key: '-id' }
       ],
       // 任务只有完成按钮，暂停按钮，开启按钮，删除按钮四个按钮，完成，超时，暂停，正常四个状态
-      statusOptions: ['finished', 'pause','start', 'delete'],
+      statusOptions: ['finished','pause','start', 'delete'],
       taskStatusOptions: ['Finished','Wait','Normal' ,'OutTime','Pause'],
       dialogFormVisible:false,
       dialogStatus:'',
@@ -211,9 +190,6 @@ export default {
         startTime: new Date(),
         endTime: new Date(),
         taskType:'',
-        beforeTask:'',
-        afterTask:'',
-        parentTask:'',
         taskUavs:'',
         taskStatus:'',
         head:''
@@ -320,6 +296,15 @@ export default {
         type: 'success'
       })
       // row.status = status
+      if(status === 'finished'){
+        row.taskStatus = 'Finished'
+      }else if(status === 'start'){
+        row.taskStatus = 'Normal'
+      }else if(status === 'pause'){
+        row.taskStatus = 'Wait'
+      }else if(status === 'delete'){
+        this.handleDelete(row)
+      }
     },
   },
   filters:{
