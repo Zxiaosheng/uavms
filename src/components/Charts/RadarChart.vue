@@ -39,8 +39,6 @@
       }
     },
     mounted() {
-      console.log("res:")
-      console.log(this.res)
       this.initChart()
     },
     beforeDestroy() {
@@ -52,6 +50,21 @@
     },
     methods: {
       initChart(){
+
+        let name=[]
+        let val=[]
+
+        for(let key in this.res){
+          let obj={
+            text: this.res[key].name,
+            max: 1
+          }
+          name.push(obj)
+          val.push(this.res[key].value)
+        }
+
+        console.log(val)
+
         this.chart=echarts.init(document.getElementById(this.id))
 
         this.chart.setOption({
@@ -67,13 +80,7 @@
           },
           radar: [
             {
-              indicator: [
-                {text: '品牌', max: 100},
-                {text: '内容', max: 100},
-                {text: '可用性', max: 100},
-                {text: '功能', max: 100},
-                {text: '功能', max: 100}
-              ],
+              indicator: name,
               center: ['50%','55%'],
               radius: 100
             }
@@ -92,7 +99,7 @@
               },
               data: [
                 {
-                  value: [60,73,85,40,60],
+                  value: val,
                   name: '无人机性能分析'
                 }
               ]

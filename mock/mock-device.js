@@ -34,7 +34,7 @@ for (let i = 0; i < count; i++) {
         value: '@float(0, 0, 1,2)'
       },
       emcRes: {
-        name: '抗电磁波干扰能力',
+        name: '抗电磁干扰能力',
         value: '@float(0, 0, 1,2)'
       }
     },

@@ -35,8 +35,6 @@
       }
     },
     mounted() {
-      console.log("loss:")
-      console.log(this.loss)
       this.initChart()
     },
     beforeDestroy() {
@@ -48,6 +46,15 @@
     },
     methods: {
       initChart(){
+
+        let name=[]
+        let value=[]
+
+        for(let key in this.loss){
+          name.push(this.loss[key].name)
+          value.push(this.loss[key].value)
+        }
+
         this.chart=echarts.init(document.getElementById(this.id))
 
         this.chart.setOption({
@@ -76,13 +83,13 @@
           },
           yAxis: {
             type: 'category',
-            data: ['巴西','印尼','美国','印度','中国']
+            data: name
           },
           series: [
             {
-              name: '2011年',
+              name: '损耗率',
               type: 'bar',
-              data: [18203, 23489, 29034, 104970, 131744],
+              data: value,
               itemStyle: {
                 color: '#3ea8d9'
               }

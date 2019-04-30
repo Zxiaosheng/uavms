@@ -1,8 +1,8 @@
 <template>
 
     <el-row>
-      <el-col :span="12"><RadarChart :res='res' height="400px" width="300px"/></el-col>
-      <el-col :span="12"><BarChart :loss='loss' height="400px" width="600px"/></el-col>
+      <el-col :span="12"><RadarChart :res='res' height="400px" width="80%"/></el-col>
+      <el-col :span="12"><BarChart :loss='loss' height="400px" width="100%"/></el-col>
     </el-row>
 
 </template>
