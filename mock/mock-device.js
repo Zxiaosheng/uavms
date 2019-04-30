@@ -16,47 +16,55 @@ for (let i = 0; i < count; i++) {
     'powerMax|200-400': 300,
     'capacity|1000-4000': 3000,
     'flyMileage|2000-4000': 3000,
-    windRes: {
-      name: '抗风能力',
-      value: '@float(0, 0, 1,2)'
-    },
-    waterRes: {
-      name: '抗水能力',
-      value: '@float(0, 0, 1,2)'
-    },
-    hitRes: {
-      name: '放撞击性',
-      value: '@float(0, 0, 1,2)'
-    },
-    flexibility: {
-      name: '灵活性',
-      value: '@float(0, 0, 1,2)'
-    },
-    emcRes: {
-      name: '抗电磁波干扰能力',
-      value: '@float(0, 0, 1,2)'
+    res: {
+      windRes: {
+        name: '抗风能力',
+        value: '@float(0, 0, 1,2)'
+      },
+      waterRes: {
+        name: '抗水能力',
+        value: '@float(0, 0, 1,2)'
+      },
+      hitRes: {
+        name: '放撞击性',
+        value: '@float(0, 0, 1,2)'
+      },
+      flexibility: {
+        name: '灵活性',
+        value: '@float(0, 0, 1,2)'
+      },
+      emcRes: {
+        name: '抗电磁波干扰能力',
+        value: '@float(0, 0, 1,2)'
+      }
     },
     createTime: '@datetime',  //出厂日期
     imgUrl: image_uri,
-    wingLoss: {
-      name: '机翼',
-      value: '@float(0, 0, 1,2)'
-    },
-    powerLoss: {
-      name: '电池',
-      value: '@float(0, 0, 1,2)'
-    },
-    cameraLoss: {
-      name: '摄像头',
-      value: '@float(0, 0, 1,2)'
-    },
-    packLoss: {
-      name: '机舱',
-      value: '@float(0, 0, 1,2)'
-    },
-    engineLoss: {
-      name: '引擎',
-      value: '@float(0, 0, 1,2)'
+    loss: {
+      wingLoss: {
+        name: '机翼',
+        value: '@float(0, 0, 1,2)'
+      },
+      powerLoss: {
+        name: '电池',
+        value: '@float(0, 0, 1,2)'
+      },
+      cameraLoss: {
+        name: '摄像头',
+        value: '@float(0, 0, 1,2)'
+      },
+      packLoss: {
+        name: '机舱',
+        value: '@float(0, 0, 1,2)'
+      },
+      engineLoss: {
+        name: '引擎',
+        value: '@float(0, 0, 1,2)'
+      },
+      baseLoss: {
+        name: '底座',
+        value: '@float(0, 0, 1,2)'
+      }
     }
   }))
 }

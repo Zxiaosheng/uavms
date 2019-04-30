@@ -13,6 +13,9 @@
     mixins: [resize],
     name: "RadarChart",
     props: {
+      res: {
+        type: Object
+      },
       className: {
         type: String,
         default: 'chartRadar'
@@ -36,6 +39,8 @@
       }
     },
     mounted() {
+      console.log("res:")
+      console.log(this.res)
       this.initChart()
     },
     beforeDestroy() {

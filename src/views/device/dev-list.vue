@@ -6,10 +6,8 @@
     <el-table-column type="expand">
       <template slot-scope="props">
 
-        <dev-chart></dev-chart>
-
         <el-form label-position="left" inline class="demo-table-expand">
-
+          <dev-chart :dev="props.row"></dev-chart>
           <el-form-item label="设备名称">
             <span>{{ props.row.name }}</span>
           </el-form-item>

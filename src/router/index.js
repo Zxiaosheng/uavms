@@ -40,7 +40,7 @@ import deviceRouter from './modules/device'
  * all roles can be accessed
  */
 export const constantRoutes = [
-  deviceRouter,
+
   {
     path: '/redirect',
     component: Layout,
@@ -65,6 +65,7 @@ export const constantRoutes = [
       }
     ]
   },
+  deviceRouter,
   {
     path: '/rode',
     name: 'rode',

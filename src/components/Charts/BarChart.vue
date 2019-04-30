@@ -9,6 +9,9 @@
     name: "BarChart",
     props: {
       mixins: [resize],
+      loss:{
+        type: Object
+      },
       className: {
         type: String,
         default: 'chartBar'
@@ -32,6 +35,8 @@
       }
     },
     mounted() {
+      console.log("loss:")
+      console.log(this.loss)
       this.initChart()
     },
     beforeDestroy() {
