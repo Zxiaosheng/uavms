@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
+    <div class="demo-input-size">
       <el-input v-model="listQuery.start" :placeholder="$t('rode.start')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
       <el-input v-model="listQuery.end" :placeholder="$t('rode.end')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
       <el-date-picker v-model="listQuery.date1" type="date" :placeholder="$t('rode.date1')" />
@@ -14,23 +14,23 @@
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
         {{ $t('table.add') }}
       </el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
-        {{ $t('table.export') }}
-      </el-button>
+      <!--<el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">-->
+        <!--{{ $t('table.export') }}-->
+      <!--</el-button>-->
     </div>
-    <el-table :data="pageData" v-loading="listLoading" border  style="width: 100%;text-align: center">
+    <el-table :data="pageData" v-loading="listLoading" border fit  highlight-current-row style="width: 100%;magin-top:20px;text-align: center">
 
-      <el-table-column prop="typeId.typeName" :label="$t('rode.typeId')" sortable  width="100"></el-table-column>
+      <el-table-column prop="typeId.typeName" :label="$t('rode.typeId')"  align="center" width="100"></el-table-column>
 
-      <el-table-column prop="date1" :label="$t('rode.date1')"sortable width="150"></el-table-column>
+      <el-table-column prop="date1" :label="$t('rode.date1')" width="150"></el-table-column>
 
-      <el-table-column prop="date2" :label="$t('rode.date2')"sortable width="150"></el-table-column>
+      <el-table-column prop="date2" :label="$t('rode.date2')" width="150"></el-table-column>
 
-      <el-table-column prop="start" :label="$t('rode.start')"sortable width="150"></el-table-column>
+      <el-table-column prop="start" :label="$t('rode.start')" width="150"></el-table-column>
 
-      <el-table-column prop="end" :label="$t('rode.end')"sortable width="150"></el-table-column>
+      <el-table-column prop="end" :label="$t('rode.end')" width="150"></el-table-column>
 
-      <el-table-column prop="task" :label="$t('rode.task')" sortable ></el-table-column>
+      <el-table-column prop="task" :label="$t('rode.task')"  ></el-table-column>
 
       <!--<el-table-column prop="read" sortable label="热度"  width="100">-->
         <!--<template slot-scope="scope">-->
@@ -69,10 +69,10 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('rode.date1')" prop="date">
-          <el-date-picker v-model="temp.date1" type="datetime" placeholder="Please pick a date" />
+          <el-date-picker v-model="temp.date1" type="date" value-format="yyyy-MM-dd" placeholder="Please pick a date" />
         </el-form-item>
         <el-form-item :label="$t('rode.date2')" prop="date">
-          <el-date-picker v-model="temp.date2" type="datetime" placeholder="Please pick a date" />
+          <el-date-picker v-model="temp.date2" type="date" value-format="yyyy-MM-dd" placeholder="Please pick a date" />
         </el-form-item>
         <el-form-item :label="$t('rode.start')" prop="title">
           <el-input v-model="temp.start" />
@@ -101,19 +101,19 @@
             <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('rode.date1')"  prop="date">
-          <el-date-picker v-model="addtemp.date1" type="datetime" placeholder="Please pick a date" />
+        <el-form-item :label="$t('rode.date1')"  prop="date1">
+          <el-date-picker v-model="addtemp.date1" type="date"  placeholder="Please pick a date" />
         </el-form-item>
-        <el-form-item :label="$t('rode.date2')"  prop="date">
-          <el-date-picker v-model="addtemp.date2" type="datetime" placeholder="Please pick a date" />
+        <el-form-item :label="$t('rode.date2')"  prop="date2">
+          <el-date-picker v-model="addtemp.date2" type="date"  placeholder="Please pick a date" />
         </el-form-item>
-        <el-form-item :label="$t('rode.start')"  prop="title">
+        <el-form-item :label="$t('rode.start')"  prop="start">
           <el-input v-model="addtemp.start" />
         </el-form-item>
-        <el-form-item :label="$t('rode.end')"  prop="title">
+        <el-form-item :label="$t('rode.end')"  prop="end">
           <el-input v-model="addtemp.end" />
         </el-form-item>
-        <el-form-item :label="$t('rode.task')" >
+        <el-form-item :label="$t('rode.task')"  prop="task">
           <el-input v-model="addtemp.task" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
         </el-form-item>
       </el-form>
@@ -272,7 +272,6 @@
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             const tempData = Object.assign({}, this.temp)
-            // tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
             updateNews(tempData).then(() => {
               for (const v of this.pageData) {
                 if (v.id === this.temp.id) {
