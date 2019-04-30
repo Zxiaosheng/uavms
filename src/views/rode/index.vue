@@ -212,13 +212,13 @@
         let{page,limit,task,date1,date2,start,end,type}=this.listQuery;
 
         let fiterData=this.list.filter(item=>{
-          console.log(start);
-          console.log(item.start);
+          // console.log(start);
+          // console.log(item.start);
           if (date1 && item.date1 !== date1) return false
           if (date2 && item.date2 !== date2) return false
           if (type && item.typeName !== type) return false
           if (start && item.start !== start) return false
-          if (end && item.date2 !== end) return false
+          if (end && item.end !== end) return false
           if (task && item.task.indexOf(task) < 0) return false
           return true
         })
@@ -226,6 +226,7 @@
         this.pageData=fiterData.filter((item,index)=>{
           return index<page*limit && index>=limit*(page-1)
         });
+        // console.log(this.pageData);
       },
       handleFilter() {
         this.listQuery.page = 1
