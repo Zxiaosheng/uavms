@@ -73,17 +73,17 @@
               //维度名称
               name: '大王卡',
               //该维度的图形类型
-              type: 'bar',
+              type: 'pie',
               data: [10, 20, 28, 22, 10],
               itemStyle: {
-                color: '#ffbc0c'
+                color: '#304156'
               }
             },
             {
               //维度名称
               name: '帝王卡',
               //该维度的图形类型
-              type: 'bar',
+              type: 'pie',
               data: [5, 10, 5, 20, 18],
               itemStyle: {
                 color: '#4fc08d'
