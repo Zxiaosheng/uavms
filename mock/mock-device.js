@@ -12,6 +12,7 @@ for (let i = 0; i < count; i++) {
     'status|1': ['飞行中', '待命中', '充电中', '故障中', '维修中' , '离线中', '电量低', '已停用'],
     num: +Mock.Random.date('T'),
     name: '@cword(2,5)无人机',
+    comm: '@cword(18,23)',
     desc: '@cword(300,400)',
     'powerMax|200-400': 300,
     'capacity|1000-4000': 3000,

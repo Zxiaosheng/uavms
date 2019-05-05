@@ -237,6 +237,9 @@
         backgroundColor: 'rgb(31,45,41)',
         title: {
           text: '某某地区飞行数据实时展示',
+          textStyle: {
+            color: '#fff'
+          }
         },
         tooltip: {
           trigger: 'axis',

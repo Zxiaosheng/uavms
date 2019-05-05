@@ -99,25 +99,34 @@
       </el-table-column>
       <el-table-column
         label="型号"
-        prop="num">
+        prop="num"
+        width="125">
       </el-table-column>
       <el-table-column
         label="设备名称"
-        prop="name">
+        prop="name"
+        width="140">
+      </el-table-column>
+      <el-table-column
+        label="设备简介"
+        prop="comm">
       </el-table-column>
       <el-table-column
         label="类型"
-        prop="type">
+        prop="type"
+        width="55">
       </el-table-column>
       <el-table-column
         label="状态"
-        prop="status">
+        prop="status"
+        width="65">
       </el-table-column>
       <el-table-column
         label="出厂日期"
-        prop="createTime">
+        prop="createTime"
+        width="155">
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -125,7 +134,7 @@
           <el-button
             size="mini"
             type="danger"
-            @click="">停用</el-button>
+            @click="stopUse(scope.index)">停用</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -175,6 +184,11 @@
       this.getList()
     },
     methods: {
+      stopUse(idx){
+
+
+        alert(idx)
+      },
       async getList(){
 
         const { data } = await fetchList(this.listQuery)
