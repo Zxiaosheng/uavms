@@ -13,6 +13,7 @@ import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
 import deviceRouter from './modules/device'
 import taskRouter from './modules/task'
+import flyAreaRouter from './modules/flyArea'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -67,6 +68,7 @@ export const constantRoutes = [
     ]
   },
   deviceRouter,
+
   {
     path: '/rode',
     name: 'rode',
@@ -99,6 +101,7 @@ export const constantRoutes = [
     ]
   },
   taskRouter,
+  flyAreaRouter,
   {
     path: '/login',
     component: () => import('@/views/login/index'),
@@ -127,6 +130,7 @@ export const constantRoutes = [
       },
     ]
   },
+
   // {
   //   path: '/auth-redirect',
   //   component: () => import('@/views/login/auth-redirect'),

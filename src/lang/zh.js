@@ -156,6 +156,19 @@ export default {
     backToTopTips2: '可自定义按钮的样式、show/hide、出现的高度、返回的位置 如需文字提示，可在外部使用Element的el-tooltip元素',
     imageUploadTips: '由于我在使用时它只有vue@1版本，而且和mockjs不兼容，所以自己改造了一下，如果大家要使用的话，优先还是使用官方版本。'
   },
+  flyArea:{
+    id:'编号',
+    type:'机型',
+    date:'执行时间',
+    task:'执行任务',
+    area:'飞行区域',
+    longitude:'经度',
+    latitude:'维度',
+    actions:'操作',
+    edit:'编辑',
+    delete:'删除'
+
+  },
   table: {
     dynamicTips1: '固定表头, 按照表头顺序排序',
     dynamicTips2: '不固定表头, 按照点击顺序排序',

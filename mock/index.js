@@ -9,6 +9,7 @@ import task from './task'
 import rode from './rode'
 import device from './mock-device'
 import userManager from './userManager'
+import flyArea from './flyArea'
 
 const mocks = [
   ...user,
@@ -19,7 +20,8 @@ const mocks = [
   ...search,
   ...task,
   ...device,
-  ...userManager
+  ...userManager,
+  ...flyArea
 ]
 
 // for front mock
