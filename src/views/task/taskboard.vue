@@ -39,19 +39,16 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="12">
-        <div class="grid-content bg-purple-light">
-          <line-chart :id="lineChartId" width="100%"></line-chart>
+      <el-col :span="24">
+        <div class="grid-content bg-purple-light" style="padding:0 20px 0 20px">
+          <line-chart style="background-color:rgb(31,45,61);" :id="lineChartId" width="100%"></line-chart>
         </div>
       </el-col>
-      <el-col :span="12">
-        <div class="grid-content bg-purple-light">
-          <el-row>
-            <gauge-chart :id="gaugeChartId" width="100%"></gauge-chart>
-          </el-row>
-          <el-row>
-            <monitor-table></monitor-table>
-          </el-row>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <div class="grid-content bg-purple-light" style="padding:0 20px 0 20px">
+          <gauge-chart style="background-color:rgb(31,45,61);" :id="gaugeChartId" width="100%"></gauge-chart>
         </div>
       </el-col>
     </el-row>
@@ -66,7 +63,7 @@
   import PieChart from './components/PieChart'
   // 仪表盘用于任务完成率实时监控
   import GaugeChart from './components/GaugeChart'
-  // 任务调度监控列表
+  // 任务调度监控列表，任务队列，考虑是否可以换成别的
   import MonitorTable from './components/MonitorTable'
   export default {
     name: 'dashboard',
@@ -74,7 +71,7 @@
       LineChart,
       PieChart,
       GaugeChart,
-      MonitorTable
+      MonitorTable,
     },
     data(){
       return {
@@ -91,7 +88,7 @@
     position: relative;
     width: 100%;
     height: calc(100vh - 84px);
-    /*background-color: rgb(48,65,86);*/
+    background-color: rgb(48,65,86);
   }
   /*布局样式*/
   .el-row {
@@ -104,13 +101,13 @@
     border-radius: 4px;
   }
   .bg-purple-dark {
-    /*background: rgb(48,65,86);*/
+    background: rgb(48,65,86);
   }
   .bg-purple {
-    /*background: rgb(48,65,86);*/
+    background: rgb(48,65,86);
   }
   .bg-purple-light {
-    /*background: rgb(48,65,86);*/
+    background: rgb(48,65,86);
   }
   .grid-content {
     border-radius: 4px;
@@ -118,7 +115,7 @@
   }
   .row-bg {
     padding: 10px 0;
-    /*background-color: rgb(48,65,86);*/
+    background-color: rgb(48,65,86);
   }
   /*卡片样式*/
   .text {
@@ -128,8 +125,10 @@
     padding: 10px 0;
   }
   .box-card {
-    width: 480px;
-    background-color: rgb(48,65,86);
+    margin: 20px 20px 0 20px;
+    background-color: rgb(31,45,61);
+    border: 1px solid rgb(31,45,61);
+    border-radius: 4px;
     color: #fff;
   }
 </style>
