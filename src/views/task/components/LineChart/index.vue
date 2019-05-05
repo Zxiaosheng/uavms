@@ -54,7 +54,6 @@
             left:'20',
             right:'50',
             bottom:'10',
-            // width:'84%'
           },
           title: {
             top:'10',

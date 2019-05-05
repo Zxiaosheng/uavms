@@ -28,15 +28,17 @@
     },
     data(){
       return {
-        chart:null
+        chart:null,
+        data1:[{value: 80, name: '百分比'}]
       }
     },
     mounted() {
       //初始化Echarts实例
       this.initChart();
       setInterval(()=>{
+        this.data1[0].value = (Math.random() * 100).toFixed(2) - 0;
         this.initChart()
-      },1000)
+      },2000)
     },
     beforeDestroy() {
       if(this.initChart){
@@ -61,14 +63,15 @@
             {
               name: '速度',
               type: 'gauge',
+              center: ['70%', '55%'],
               z: 3,
               min: 0,
               max: 220,
               splitNumber: 11,
-              radius: '50%',
+              radius: '75%',
               axisLine: {            // 坐标轴线
                 lineStyle: {       // 属性lineStyle控制线条样式
-                  width: 10
+                  width: 6
                 }
               },
               axisTick: {            // 坐标轴小标记
@@ -127,13 +130,14 @@
                 color: '#eee',
                 rich: {}
               },
-              data:[{value: 80, name: 'km/h'}]
+              color:'#fff',
+              data:this.data1
             },
             {
               name: '转速',
               type: 'gauge',
-              center: ['20%', '55%'],    // 默认全局居中
-              radius: '35%',
+              center: ['30%', '55%'],    // 默认全局居中
+              radius: '55%',
               min:0,
               max:7,
               endAngle:45,
@@ -166,102 +170,10 @@
                 fontWeight: 'bolder'
               },
               data:[{value: 1.5, name: 'x1000 r/min'}]
-            },
-            {
-              name: '油表',
-              type: 'gauge',
-              center: ['77%', '50%'],    // 默认全局居中
-              radius: '25%',
-              min: 0,
-              max: 2,
-              startAngle: 135,
-              endAngle: 45,
-              splitNumber: 2,
-              axisLine: {            // 坐标轴线
-                lineStyle: {       // 属性lineStyle控制线条样式
-                  width: 8
-                }
-              },
-              axisTick: {            // 坐标轴小标记
-                splitNumber: 5,
-                length: 10,        // 属性length控制线长
-                lineStyle: {        // 属性lineStyle控制线条样式
-                  color: 'auto'
-                }
-              },
-              axisLabel: {
-                formatter:function(v){
-                  switch (v + '') {
-                    case '0' : return 'E';
-                    case '1' : return 'Gas';
-                    case '2' : return 'F';
-                  }
-                }
-              },
-              splitLine: {           // 分隔线
-                length: 15,         // 属性length控制线长
-                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-                  color: 'auto'
-                }
-              },
-              pointer: {
-                width:2
-              },
-              title : {
-                show: false
-              },
-              detail : {
-                show: false
-              },
-              data:[{value: 0.5, name: 'gas'}]
-            },
-            {
-              name: '水表',
-              type: 'gauge',
-              center : ['77%', '50%'],    // 默认全局居中
-              radius : '25%',
-              min: 0,
-              max: 2,
-              startAngle: 315,
-              endAngle: 225,
-              splitNumber: 2,
-              axisLine: {            // 坐标轴线
-                lineStyle: {       // 属性lineStyle控制线条样式
-                  width: 8
-                }
-              },
-              axisTick: {            // 坐标轴小标记
-                show: false
-              },
-              axisLabel: {
-                formatter:function(v){
-                  switch (v + '') {
-                    case '0' : return 'H';
-                    case '1' : return 'Water';
-                    case '2' : return 'C';
-                  }
-                }
-              },
-              splitLine: {           // 分隔线
-                length: 15,         // 属性length控制线长
-                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-                  color: 'auto'
-                }
-              },
-              pointer: {
-                width:2
-              },
-              title: {
-                show: false
-              },
-              detail: {
-                show: false
-              },
-              data:[{value: 0.5, name: 'gas'}]
             }
           ]
         },true);
-      },
+      }
     }
   }
 </script>

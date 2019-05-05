@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
-  <!--<div class="demo-input-size">-->
+    <!--<div class="demo-input-size">-->
     <div class="demo-input-suffix">
-  <!--<div class="filter-container">-->
+      <!--<div class="filter-container">-->
       <el-input v-model="listQuery.location" :placeholder="$t('historycount.location')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
       <el-date-picker v-model="listQuery.date" type="date" :placeholder="$t('historycount.date')" size="medium" style="width: 230px"/>
 
@@ -26,18 +26,18 @@
 
       <el-table-column prop="location" align="center" :label="$t('historycount.location')" width="200"></el-table-column>
 
-      <el-table-column prop="result" align="center" :label="$t('historycount.result')" sortable >
+      <el-table-column prop="result" align="center" :label="$t('historycount.result')" sortable width="200">
         <template slot-scope="scope">
-        <el-tag :type="scope.row.result=='Success'?'success':'danger'">{{scope.row.result}}</el-tag>
+          <el-tag :type="scope.row.result=='Success'?'success':'danger'">{{scope.row.result}}</el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column :label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
+          <el-button type="primary"  @click="handleUpdate(row)">
             {{ $t('table.edit') }}
           </el-button>
-          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row)">
+          <el-button v-if="row.status!='deleted'"  type="danger" @click="handleDelete(row)">
             {{ $t('table.delete') }}
           </el-button>
         </template>
@@ -167,7 +167,7 @@
         this.listLoading = true;
         let{page,limit,result,date,location,type}=this.listQuery;
 
-        let fiterData=this.list.filter(item=>{
+        let filterData=this.list.filter(item=>{
           if (date && item.date !== date) return false
           if (type && item.typeId.id !== type) return false
           if (location && item.location.indexOf(location) < 0) return false
@@ -175,7 +175,7 @@
           return true
         })
 
-        this.pageData=fiterData.filter((item,index)=>{
+        this.pageData=filterData.filter((item,index)=>{
           return index<page*limit && index>=limit*(page-1)
         });
         this.listLoading = false;
@@ -186,7 +186,7 @@
       },
       handleUpdate(row) {
         this.temp = Object.assign({}, row) // copy obj
-         this.temp.timestamp = new Date(this.temp.timestamp)
+        this.temp.timestamp = new Date(this.temp.timestamp)
         this.dialogStatus = 'update'
         this.dialogFormVisible = true
         this.$nextTick(() => {
@@ -222,7 +222,7 @@
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             const tempData = Object.assign({}, this.temp)
-             tempData.timestamp = +new Date(tempData.timestamp)
+            tempData.timestamp = +new Date(tempData.timestamp)
             // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
             updatehistory(tempData).then(() => {
               for (const v of this.pageData) {
