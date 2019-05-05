@@ -8,7 +8,7 @@ for (let i = 0; i < count; i++) {
     "id": '@increment',
     "date": "@date",
     "userType|1": [{id: 1, typeUser: '普通用户'}, {id: 2, typeUser: '管理员'}],
-    "sex|1": [{id: 1, typesex: '男'}, {id: 2, typesex: '女'}],
+    "sexType|1": [{id: 1, typeSex: '男'}, {id: 2, typeSex: '女'}],
     "telephone": /^1[385][1-9]\d{8}/,
     "name": "@cname(3,5)"
   }))
@@ -26,5 +26,15 @@ export default [
         }
       }
     }
-  }
+  },
+  {
+    url: '/article/create',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        data: 'success'
+      }
+    }
+  },
 ]
