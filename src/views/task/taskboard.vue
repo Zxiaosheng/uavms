@@ -132,7 +132,7 @@
   .chart-container{
     position: relative;
     width: 100%;
-    height: calc(100vh - 84px);
+    height: calc(100vh - 50px);
     background-color: rgb(48,65,86);
   }
   /*布局样式*/
