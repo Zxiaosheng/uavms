@@ -3,23 +3,33 @@
   <div class="dev-list">
 
     <el-form :inline="true" :model="listQuery" class="demo-form-inline">
-
-      <el-form-item label="型号">
+      <el-form-item label="">
+        <el-select v-model="listQuery.sort" @change="findData">
+          <el-option label="根据ID正序排列" value="+id"></el-option>
+          <el-option label="根据ID倒序排列" value="-id"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="">
+        <el-input v-model="listQuery.id" placeholder="输入ID搜索"></el-input>
+      </el-form-item>
+      <el-form-item label="">
         <el-input v-model="listQuery.num" placeholder="输入型号搜索"></el-input>
       </el-form-item>
-      <el-form-item label="名称">
+      <el-form-item label="">
         <el-input v-model="listQuery.name" placeholder="输入名称搜索"></el-input>
       </el-form-item>
-      <el-form-item label="类型">
+      <el-form-item label="">
         <el-select v-model="listQuery.type" placeholder="选择类型搜索">
+          <el-option label="选择类型搜索" value=""></el-option>
           <el-option label="微型" value="微型"></el-option>
           <el-option label="小型" value="小型"></el-option>
           <el-option label="中型" value="中型"></el-option>
           <el-option label="大型" value="大型"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="状态">
-        <el-select v-model="listQuery.type" placeholder="选择状态搜索">
+      <el-form-item label="">
+        <el-select v-model="listQuery.status" placeholder="选择状态搜索">
+          <el-option label="选择状态搜索" value=""></el-option>
           <el-option label="飞行中" value="飞行中"></el-option>
           <el-option label="待命中" value="待命中"></el-option>
           <el-option label="充电中" value="充电中"></el-option>
@@ -30,20 +40,23 @@
           <el-option label="已停用" value="已停用"></el-option>
         </el-select>
       </el-form-item>
-      <br>
-      <el-form-item label="出厂日期">
-        <el-input v-model="listQuery.createTimeStart" type="date"></el-input>
-      </el-form-item>
-      <el-form-item label="至">
-        <el-input v-model="listQuery.createTimeEnd" type="date"></el-input>
+      <el-form-item label="">
+        <el-col :span="11">
+          <el-date-picker type="date" placeholder="范围开始日期" v-model="listQuery.createTimeStart" style="width: 100%;"></el-date-picker>
+        </el-col>
+        <el-col class="line" :span="1">至</el-col>
+        <el-col :span="11">
+          <el-date-picker placeholder="范围结束时间" v-model="listQuery.createTimeEnd" style="width: 100%;"></el-date-picker>
+        </el-col>
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="">搜索</el-button>
+        <el-button type="primary" @click="findData">搜索</el-button>
+        <el-button type="primary" @click="clearData">清空</el-button>
       </el-form-item>
     </el-form>
     <el-table
-      :data="tableData"
+      :data="page.list"
       style="width: 100%"
       border>
       <el-table-column type="expand">
@@ -74,8 +87,15 @@
         </template>
       </el-table-column>
       <el-table-column
+        label="序号"
+        type="index"
+        width="50">
+      </el-table-column>
+      <el-table-column
         label="ID"
-        prop="id">
+        prop="id"
+        width="60"
+        sortable>
       </el-table-column>
       <el-table-column
         label="型号"
@@ -109,6 +129,18 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <div class="block">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[10, 20, 30, 50]"
+        :page-size="listQuery.limit"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="page.total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -120,7 +152,8 @@
     name: "dev-list",
     data(){
       return{
-        tableData: [],
+        page: {},
+        currentPage:1,
         listQuery: {
           id: '',
           type: '',
@@ -128,7 +161,10 @@
           num: '',
           name: '',
           createTimeStart: '',
-          createTimeEnd: ''
+          createTimeEnd: '',
+          limit: 10,
+          page:1,
+          sort: '+id'
         }
       }
     },
@@ -140,8 +176,39 @@
     },
     methods: {
       async getList(){
+
         const { data } = await fetchList(this.listQuery)
-        this.tableData=data.items
+        this.page=data
+      },
+      findData(){
+
+        this.getList()
+      },
+      clearData(){
+
+        this.listQuery={
+          id: '',
+          type: '',
+          status: '',
+          num: '',
+          name: '',
+          createTimeStart: '',
+          createTimeEnd: '',
+          limit: 10,
+          page:1,
+          sort:'+id'
+        }
+        this.getList()
+      },
+      handleSizeChange(val) {
+
+        this.listQuery.limit=val
+        this.getList()
+      },
+      handleCurrentChange(val) {
+
+        this.listQuery.page=val
+        this.getList()
       }
     }
   }
@@ -166,5 +233,8 @@
   }
   .dev-list{
     padding: 20px;
+  }
+  .block{
+    margin-top: 20px;
   }
 </style>
