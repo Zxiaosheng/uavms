@@ -209,10 +209,13 @@
       getList() {
         this.listLoading = true;
         let{page,limit,task,date1,date2,start,end,type}=this.listQuery;
-
+        date1=new Date(date1)
+        date2=new Date(date2)
         let fiterData=this.list.filter(item=>{
-          if (date1 && item.date1 !== date1) return false
-          if (date2 && item.date2 !== date2) return false
+           let idate1=new Date(Date.parse(item.date1))
+          let idate2=new Date(Date.parse(item.date2))
+          if (date1 && idate1 < date1) return false
+          if (date2 && idate2 > date2) return false
           if (type && item.typeId.id !== type) return false
           if (start && item.start.indexOf(start) < 0) return false
           if (end && item.end.indexOf(end) < 0) return false
@@ -224,6 +227,7 @@
           return index<page*limit && index>=limit*(page-1)
         });
         this.listLoading = false;
+        this.total=this.pageData.length
       },
       handleFilter() {
         this.listQuery.page = 1

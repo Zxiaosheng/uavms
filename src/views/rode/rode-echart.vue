@@ -47,14 +47,7 @@
         chart1: null,
         chart2:null,
         list:[],
-        list1:[],
-        listQuery: {
-          page: 1,
-          limit: 20,
-          value:undefined,
-          name: undefined,
-
-        },
+        list1:[]
       }
     },
     created(){
@@ -62,7 +55,7 @@
     },
     methods:{
       async getList(){
-        const { data } = await fetchChartList(this.listQuery)
+        const { data } = await fetchChartList()
         this.list=data.items
 
       }
