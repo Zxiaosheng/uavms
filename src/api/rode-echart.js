@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 
-export function fetchChartList(query) {
+export function fetchChartList() {
   return request({
     url: '/rode/chartlist',
     method: 'get',
-    params: query
+    // params: query
   })
 }
 export function fetchMChartList(query) {

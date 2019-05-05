@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" :class="className" :style="{height:height,width:width}" />
+  <div :id="id" :class="className" :style="{height:height,width:width}" style="border-radius: 4px"/>
 </template>
 
 <script>
@@ -23,7 +23,7 @@
       },
       height: {
         type: String,
-        default: '300px'
+        default: '400px'
       }
     },
     data(){
@@ -36,7 +36,7 @@
       this.initChart();
       setInterval(()=>{
         this.initChart()
-      },2000)
+      },1000)
     },
     beforeDestroy() {
       if(this.initChart){
@@ -56,13 +56,6 @@
         this.chart.setOption({
           tooltip : {
             formatter: "{a} <br/>{c} {b}"
-          },
-          toolbox: {
-            show: true,
-            feature: {
-              restore: {show: true},
-              saveAsImage: {show: true}
-            }
           },
           series : [
             {
@@ -85,7 +78,7 @@
                 }
               },
               splitLine: {           // 分隔线
-                length: 20,         // 属性length控制线长
+                length: 10,         // 属性length控制线长
                 lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
                   color: 'auto'
                 }
@@ -98,7 +91,7 @@
                 textShadowBlur: 2,
                 textShadowOffsetX: 1,
                 textShadowOffsetY: 1,
-                textShadowColor: '#222'
+                textShadowColor: '#fff'
               },
               title : {
                 // 其余属性默认使用全局文本样式，详见TEXTSTYLE
@@ -134,7 +127,7 @@
                 color: '#eee',
                 rich: {}
               },
-              data:[{value: 40, name: 'km/h'}]
+              data:[{value: 80, name: 'km/h'}]
             },
             {
               name: '转速',

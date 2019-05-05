@@ -6,6 +6,7 @@ import role from './role'
 import article from './article'
 import search from './remote-search'
 import task from './task'
+import rodeechart from './rode-echart'
 import rode from './rode'
 import device from './mock-device'
 import userManager from './userManager'
@@ -19,6 +20,7 @@ const mocks = [
   ...article,
   ...search,
   ...rode,
+  ...rodeechart,
   ...search,
   ...task,
   ...device,

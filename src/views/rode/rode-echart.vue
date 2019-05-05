@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="chart-container">
     <el-row>
-      <el-col :span="12"><div :id="id" :class="className" style="height:450px;width:800px"/></el-col>
-      <el-col :span="12"><div :id="id1" :class="className1" style="height:450px;width:800px;margin-top:10px"/></el-col>
+      <el-col :span="12"><div :id="id" :class="className" style="height:450px;width:800px;margin:20px"/></el-col>
+      <el-col :span="12"><div :id="id1" :class="className1" style="height:450px;width:800px;margin:20px"/></el-col>
     </el-row>
       <div :id="id2" :class="className2" style="height:1000px;width:100%"/>
   </div>
@@ -47,24 +47,7 @@
         chart1: null,
         chart2:null,
         list:[],
-        list1:[],
-        listQuery: {
-          page: 1,
-          limit: 20,
-          value:undefined,
-          name: undefined,
-
-        },
-      }
-    },
-    created(){
-      this.getList();
-    },
-    methods:{
-      async getList(){
-        const { data } = await fetchChartList(this.listQuery)
-        this.list=data.items
-
+        list1:[]
       }
     },
     mounted() {
@@ -77,84 +60,88 @@
       this.chart1 = echarts.init(document.getElementById(this.id1));
       this.chart2 = echarts.init(document.getElementById(this.id2));
 
+      fetchChartList().then(response => {
+        this.list = response.data.items
 
-      //饼图
-      this.chart.setOption({
-        backgroundColor: '#ffffff',
+        //饼图
+        this.chart.setOption({
+          backgroundColor: 'rgb(31,45,41)',
 
-        title: {
-          text: '福州市五区飞行次数统计饼图',
-          left: 'center',
-          top: 20,
-          textStyle: {
-            color: '#404a59'
-          }
-        },
-
-        tooltip: {
-          trigger: 'item',
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-
-        visualMap: {
-          show: false,
-          min: 80,
-          max: 600,
-          inRange: {
-            colorLightness: [0, 1]
-          }
-        },
-        series: [
-          {
-            name: '飞行航程',
-            type: 'pie',
-            radius: '55%',
-            center: ['50%', '50%'],
-            data:this.list
-            //   [
-            //   {value:300,name:'仓山区'},
-            //   {value:332,name:'晋安区'},
-            //   {value:325,name:'鼓楼区'},
-            //   {value:432,name:'台江区'},
-            //   {value:402,name:'马尾区'}
-            // ]
-            .sort(function (a, b) {
-              return a.value - b.value;
-            }),
-            roseType: 'radius',
-            label: {
-              normal: {
-                textStyle: {
-                  color: '#404a59'
-                }
-              }
-            },
-            labelLine: {
-              normal: {
-                lineStyle: {
-                  color: '#404a59'
-                },
-                smooth: 0.2,
-                length: 10,
-                length2: 20
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: '#c23531',
-                // shadowBlur: 200,
-                // shadowColor: 'rgba(0, 0, 0,0.5)'
-              }
-            },
-
-            animationType: 'scale',
-            animationEasing: 'elasticOut',
-            animationDelay: function (idx) {
-              return Math.random() * 200;
+          title: {
+            text: '福州市五区飞行次数统计饼图',
+            left: 'center',
+            top: 20,
+            textStyle: {
+              color: '#ffffff'
             }
-          }
-        ]
+          },
+
+          tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+          },
+
+          visualMap: {
+            show: false,
+            min: 80,
+            max: 600,
+            inRange: {
+              colorLightness: [0, 1]
+            }
+          },
+          series: [
+            {
+              name: '飞行航程',
+              type: 'pie',
+              radius: '55%',
+              center: ['50%', '50%'],
+              data:this.list
+              //   [
+              //   {value:300,name:'仓山区'},
+              //   {value:332,name:'晋安区'},
+              //   {value:325,name:'鼓楼区'},
+              //   {value:432,name:'台江区'},
+              //   {value:402,name:'马尾区'}
+              // ]
+                .sort(function (a, b) {
+                  return a.value - b.value;
+                }),
+              roseType: 'radius',
+              label: {
+                normal: {
+                  textStyle: {
+                    color: '#ffffff'
+                  }
+                }
+              },
+              labelLine: {
+                normal: {
+                  lineStyle: {
+                    color: '#ffffff'
+                  },
+                  smooth: 0.2,
+                  length: 10,
+                  length2: 20
+                }
+              },
+              itemStyle: {
+                normal: {
+                  color: '#c23531',
+                  // shadowBlur: 200,
+                  // shadowColor: 'rgba(0, 0, 0,0.5)'
+                }
+              },
+
+              animationType: 'scale',
+              animationEasing: 'elasticOut',
+              animationDelay: function (idx) {
+                return Math.random() * 200;
+              }
+            }
+          ]
+        })
       })
+
       //路线图
       this.chart2.setOption({
         backgroundColor: '#ffffff',
@@ -247,20 +234,25 @@
 
       //某某地区飞行数据实时展示
       let option1 = {
+        backgroundColor: 'rgb(31,45,41)',
         title: {
           text: '某某地区飞行数据实时展示',
+          textStyle: {
+            color: '#fff'
+          }
         },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
             type: 'cross',
             label: {
-              backgroundColor: '#283b56'
+              backgroundColor: '#ffffff'
             }
           }
         },
         legend: {
-          data:['飞行路线数', '飞行机器数']
+          data:['飞行路线数', '飞行机器数'],
+          color: '#ffffff'
         },
         toolbox: {
           show: true,
@@ -376,5 +368,10 @@
 </script>
 
 <style scoped>
-
+  .chart-container{
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 84px);
+    background-color: rgb(48,65,86);
+  }
 </style>
