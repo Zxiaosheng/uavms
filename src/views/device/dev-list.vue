@@ -20,17 +20,22 @@
       </el-form-item>
       <el-form-item label="状态">
         <el-select v-model="listQuery.type" placeholder="选择状态搜索">
-          <el-option label="微型" value="微型"></el-option>
-          <el-option label="小型" value="小型"></el-option>
-          <el-option label="中型" value="中型"></el-option>
-          <el-option label="大型" value="大型"></el-option>
+          <el-option label="飞行中" value="飞行中"></el-option>
+          <el-option label="待命中" value="待命中"></el-option>
+          <el-option label="充电中" value="充电中"></el-option>
+          <el-option label="故障中" value="故障中"></el-option>
+          <el-option label="维修中" value="维修中"></el-option>
+          <el-option label="离线中" value="离线中"></el-option>
+          <el-option label="电量低" value="电量低"></el-option>
+          <el-option label="已停用" value="已停用"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="名称">
-        <el-input v-model="listQuery.name" placeholder="输入名称搜索"></el-input>
+      <br>
+      <el-form-item label="出厂日期">
+        <el-input v-model="listQuery.createTimeStart" type="date"></el-input>
       </el-form-item>
-      <el-form-item label="名称">
-        <el-input v-model="listQuery.name" placeholder="输入名称搜索"></el-input>
+      <el-form-item label="至">
+        <el-input v-model="listQuery.createTimeEnd" type="date"></el-input>
       </el-form-item>
 
       <el-form-item>
