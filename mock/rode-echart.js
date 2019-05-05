@@ -1,12 +1,12 @@
 import Mock from 'mockjs'
 
 const List = []
-const count = 100
+const count = 5
 
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
-    "value|300-400":"@increment",
-    "name|1": [{name:'仓山区'},{name:'晋安区'},{name:'鼓楼区'},{name:'台江区'},{name:'马尾区'}],
+    "value|300-400":350,
+    "name|1": ['仓山区','晋安区','鼓楼区','台江区','马尾区'],
   }))
 
 }
