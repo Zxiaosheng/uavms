@@ -49,6 +49,8 @@ export default {
     rode: '路线管理',
     rodelist: '路线统计',
     rodeechart: '图表',
+    trouble: '故障管理',
+    troublelist: '故障列表',
     dashboard: '首页',
     documentation: '文档',
     guide: '引导页',
