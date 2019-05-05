@@ -21,3 +21,9 @@ export function createTask(data) {
     data
   })
 }
+export function getTaskCount(){
+  return request({
+    url:'/task/count',
+    method: 'get'
+  })
+}

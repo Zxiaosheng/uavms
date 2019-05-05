@@ -70,4 +70,16 @@ export default [
       }
     }
   },
+  {
+    url: '/task/count',
+    type: 'get',
+    response: _ => {
+      return {
+        code: 20000,
+        data: {
+          count:List.length
+        }
+      }
+    }
+  },
 ]
