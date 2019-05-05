@@ -252,7 +252,9 @@
         },
         legend: {
           data:['飞行路线数', '飞行机器数'],
-          color: '#ffffff'
+          textStyle: {
+            color: '#fff'
+          }
         },
         toolbox: {
           show: true,
@@ -302,7 +304,8 @@
             name: '路线总数',
             max: 30,
             min: 0,
-            boundaryGap: [0.2, 0.2]
+            boundaryGap: [0.2, 0.2],
+
           },
           {
             type: 'value',
