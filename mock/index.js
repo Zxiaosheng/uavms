@@ -12,6 +12,7 @@ import device from './mock-device'
 import userManager from './userManager'
 import flyArea from './flyArea'
 import historycount from './history-count'
+import trouble from './trouble'
 
 
 const mocks = [
@@ -27,8 +28,8 @@ const mocks = [
   ...userManager,
   ...flyArea,
   ...userManager,
-  ...historycount
-
+  ...historycount,
+  ...trouble
 ]
 
 // for front mock
