@@ -39,33 +39,19 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="10">
-        <div class="grid-content bg-purple">
-          <pie-chart :id="pieChartId" width="100%"></pie-chart>
-        </div>
-      </el-col>
-      <el-col :span="10">
+      <el-col :span="12">
         <div class="grid-content bg-purple-light">
           <line-chart :id="lineChartId" width="100%"></line-chart>
         </div>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="12">
         <div class="grid-content bg-purple-light">
-          <el-progress :text-inside="true" :stroke-width="18" :percentage="0"></el-progress>
-          <el-progress :text-inside="true" :stroke-width="18" :percentage="70"></el-progress>
-          <el-progress :text-inside="true" :stroke-width="18" :percentage="80" color="rgba(142, 113, 199, 0.7)"></el-progress>
-          <el-progress :text-inside="true" :stroke-width="18" :percentage="100" status="success"></el-progress>
-          <el-progress :text-inside="true" :stroke-width="18" :percentage="50" status="exception"></el-progress>
-          <el-progress :text-inside="true" :stroke-width="18" :percentage="0"></el-progress>
-          <el-progress :text-inside="true" :stroke-width="18" :percentage="70"></el-progress>
-          <el-progress :text-inside="true" :stroke-width="18" :percentage="80" color="rgba(142, 113, 199, 0.7)"></el-progress>
-          <el-progress :text-inside="true" :stroke-width="18" :percentage="100" status="success"></el-progress>
-          <el-progress :text-inside="true" :stroke-width="18" :percentage="50" status="exception"></el-progress>
-          <el-progress type="circle" :percentage="0"></el-progress>
-          <el-progress type="circle" :percentage="25"></el-progress>
-          <el-progress type="circle" :percentage="80" color="#8e71c7"></el-progress>
-          <el-progress type="circle" :percentage="100" status="success"></el-progress>
-          <el-progress type="circle" :percentage="50" status="exception"></el-progress>
+          <el-row>
+            <gauge-chart :id="gaugeChartId" width="100%"></gauge-chart>
+          </el-row>
+          <el-row>
+            <monitor-table></monitor-table>
+          </el-row>
         </div>
       </el-col>
     </el-row>
@@ -73,18 +59,28 @@
 </template>
 
 <script>
+  // 四个卡片用于总作业数，正在等待作业数，正在进行任务数与并发率，机器正常数与正常率
+  // 执行报告，每天的成功任务数和失败任务数
   import LineChart from './components/LineChart'
+  // 卡片中占比图
   import PieChart from './components/PieChart'
+  // 仪表盘用于任务完成率实时监控
+  import GaugeChart from './components/GaugeChart'
+  // 任务调度监控列表
+  import MonitorTable from './components/MonitorTable'
   export default {
     name: 'dashboard',
     components:{
       LineChart,
-      PieChart
+      PieChart,
+      GaugeChart,
+      MonitorTable
     },
     data(){
       return {
         lineChartId:'line',
-        pieChartId:'pie'
+        pieChartId:'pie',
+        gaugeChartId:'gauge'
       }
     }
   }

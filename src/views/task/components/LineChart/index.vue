@@ -49,88 +49,86 @@
         //完成图表绘制配置
         this.chart.setOption({
           title: {
-            text: '柱状图',
-            subtext: '各省市冰激凌卡销量',
-            //left:'center',
-            left: '10%',
-            top: '2%'
+            text: '未来一周气温变化',
+            subtext: '纯属虚构'
           },
-          xAxis: {
-            data: ["广东", "福建", "浙江", "江苏", "山东"]
+          tooltip: {
+            trigger: 'axis'
+          },
+          legend: {
+            data:['最高气温','最低气温']
+          },
+          toolbox: {
+            show: true,
+            feature: {
+              dataZoom: {
+                yAxisIndex: 'none'
+              },
+              dataView: {readOnly: false},
+              magicType: {type: ['line', 'bar']},
+              restore: {},
+              saveAsImage: {}
+            }
+          },
+          xAxis:  {
+            type: 'category',
+            boundaryGap: false,
+            data: ['周一','周二','周三','周四','周五','周六','周日']
           },
           yAxis: {
-            //起始点的值
-            gridIndex: 0,
-            min: 0,
-            max: 30,
-            //y轴增长步长
-            interval: 5
+            type: 'value',
+            axisLabel: {
+              formatter: '{value} °C'
+            }
           },
-          //数据序列，数据分析的维度
           series: [
-            //可以多个纬度去分析
             {
-              //维度名称
-              name: '大王卡',
-              //该维度的图形类型
-              type: 'bar',
-              data: [10, 20, 28, 22, 10],
-              itemStyle: {
-                color: '#ffbc0c'
+              name:'最高气温',
+              type:'line',
+              data:[11, 11, 15, 13, 12, 13, 10],
+              markPoint: {
+                data: [
+                  {type: 'max', name: '最大值'},
+                  {type: 'min', name: '最小值'}
+                ]
+              },
+              markLine: {
+                data: [
+                  {type: 'average', name: '平均值'}
+                ]
               }
             },
             {
-              //维度名称
-              name: '帝王卡',
-              //该维度的图形类型
-              type: 'bar',
-              data: [5, 10, 5, 20, 18],
-              itemStyle: {
-                color: '#4fc08d'
-              }
-            }
-          ],
-          //配置图例
-          legend: {
-            show: true,
-            data: [
-              //数据序列有几个，图例就应该有几个
-              {
-                name: '大王卡',
-                icon: 'circle'
+              name:'最低气温',
+              type:'line',
+              data:[1, -2, 2, 5, 3, 2, 0],
+              markPoint: {
+                data: [
+                  {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                ]
               },
-              {
-                name: '帝王卡',
-                icon: 'circle'
-              }
-            ]
-          },
-          tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-              type: 'cross',
-              label: {
-                backgroundColor: '#304156'
+              markLine: {
+                data: [
+                  {type: 'average', name: '平均值'},
+                  [{
+                    symbol: 'none',
+                    x: '90%',
+                    yAxis: 'max'
+                  }, {
+                    symbol: 'circle',
+                    label: {
+                      normal: {
+                        position: 'start',
+                        formatter: '最大值'
+                      }
+                    },
+                    type: 'max',
+                    name: '最高点'
+                  }]
+                ]
               }
             }
-          },
-          //工具箱
-          toolbox: {
-            show: true,
-            orient: 'vertical',
-            left: 'right',
-            top: 'center',
-            feature: {
-              //标记
-              mark: { show: true },
-              //数据视图
-              dataView: { show: true, readOnly: false },
-              //刷新
-              restore: { show: true },
-              //保存图片
-              saveAsImage: { show: true }
-            }
-          },
+          ]
         })
       }
     }

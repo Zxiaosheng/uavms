@@ -23,7 +23,7 @@
       },
       height: {
         type: String,
-        default: '600px'
+        default: '300px'
       }
     },
     data(){
@@ -48,89 +48,69 @@
         this.chart = echarts.init(document.getElementById(this.id))
         //完成图表绘制配置
         this.chart.setOption({
-          title: {
-            text: '柱状图',
-            subtext: '各省市冰激凌卡销量',
-            //left:'center',
-            left: '10%',
-            top: '2%'
+          title : {
+            text: '南丁格尔玫瑰图',
+            subtext: '纯属虚构',
+            x:'center'
           },
-          xAxis: {
-            data: ["广东", "福建", "浙江", "江苏", "山东"]
+          tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
           },
-          yAxis: {
-            //起始点的值
-            gridIndex: 0,
-            min: 0,
-            max: 30,
-            //y轴增长步长
-            interval: 5
-          },
-          //数据序列，数据分析的维度
-          series: [
-            //可以多个纬度去分析
-            {
-              //维度名称
-              name: '大王卡',
-              //该维度的图形类型
-              type: 'pie',
-              data: [10, 20, 28, 22, 10],
-              itemStyle: {
-                color: '#304156'
-              }
-            },
-            {
-              //维度名称
-              name: '帝王卡',
-              //该维度的图形类型
-              type: 'pie',
-              data: [5, 10, 5, 20, 18],
-              itemStyle: {
-                color: '#4fc08d'
-              }
-            }
-          ],
-          //配置图例
           legend: {
-            show: true,
-            data: [
-              //数据序列有几个，图例就应该有几个
-              {
-                name: '大王卡',
-                icon: 'circle'
-              },
-              {
-                name: '帝王卡',
-                icon: 'circle'
-              }
-            ]
+            x : 'center',
+            y : 'bottom',
+            data:['rose1','rose2','rose3','rose4','rose5','rose6','rose7','rose8']
           },
-          tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-              type: 'cross',
-              label: {
-                backgroundColor: '#304156'
-              }
-            }
-          },
-          //工具箱
           toolbox: {
-            show: true,
-            orient: 'vertical',
-            left: 'right',
-            top: 'center',
-            feature: {
-              //标记
-              mark: { show: true },
-              //数据视图
-              dataView: { show: true, readOnly: false },
-              //刷新
-              restore: { show: true },
-              //保存图片
-              saveAsImage: { show: true }
+            show : true,
+            feature : {
+              mark : {show: true},
+              dataView : {show: true, readOnly: false},
+              magicType : {
+                show: true,
+                type: ['pie', 'funnel']
+              },
+              restore : {show: true},
+              saveAsImage : {show: true}
             }
           },
+          calculable : true,
+          series : [
+            {
+              name:'半径模式',
+              type:'pie',
+              radius : [20, 110],
+              center : ['25%', '50%'],
+              roseType : 'radius',
+              label: {
+                normal: {
+                  show: false
+                },
+                emphasis: {
+                  show: true
+                }
+              },
+              lableLine: {
+                normal: {
+                  show: false
+                },
+                emphasis: {
+                  show: true
+                }
+              },
+              data:[
+                {value:10, name:'rose1'},
+                {value:5, name:'rose2'},
+                {value:15, name:'rose3'},
+                {value:25, name:'rose4'},
+                {value:20, name:'rose5'},
+                {value:35, name:'rose6'},
+                {value:30, name:'rose7'},
+                {value:40, name:'rose8'}
+              ]
+            }
+          ]
         })
       }
     }
