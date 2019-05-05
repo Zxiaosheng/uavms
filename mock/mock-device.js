@@ -1,17 +1,18 @@
 import Mock from 'mockjs'
 
 const List = []
-const count = 10
+const count = 100
 
 const image_uri = 'http://file03.16sucai.com/2016/10/1100/16sucai_p20161012101_387.JPG'
 
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
     id: '@increment',
-    'type|1': ['微型', '小型', '中型', '大型'],
-    'status|1': ['飞行中', '待命中', '充电中', '故障中', '维修中' , '离线中', '电量低'],
+    'type|1': ['微型', '微型', '中型', '大型'],
+    'status|1': ['飞行中', '待命中', '充电中', '故障中', '维修中' , '离线中', '电量低', '已停用'],
     num: +Mock.Random.date('T'),
     name: '@cword(2,5)无人机',
+    comm: '@cword(18,23)',
     desc: '@cword(300,400)',
     'powerMax|200-400': 300,
     'capacity|1000-4000': 3000,
@@ -76,37 +77,40 @@ export default [
     type: 'get',
     response: config => {
 
+      let {
+        id, type, status, num, name, createTimeStart,
+        createTimeEnd, page = 1, limit = 20, sort
+      } = config.query
+
+      let listTemp = List.filter(item => {
+
+        if (id && item.id !== +id) return false
+        if (type && item.type !== type) return false
+        if (status && item.status !== status) return false
+        if (num && item.num !== num) return false
+        if (name && item.name !== name) return false
+        if (createTimeStart && new Date(createTimeStart) > new Date(item.createTime))
+          return false
+        if (createTimeEnd && new Date(createTimeEnd) < new Date(item.createTime))
+          return false
+        return true
+      })
+
+      if (sort === '-id') {
+        listTemp = listTemp.reverse()
+      }
+
+      const pageList = listTemp.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
       return {
         code: 20000,
         msg: '处理成功',
         data: {
-          total: List.length,
-          items: List
+          total: listTemp.length,
+          list: pageList
         }
       }
 
-      // const {importance, type, title, page = 1, limit = 20, sort} = config.query
-      //
-      // let mockList = List.filter(item => {
-      //   if (importance && item.importance !== +importance) return false
-      //   if (type && item.type !== type) return false
-      //   if (title && item.title.indexOf(title) < 0) return false
-      //   return true
-      // })
-      //
-      // if (sort === '-id') {
-      //   mockList = mockList.reverse()
-      // }
-      //
-      // const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
-      //
-      // return {
-      //   code: 20000,
-      //   data: {
-      //     total: mockList.length,
-      //     items: pageList
-      //   }
-      // }
     }
   }
 ]

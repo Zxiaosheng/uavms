@@ -6,9 +6,13 @@ import role from './role'
 import article from './article'
 import search from './remote-search'
 import task from './task'
+import rodeechart from './rode-echart'
 import rode from './rode'
 import device from './mock-device'
 import userManager from './userManager'
+import flyArea from './flyArea'
+import historycount from './history-count'
+
 
 const mocks = [
   ...user,
@@ -16,10 +20,15 @@ const mocks = [
   ...article,
   ...search,
   ...rode,
+  ...rodeechart,
   ...search,
   ...task,
   ...device,
-  ...userManager
+  ...userManager,
+  ...flyArea,
+  ...userManager,
+  ...historycount
+
 ]
 
 // for front mock

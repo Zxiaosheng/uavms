@@ -1,4 +1,11 @@
 export default {
+  historycount:{
+    id:'ID',
+    typeId:'TaskType',
+    date:'Date',
+    location:'TaskLocation',
+    result:'TaskResult'
+  },
   //user用户列表的数据、
   user: {
     name:"Name",
@@ -33,6 +40,9 @@ export default {
     btnDelete:'delete'
   },
   route: {
+    historycount:'HistoryCount',
+    historycountlist:'HistoryCountList',
+    historycountechart:'HistoryCountEchart',
     user: "User",
     userManager: "UserManager",
     taskCenter: 'TaskCenter',
@@ -145,6 +155,18 @@ export default {
     backToTopTips1: 'When the page is scrolled to the specified position, the Back to Top button appears in the lower right corner',
     backToTopTips2: 'You can customize the style of the button, show / hide, height of appearance, height of the return. If you need a text prompt, you can use element-ui el-tooltip elements externally',
     imageUploadTips: 'Since I was using only the vue@1 version, and it is not compatible with mockjs at the moment, I modified it myself, and if you are going to use it, it is better to use official version.'
+  },
+  flyArea:{
+    id:'Id',
+    type:'Type',
+    date:'Date',
+    task:'Task',
+    area:'Area',
+    longitude:'Longitude',
+    latitude:'Latitude',
+    actions:'Actions',
+    edit:'Edit',
+    delete:'Delete'
   },
   table: {
     dynamicTips1: 'Fixed header, sorted by header order',

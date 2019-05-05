@@ -1,4 +1,11 @@
 export default {
+  historycount:{
+    id:'编号',
+    typeId:'任务类型',
+    date:'日期',
+    location:'任务地点',
+    result:'任务执行结果'
+  },
   user: {
     name:"姓名",
     id: '用户ID',
@@ -32,6 +39,9 @@ export default {
     btnDelete:'删除'
   },
   route: {
+    historycount:'历史执行次数',
+    historycountlist:'历史执行次数列表',
+    historycountechart:'历史执行次数统计图',
     user:"用户管理",
     userManager:"用户列表",
     taskCenter: '任务中心',
@@ -40,6 +50,8 @@ export default {
     rode: '路线管理',
     rodelist: '路线统计',
     rodeechart: '图表',
+    trouble: '故障管理',
+    troublelist: '故障列表',
     dashboard: '首页',
     documentation: '文档',
     guide: '引导页',
@@ -156,6 +168,19 @@ export default {
     backToTopTips1: '页面滚动到指定位置会在右下角出现返回顶部按钮',
     backToTopTips2: '可自定义按钮的样式、show/hide、出现的高度、返回的位置 如需文字提示，可在外部使用Element的el-tooltip元素',
     imageUploadTips: '由于我在使用时它只有vue@1版本，而且和mockjs不兼容，所以自己改造了一下，如果大家要使用的话，优先还是使用官方版本。'
+  },
+  flyArea:{
+    id:'编号',
+    type:'机型',
+    date:'执行时间',
+    task:'执行任务',
+    area:'飞行区域',
+    longitude:'经度',
+    latitude:'维度',
+    actions:'操作',
+    edit:'编辑',
+    delete:'删除'
+
   },
   table: {
     dynamicTips1: '固定表头, 按照表头顺序排序',

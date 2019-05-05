@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" :class="className" :style="{height:height,width:width}" />
+  <div :id="id" :class="className" :style="{height:height,width:width}" style="border-radius: 4px"/>
 </template>
 
 <script>
@@ -23,7 +23,7 @@
       },
       height: {
         type: String,
-        default: '600px'
+        default: '400px'
       }
     },
     data(){
@@ -48,89 +48,124 @@
         this.chart = echarts.init(document.getElementById(this.id))
         //完成图表绘制配置
         this.chart.setOption({
-          title: {
-            text: '柱状图',
-            subtext: '各省市冰激凌卡销量',
-            //left:'center',
-            left: '10%',
-            top: '2%'
+          grid:{
+            //区域是否包含坐标轴的刻度标签
+            containLabel:true,
+            left:'20',
+            right:'50',
+            bottom:'10',
+            // width:'84%'
           },
-          xAxis: {
-            data: ["广东", "福建", "浙江", "江苏", "山东"]
+          title: {
+            top:'10',
+            left:'20',
+            text: '当月任务报告',
+            textStyle:{
+              color:'#fff'
+            }
+          },
+          legend: {
+            top:'10',
+            data:['成功任务','失败任务'],
+            textStyle:{
+              color:'#fff'
+            }
+          },
+          xAxis:  {
+            type: 'category',
+            boundaryGap: false,
+            axisLine:{
+              lineStyle:{
+                color:'#fff'
+              }
+            },
+            data: [
+              '2019-05-01','2019-05-02','2019-05-03','2019-05-04','2019-05-05','2019-05-06','2019-05-07',
+              '2019-05-08','2019-05-09','2019-05-10','2019-05-11','2019-05-12','2019-05-13','2019-05-14',
+              '2019-05-15','2019-05-16','2019-05-17','2019-05-18','2019-05-19','2019-05-20','2019-05-21',
+              '2019-05-22','2019-05-23','2019-05-24','2019-05-25','2019-05-26','2019-05-27','2019-05-28',
+              '2019-05-29','2019-05-30','2019-05-31'
+            ]
           },
           yAxis: {
-            //起始点的值
-            gridIndex: 0,
-            min: 0,
-            max: 30,
-            //y轴增长步长
-            interval: 5
+            type: 'value',
+            axisLine:{
+              lineStyle:{
+                color:'#fff'
+              }
+            }
           },
-          //数据序列，数据分析的维度
           series: [
-            //可以多个纬度去分析
             {
-              //维度名称
-              name: '大王卡',
-              //该维度的图形类型
-              type: 'bar',
-              data: [10, 20, 28, 22, 10],
-              itemStyle: {
-                color: '#ffbc0c'
+              name:'成功任务',
+              type:'line',
+              color:'rgb(79,192,141)',
+              data:[11, 11, 15, 13, 12, 13, 10,11, 21, 15, 13, 12, 13, 10,11, 18, 15, 13, 12, 13, 10,11, 11, 15, 13, 12, 13, 9,15,12,17],
+              markPoint: {
+                data: [
+                  {type: 'max', name: '最大值'},
+                  {type: 'min', name: '最小值'}
+                ]
+              },
+              markLine: {
+                data: [
+                  {type: 'average', name: '平均值'},
+                  [
+                    {
+                      symbol: 'none',
+                      x: '96%',
+                      yAxis: 'max'
+                    },
+                    {
+                      symbol: 'circle',
+                      label: {
+                        normal: {
+                          position: 'start',
+                          formatter: '最大值'
+                        }
+                      },
+                      type: 'max',
+                      name: '最高点'
+                    }
+                  ]
+                ],
               }
             },
             {
-              //维度名称
-              name: '帝王卡',
-              //该维度的图形类型
-              type: 'bar',
-              data: [5, 10, 5, 20, 18],
-              itemStyle: {
-                color: '#4fc08d'
-              }
-            }
-          ],
-          //配置图例
-          legend: {
-            show: true,
-            data: [
-              //数据序列有几个，图例就应该有几个
-              {
-                name: '大王卡',
-                icon: 'circle'
+              name:'失败任务',
+              type:'line',
+              color:'#ff8280',
+              data:[1, 10, 2, 5, 3, 5, 0,1, 10, 2, 5, 3, 2, 0,1, 10, 2, 5, 8, 2, 0,5, 10, 2, 5, 3, 2, 0,10,6,3],
+              markPoint: {
+                data: [
+                  {name: '日最低', value: -2, xAxis: 1, yAxis: -1.5}
+                ]
               },
-              {
-                name: '帝王卡',
-                icon: 'circle'
-              }
-            ]
-          },
-          tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-              type: 'cross',
-              label: {
-                backgroundColor: '#304156'
+              markLine: {
+                data: [
+                  {type: 'average', name: '平均值'},
+                  [
+                    {
+                      symbol: 'none',
+                      x: '96%',
+                      yAxis: 'max'
+                    },
+                    {
+                      symbol: 'circle',
+                      label: {
+                        normal: {
+                          position: 'start',
+                          formatter: '最大值'
+                        }
+                      },
+                      type: 'max',
+                      name: '最高点'
+                    }
+                  ]
+                ]
               }
             }
-          },
-          //工具箱
-          toolbox: {
-            show: true,
-            orient: 'vertical',
-            left: 'right',
-            top: 'center',
-            feature: {
-              //标记
-              mark: { show: true },
-              //数据视图
-              dataView: { show: true, readOnly: false },
-              //刷新
-              restore: { show: true },
-              //保存图片
-              saveAsImage: { show: true }
-            }
-          },
+          ]
         })
       }
     }
