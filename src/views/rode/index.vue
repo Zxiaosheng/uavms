@@ -239,6 +239,7 @@
         })
       },
       handleCreate() {
+        this.resetTemp()
         this.dialogFormAdd = true
         // this.$nextTick(() => {
         //   this.$refs['dataForm'].clearValidate()
@@ -247,10 +248,21 @@
       addData() {
         this.$refs['AddForm'].validate((valid) => {
           if (valid) {
-            let time=new Date();
-            this.addtemp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-            this.addtemp.date1=time.getFullYear()+"-"+time.getMonth()+1+"-"+time.getDay()
-            this.addtemp.date2=time.getFullYear()+"-"+time.getMonth()+1+"-"+time.getDay()
+            let time1=this.addtemp.date1;
+            let time2=this.addtemp.date2;
+            let m1=time1.getMonth()+1
+            let m2=time2.getMonth()+1
+            let d1=time1.getDate()
+            let d2=time2.getDate()
+            if(d1<9){
+              d1='0'+d1;
+            }
+            if(d2<9){
+              d2='0'+d2;
+            }
+              this.addtemp.id = parseInt(Math.random() * 100) + 1024 // mock a id
+              this.addtemp.date1=time1.getFullYear()+"-"+0+m1+"-"+d1
+              this.addtemp.date2=time2.getFullYear()+"-"+0+m2+"-"+d2
             createNews(this.addtemp).then(() => {
               this.pageData.unshift(this.addtemp)
               this.dialogFormAdd = false
@@ -290,6 +302,17 @@
             })
           }
         })
+      },
+      resetTemp() {
+        this.addtemp = {
+          id:undefined,
+          date1: new Date(),
+          date2: new Date(),
+          start: '',
+          end:'',
+          task:'',
+          typeId: [],
+        }
       },
       handleModifyStatus(row, status) {
         this.$message({
