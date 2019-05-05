@@ -1,51 +1,54 @@
 export default {
-  historycount:{
-    id:'编号',
-    typeId:'任务类型',
-    date:'日期',
-    location:'任务地点',
-    result:'任务执行结果'
+  historycount: {
+    id: '编号',
+    typeId: '任务类型',
+    date: '日期',
+    location: '任务地点',
+    result: '任务执行结果'
   },
   user: {
-    name:"姓名",
+    name: '姓名',
     id: '用户ID',
-    date: "日期",
+    date: '日期',
     userType: '用户权限',
     sex: '性别',
-    telephone:'电话号码',
-    caption:"操作",
-    head:{
-      search:"搜索",
-      type:"类型",
-      title:"请输入搜索内容....",
-      limit:"请输入用户权限...",
-      sex:"请输入性别...",
-      add:"新增",
+    telephone: '电话号码',
+    caption: '操作',
+    head: {
+      search: '搜索',
+      type: '类型',
+      title: '请输入搜索内容....',
+      limit: '请输入用户权限...',
+      sex: '请输入性别...',
+      add: '新增'
     }
   },
-  task:{
-    taskId:'任务ID',
-    taskName:'任务名称',
-    taskDesc:'任务描述',
-    taskType:'任务类型',
-    startTime:'开始时间',
-    endTime:'结束时间',
-    taskUav:'任务机型',
-    taskStatus:'任务状态',
-    head:'负责人',
-    btnFinished:'完成',
-    btnStart:'开始',
-    btnPause:'暂停',
-    btnDelete:'删除'
+  task: {
+    taskId: '任务ID',
+    taskName: '任务名称',
+    taskDesc: '任务描述',
+    taskType: '任务类型',
+    startTime: '开始时间',
+    endTime: '结束时间',
+    taskUav: '任务机型',
+    taskStatus: '任务状态',
+    head: '负责人',
+    btnFinished: '完成',
+    btnStart: '开始',
+    btnPause: '暂停',
+    btnDelete: '删除'
   },
   route: {
-    historycount:'历史执行次数',
-    historycountlist:'历史执行次数列表',
-    historycountechart:'历史执行次数统计图',
-    user:"用户管理",
-    userManager:"用户列表",
+    flyArea: '历史飞行区域',
+    flyAreaList: '飞行区域统计表',
+    bMap: '飞行区域热力图',
+    historycount: '历史执行次数',
+    historycountlist: '历史执行次数列表',
+    historycountechart: '历史执行次数统计图',
+    user: '用户管理',
+    userManager: '用户列表',
     taskCenter: '任务中心',
-    taskBoard:'任务数据',
+    taskBoard: '任务数据',
     taskList: '任务列表',
     rode: '路线管理',
     rodelist: '路线统计',
@@ -122,7 +125,7 @@ export default {
     date2: '到达时间',
     start: '出发地点',
     end: '到达地点',
-    task: '任务',
+    task: '任务'
 
   },
   navbar: {
@@ -169,17 +172,17 @@ export default {
     backToTopTips2: '可自定义按钮的样式、show/hide、出现的高度、返回的位置 如需文字提示，可在外部使用Element的el-tooltip元素',
     imageUploadTips: '由于我在使用时它只有vue@1版本，而且和mockjs不兼容，所以自己改造了一下，如果大家要使用的话，优先还是使用官方版本。'
   },
-  flyArea:{
-    id:'编号',
-    type:'机型',
-    date:'执行时间',
-    task:'执行任务',
-    area:'飞行区域',
-    longitude:'经度',
-    latitude:'维度',
-    actions:'操作',
-    edit:'编辑',
-    delete:'删除'
+  flyArea: {
+    id: '编号',
+    type: '机型',
+    date: '执行时间',
+    task: '执行任务',
+    area: '飞行区域',
+    longitude: '经度',
+    latitude: '维度',
+    actions: '操作',
+    edit: '编辑',
+    delete: '删除'
 
   },
   table: {
