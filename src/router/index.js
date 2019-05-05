@@ -102,6 +102,28 @@ export const constantRoutes = [
       },
     ]
   },
+  {
+    path: '/trouble',
+    name: 'trouble',
+    component: Layout,
+    alwaysShow: true,
+    meta: {
+      title: 'trouble',
+      icon: 'table',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: 'index',
+        name: 'troublelist',
+        component: () => import('@/views/trouble'),
+        meta: {
+          title: 'troublelist',
+          roles: ['admin']
+        }
+      },
+    ]
+  },
   taskRouter,
   flyAreaRouter,
   {
