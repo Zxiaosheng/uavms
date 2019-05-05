@@ -23,9 +23,10 @@ const mocks = [
   ...task,
   ...device,
   ...userManager,
-  ...flyArea
+  ...flyArea,
   ...userManager,
   ...historycount
+
 ]
 
 // for front mock
