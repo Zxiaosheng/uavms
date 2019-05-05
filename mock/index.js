@@ -10,6 +10,8 @@ import rode from './rode'
 import device from './mock-device'
 import userManager from './userManager'
 import flyArea from './flyArea'
+import historycount from './history-count'
+
 
 const mocks = [
   ...user,
@@ -22,6 +24,8 @@ const mocks = [
   ...device,
   ...userManager,
   ...flyArea
+  ...userManager,
+  ...historycount
 ]
 
 // for front mock

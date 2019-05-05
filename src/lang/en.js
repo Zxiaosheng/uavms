@@ -1,4 +1,11 @@
 export default {
+  historycount:{
+    id:'ID',
+    typeId:'TaskType',
+    date:'Date',
+    location:'TaskLocation',
+    result:'TaskResult'
+  },
   //user用户列表的数据、
   user: {
     name:"Name",
@@ -32,6 +39,9 @@ export default {
     btnDelete:'delete'
   },
   route: {
+    historycount:'HistoryCount',
+    historycountlist:'HistoryCountList',
+    historycountechart:'HistoryCountEchart',
     user: "User",
     userManager: "UserManager",
     taskCenter: 'TaskCenter',

@@ -1,4 +1,11 @@
 export default {
+  historycount:{
+    id:'编号',
+    typeId:'任务类型',
+    date:'日期',
+    location:'任务地点',
+    result:'任务执行结果'
+  },
   user: {
     name:"姓名",
     id: '用户ID',
@@ -31,6 +38,9 @@ export default {
     btnDelete:'删除'
   },
   route: {
+    historycount:'历史执行次数',
+    historycountlist:'历史执行次数列表',
+    historycountechart:'历史执行次数统计图',
     user:"用户管理",
     userManager:"用户列表",
     taskCenter: '任务中心',

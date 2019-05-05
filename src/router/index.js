@@ -14,6 +14,8 @@ import nestedRouter from './modules/nested'
 import deviceRouter from './modules/device'
 import taskRouter from './modules/task'
 import flyAreaRouter from './modules/flyArea'
+import historycountRouter from './modules/historycount'
+
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -130,6 +132,7 @@ export const constantRoutes = [
       },
     ]
   },
+  historycountRouter,
 
   // {
   //   path: '/auth-redirect',
