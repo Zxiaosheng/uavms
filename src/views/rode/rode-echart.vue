@@ -235,6 +235,9 @@
       //某某地区飞行数据实时展示
       let option1 = {
         backgroundColor: 'rgb(31,45,41)',
+        textStyle: {
+          color: '#fff'
+        },
         title: {
           text: '某某地区飞行数据实时展示',
           textStyle: {

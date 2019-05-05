@@ -134,7 +134,7 @@
           <el-button
             size="mini"
             type="danger"
-            @click="stopUse(scope.index)">停用</el-button>
+            @click="stopUse(scope.row.id)">停用</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -184,10 +184,13 @@
       this.getList()
     },
     methods: {
-      stopUse(idx){
+      stopUse(id){
 
-
-        alert(idx)
+        this.page.list.filter(item=>{
+          if(id===item.id){
+            item.status='已停用'
+          }
+        })
       },
       async getList(){
 
