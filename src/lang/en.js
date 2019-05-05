@@ -21,6 +21,7 @@ export default {
       title: "Title",
       limit:"Limit...",
       sex:"Sexing...",
+      add:"Add",
     }
   },
   task:{
