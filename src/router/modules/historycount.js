@@ -8,7 +8,7 @@ const historycountRouter = {
     component: Layout,
     alwaysShow: true,
     meta: {
-      title: 'history-count',
+      title: 'historycount',
       icon: 'chart',
       roles: ['admin']
     },
@@ -18,7 +18,7 @@ const historycountRouter = {
         name: 'historycountlist',
         component: () => import('@/views/history-count'),
         meta: {
-          title: 'history-count-list',
+          title: 'historycountlist',
           roles: ['admin']
         }
       },
@@ -27,7 +27,7 @@ const historycountRouter = {
         name: 'historycountechart',
         component: () => import('@/views/history-count/count-echart'),
         meta: {
-          title: 'countechart',
+          title: 'historycountechart',
           roles: ['admin']
         }
       },
