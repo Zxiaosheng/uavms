@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="12"><div :id="id" :class="className" style="height:450px;width:800px"/></el-col>
-      <el-col :span="12"><div :id="id1" :class="className1" style="height:450px;width:800px"/></el-col>
+      <el-col :span="12"><div :id="id1" :class="className1" style="height:450px;width:800px;margin-top:10px"/></el-col>
     </el-row>
       <div :id="id2" :class="className2" style="height:1000px;width:100%"/>
   </div>
@@ -11,6 +11,7 @@
 <script>
   import echarts from 'echarts'
   import resize from '../../components/Charts/mixins/resize'
+  import { fetchChartList } from '@/api/rode-echart'
   export default {
     name: "rode-echart",
     mixins: [resize],
@@ -45,6 +46,24 @@
         chart: null,
         chart1: null,
         chart2:null,
+        list:[],
+        list1:[],
+        listQuery: {
+          page: 1,
+          limit: 20,
+          value:undefined,
+          name: undefined,
+
+        },
+      }
+    },
+    created(){
+      this.getList();
+    },
+    methods:{
+      async getList(){
+        const { data } = await fetchChartList(this.listQuery)
+        this.list=data.items
 
       }
     },
@@ -57,6 +76,7 @@
       this.chart = echarts.init(document.getElementById(this.id));
       this.chart1 = echarts.init(document.getElementById(this.id1));
       this.chart2 = echarts.init(document.getElementById(this.id2));
+
 
       //饼图
       this.chart.setOption({
@@ -90,13 +110,15 @@
             type: 'pie',
             radius: '55%',
             center: ['50%', '50%'],
-            data: [
-              {value: 335, name: '仓山区'},
-              {value: 310, name: '晋安区'},
-              {value: 274, name: '鼓楼区'},
-              {value: 235, name: '台江区'},
-              {value: 400, name: '马尾区'}
-            ].sort(function (a, b) {
+            data:this.list
+            //   [
+            //   {value:300,name:'仓山区'},
+            //   {value:332,name:'晋安区'},
+            //   {value:325,name:'鼓楼区'},
+            //   {value:432,name:'台江区'},
+            //   {value:402,name:'马尾区'}
+            // ]
+            .sort(function (a, b) {
               return a.value - b.value;
             }),
             roseType: 'radius',
