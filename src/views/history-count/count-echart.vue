@@ -1,14 +1,22 @@
 <template>
-    <div> {{msg}}</div>
+  <div class="chart-container">
+    <chart height="100%" width="100%" />
+  </div>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {msg: 'vue 模板页'}
-        }
-    }
+  import Chart from '@/components/Charts/HistorycountBar'
+
+  export default {
+    name: 'Bar',
+    components: { Chart }
+  }
 </script>
 
 <style>
+  .chart-container{
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 84px);
+  }
 </style>
