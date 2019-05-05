@@ -30,7 +30,7 @@
       return {
         chart:null,
         data:[
-          ['score', 'amount', 'typeName'],
+          ['score', 'amount', 'type'],
           [89.3, 8212, '其他任务'],
           [57.1, 8254, '医疗任务'],
           [74.4, 1032, '交通任务'],
@@ -60,7 +60,18 @@
           dataset: {
             source: this.data
           },
-          grid: {containLabel: true},
+          title: {
+            top:'10',
+            right:'20',
+            text: '服务领域',
+            textStyle:{
+              color:'#fff'
+            }
+          },
+          grid: {
+            containLabel: true,
+            left:'22'
+          },
           xAxis: {
             name: '服务数',
             axisLine:{
@@ -70,7 +81,7 @@
             },
           },
           yAxis: {
-            name:'服务领域',
+            name:'领域',
             type: 'category',
             axisLine:{
               lineStyle:{
@@ -83,7 +94,10 @@
             left: 'center',
             min: 10,
             max: 100,
-            text: ['High Score', 'Low Score'],
+            text: ['高服务域', '低服务域'],
+            textStyle:{
+              color:'#fff'
+            },
             // Map the score column to color
             dimension: 0,
             inRange: {
@@ -97,7 +111,7 @@
                 // Map the "amount" column to X axis.
                 x: 'amount',
                 // Map the "product" column to Y axis
-                y: 'typeName'
+                y: 'type'
               }
             }
           ]

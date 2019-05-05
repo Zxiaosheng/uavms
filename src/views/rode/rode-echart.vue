@@ -235,6 +235,9 @@
       //某某地区飞行数据实时展示
       let option1 = {
         backgroundColor: 'rgb(31,45,41)',
+        textStyle: {
+          color: '#fff'
+        },
         title: {
           text: '某某地区飞行数据实时展示',
           textStyle: {
@@ -252,7 +255,9 @@
         },
         legend: {
           data:['飞行路线数', '飞行机器数'],
-          color: '#ffffff'
+          textStyle: {
+            color: '#fff'
+          }
         },
         toolbox: {
           show: true,
@@ -302,7 +307,8 @@
             name: '路线总数',
             max: 30,
             min: 0,
-            boundaryGap: [0.2, 0.2]
+            boundaryGap: [0.2, 0.2],
+
           },
           {
             type: 'value',

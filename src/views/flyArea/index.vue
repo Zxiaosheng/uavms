@@ -26,15 +26,13 @@
       </el-button>
 
     </div>
-    <el-table :data="pageData" border  style="width: 100%;text-align: center">
+    <el-table  :data="pageData" border  style="width: 100%;text-align: center">
       <el-table-column prop="id" align="center" sortable :label="$t('flyArea.id')"  width="100">
       </el-table-column>
       <el-table-column prop="type.typeName" align="center" sortable :label="$t('flyArea.type')"  width="150">
       </el-table-column>
       <el-table-column prop="date" sortable :label="$t('flyArea.date')"  width="150">
-        <!--<template slot-scope="scope">-->
-          <!--<span>{{ scope.row.date | parseTime('{y}-{m}-{d}') }}</span>-->
-        <!--</template>-->
+
       </el-table-column>
       <el-table-column prop="task.taskName" sortable :label="$t('flyArea.task')" width="120">
       </el-table-column>
@@ -59,28 +57,28 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item :label="$t('flyArea.type')" prop="type">
+        <el-form-item :label="$t('flyArea.type')" prop="type" style="width: 100%">
           <el-select v-model="temp.type.typeName" class="filter-item" placeholder="Please select">
             <el-option v-for="item in flyType" :key="item.id" :label="item.typeName" :value="item.typeName" />
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('flyArea.date')" prop="date">
-          <el-date-picker v-model="temp.date" value-format="yyyy-MM-dd" type="datetime" placeholder="Please pick a date" />
+          <el-date-picker v-model="temp.date" value-format="yyyy-MM-dd" type="date" placeholder="Please pick a date" style="width: 100%"/>
         </el-form-item>
-        <el-form-item :label="$t('flyArea.task')" prop="type">
+        <el-form-item :label="$t('flyArea.task')" prop="type" style="width: 100%">
           <el-select v-model="temp.task.taskName" class="filter-item" placeholder="Please select">
             <el-option v-for="item in flyTask" :key="item.id" :label="item.taskName" :value="item.taskName" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('flyArea.area')" prop="type">
+        <el-form-item :label="$t('flyArea.area')" prop="type" style="width: 100%">
           <el-select v-model="temp.area.areaName" class="filter-item" placeholder="Please select">
             <el-option v-for="item in flyArea" :key="item.id" :label="item.areaName" :value="item.areaName" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('flyArea.longitude')" prop="longitude">
+        <el-form-item :label="$t('flyArea.longitude')" prop="longitude" style="width: 100%">
           <el-input v-model="temp.longitude" />
         </el-form-item>
-        <el-form-item :label="$t('flyArea.latitude')" prop="latitude">
+        <el-form-item :label="$t('flyArea.latitude')" prop="latitude" style="width: 100%">
           <el-input v-model="temp.latitude" />
         </el-form-item>
 
@@ -161,6 +159,7 @@
                 longitude:'',
                 latitude:''
               },
+              listLoading:false,
 
             }
         },
@@ -176,13 +175,13 @@
         })
       },
       methods: {
+
         //获得每页要显示的数据
         getList() {
           let {page, limit, task, sort, type,area} = this.listQuery;
 
           //过滤查询结果集（先过滤，再分页）
           let filterData = this.tableData.filter(item => {
-            this.listQuery.page = 1;
             if (task && item.task.id!=task) return false
             if (type && item.type.id != type) return false
             if (area && item.area.id != area) return false
@@ -208,7 +207,7 @@
         },
         handleUpdate(row) {
           this.temp = Object.assign({}, row) // copy obj
-          this.temp.date = new Date(this.temp.date)
+//          this.temp.date = new Date(this.temp.date)
           this.dialogStatus = 'update'
           this.dialogFormVisible = true
           this.$nextTick(() => {
@@ -219,7 +218,7 @@
           this.$refs['dataForm'].validate((valid) => {
             if (valid) {
               const tempData = Object.assign({}, this.temp)
-              tempData.date = +new Date(tempData.date) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
+//              tempData.date = +new Date(tempData.date) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
               updateArticle(tempData).then(() => {
                 for (const v of this.pageData) {
                   if (v.id === this.temp.id) {
@@ -260,7 +259,8 @@
           this.temp = {
             id: undefined,
             type: {},
-            date:new Date(),
+            date:'',
+//            date:new Date(),
             task:{},
             area:{},
             longitude:'',
