@@ -1,5 +1,6 @@
 export default {
   user: {
+    name:"姓名",
     id: '用户ID',
     date: "日期",
     userType: '用户权限',
@@ -10,6 +11,8 @@ export default {
       search:"搜索",
       type:"类型",
       title:"请输入搜索内容....",
+      limit:"请输入用户权限...",
+      sex:"请输入性别...",
     }
   },
   task:{

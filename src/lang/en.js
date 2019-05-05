@@ -1,6 +1,7 @@
 export default {
   //user用户列表的数据、
   user: {
+    name:"Name",
     id: 'Id',
     date: "Date",
     userType: 'UserPrivileges',
@@ -11,6 +12,8 @@ export default {
       search: "Search",
       type: "Type",
       title: "Title",
+      limit:"Limit...",
+      sex:"Sexing...",
     }
   },
   task:{
