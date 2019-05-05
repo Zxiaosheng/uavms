@@ -33,24 +33,29 @@
 
         }
       },
+      methods:{
+        mockdata(arr){
+          for(let i=0;i<12;i++) {
+            let l = Mock.mock("@integer(1,300)")
+            arr.push(l)
+          }
+          return arr
+        }
+      },
       mounted() {
         const List1 = []
-        for(let i=0;i<12;i++) {
-          let l = Mock.mock("@integer(1,300)")
-          List1.push(l)
-        }
         const List2 = []
-        for(let i=0;i<12;i++) {
-          let l = Mock.mock("@integer(1,300)")
-          List2.push(l)
-        }
-
+        const List3 = []
+        const List4 = []
+        const List5 = []
+        const List6 = []
 
         this.chart = echarts.init(document.getElementById(this.id))
 
 
         let option = {
-          color: ['#003366', '#006699', '#4cabce', '#e5323e'],
+//          color: ['#003366', '#006699', '#4cabce', '#e5323e'],
+          title: {text: '执行次数统计'},
           tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -58,12 +63,15 @@
             }
           },
           legend: {
-            data: ['消防型', '物流型', '医疗型', '天眼型','交通型','其它型']
+            data: ['消防型', '物流型', '医疗型', '天眼型','交通型','其它型'],
+            selected: {
+              '交通型': false, '天眼型': false, '其它型': false
+            }
           },
           toolbox: {
             show: true,
             orient: 'vertical',
-            left: 'right',
+            left: 'left',
             top: 'center',
             feature: {
               mark: {show: true},
@@ -91,30 +99,32 @@
               name: '消防型',
               type: 'bar',
               barGap: 0,
-              data: List1
+              data: this.mockdata(List1)
             },
             {
               name: '物流型',
               type: 'bar',
-              data: List2
+              data: this.mockdata(List2)
             },
             {
               name: '医疗型',
               type: 'bar',
-              data: [98, 77, 101, 99, 40]
+              data: this.mockdata(List3)
             },
             {
               name: '天眼型',
               type: 'bar',
-              data: [98, 77, 101, 99, 40]
-            },            {
+              data: this.mockdata(List4)
+            },
+            {
               name: '交通型',
               type: 'bar',
-              data: [98, 77, 101, 99, 40]
-            },            {
+              data: this.mockdata(List5)
+            },
+            {
               name: '其它型',
               type: 'bar',
-              data: [98, 77, 101, 99, 40]
+              data: this.mockdata(List6)
             }
           ]
         };
