@@ -1,10 +1,21 @@
 <template>
   <div class="chart-container">
+
     <el-row>
-      <el-col :span="12"><div :id="id" :class="className" style="height:450px;width:760px;margin:20px"/></el-col>
-      <el-col :span="12"><div :id="id1" :class="className1" style="height:450px;width:760px;margin:20px;"/></el-col>
+      <el-col :span="12">
+        <div :id="id" class="grid-content" :class="className" style="height:430px;width:760px;padding:0 20px 0 20px"/>
+      </el-col>
+      <el-col :span="12">
+        <div :id="id1" class="grid-content" :class="className1" style="height:430px;width:760px;padding:0 20px 0 20px"/>
+      </el-col>
     </el-row>
-      <div :id="id2" :class="className2" style="height:1000px;width:100%"/>
+
+    <el-row>
+      <el-col :span="24">
+        <div :id="id2" class="grid-content" :class="className2" style="height:100%;width:100%;padding:0 20px 0 20px;margin-right: 20px"/>
+      </el-col>
+    </el-row>
+
   </div>
 </template>
 
@@ -46,8 +57,7 @@
         chart: null,
         chart1: null,
         chart2:null,
-        list:[],
-        list1:[]
+        list:[]
       }
     },
     mounted() {
@@ -60,10 +70,10 @@
       this.chart1 = echarts.init(document.getElementById(this.id1));
       this.chart2 = echarts.init(document.getElementById(this.id2));
 
+      //饼图
       fetchChartList().then(response => {
         this.list = response.data.items
 
-        //饼图
         this.chart.setOption({
           backgroundColor: 'rgb(31,45,41)',
 
@@ -143,14 +153,15 @@
       })
 
 
-        //路线图
-        this.chart2.setOption({
-          backgroundColor: '#ffffff',
+      //路线图
+      this.chart2.setOption({
+          backgroundColor: 'rgb(31,45,41)',
           title: {
-            text: '朴姓人口迁徙图',
+            text: '实时飞行路线图',
             left: 'center',
+            top:'10',
             textStyle: {
-              color: '#fff'
+              color: '#fff',
             }
           },
           legend: {
@@ -234,18 +245,18 @@
         })
 
 
-      fetchMChartList().then(response =>{
-        this.list1=response.data.items
-
-        console.log(this.list1)
       //某某地区飞行数据实时展示
+      fetchMChartList().then(response =>{
+        let list1=response.data.items
+
       let option1 = {
         backgroundColor: 'rgb(31,45,41)',
         textStyle: {
           color: '#fff'
         },
         title: {
-          text: '某某地区飞行数据实时展示',
+          text: '飞行数据实时展示',
+          top:'10',
           textStyle: {
             color: '#fff'
           }
@@ -261,6 +272,7 @@
         },
         legend: {
           data:['飞行路线数', '飞行机器数'],
+          top:'10',
           textStyle: {
             color: '#fff'
           }
@@ -335,8 +347,8 @@
               var res = [];
               var len = 10;
               while (len--) {
-                console.log(this.list1)
-                res.push(this.list1.m);
+                console.log(list1)
+                res.push(list1.m);
 
               }
               return res;
@@ -349,7 +361,7 @@
               var res = [];
               var len = 0;
               while (len < 10) {
-                res.push(this.list1.r);
+                res.push(list1.r);
                 len++;
               }
               return res;
@@ -385,7 +397,17 @@
   .chart-container{
     position: relative;
     width: 100%;
-    height: calc(100vh - 84px);
+    height: calc(100vh - 6px);
     background-color: rgb(48,65,86);
+  }
+  .el-col div{
+    margin: 20px;
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 360px;
   }
 </style>
