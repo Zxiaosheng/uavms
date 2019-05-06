@@ -1,4 +1,8 @@
 export default {
+  device:{
+    title: 'DeviceManagement'
+
+  },
   historycount: {
     id: 'ID',
     typeId: 'TaskType',
@@ -40,6 +44,9 @@ export default {
     btnDelete: 'delete'
   },
   route: {
+    device: 'Device',
+    deviceList: 'deviceList',
+    addDevice: 'AddDevice',
     flyArea: 'flyArea',
     flyAreaList: 'flyAreaList',
     bMap: 'bMap',
