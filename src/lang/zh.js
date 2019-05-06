@@ -4,7 +4,7 @@ export default {
     typeId: '任务类型',
     date: '日期',
     location: '任务地点',
-    result: '任务执行结果'
+    result: '执行结果'
   },
   user: {
     name: '姓名',
