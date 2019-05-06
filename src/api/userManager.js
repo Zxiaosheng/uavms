@@ -7,7 +7,7 @@ export function userList(query) {
     params: query
   })
 }
-//导出新闻视图页的数据
+//导出用户视图页的数据
 export function userMap(query) {
   return request({
     url: '/userMap',

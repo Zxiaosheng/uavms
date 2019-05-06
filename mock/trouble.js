@@ -6,18 +6,17 @@ const count = 100
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
     "id":"@increment",
-    "date1":"@date",
-    "date2":"@date",
-    "start":"@city()",
-    "end":"@city()",
-    "typeId|1": [{id:'1',typeName:'消防型'},{id:'2',typeName:'物流型'},{id:'3',typeName:'医疗型'},{id:'4',typeName:'天眼型'}],
-    "task":"@ctitle(10,20)"
+    "date":"@date",
+    "planType|1": [{id:'1',typeName:'救援无人机'},{id:'2',typeName:'测绘无人机'},{id:'3',typeName:'拍摄无人机'},{id:'4',typeName:'交通无人机'}],
+    "troubleType|1": [{id:'1',typeName:'电机故障'},{id:'2',typeName:'机械故障'},{id:'3',typeName:'操作故障'}],
+    "troubleCount|1-100": 8,
+    "troubleReason": "@cparagraph"
   }))
 }
 
 export default [
   {
-    url: '/rode/list',
+    url: '/trouble/list',
     type: 'get',
     response: config => {
       // const {date, type, title, page = 1, limit = 20, sort } = config.query
@@ -32,8 +31,8 @@ export default [
       // if (sort === '-id') {
       //   mockList = mockList.reverse()
       // }
-      // const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
 
+      // const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
 
       return {
         code: 20000,
@@ -45,7 +44,7 @@ export default [
     }
   },
   {
-    url: '/rode/update',
+    url: '/trouble/update',
     type: 'post',
     response: _ => {
       return {
@@ -55,7 +54,7 @@ export default [
     }
   },
   {
-    url: '/rode/create',
+    url: '/trouble/create',
     type: 'post',
     response: _ => {
       return {

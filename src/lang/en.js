@@ -1,54 +1,56 @@
 export default {
-  historycount:{
-    id:'ID',
-    typeId:'TaskType',
-    date:'Date',
-    location:'TaskLocation',
-    result:'TaskResult'
+  historycount: {
+    id: 'ID',
+    typeId: 'TaskType',
+    date: 'Date',
+    location: 'TaskLocation',
+    result: 'TaskResult'
   },
-  //user用户列表的数据、
+  // user用户列表的数据、
   user: {
-    name:"Name",
+    name: 'Name',
     id: 'Id',
-    date: "Date",
+    date: 'Date',
     userType: 'UserPrivileges',
     sex: 'Sex',
     telephone: 'Telephone',
-    caption: "Caption",
+    caption: 'Caption',
     head: {
-      search: "Search",
-      type: "Type",
-      title: "Title",
-      limit:"Limit...",
-      sex:"Sexing...",
-      add:"Add",
+      search: 'Search',
+      type: 'Type',
+      title: 'Title',
+      limit: 'Limit...',
+      sex: 'Sexing...',
+      add: 'Add'
     }
   },
-  task:{
-    taskId:'taskId',
-    taskName:'taskName',
-    taskDesc:'taskDesc',
-    taskType:'taskType',
-    startTime:'startTime',
-    endTime:'endTime',
-    taskUav:'taskUav',
-    taskStatus:'taskStatus',
-    head:'head',
-    btnFinished:'finished',
-    btnStart:'start',
-    btnPause:'pause',
-    btnDelete:'delete'
+  task: {
+    taskId: 'taskId',
+    taskName: 'taskName',
+    taskDesc: 'taskDesc',
+    taskType: 'taskType',
+    startTime: 'startTime',
+    endTime: 'endTime',
+    taskUav: 'taskUav',
+    taskStatus: 'taskStatus',
+    head: 'head',
+    btnFinished: 'finished',
+    btnStart: 'start',
+    btnPause: 'pause',
+    btnDelete: 'delete'
   },
   route: {
-    historycount:'HistoryCount',
-    historycountlist:'HistoryCountList',
-    historycountechart:'HistoryCountEchart',
-    user: "User",
-    userMap:"UserMap",
-    userManager: "UserManager",
+    flyArea: 'flyArea',
+    flyAreaList: 'flyAreaList',
+    bMap: 'bMap',
+    historycount: 'HistoryCount',
+    historycountlist: 'HistoryCountList',
+    historycountechart: 'HistoryCountEchart',
+    user: 'User',
+    userManager: 'UserManager',
     taskCenter: 'TaskCenter',
     taskList: 'TaskList',
-    taskBoard:'TaskBoard',
+    taskBoard: 'TaskBoard',
     dashboard: 'Dashboard',
     documentation: 'Documentation',
     guide: 'Guide',
@@ -157,17 +159,17 @@ export default {
     backToTopTips2: 'You can customize the style of the button, show / hide, height of appearance, height of the return. If you need a text prompt, you can use element-ui el-tooltip elements externally',
     imageUploadTips: 'Since I was using only the vue@1 version, and it is not compatible with mockjs at the moment, I modified it myself, and if you are going to use it, it is better to use official version.'
   },
-  flyArea:{
-    id:'Id',
-    type:'Type',
-    date:'Date',
-    task:'Task',
-    area:'Area',
-    longitude:'Longitude',
-    latitude:'Latitude',
-    actions:'Actions',
-    edit:'Edit',
-    delete:'Delete'
+  flyArea: {
+    id: 'Id',
+    type: 'Type',
+    date: 'Date',
+    task: 'Task',
+    area: 'Area',
+    longitude: 'Longitude',
+    latitude: 'Latitude',
+    actions: 'Actions',
+    edit: 'Edit',
+    delete: 'Delete'
   },
   table: {
     dynamicTips1: 'Fixed header, sorted by header order',

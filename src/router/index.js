@@ -7,15 +7,16 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 /* Router Modules */
-import componentsRouter from './modules/components'
+/* import componentsRouter from './modules/components'
 import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
-import nestedRouter from './modules/nested'
+import nestedRouter from './modules/nested'*/
 import deviceRouter from './modules/device'
 import taskRouter from './modules/task'
 import flyAreaRouter from './modules/flyArea'
 import historycountRouter from './modules/historycount'
 import userRouter from './modules/userManager'
+
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -99,7 +100,7 @@ export const constantRoutes = [
           title: 'rodeechart',
           roles: ['admin']
         }
-      },
+      }
     ]
   },
   {
@@ -121,7 +122,7 @@ export const constantRoutes = [
           title: 'troublelist',
           roles: ['admin']
         }
-      },
+      }
     ]
   },
   taskRouter,
@@ -132,7 +133,40 @@ export const constantRoutes = [
     hidden: true
   },
   historycountRouter,
-  userRouter
+  userRouter,
+  {
+    path: '/flight',
+    name: 'flight',
+    component: Layout,
+    alwaysShow: true,
+    meta: {
+      title: '路线追踪',
+      icon: 'international',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: 'index',
+        name: 'flightlist',
+        component: () => import('@/views/flight'),
+        meta: {
+          title: '路线',
+          roles: ['admin']
+        }
+      }/*,
+      {
+        path: 'index',
+        name: 'flight',
+        //component: () => import('@/views/flight'),
+        meta: {
+          title: '路线显示',
+          roles: ['admin']
+        }
+      },*/
+
+    ]
+  }
+
   // {
   //   path: '/auth-redirect',
   //   component: () => import('@/views/login/auth-redirect'),

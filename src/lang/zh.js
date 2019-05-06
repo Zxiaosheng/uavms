@@ -4,23 +4,24 @@ export default {
     typeId: '任务类型',
     date: '日期',
     location: '任务地点',
-    result: '任务执行结果'
+
+    result: '执行结果'
   },
   user: {
-    name: "姓名",
+    name: '姓名',
     id: '用户ID',
-    date: "日期",
+    date: '日期',
     userType: '用户权限',
     sex: '性别',
     telephone: '电话号码',
-    caption: "操作",
+    caption: '操作',
     head: {
-      search: "搜索",
-      type: "类型",
-      title: "请输入搜索内容....",
-      limit: "请输入用户权限...",
-      sex: "请输入性别...",
-      add: "新增",
+      search: '搜索',
+      type: '类型',
+      title: '请输入搜索内容....',
+      limit: '请输入用户权限...',
+      sex: '请输入性别...',
+      add: '新增'
     }
   },
   task: {
@@ -39,12 +40,15 @@ export default {
     btnDelete: '删除'
   },
   route: {
+    flyArea: '历史飞行区域',
+    flyAreaList: '飞行区域统计表',
+    bMap: '飞行区域热力图',
     historycount: '历史执行次数',
     historycountlist: '历史执行次数列表',
     historycountechart: '历史执行次数统计图',
-    user: "用户管理",
-    userMap: "用户分布",
-    userManager: "用户列表",
+    user: '用户管理',
+    userManager: '用户列表',
+    userMap:'用户图表',
     taskCenter: '任务中心',
     taskBoard: '任务数据',
     taskList: '任务列表',
@@ -123,7 +127,16 @@ export default {
     date2: '到达时间',
     start: '出发地点',
     end: '到达地点',
-    task: '任务',
+    task: '任务'
+
+  },
+  flight: {
+    id: '编号',
+    typeId: '型号',
+    date1: '出发时间',
+    date2: '到达时间',
+    start: '出发地点',
+    end: '到达地点'
 
   },
   navbar: {

@@ -130,11 +130,11 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="">编辑</el-button>
+            @click="toEdit(scope.row)">编辑</el-button>
           <el-button
             size="mini"
             type="danger"
-            @click="stopUse(scope.index)">停用</el-button>
+            @click="stopUse(scope.row.id)">停用</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -150,6 +150,44 @@
         :total="page.total">
       </el-pagination>
     </div>
+
+    <el-dialog title="修改设备信息" :visible.sync="dialogFormVisible">
+      <el-form :model="editData">
+        <el-form-item label="设备ID">
+          <el-input v-model="editData.id" :disabled="true"></el-input>
+        </el-form-item>
+        <el-form-item label="设备名称">
+          <el-input v-model="editData.name"></el-input>
+        </el-form-item>
+        <el-form-item label="设备简介">
+          <el-input type="textarea" v-model="editData.desc" rows="6"></el-input>
+        </el-form-item>
+        <el-form-item label="设备类型">
+          <el-select v-model="editData.type" placeholder="">
+            <el-option label="微型" value="微型"></el-option>
+            <el-option label="小型" value="小型"></el-option>
+            <el-option label="中型" value="中型"></el-option>
+            <el-option label="大型" value="大型"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="当前状态">
+          <el-select v-model="editData.status" placeholder="">
+            <el-option label="飞行中" value="飞行中"></el-option>
+            <el-option label="待命中" value="待命中"></el-option>
+            <el-option label="充电中" value="充电中"></el-option>
+            <el-option label="故障中" value="故障中"></el-option>
+            <el-option label="维修中" value="维修中"></el-option>
+            <el-option label="离线中" value="离线中"></el-option>
+            <el-option label="电量低" value="电量低"></el-option>
+            <el-option label="已停用" value="已停用"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="edit">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -174,8 +212,14 @@
           limit: 10,
           page:1,
           sort: '+id'
-        }
+        },
+        editData:{},
+        flag:'',
+        dialogFormVisible: false,
       }
+    },
+    computed:{
+
     },
     components: {
       DevChart
@@ -184,10 +228,50 @@
       this.getList()
     },
     methods: {
-      stopUse(idx){
+      toEdit(item){
+        this.editData={...item}
+        this.flag=this.page.list.indexOf(item)
+        this.dialogFormVisible=true
+      },
+      edit(){
+        this.page.list.splice(this.flag,1,{...this.editData})
+        this.dialogFormVisible = false
+      },
+      stopUse(id){
 
+        this.$confirm('此操作将使得该设备停用, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
 
-        alert(idx)
+          let msg={};
+          this.page.list.filter(item=>{
+
+            if(id===item.id){
+              if(item.status==='飞行中'){
+                msg={
+                  type: 'info',
+                  message: '此设备正在执行任务'
+                }
+              }else{
+                item.status='已停用'
+                msg={
+                  type: 'success',
+                  message: '停用成功'
+                }
+              }
+            }
+          })
+
+          this.$message(msg);
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });
+        });
+
       },
       async getList(){
 
