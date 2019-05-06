@@ -188,10 +188,11 @@ export default {
     task: '执行任务',
     area: '飞行区域',
     longitude: '经度',
-    latitude: '维度',
+    latitude: '纬度',
     actions: '操作',
     edit: '编辑',
-    delete: '删除'
+    delete: '删除',
+    clear: '清空'
 
   },
   table: {
