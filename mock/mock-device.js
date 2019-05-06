@@ -9,6 +9,7 @@ for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
     id: '@increment',
     'type|1': ['微型', '微型', '中型', '大型'],
+    'taskType|1': ['救援', '测绘', '拍摄', '物流'],
     'status|1': ['飞行中', '待命中', '充电中', '故障中', '维修中' , '离线中', '电量低', '已停用'],
     num: +Mock.Random.date('T'),
     name: '@cword(2,5)无人机',

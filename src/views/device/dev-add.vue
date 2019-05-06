@@ -9,6 +9,14 @@
       <el-form-item label="设备编号" prop="num">
         <el-input v-model="ruleForm.num"></el-input>
       </el-form-item>
+      <el-form-item label="可执行任务" prop="taskType">
+        <el-select v-model="ruleForm.taskType" placeholder="请选择设备类型" style="width: 100%">
+          <el-option label="救援" value="救援"></el-option>
+          <el-option label="测绘" value="测绘"></el-option>
+          <el-option label="拍摄" value="拍摄"></el-option>
+          <el-option label="交通" value="交通"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="类型" prop="type">
         <el-select v-model="ruleForm.type" placeholder="请选择设备类型" style="width: 100%">
           <el-option label="微型" value="微型"></el-option>
@@ -197,6 +205,9 @@
           ],
           status: [
             { required: true, message: '请至少选择一个状态', trigger: 'change' }
+          ],
+          taskType: [
+            { required: true, message: '请至少选择一个可执行任务', trigger: 'change' }
           ]
         }
       }

@@ -64,8 +64,8 @@
 
           <el-form label-position="left" inline class="demo-table-expand">
             <dev-chart :dev="props.row"></dev-chart>
-            <el-form-item label="设备名称">
-              <span>{{ props.row.name }}</span>
+            <el-form-item label="可执行任务">
+              <span>{{ props.row.taskType }}</span>
             </el-form-item>
             <el-form-item label="电池容量">
               <span>{{ props.row.powerMax }} mAh</span>
