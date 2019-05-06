@@ -20,9 +20,9 @@ const deviceRouter = {
     },
     {
       path: 'add',
-      component: () => import('@/views/device/dev-list'),
-      name: 'DeviceList',
-      meta: { title: '设备' }
+      component: () => import('@/views/device/dev-add'),
+      name: 'DeviceAdd',
+      meta: { title: '设备添加' }
     },
     {
       path: 'demo',
