@@ -7,8 +7,11 @@
       <el-date-picker v-model="listQuery.date" type="date" :placeholder="$t('historycount.date')" size="medium" style="width: 230px"/>
 
       <el-select v-model="listQuery.type" value-key="id" @change="getList" :placeholder="$t('historycount.typeId')" clearable class="filter-item" style="width: 130px">
-        <el-option v-for="item in typeId" :key="item.typeName" :label="item.typeName" :value="item.id" />
+        <el-option v-for="item in typeId" :key="item.typeName" :label="item.typeName" :value="item.typeName" />
       </el-select>
+      <!--<el-select v-model="listQuery.type1" value-key="id" @change="getList" :placeholder="$t('historycount.result')" clearable class="filter-item" style="width: 130px">-->
+        <!--<el-option v-for="item in result" :key="item.typeName" :label="item.typeName" :value="item.id" />-->
+      <!--</el-select>-->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
@@ -26,12 +29,16 @@
 
       <el-table-column prop="location" align="center" :label="$t('historycount.location')" width="200"></el-table-column>
 
-      <el-table-column prop="result" align="center" :label="$t('historycount.result')" sortable width="200">
+      <!--<el-table-column prop="result" align="center" :label="$t('historycount.result')" sortable width="200">-->
+        <!--<template slot-scope="scope">-->
+          <!--<el-tag :type="scope.row.result=='Success'?'success':'danger'">{{scope.row.result}}</el-tag>-->
+        <!--</template>-->
+      <!--</el-table-column>-->
+      <el-table-column prop="result.typeName" align="center" :label="$t('historycount.result')" sortable  width="200">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.result=='Success'?'success':'danger'">{{scope.row.result}}</el-tag>
+          <el-tag :type="scope.row.result.typeName=='Success'?'success':'danger'">{{scope.row.result.typeName}}</el-tag>
         </template>
       </el-table-column>
-
       <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="primary"  @click="handleUpdate(row)">
@@ -51,9 +58,9 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm"  :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
 
-        <el-form-item :label="$t('historycount.typeId')" prop="typeId">
-          <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
+        <el-form-item :label="$t('historycount.result')" prop="result">
+          <el-select v-model="temp.result.typeName" class="filter-item" placeholder="Please select">
+            <el-option v-for="item in result"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
 
@@ -65,8 +72,13 @@
           <el-input v-model="temp.location" />
         </el-form-item>
 
-        <el-form-item :label="$t('historycount.result')">
-          <el-input v-model="temp.result" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+        <!--<el-form-item :label="$t('historycount.result')">-->
+          <!--<el-input v-model="temp.result" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />-->
+        <!--</el-form-item>-->
+        <el-form-item :label="$t('historycount.typeId')" prop="typeId">
+          <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select">
+            <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -82,18 +94,24 @@
     <el-dialog title="新增" :visible.sync="dialogFormAdd">
       <el-form ref="AddForm"  :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
         <el-form-item  :label="$t('historycount.typeId')" prop="typeId">
-          <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
-          </el-select>
-        </el-form-item>
+        <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select">
+          <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
+        </el-select>
+      </el-form-item>
+
         <el-form-item :label="$t('historycount.date')"  prop="date">
           <el-date-picker v-model="temp.date" value-format="yyyy-MM-dd" type="date" placeholder="Please pick a date" />
         </el-form-item>
         <el-form-item :label="$t('historycount.location')"  prop="title">
           <el-input v-model="temp.location" />
         </el-form-item>
-        <el-form-item :label="$t('historycount.result')" >
-          <el-input v-model="temp.result" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+        <!--<el-form-item :label="$t('historycount.result')" >-->
+          <!--<el-input v-model="temp.result" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />-->
+        <!--</el-form-item>-->
+        <el-form-item  :label="$t('historycount.result')" prop="result">
+          <el-select v-model="temp.result.typeName" class="filter-item" placeholder="Please select">
+            <el-option v-for="item in result"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -127,6 +145,7 @@
         total: 0,
         pageData:[],
         typeId:[{id:'1',typeName:'消防型'},{id:'2',typeName:'物流型'},{id:'3',typeName:'医疗型'},{id:'4',typeName:'天眼型'},{id:'5',typeName:'交通型'},{id:'6',typeName:'其它型'}],
+        result:[{id:'1',typeName:'Success'},{id:'2',typeName:'Failure'}],
         textMap: {
           update: 'Edit',
           create: 'Create'
@@ -135,8 +154,9 @@
           id:'',
           date: new Date(),
           location: '',
-          result:'',
-          typeId: [{id:1,typeName:'消防型'}]
+//          result:'',
+          typeId: [{id:1,typeName:'消防型'}],
+          result: [{id:1,typeName:'Success'}]
         },
         listQuery: {
           page: 1,
@@ -144,8 +164,9 @@
           id:undefined,
           date: undefined,
           location: undefined,
-          result:undefined,
+//          result:undefined,
           type: undefined,
+          type1: undefined,
 
         },
         downloadLoading: false
@@ -165,13 +186,14 @@
     methods:{
       getList() {
         this.listLoading = true;
-        let{page,limit,result,date,location,type}=this.listQuery;
+        let{page,limit,date,location,type,type1}=this.listQuery;
 
         let filterData=this.list.filter(item=>{
           if (date && item.date !== date) return false
           if (type && item.typeId.id !== type) return false
+          if (type1 && item.result.id !== type1) return false
           if (location && item.location.indexOf(location) < 0) return false
-          if (result && item.result.indexOf(result) < 0) return false
+//          if (result && item.result.indexOf(result) < 0) return false
           return true
         })
 
@@ -193,7 +215,18 @@
           this.$refs['dataForm'].clearValidate()
         })
       },
+      resetTemp() {
+        this.temp = {
+          id:'',
+          date: new Date(),
+          location: '',
+//          result:'',
+          typeId: [{id:1,typeName:'消防型'}],
+          result: [{id:1,typeName:'Success'}]
+        }
+      },
       handleCreate() {
+        this.resetTemp()
         this.dialogFormAdd = true
         // this.$nextTick(() => {
         //   this.$refs['dataForm'].clearValidate()
