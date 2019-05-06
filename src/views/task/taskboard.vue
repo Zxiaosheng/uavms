@@ -13,7 +13,7 @@
               </el-row>
             </el-col>
             <el-col :span="12">
-              <el-progress type="circle" :percentage="finishedRate" color="rgb(79, 192, 141)"></el-progress>
+              <el-progress type="circle" :percentage="finishedRate" width="120" color="rgb(79, 192, 141)"></el-progress>
             </el-col>
           </el-card>
         </div>
@@ -26,11 +26,11 @@
                 <span class="card-title">等待任务</span>
               </el-row>
               <el-row :span="16">
-                <span class="card-count">{{taskCount}}</span>
+                <span class="card-count">{{waitTargets}}</span>
               </el-row>
             </el-col>
             <el-col :span="12">
-              <el-progress type="circle" :percentage="waitRate" color="#ff8280"></el-progress>
+              <el-progress type="circle" :percentage="waitRate" width="120" color="#ff8280"></el-progress>
             </el-col>
           </el-card>
         </div>
@@ -40,15 +40,14 @@
           <el-card class="box-card">
             <el-col :span="12">
               <el-row :span="8">
-                <span class="card-title">正在进行</span>
+                <span class="card-title">并发执行</span>
               </el-row>
               <el-row :span="16">
-                <span class="card-count">{{taskCount}}</span>
+                <span class="card-count">{{concurrentTargets}}</span>
               </el-row>
             </el-col>
             <el-col :span="12">
-              <!--与并发率-->
-              <el-progress type="circle" :percentage="25" color="#65d0de"></el-progress>
+              <el-progress type="circle" :percentage="concurrentRate" width="120" color="#65d0de"></el-progress>
             </el-col>
           </el-card>
         </div>
@@ -58,15 +57,14 @@
           <el-card class="box-card" style="margin-right: 20px">
             <el-col :span="12">
               <el-row :span="8">
-                <span class="card-title">正常机数</span>
+                <span class="card-title">超时比率</span>
               </el-row>
               <el-row :span="16">
-                <span class="card-count">{{taskCount}}</span>
+                <span class="card-count">{{timeOutTargets}}</span>
               </el-row>
             </el-col>
             <el-col :span="12">
-              <!--与正常率-->
-              <el-progress type="circle" :percentage="77" color="rgb(215,218,239)"></el-progress>
+              <el-progress type="circle" :percentage="timeOutRate" width="120" color="red"></el-progress>
             </el-col>
           </el-card>
         </div>
@@ -113,7 +111,6 @@
       // 获取任务列表
       fetchTasklist({}).then(resp=>{
         this.taskList = resp.data.items
-        //console.log(this.taskList)
       })
       // 获取总任务数
       getTaskCount().then(resp=>this.taskCount = resp.data.count)
@@ -125,6 +122,9 @@
         gaugeChartId:'gauge',
         barChartId:'bar',
         taskCount:0,
+        taskWaitCount:0,
+        taskConcurrentCount:0,
+        taskTimeOutCount:0,
         taskList:[]
       }
     },
@@ -136,6 +136,12 @@
         }).length
         let percent = Math.ceil((queue/this.taskCount)*100)
         return percent >= 0 && percent <= 100 ? percent : 0
+      },
+      //任务指标数据计算工具
+      countTaskTarget(taskStatus){
+        return this.taskList.filter(task=>{
+          return task.taskStatus === taskStatus
+        }).length
       }
     },
     computed:{
@@ -146,6 +152,23 @@
       //计算等待百分比
       waitRate(){
         return this.rateCalc('Wait')
+      },
+      waitTargets(){
+        return this.countTaskTarget('Wait')
+      },
+      //计算正在并发进行百分比
+      concurrentRate(){
+        return this.rateCalc('Normal')
+      },
+      concurrentTargets(){
+        return this.countTaskTarget('Normal')
+      },
+      //计算超时百分比
+      timeOutRate(){
+        return this.rateCalc('OutTime')
+      },
+      timeOutTargets(){
+        return this.countTaskTarget('OutTime')
       }
     }
   }
