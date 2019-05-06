@@ -128,6 +128,15 @@ export default {
     task: '任务'
 
   },
+  flight: {
+    id: '编号',
+    typeId: '型号',
+    date1: '出发时间',
+    date2: '到达时间',
+    start: '出发地点',
+    end: '到达地点'
+
+  },
   navbar: {
     dashboard: '首页',
     github: '项目地址',
@@ -179,10 +188,11 @@ export default {
     task: '执行任务',
     area: '飞行区域',
     longitude: '经度',
-    latitude: '维度',
+    latitude: '纬度',
     actions: '操作',
     edit: '编辑',
-    delete: '删除'
+    delete: '删除',
+    clear: '清空'
 
   },
   table: {
