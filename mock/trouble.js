@@ -42,5 +42,25 @@ export default [
         }
       }
     }
-  }
+  },
+  {
+    url: '/trouble/update',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        data: 'success'
+      }
+    }
+  },
+  {
+    url: '/trouble/create',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        data: 'success'
+      }
+    }
+  },
 ]

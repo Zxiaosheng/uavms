@@ -114,7 +114,7 @@
 </template>
 
 <script>
-  import { fetchNewsList } from '@/api/trouble'
+  import { fetchNewsList,updateNews,createNews } from '@/api/trouble'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
@@ -199,10 +199,10 @@
         this.listLoading = false;
         this.total=this.pageData.length
       },
-      // handleFilter() {
-      //   this.listQuery.page = 1
-      //   this.getList()
-      // },
+      handleFilter() {
+        this.listQuery.page = 1
+        this.getList()
+      },
       handleUpdate(row) {
         this.temp = Object.assign({}, row) // copy obj
         this.dialogStatus = 'update'
@@ -250,29 +250,29 @@
       //     }
       //   })
       // },
-      // updateData() {
-      //   this.$refs['dataForm'].validate((valid) => {
-      //     if (valid) {
-      //       const tempData = Object.assign({}, this.temp)
-      //       updateNews(tempData).then(() => {
-      //         for (const v of this.pageData) {
-      //           if (v.id === this.temp.id) {
-      //             const index = this.pageData.indexOf(v)
-      //             this.pageData.splice(index, 1, this.temp)
-      //             break
-      //           }
-      //         }
-      //         this.dialogFormVisible = false
-      //         this.$notify({
-      //           title: '成功',
-      //           message: '更新成功',
-      //           type: 'success',
-      //           duration: 2000
-      //         })
-      //       })
-      //     }
-      //   })
-      // },
+      updateData() {
+        this.$refs['dataForm'].validate((valid) => {
+          if (valid) {
+            const tempData = Object.assign({}, this.temp)
+            updateNews(tempData).then(() => {
+              for (const v of this.pageData) {
+                if (v.id === this.temp.id) {
+                  const index = this.pageData.indexOf(v)
+                  this.pageData.splice(index, 1, this.temp)
+                  break
+                }
+              }
+              this.dialogFormVisible = false
+              this.$notify({
+                title: '成功',
+                message: '更新成功',
+                type: 'success',
+                duration: 2000
+              })
+            })
+          }
+        })
+      },
       // resetTemp() {
       //   this.addtemp = {
       //     id:undefined,
@@ -284,13 +284,13 @@
       //     typeId: [],
       //   }
       // },
-      // handleModifyStatus(row, status) {
-      //   this.$message({
-      //     message: '操作成功',
-      //     type: 'success'
-      //   })
-      //   row.status = status
-      // },
+      handleModifyStatus(row, status) {
+        this.$message({
+          message: '操作成功',
+          type: 'success'
+        })
+        row.status = status
+      },
       handleDelete(row) {
         this.$notify({
           title: '成功',
