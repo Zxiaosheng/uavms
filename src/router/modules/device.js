@@ -23,12 +23,6 @@ const deviceRouter = {
       component: () => import('@/views/device/dev-add'),
       name: 'DeviceAdd',
       meta: { title: 'addDevice' }
-    },
-    {
-      path: 'demo',
-      component: () => import('@/views/charts/FlyRoute'),
-      name: 'fly-rote-demo',
-      meta: { title: '飞行路径演示' }
     }
   ]
 }
