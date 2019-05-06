@@ -1,7 +1,7 @@
 import Mock from 'mockjs'
 
 const List = []
-const count = 100
+let count = 100
 
 const image_uri = 'http://file03.16sucai.com/2016/10/1100/16sucai_p20161012101_387.JPG'
 
@@ -19,23 +19,23 @@ for (let i = 0; i < count; i++) {
     'flyMileage|2000-4000': 3000,
     res: {
       windRes: {
-        name: '抗风能力',
+        name: '抗风系数',
         value: '@float(0, 0, 1,2)'
       },
       waterRes: {
-        name: '抗水能力',
+        name: '抗水系数',
         value: '@float(0, 0, 1,2)'
       },
       hitRes: {
-        name: '放撞击性',
+        name: '放撞击系数',
         value: '@float(0, 0, 1,2)'
       },
       flexibility: {
-        name: '灵活性',
+        name: '灵活系数',
         value: '@float(0, 0, 1,2)'
       },
       emcRes: {
-        name: '抗电磁干扰能力',
+        name: '抗电磁干扰系数',
         value: '@float(0, 0, 1,2)'
       }
     },
@@ -43,27 +43,27 @@ for (let i = 0; i < count; i++) {
     imgUrl: image_uri,
     loss: {
       wingLoss: {
-        name: '机翼',
+        name: '机翼损耗率',
         value: '@float(0, 0, 1,2)'
       },
       powerLoss: {
-        name: '电池',
+        name: '电池损耗率',
         value: '@float(0, 0, 1,2)'
       },
       cameraLoss: {
-        name: '摄像头',
+        name: '摄像头损耗率',
         value: '@float(0, 0, 1,2)'
       },
       packLoss: {
-        name: '机舱',
+        name: '机舱损耗率',
         value: '@float(0, 0, 1,2)'
       },
       engineLoss: {
-        name: '引擎',
+        name: '引擎损耗率',
         value: '@float(0, 0, 1,2)'
       },
       baseLoss: {
-        name: '底座',
+        name: '底座损耗率',
         value: '@float(0, 0, 1,2)'
       }
     }
@@ -111,6 +111,29 @@ export default [
         }
       }
 
+    }
+  },
+  {
+    url: '/device/add',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        msg: '添加成功'
+      }
+    }
+  },
+  {
+    url: '/upload/dev/file',
+    type: 'post',
+    response: _ => {
+
+      count=1
+      return {
+        code: 20000,
+        msg: '上传文件成功',
+        data: List[0]
+      }
     }
   }
 ]
