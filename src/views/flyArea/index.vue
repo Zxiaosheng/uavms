@@ -24,23 +24,26 @@
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
       {{ $t('table.add') }}
       </el-button>
+      <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
+        {{ $t('table.export') }}
+      </el-button>
 
     </div>
-    <el-table  :data="pageData" border  style="width: 100%;text-align: center">
+    <el-table  :data="pageData" border  style="width: 100%" align="center">
       <el-table-column prop="id" align="center" sortable :label="$t('flyArea.id')"  width="100">
       </el-table-column>
       <el-table-column prop="type.typeName" align="center" sortable :label="$t('flyArea.type')"  width="150">
       </el-table-column>
-      <el-table-column prop="date" sortable :label="$t('flyArea.date')"  width="150">
+      <el-table-column prop="date" sortable :label="$t('flyArea.date')"  align="center" width="170">
 
       </el-table-column>
-      <el-table-column prop="task.taskName" sortable :label="$t('flyArea.task')" width="120">
+      <el-table-column prop="task.taskName" sortable :label="$t('flyArea.task')" align="center" width="120">
       </el-table-column>
-      <el-table-column prop="area.areaName" sortable :label="$t('flyArea.area')" width="150">
+      <el-table-column prop="area.areaName" sortable :label="$t('flyArea.area')" align="center" width="150">
       </el-table-column>
-      <el-table-column prop="longitude" :label="$t('flyArea.longitude')" width="120">
+      <el-table-column prop="longitude" :label="$t('flyArea.longitude')" align="center" width="120">
       </el-table-column>
-      <el-table-column prop="latitude"  :label="$t('flyArea.latitude')"  width="120">
+      <el-table-column prop="latitude"  :label="$t('flyArea.latitude')"  align="center" width="120">
       </el-table-column>
       <el-table-column :label="$t('flyArea.actions')" align="center"  class-name="small-padding fixed-width">
         <template slot-scope="{row}">
@@ -55,31 +58,31 @@
       </el-table-column>
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item :label="$t('flyArea.type')" prop="type" style="width: 100%">
-          <el-select v-model="temp.type.typeName" class="filter-item" placeholder="Please select">
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" >
+      <el-form ref="dataForm"  :model="temp" :rules="rules" label-position="left" label-width="100px" style="width: 500px; margin-left:50px;">
+        <el-form-item :label="$t('flyArea.type')" prop="type" style="width: 100%" >
+          <el-select v-model="temp.type.typeName" class="filter-item" placeholder="Please select" style="width: 100%">
             <el-option v-for="item in flyType" :key="item.id" :label="item.typeName" :value="item.typeName" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('flyArea.date')" prop="date">
+        <el-form-item :label="$t('flyArea.date')" prop="date"  required>
           <el-date-picker v-model="temp.date" value-format="yyyy-MM-dd" type="date" placeholder="Please pick a date" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('flyArea.task')" prop="type" style="width: 100%">
-          <el-select v-model="temp.task.taskName" class="filter-item" placeholder="Please select">
+          <el-select v-model="temp.task.taskName" class="filter-item" placeholder="Please select" style="width: 100%">
             <el-option v-for="item in flyTask" :key="item.id" :label="item.taskName" :value="item.taskName" />
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('flyArea.area')" prop="type" style="width: 100%">
-          <el-select v-model="temp.area.areaName" class="filter-item" placeholder="Please select">
+          <el-select v-model="temp.area.areaName" class="filter-item" placeholder="Please select" style="width: 100%">
             <el-option v-for="item in flyArea" :key="item.id" :label="item.areaName" :value="item.areaName" />
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('flyArea.longitude')" prop="longitude" style="width: 100%">
-          <el-input v-model="temp.longitude" />
+          <el-input v-model.number="temp.longitude"  />
         </el-form-item>
         <el-form-item :label="$t('flyArea.latitude')" prop="latitude" style="width: 100%">
-          <el-input v-model="temp.latitude" />
+          <el-input v-model.number="temp.latitude" />
         </el-form-item>
 
       </el-form>
@@ -159,7 +162,18 @@
                 longitude:'',
                 latitude:''
               },
-              listLoading:false,
+              rules: {
+                type: [{ required: true, message: 'type is required', trigger: 'change' }],
+                task: [{ required: true, message: 'task is required', trigger: 'change' }],
+                area: [{ required: true, message: 'areae is required', trigger: 'change' }],
+                longitude: [ {required: true, message: 'longitude is required', trigger: 'blur' },
+                  { type: 'number', message: 'longitude is number'}
+                ],
+                latitude: [{required: true, message: 'latitude is required', trigger: 'blur' },
+                  { type: 'number', message: 'longitude is number'}]
+
+              },
+              downloadLoading: false
 
             }
         },
@@ -203,7 +217,8 @@
             type: 'success',
             duration: 2000
           })
-          this.pageData.splice(row, 1)
+          const index = this.pageData.indexOf(row);
+          this.pageData.splice(index, 1);
         },
         handleUpdate(row) {
           this.temp = Object.assign({}, row) // copy obj
@@ -275,10 +290,41 @@
             this.$refs['dataForm'].clearValidate()
           })
         },
+        handleDownload() {
+          this.downloadLoading = true
+          import('@/vendor/Export2Excel').then(excel => {
+            const tHeader = ['type', 'date', 'task', 'area', 'longitude','latitude']
+            const filterVal = ['type', 'date', 'task', 'area', 'longitude','latitude']
+            const data = this.formatJson(filterVal, this.tableData)
+            excel.export_json_to_excel({
+              header: tHeader,
+              data,
+              filename: 'table-list'
+            })
+            this.downloadLoading = false
+          })
+        },
+        formatJson(filterVal, jsonData) {
+          return jsonData.map(v => filterVal.map(j => {
+            if (j=='type'){
+              return v[j].typeName
+            }
+            if (j=='task'){
+              return v[j].taskName
+            }
+            if (j=='area'){
+              return v[j].areaName
+            }
+            else {
+              return v[j]
+            }
+          }))
+        }
       }
     }
 </script>
 
 <style>
+
 
 </style>
