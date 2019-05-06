@@ -254,6 +254,11 @@
                   type: 'info',
                   message: '此设备正在执行任务'
                 }
+              }else if(item.status==='已停用'){
+                msg={
+                  type: 'info',
+                  message: '此设备已经停用'
+                }
               }else{
                 item.status='已停用'
                 msg={
