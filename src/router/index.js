@@ -98,6 +98,12 @@ export const constantRoutes = [
           title: 'rodeechart',
           roles: ['admin']
         }
+      },
+      {
+        path: 'demo',
+        component: () => import('@/views/charts/FlyRoute'),
+        name: 'fly-rote-demo',
+        meta: { title: '飞行路径演示' }
       }
     ]
   },
