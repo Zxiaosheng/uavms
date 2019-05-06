@@ -27,15 +27,3 @@ export function getTaskCount(){
     method: 'get'
   })
 }
-export function getReportSuccCount(){
-  return request({
-    url:'/task/report/success/count',
-    method:'get'
-  })
-}
-export function getReportFailCount(){
-  return request({
-    url:'/task/report/fail/count',
-    method:'get'
-  })
-}
