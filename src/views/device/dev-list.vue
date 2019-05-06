@@ -154,13 +154,13 @@
     <el-dialog title="修改设备信息" :visible.sync="dialogFormVisible">
       <el-form :model="editData">
         <el-form-item label="设备ID">
-          <el-input v-model="editData.id" autocomplete="off" :disabled="true"></el-input>
+          <el-input v-model="editData.id" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="设备名称">
-          <el-input v-model="editData.name" autocomplete="off"></el-input>
+          <el-input v-model="editData.name"></el-input>
         </el-form-item>
         <el-form-item label="设备简介">
-          <el-input type="textarea" v-model="editData.desc"></el-input>
+          <el-input type="textarea" v-model="editData.desc" rows="6"></el-input>
         </el-form-item>
         <el-form-item label="设备类型">
           <el-select v-model="editData.type" placeholder="">
