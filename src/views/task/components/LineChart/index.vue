@@ -5,6 +5,7 @@
 <script>
   import echarts from 'echarts'
   import resize from '@/components/Charts/mixins/resize'
+  import {getReportSuccCount,getReportFailCount} from '@/api/task'
   export default {
     name: 'index',
     props: {
@@ -28,12 +29,25 @@
     },
     data(){
       return {
-        chart:null
+        chart:null,
+        failCnt:[],
+        successCnt:[]
       }
     },
     mounted() {
-      //初始化Echarts实例
-      this.initChart()
+      getReportFailCount().then(resp=>{
+        this.failCnt = resp.data
+        console.log(this.failCnt)
+        //初始化Echarts实例
+        this.initChart()
+      })
+      getReportSuccCount().then(resp=>{
+        this.successCnt = resp.data
+        console.log(resp.data)
+        //初始化Echarts实例
+        this.initChart()
+      })
+
     },
     beforeDestroy() {
       if (!this.chart) {
@@ -99,7 +113,7 @@
               name:'成功任务',
               type:'line',
               color:'rgb(79,192,141)',
-              data:[11, 11, 15, 13, 12, 13, 10,11, 21, 15, 13, 12, 13, 10,11, 18, 15, 13, 12, 13, 10,11, 11, 15, 13, 12, 13, 9,15,12,17],
+              data:this.successCnt,
               markPoint: {
                 data: [
                   {type: 'max', name: '最大值'},
@@ -134,7 +148,7 @@
               name:'失败任务',
               type:'line',
               color:'#ff8280',
-              data:[1, 10, 2, 5, 3, 5, 0,1, 10, 2, 5, 3, 2, 0,1, 10, 2, 5, 8, 2, 0,5, 10, 2, 5, 3, 2, 0,10,6,3],
+              data:this.failCnt,
               markPoint: {
                 data: [
                   {name: '日最低', value: -2, xAxis: 1, yAxis: -1.5}
