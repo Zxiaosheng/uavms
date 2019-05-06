@@ -43,6 +43,15 @@ export default {
     btnPause: 'pause',
     btnDelete: 'delete'
   },
+  rode: {
+    id: 'id',
+    typeId: 'typeId',
+    date1: 'startTime',
+    date2: 'stopTime',
+    start: 'start',
+    end: 'end',
+    task: 'Task'
+  },
   route: {
     device: 'Device',
     deviceList: 'deviceList',
@@ -58,6 +67,9 @@ export default {
     taskCenter: 'TaskCenter',
     taskList: 'TaskList',
     taskBoard: 'TaskBoard',
+    rode: 'RodeManager',
+    rodelist: 'RodeList',
+    rodeechart: 'RodeEchart',
     dashboard: 'Dashboard',
     documentation: 'Documentation',
     guide: 'Guide',

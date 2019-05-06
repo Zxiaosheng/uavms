@@ -3,10 +3,16 @@
 
     <el-row :gutter="20">
       <el-col :span="12">
-        <div :id="id" class="grid-content" :class="className" style="height:430px;width:760px;padding:0 20px 0 20px"/>
+        <div :id="id" class="grid-content" :class="className" style="height:430px;width:100%;padding:0 20px 0 20px"/>
       </el-col>
       <el-col :span="12">
-        <div :id="id1" class="grid-content" :class="className1" style="height:430px;width:760px;padding:0 20px 0 20px"/>
+        <div :id="id1" class="grid-content" :class="className1" style="height:430px;width:100%;padding:0 20px 0 20px"/>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="20">
+      <el-col :span="24">
+        <div :id="id2" class="grid-content" :class="className2" style="height:430px;width:100%;padding:0 20px 0 20px"/>
       </el-col>
     </el-row>
 
@@ -33,6 +39,10 @@
         type: String,
         default: 'chart1'
       },
+      className2: {
+        type: String,
+        default: 'chart2'
+      },
       id: {
         type: String,
         default: 'chart'
@@ -40,6 +50,10 @@
       id1: {
         type: String,
         default: 'chart1'
+      },
+      id2: {
+        type: String,
+        default: 'chart2'
       }
     },
     data() {
@@ -55,7 +69,7 @@
 
       this.chart = echarts.init(document.getElementById(this.id));
       this.chart1 = echarts.init(document.getElementById(this.id1));
-
+      this.chart2 = echarts.init(document.getElementById(this.id2));
 
       //饼图
       fetchChartList().then(response => {
@@ -65,7 +79,7 @@
           backgroundColor: 'rgb(31,45,41)',
 
           title: {
-            text: '福州市五区飞行次数统计饼图',
+            text: '福州市五区飞行路线总数统计饼图',
             left: 'center',
             top: 20,
             textStyle: {
@@ -123,7 +137,7 @@
               },
               itemStyle: {
                 normal: {
-                  color: '#c23531',
+                  color: '#0f375f',
                   // shadowBlur: 200,
                   // shadowColor: 'rgba(0, 0, 0,0.5)'
                 }
@@ -160,7 +174,7 @@
           axisPointer: {
             type: 'cross',
             label: {
-              backgroundColor: '#ffffff'
+              backgroundColor: 'rgba(20,200,212,0.3)'
             }
           }
         },
@@ -237,6 +251,7 @@
             type:'bar',
             xAxisIndex: 1,
             yAxisIndex: 1,
+            color:'rgb(20,205,212)',
             data:(function (){
               var res = [];
               var len = 10;
@@ -251,6 +266,7 @@
           {
             name:'飞行机器数',
             type:'line',
+            color:'#0f375f',
             data:(function (){
               var res = [];
               var len = 0;
@@ -283,6 +299,126 @@
         this.chart1.setOption(option1);
       }, 2100);
       })
+
+      //
+      var category = [];
+      var dottedBase = +new Date();
+      var lineData = [];
+      var barData = [];
+
+      for (var i = 0; i < 20; i++) {
+        var date = new Date(dottedBase += 3600 * 24 * 1000);
+        category.push([
+          date.getFullYear(),
+          date.getMonth() + 1,
+          date.getDate()
+        ].join('-'));
+        var b = Math.random() * 200;
+        var d = Math.random() * 200;
+        barData.push(b)
+        lineData.push(d + b);
+      }
+
+
+// option
+     let option2 = {
+        backgroundColor: 'rgb(31,45,41)',
+       title: {
+         text: 'xx地区每日预计飞行路线总数与实际飞行路线总数对比',
+         top:'10',
+         textStyle: {
+           color: '#fff'
+         }
+       },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        legend: {
+          data: ['实际飞行总数', '预计飞行总数'],
+          textStyle: {
+            color: '#ccc'
+          }
+        },
+        xAxis: {
+          data: category,
+          axisLine: {
+            lineStyle: {
+              color: '#ccc'
+            }
+          }
+        },
+        yAxis: {
+          splitLine: {show: false},
+          axisLine: {
+            lineStyle: {
+              color: '#ccc'
+            }
+          }
+        },
+        series: [{
+          name: '实际飞行总数',
+          type: 'line',
+          smooth: true,
+          showAllSymbol: true,
+          symbol: 'emptyCircle',
+          symbolSize: 15,
+          data: lineData
+        }, {
+          name: '预计飞行总数',
+          type: 'bar',
+          barWidth: 10,
+          itemStyle: {
+            normal: {
+              barBorderRadius: 5,
+              color: new echarts.graphic.LinearGradient(
+                0, 0, 0, 1,
+                [
+                  {offset: 0, color: '#14c8d4'},
+                  {offset: 1, color: '#43eec6'}
+                ]
+              )
+            }
+          },
+          data: barData
+        }, {
+          name: 'line',
+          type: 'bar',
+          barGap: '-100%',
+          barWidth: 10,
+          itemStyle: {
+            normal: {
+              color: new echarts.graphic.LinearGradient(
+                0, 0, 0, 1,
+                [
+                  {offset: 0, color: 'rgba(20,200,212,0.5)'},
+                  {offset: 0.2, color: 'rgba(20,200,212,0.2)'},
+                  {offset: 1, color: 'rgba(20,200,212,0)'}
+                ]
+              )
+            }
+          },
+          z: -12,
+          data: lineData
+        }, {
+          name: 'dotted',
+          type: 'pictorialBar',
+          symbol: 'rect',
+          itemStyle: {
+            normal: {
+              color: '#0f375f'
+            }
+          },
+          symbolRepeat: true,
+          symbolSize: [12, 4],
+          symbolMargin: 1,
+          z: -10,
+          data: lineData
+        }]
+      };
+     this.chart2.setOption(option2);
     },
   }
 </script>
@@ -291,7 +427,7 @@
   .chart-container{
     position: relative;
     width: 100%;
-    height: calc(100vh - 6px);
+    height: calc(125vh - 6px);
     background-color: rgb(48,65,86);
   }
   .el-row {

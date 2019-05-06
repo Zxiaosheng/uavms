@@ -20,6 +20,8 @@
     </div>
     <el-table :data="pageData" v-loading="listLoading" border fit  highlight-current-row style="width: 100%;magin-top:20px;text-align: center">
 
+      <el-table-column prop="id" :label="$t('rode.id')" width="100"></el-table-column>
+
       <el-table-column prop="typeId.typeName" :label="$t('rode.typeId')"  align="center" width="100"></el-table-column>
 
       <el-table-column prop="date1" :label="$t('rode.date1')" width="150"></el-table-column>
@@ -211,19 +213,19 @@
           id:'',
           date1: new Date(),
           date2: new Date(),
-          start: '',
-          end:'',
+          start: [],
+          end:[],
           task:'',
-          typeId: [{id:1,typeName:'消防型'}]
+          typeId: [{id:'',typeName:''}]
         },
         addtemp: {
           id:'',
           date1: new Date(),
           date2: new Date(),
-          start:'',
-          end:'',
+          start:[],
+          end:[],
           task:'',
-          typeId: [{id:1,typeName:'消防型'}]
+          typeId: [{id:'',typeName:''}]
         },
         listQuery: {
           page: 1,
@@ -240,7 +242,7 @@
         downloadLoading: false,
         rules: {
           typeId: [
-            { required: true, message: '请选择型号', trigger: 'change' }
+            { required: false, message: '请选择型号', trigger: 'change' }
           ],
             date1: [
             { type: 'date', required: true, message: '请选择出发时间', trigger: 'change' }
@@ -378,8 +380,8 @@
           id:undefined,
           date1: new Date(),
           date2: new Date(),
-          start: '',
-          end:'',
+          start: [],
+          end:[],
           task:'',
           typeId: [],
         }
@@ -401,20 +403,20 @@
         const index = this.pageData.indexOf(row)
         this.pageData.splice(index, 1)
       },
-      handleDownload() {
-        this.downloadLoading = true
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-          const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-          const data = this.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: 'table-list'
-          })
-          this.downloadLoading = false
-        })
-      },
+      // handleDownload() {
+      //   this.downloadLoading = true
+      //   import('@/vendor/Export2Excel').then(excel => {
+      //     const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
+      //     const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
+      //     const data = this.formatJson(filterVal, this.list)
+      //     excel.export_json_to_excel({
+      //       header: tHeader,
+      //       data,
+      //       filename: 'table-list'
+      //     })
+      //     this.downloadLoading = false
+      //   })
+      // },
     }
   }
 </script>

@@ -1,5 +1,7 @@
 <template>
-  <div :id="id" :class="className" :style="{height:height,width:width}" />
+  <div class="chart-container">
+    <div :id="id" :class="className" :style="{height:height,width:width}" />
+  </div>
 </template>
 
 <script>
@@ -387,9 +389,9 @@
         let colorExport = ['green', 'green', 'green']; //航线的颜色
         let series = [];
         [
-          ['进港', targetValue1],
-          ['进港', targetValue2],
-          ['进港', targetValue3]
+          ['飞入', targetValue1],
+          ['飞入', targetValue2],
+          ['飞入', targetValue3]
         ].forEach(function(item, i) {
           series.push({
             name: item[0],
@@ -474,9 +476,9 @@
         });
 
         [
-          ['出港', exportValue1],
-          ['出港', exportValue2],
-          ['出港', exportValue3]
+          ['飞出', exportValue1],
+          ['飞出', exportValue2],
+          ['飞出', exportValue3]
         ].forEach(function(item, i) {
           series.push({
             name: item[0],
@@ -612,7 +614,7 @@
 
         this.chart.setOption({
 
-          backgroundColor: '#032971',
+          backgroundColor: 'rgb(31,45,41)',
           title: {
             show: false,
             text: '三场进出港航线图',
@@ -678,5 +680,10 @@
 </script>
 
 <style scoped>
-
+  .chart-container{
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 56px);
+    background-color: rgb(48,65,86);
+  }
 </style>
