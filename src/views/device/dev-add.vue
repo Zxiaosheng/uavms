@@ -105,10 +105,10 @@
           <div class="el-upload__text">将文件拖到此处，或<em>点击选择</em></div>
           <div class="el-upload__tip" slot="tip">只能上传.s后缀的设备3D扫描文件</div>
         </el-upload>
-        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">开始导入</el-button>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">立即添加</el-button>
+        <el-button style="margin-left: 10px;" type="success" @click="submitUpload">开始导入</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
 
