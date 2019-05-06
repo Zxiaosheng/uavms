@@ -2,6 +2,8 @@ import Mock from 'mockjs'
 
 const userList = []
 const count = 50
+const num = 7
+const userMap = []
 
 for (let i = 0; i < count; i++) {
   userList.push(Mock.mock({
@@ -13,6 +15,13 @@ for (let i = 0; i < count; i++) {
     "name": "@cname(3,5)"
   }))
 }
+for (let i = 0; i < num; i++) {
+  userMap.push(Mock.mock({
+    "id": '@increment',
+    "totalNum": "@integer(1,100)"
+  }))
+}
+
 export default [
   {
     url: '/userList',
@@ -37,4 +46,20 @@ export default [
       }
     }
   },
+//导出图库的数据
+  {
+    url: '/userMap',
+    type: 'get',
+    response: _ => {
+      return {
+        code: 20000,
+        data: {
+          "add": "@integer(1,100)",
+          "del": "@integer(1,100)",
+          total: userMap.length,
+          items: userMap
+        }
+      }
+    }
+  }
 ]

@@ -44,6 +44,7 @@ export default {
     historycountlist:'HistoryCountList',
     historycountechart:'HistoryCountEchart',
     user: "User",
+    userMap:"UserMap",
     userManager: "UserManager",
     taskCenter: 'TaskCenter',
     taskList: 'TaskList',
