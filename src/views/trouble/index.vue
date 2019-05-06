@@ -16,9 +16,9 @@
       <!--</el-button>-->
     <!--</div>-->
 
-    <el-table :data="pageData" v-loading="listLoading" border fit  highlight-current-row style="width: 100%;magin-top:20px;text-align: center">
+    <el-table :data="pageData" v-loading="listLoading" style="width: 100%;magin-top:20px;text-align: center">
 
-      <el-table-column prop="date" label="日期"  align="center" width="100"></el-table-column>
+      <el-table-column prop="date" label="日期"  align="center" width="150"></el-table-column>
 
       <el-table-column prop="planType.typeName" label="无人机类型" width="150"></el-table-column>
 
@@ -26,13 +26,13 @@
 
       <el-table-column prop="troubleCount" label="故障次数" width="150"></el-table-column>
 
-      <el-table-column prop="troubleReason" label="故障原因" width="150"></el-table-column>
+      <el-table-column prop="troubleReason" label="故障原因"></el-table-column>
 
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <!--<el-button type="primary" size="mini" @click="handleUpdate(row)">-->
-            <!--{{ $t('table.edit') }}-->
-          <!--</el-button>-->
+          <el-button type="primary" size="mini" @click="handleUpdate(row)">
+            编辑
+          </el-button>
 
           <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row)">
             删除
@@ -45,39 +45,38 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
     <!--编辑弹出窗-->
-    <!--<el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">-->
-      <!--<el-form ref="dataForm"  :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">-->
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+      <el-form ref="dataForm"  :model="temp" label-position="left" label-width="90px" style="width: 400px; margin-left:50px;">
 
-        <!--<el-form-item :label="$t('rode.typeId')" prop="typeId">-->
-          <!--<el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select">-->
-            <!--<el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>-->
-          <!--</el-select>-->
-        <!--</el-form-item>-->
-        <!--<el-form-item :label="$t('rode.date1')" prop="date">-->
-          <!--<el-date-picker v-model="temp.date1" type="date" value-format="yyyy-MM-dd" placeholder="Please pick a date" />-->
-        <!--</el-form-item>-->
-        <!--<el-form-item :label="$t('rode.date2')" prop="date">-->
-          <!--<el-date-picker v-model="temp.date2" type="date" value-format="yyyy-MM-dd" placeholder="Please pick a date" />-->
-        <!--</el-form-item>-->
-        <!--<el-form-item :label="$t('rode.start')" prop="title">-->
-          <!--<el-input v-model="temp.start" />-->
-        <!--</el-form-item>-->
-        <!--<el-form-item :label="$t('rode.end')" prop="title">-->
-          <!--<el-input v-model="temp.end" />-->
-        <!--</el-form-item>-->
-        <!--<el-form-item :label="$t('rode.task')">-->
-          <!--<el-input v-model="temp.task" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />-->
-        <!--</el-form-item>-->
-      <!--</el-form>-->
-      <!--<div slot="footer" class="dialog-footer">-->
-        <!--<el-button @click="dialogFormVisible = false">-->
-          <!--{{ $t('table.cancel') }}-->
-        <!--</el-button>-->
-        <!--<el-button type="primary" @click="updateData()">-->
-          <!--{{ $t('table.confirm') }}-->
-        <!--</el-button>-->
-      <!--</div>-->
-    <!--</el-dialog>-->
+        <el-form-item label="日期" prop="date">
+          <el-date-picker v-model="temp.date" type="date" value-format="yyyy-MM-dd" placeholder="Please pick a date" />
+        </el-form-item>
+        <el-form-item label="无人机类型" prop="planType.typeName">
+          <el-select v-model="temp.planType.typeName" class="filter-item" placeholder="Please select">
+            <el-option v-for="item in planType"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="故障类型" prop="troubleType.typeName">
+          <el-select v-model="temp.troubleType.typeName" class="filter-item" placeholder="Please select">
+            <el-option v-for="item in troubleType"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="故障次数" prop="troubleCount">
+          <el-input v-model="temp.troubleCount" />
+        </el-form-item>
+        <el-form-item label="故障原因" prop="troubleReason">
+          <el-input v-model="temp.troubleReason" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">
+          取消
+        </el-button>
+        <el-button type="primary" @click="updateData()">
+          确定
+        </el-button>
+      </div>
+    </el-dialog>
     <!--新增弹出窗-->
     <!--<el-dialog title="新增" :visible.sync="dialogFormAdd">-->
       <!--<el-form ref="AddForm"   :model="addtemp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">-->
@@ -141,15 +140,14 @@
           update: 'Edit',
           create: 'Create'
         },
-        // temp: {
-        //   id:'',
-        //   date1: new Date(),
-        //   date2: new Date(),
-        //   start: '',
-        //   end:'',
-        //   task:'',
-        //   typeId: [{id:1,typeName:'消防型'}]
-        // },
+        temp: {
+          id:'',
+          date: new Date(),
+          planType: [{id:'1',typeName:'救援无人机'},{id:'2',typeName:'测绘无人机'},{id:'3',typeName:'拍摄无人机'},{id:'4',typeName:'交通无人机'}],
+          troubleType: [{id:'1',typeName:'电机故障'},{id:'2',typeName:'机械故障'},{id:'3',typeName:'操作故障'}],
+          troubleCount: '',
+          troubleReason:''
+        },
         // addtemp: {
         //   id:'',
         //   date1: new Date(),
@@ -205,14 +203,14 @@
       //   this.listQuery.page = 1
       //   this.getList()
       // },
-      // handleUpdate(row) {
-      //   this.temp = Object.assign({}, row) // copy obj
-      //   this.dialogStatus = 'update'
-      //   this.dialogFormVisible = true
-      //   this.$nextTick(() => {
-      //     this.$refs['dataForm'].clearValidate()
-      //   })
-      // },
+      handleUpdate(row) {
+        this.temp = Object.assign({}, row) // copy obj
+        this.dialogStatus = 'update'
+        this.dialogFormVisible = true
+        this.$nextTick(() => {
+          this.$refs['dataForm'].clearValidate()
+        })
+      },
       // handleCreate() {
       //   this.resetTemp()
       //   this.dialogFormAdd = true
