@@ -1,20 +1,21 @@
 <template>
   <div class="app-container">
-    <!--<div class="demo-input-size">-->
-      <!--<el-input v-model="listQuery.start" :placeholder="$t('rode.start')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />-->
-      <!--<el-input v-model="listQuery.end" :placeholder="$t('rode.end')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />-->
-      <!--<el-date-picker v-model="listQuery.date1" type="date" :placeholder="$t('rode.date1')" />-->
-      <!--<el-date-picker v-model="listQuery.date2" type="date" :placeholder="$t('rode.date2')" />-->
-      <!--<el-select v-model="listQuery.type" value-key="id" @change="getList" :placeholder="$t('rode.typeId')" clearable class="filter-item" style="width: 130px">-->
-        <!--<el-option v-for="item in typeId" :key="item.typeName" :label="item.typeName" :value="item.id" />-->
-      <!--</el-select>-->
-      <!--<el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">-->
-        <!--{{ $t('table.search') }}-->
-      <!--</el-button>-->
-      <!--<el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">-->
-        <!--{{ $t('table.add') }}-->
-      <!--</el-button>-->
-    <!--</div>-->
+    <div class="demo-input-size">
+      <el-date-picker v-model="listQuery.date1" type="date" placeholder="起始时间" style="width: 130px"/>
+      <el-date-picker v-model="listQuery.date2" type="date" placeholder="截止时间" style="width: 130px"/>
+      <el-select v-model="listQuery.type" value-key="id" @change="getList" placeholder="无人机类型" clearable class="filter-item" style="width: 130px">
+        <el-option v-for="item in planType" :key="item.typeName" :label="item.typeName" :value="item.id" />
+      </el-select>
+      <el-select v-model="listQuery.type" value-key="id" @change="getList" placeholder="故障类型" clearable class="filter-item" style="width: 130px">
+        <el-option v-for="item in troubleType" :key="item.typeName" :label="item.typeName" :value="item.id" />
+      </el-select>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
+        搜索
+      </el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
+        添加
+      </el-button>
+    </div>
 
     <el-table :data="pageData" v-loading="listLoading" style="width: 100%;magin-top:20px;text-align: center">
 
