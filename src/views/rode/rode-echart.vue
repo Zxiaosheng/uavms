@@ -1,8 +1,8 @@
 <template>
   <div class="chart-container">
     <el-row>
-      <el-col :span="12"><div :id="id" :class="className" style="height:450px;width:800px;margin:20px"/></el-col>
-      <el-col :span="12"><div :id="id1" :class="className1" style="height:450px;width:800px;margin:20px"/></el-col>
+      <el-col :span="12"><div :id="id" :class="className" style="height:450px;width:760px;margin:20px"/></el-col>
+      <el-col :span="12"><div :id="id1" :class="className1" style="height:450px;width:760px;margin:20px;"/></el-col>
     </el-row>
       <div :id="id2" :class="className2" style="height:1000px;width:100%"/>
   </div>
@@ -11,7 +11,7 @@
 <script>
   import echarts from 'echarts'
   import resize from '../../components/Charts/mixins/resize'
-  import { fetchChartList } from '@/api/rode-echart'
+  import { fetchChartList,fetchMChartList } from '@/api/rode-echart'
   export default {
     name: "rode-echart",
     mixins: [resize],
@@ -142,96 +142,102 @@
         })
       })
 
-      //路线图
-      this.chart2.setOption({
-        backgroundColor: '#ffffff',
-        title: {
-          text: '朴姓人口迁徙图',
-          left: 'center',
-          textStyle: {
-            color: '#fff'
-          }
-        },
-        legend: {
-          show: false,
-          orient: 'vertical',
-          top: 'bottom',
-          left: 'right',
-          data: ['地点', '线路'],
-          textStyle: {
-            color: '#fff'
-          }
-        },
-        geo: {
-          map: 'china',
-          label: {
-            emphasis: {
-              show: false
-            }
-          },
-          roam: true,
-          itemStyle: {
-            normal: {
-              areaColor: '#323c48',
-              borderColor: '#404a59'
-            },
-            emphasis: {
-              areaColor: '#2a333d'
-            }
-          }
-        },
-        series: [{
-          name: '地点',
-          type: 'effectScatter',
-          coordinateSystem: 'geo',
-          zlevel: 2,
-          rippleEffect: {
-            brushType: 'stroke'
-          },
-          label: {
-            emphasis: {
-              show: true,
-              position: 'right',
-              formatter: '{b}'
-            }
-          },
-          symbolSize: 2,
-          showEffectOn: 'render',
-          itemStyle: {
-            normal: {
-              color: '#46bee9'
-            }
-          },
-          data: allData.citys
-        }, {
-          name: '线路',
-          type: 'lines',
-          coordinateSystem: 'geo',
-          zlevel: 2,
-          large: true,
-          effect: {
-            show: true,
-            constantSpeed: 30,
-            symbol: 'pin',
-            symbolSize: 3,
-            trailLength: 0,
-          },
-          lineStyle: {
-            normal: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0, color: '#58B3CC'
-              }, {
-                offset: 1, color: '#F58158'
-              }], false),
-              width: 1,
-              opacity: 0.2,
-              curveness: 0.1
-            }
-          },
-          data: allData.moveLines
-        }]
-      })
 
+        //路线图
+        this.chart2.setOption({
+          backgroundColor: '#ffffff',
+          title: {
+            text: '朴姓人口迁徙图',
+            left: 'center',
+            textStyle: {
+              color: '#fff'
+            }
+          },
+          legend: {
+            show: false,
+            orient: 'vertical',
+            top: 'bottom',
+            left: 'right',
+            data: ['地点', '线路'],
+            textStyle: {
+              color: '#fff'
+            }
+          },
+          geo: {
+            map: 'china',
+            label: {
+              emphasis: {
+                show: false
+              }
+            },
+            roam: true,
+            itemStyle: {
+              normal: {
+                areaColor: '#323c48',
+                borderColor: '#404a59'
+              },
+              emphasis: {
+                areaColor: '#2a333d'
+              }
+            }
+          },
+          series: [{
+            name: '地点',
+            type: 'effectScatter',
+            coordinateSystem: 'geo',
+            zlevel: 2,
+            rippleEffect: {
+              brushType: 'stroke'
+            },
+            label: {
+              emphasis: {
+                show: true,
+                position: 'right',
+                formatter: '{b}'
+              }
+            },
+            symbolSize: 2,
+            showEffectOn: 'render',
+            itemStyle: {
+              normal: {
+                color: '#46bee9'
+              }
+            },
+            data: allData.citys
+          }, {
+            name: '线路',
+            type: 'lines',
+            coordinateSystem: 'geo',
+            zlevel: 2,
+            large: true,
+            effect: {
+              show: true,
+              constantSpeed: 30,
+              symbol: 'pin',
+              symbolSize: 3,
+              trailLength: 0,
+            },
+            lineStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                  offset: 0, color: '#58B3CC'
+                }, {
+                  offset: 1, color: '#F58158'
+                }], false),
+                width: 1,
+                opacity: 0.2,
+                curveness: 0.1
+              }
+            },
+            data: allData.moveLines
+          }]
+        })
+
+
+      fetchMChartList().then(response =>{
+        this.list1=response.data.items
+
+        console.log(this.list1)
       //某某地区飞行数据实时展示
       let option1 = {
         backgroundColor: 'rgb(31,45,41)',
@@ -329,7 +335,9 @@
               var res = [];
               var len = 10;
               while (len--) {
-                res.push(Math.round(Math.random() * 1000));
+                console.log(this.list1)
+                res.push(this.list1.m);
+
               }
               return res;
             })()
@@ -341,7 +349,7 @@
               var res = [];
               var len = 0;
               while (len < 10) {
-                res.push((Math.random()*10 + 5).toFixed(1) - 0);
+                res.push(this.list1.r);
                 len++;
               }
               return res;
@@ -368,7 +376,7 @@
 
         this.chart1.setOption(option1);
       }, 2100);
-
+      })
     }
   }
 </script>
