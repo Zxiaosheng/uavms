@@ -129,19 +129,62 @@
           2017:this.mockdata(List311),
         });
 
-
+        var itemStyle = {
+          normal: {
+            opacity: 0.8,
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowOffsetY: 0,
+            shadowColor: 'rgba(0, 0, 0,0.7)'
+          }
+        };
         let option = {
           baseOption: {
+//            backgroundColor:'#333333',
+            backgroundColor: '#1F2D29',
+            color: [
+              '#7289AB','#73B9BC','#73A373','#C23531', '#fec42c', '#E69D87'
+            ],
+            label: {
+              normal: {
+                textStyle: {
+                  color: '#999'
+                }
+              },
+              emphasis: {
+                textStyle: {
+                  color: '#fff'
+                }
+              }
+            },
             timeline: {
+              itemStyle:{
+                normal:{
+                  color:'#fff',
+                  borderColor:'fff'
+                },
+                emphasis:{
+                  color:'#fff',
+                  borderColor:'fff'
+                }
+              },
+              lineStyle:{
+                color:'#fff',
+              },
+              orient: 'vertical',
+              left:'95%',
+              x2:'0.3%',
+              top:90,
+              bottom:90,
               axisType: 'category',
               autoPlay: true,
-              playInterval: 1000,
+              playInterval: 2000,
               data: [
-                '2016-01-01','2017-01-01',
+                '2016','2017',
                 {
-                  value: '2018-01-01',
+                  value: '2018',
                   tooltip: {
-                    formatter: '{b} 里程碑'
+                    formatter: '{b} 飞行次数第一个里程碑'
                   },
                   symbol: 'diamond',
                   symbolSize: 16
@@ -150,17 +193,31 @@
               label: {
                 formatter : function(s) {
                   return (new Date(s)).getFullYear();
+                },
+                normal:{
+                  position:'right',
+                  color:'#fff',
+                  rotate:'30',
+                  lineHeight:300,
                 }
               }
             },
             title: {
+              left: 'left',
+              top: 15,
+              textStyle: {
+                color: '#fff',
+                fontWeight: 'normal',
+                fontSize: 20
+              },
               subtext: '数据来自中国联通统计小组',
-              left: 'center'
+              left: 'left'
             },
             toolbox: {
               show: true,
               orient: 'vertical',
               left: 'left',
+              x:40,
               top: 'center',
               feature: {
                 mark: {show: true},
@@ -174,6 +231,10 @@
             },
             legend: {
               x: 'right',
+              top: 15,
+              textStyle:{
+                color:'#fff'
+              },
               data: ['消防型','物流型','医疗型','天眼型','交通型','其它型'],
               selected: {
                 '天眼型': false, '交通型': false, '其它型': false
@@ -181,54 +242,84 @@
             },
             calculable : true,
             grid: {
-              top: 50,
-              bottom: 100,
-              tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                  type: 'shadow',
-                  label: {
-                    show: true,
-                    formatter: function (params) {
-                      return params.value.replace('\n', '');
-                    }
+              x: '10%',
+              x2: 150,
+              y: '28%',
+              y2: '10%',
+            },
+            tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                type: 'shadow',
+                label: {
+                  show: true,
+                  formatter: function (params) {
+                    return params.value.replace('\n', '');
                   }
                 }
               }
             },
             xAxis: [
               {
+                name: '月份',
                 'type':'category',
+                nameLocation: 'end',
                 'axisLabel':{'interval':0},
                 'data':['1月', '2月', '3月','4月', '5月', '6月','7月', '8月', '9月','10月', '11月', '12月'],
-                splitLine: {show: false}
+                splitLine: {show: false},
+                nameTextStyle: {
+                  color: '#fff',
+                  fontSize: 14
+                },
+                axisLine: {
+                  lineStyle: {
+                    color: '#eee'
+                  }
+                }
               }
             ],
             yAxis: [
               {
                 type: 'value',
-                name: '执行次数'
+                name: '执行次数',
+                nameLocation: 'end',
+                nameTextStyle: {
+                  color: '#fff',
+                  fontSize: 14
+                },
+                nameTextStyle: {
+                  color: '#fff',
+                  fontSize: 16
+                },
+                axisLine: {
+                  lineStyle: {
+                    color: '#eee'
+                  }
+                },
               }
             ],
             series: [
-              {name: '消防型', type: 'bar'},
-              {name: '物流型', type: 'bar'},
-              {name: '医疗型', type: 'bar'},
-              {name: '天眼型', type: 'bar'},
-              {name: '交通型', type: 'bar'},
-              {name: '其它型', type: 'bar'},
+              {name: '消防型', type: 'bar',itemStyle: itemStyle,},
+              {name: '物流型', type: 'bar',itemStyle: itemStyle,},
+              {name: '医疗型', type: 'bar',itemStyle: itemStyle,},
+              {name: '天眼型', type: 'bar',itemStyle: itemStyle,},
+              {name: '交通型', type: 'bar',itemStyle: itemStyle,},
+              {name: '其它型', type: 'bar',itemStyle: itemStyle,},
               {
                 name: '占比',
                 type: 'pie',
                 center: ['50%', '20%'],
                 radius: '25%',
-                z: 100
+                z: 100,
+                itemStyle: itemStyle,
               }
             ]
           },
           options: [
             {
-            title : {text: '2016年无人机执行次数统计',left: 'center'},
+            title : {
+              text: '2016年无人机执行次数统计',
+            },
             series : [
               {data: dataMap.data1['2016']},
               {data: dataMap.data2['2016']},
@@ -247,7 +338,7 @@
             ]
           },
             {
-              title : {text: '2017年无人机执行次数统计',left: 'center'},
+              title : {text: '2017年无人机执行次数统计'},
               series : [
                 {data: dataMap.data1['2017']},
                 {data: dataMap.data2['2017']},
@@ -266,7 +357,7 @@
               ]
             },
             {
-              title : {text: '2018年无人机执行次数统计',left: 'center'},
+              title : {text: '2018年无人机执行次数统计'},
               series : [
                 {data: dataMap.data1['2018']},
                 {data: dataMap.data2['2018']},
@@ -294,4 +385,5 @@
 </script>
 
 <style>
+
 </style>

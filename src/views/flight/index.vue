@@ -20,13 +20,13 @@
     </div>
     <el-table v-loading="listLoading" :data="pageData" border fit highlight-current-row style="width: 100%;magin-top:20px;text-align: center">
 
-      <el-table-column prop="id" :label="$t('flight.id')" align="center" width="150" />
+      <el-table-column prop="id" :label="$t('flight.id')" sortable align="center" width="150" />
 
       <el-table-column prop="typeId.typeName" :label="$t('flight.typeId')" align="center" width="133" />
 
-      <el-table-column prop="date1" :label="$t('flight.date1')" align="center" width="150" />
+      <el-table-column prop="date1" :label="$t('flight.date1')" sortable align="center" width="150" />
 
-      <el-table-column prop="date2" :label="$t('flight.date2')" align="center" width="150" />
+      <el-table-column prop="date2" :label="$t('flight.date2')" sortable align="center" width="150" />
 
       <el-table-column prop="start" :label="$t('flight.start')" align="center" width="150" />
 
@@ -56,9 +56,9 @@
     <!--编辑弹出窗-->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item :label="$t('flight.id')">
+        <!--<el-form-item :label="$t('flight.id')">
           <el-input v-model="temp.id" placeholder="Please input" />
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item :label="$t('flight.typeId')" prop="typeId">
           <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select">
             <el-option v-for="item in typeId" :key="item.id" :label="item.typeName" :value="item.typeName" />
@@ -92,9 +92,9 @@
     <!--新增弹出窗-->
     <el-dialog title="新增" :visible.sync="dialogFormAdd">
       <el-form ref="AddForm" :model="addtemp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item :label="$t('flight.id')" prop="id">
+        <!--<el-form-item :label="$t('flight.id')" prop="id">
           <el-input v-model="addtemp.id" placeholder="Please input" />
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item :label="$t('flight.typeId')" prop="typeId">
           <el-select v-model="addtemp.typeId.typeName" class="filter-item" placeholder="Please select">
             <el-option v-for="item in typeId" :key="item.id" :label="item.typeName" :value="item.typeName" />
@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import { fetchNewsList, updateNews, createNews } from '@/api/flight'
+import { fetchList, updateNews, createNews } from '@/api/flight'
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
@@ -196,7 +196,7 @@ export default {
   mounted() {
     this.listLoading = true
     // 首次挂载列表组件
-    fetchNewsList(this.listQuery).then(response => {
+    fetchList(this.listQuery).then(response => {
       this.list = response.data.items
       this.total = response.data.total
       this.getList()

@@ -169,7 +169,8 @@ export default {
     latitude: 'Latitude',
     actions: 'Actions',
     edit: 'Edit',
-    delete: 'Delete'
+    delete: 'Delete',
+    clear: 'Clear'
   },
   table: {
     dynamicTips1: 'Fixed header, sorted by header order',

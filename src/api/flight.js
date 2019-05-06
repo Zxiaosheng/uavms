@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function fetchNewsList(query) {
+export function fetchList(query) {
   return request({
     url: '/flight/list',
     method: 'get',
