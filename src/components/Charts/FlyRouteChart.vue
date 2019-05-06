@@ -4,7 +4,15 @@
 
 <script>
   import echarts from 'echarts'
+
+  //行政区划图
+  import 'echarts/lib/chart/map'
+  //引入对应图表的js文件
+  import 'echarts/map/js/china.js'
+
   import resize from './mixins/resize'
+
+
   export default {
     name: "FlyRouteChart",
     props: {
