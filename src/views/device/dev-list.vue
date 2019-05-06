@@ -51,8 +51,8 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="findData">搜索</el-button>
-        <el-button type="primary" @click="clearData">清空</el-button>
+        <el-button type="primary" @click="findData" icon="el-icon-search">搜索</el-button>
+        <el-button type="primary" @click="clearData" class="el-icon-search">清空</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -253,6 +253,11 @@
                 msg={
                   type: 'info',
                   message: '此设备正在执行任务'
+                }
+              }else if(item.status==='已停用'){
+                msg={
+                  type: 'info',
+                  message: '此设备已经停用'
                 }
               }else{
                 item.status='已停用'

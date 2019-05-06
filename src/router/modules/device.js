@@ -8,7 +8,7 @@ const deviceRouter = {
   redirect: '/device/list',
   name: 'Device',
   meta: {
-    title: '设备管理',
+    title: 'device',
     icon: 'form'
   },
   children: [
@@ -16,19 +16,13 @@ const deviceRouter = {
       path: 'list',
       component: () => import('@/views/device/dev-list'),
       name: 'DeviceList',
-      meta: { title: '设备列表' }
+      meta: { title: 'deviceList' }
     },
     {
       path: 'add',
-      component: () => import('@/views/device/dev-list'),
-      name: 'DeviceList',
-      meta: { title: '设备' }
-    },
-    {
-      path: 'demo',
-      component: () => import('@/views/charts/FlyRoute'),
-      name: 'fly-rote-demo',
-      meta: { title: '飞行路径演示' }
+      component: () => import('@/views/device/dev-add'),
+      name: 'DeviceAdd',
+      meta: { title: 'addDevice' }
     }
   ]
 }
