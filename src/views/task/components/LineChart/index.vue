@@ -5,7 +5,6 @@
 <script>
   import echarts from 'echarts'
   import resize from '@/components/Charts/mixins/resize'
-  import {getReportSuccCount,getReportFailCount} from '@/api/task'
   export default {
     name: 'index',
     props: {
@@ -35,19 +34,12 @@
       }
     },
     mounted() {
-      getReportFailCount().then(resp=>{
-        this.failCnt = resp.data
-        console.log(this.failCnt)
-        //初始化Echarts实例
-        this.initChart()
-      })
-      getReportSuccCount().then(resp=>{
-        this.successCnt = resp.data
-        console.log(resp.data)
-        //初始化Echarts实例
-        this.initChart()
-      })
-
+      for(let i = 0; i < 31; i++){
+        this.successCnt.push(this.getRndInteger(20,50))
+        this.failCnt.push(this.getRndInteger(0,15))
+      }
+      //初始化Echarts实例
+      this.initChart()
     },
     beforeDestroy() {
       if (!this.chart) {
@@ -57,6 +49,10 @@
       this.chart = null
     },
     methods:{
+      //模拟[min,max]整数
+      getRndInteger(min, max) {
+          return Math.floor(Math.random() * (max - min + 1) ) + min;
+      },
       initChart() {
         //创建echarts实例
         this.chart = echarts.init(document.getElementById(this.id))
