@@ -4,7 +4,7 @@
 
 <script>
 import echarts from 'echarts'
-// import bmap from 'echarts/extension/bmap/bmap'
+import bmap from 'echarts/extension/bmap/bmap'
 import china from 'echarts/map/js/china'
 import resize from '@/components/Charts/mixins/resize'
 
