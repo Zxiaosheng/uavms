@@ -14,7 +14,7 @@ import flyArea from './flyArea'
 import historycount from './history-count'
 import trouble from './trouble'
 import flight from './flight'
-// import troubleechart from './trouble-echart'
+import troubleechart from './trouble-echart'
 
 
 const mocks = [
@@ -33,7 +33,7 @@ const mocks = [
   ...historycount,
   ...trouble,
   ...flight,
-  // ...troubleechart
+  ...troubleechart
 ]
 
 // for front mock
