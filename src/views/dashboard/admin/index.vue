@@ -40,21 +40,21 @@
 
     <!--<flypath></flypath>-->
     <el-row :gutter="20">
-      <el-col :span="4">
+      <el-col :span="6">
         <div class="grid-content bg-purple">
           <!--千言万语-->
-          moumouzujian
+          bar
         </div>
       </el-col>
-      <el-col :span="16">
+      <el-col :span="12">
         <div class="grid-content bg-purple">
           <task-card></task-card>
         </div
         ></el-col>
-      <el-col :span="4">
+      <el-col :span="6">
         <div class="grid-content bg-purple">
           <!--千言万语-->
-          moumouzujian
+          leida
         </div>
       </el-col>
     </el-row>
