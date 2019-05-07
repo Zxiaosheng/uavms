@@ -131,10 +131,10 @@
 
         var itemStyle = {
           normal: {
-            opacity: 0.8,
+            opacity: 0.9,
             shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowOffsetY: 0,
+            shadowOffsetX: 10,
+            shadowOffsetY: 10,
             shadowColor: 'rgba(0, 0, 0,0.7)'
           }
         };
@@ -217,8 +217,7 @@
             toolbox: {
               show: true,
               orient: 'vertical',
-              left: 'left',
-              x:40,
+              x:20,
               top: 'center',
               feature: {
                 mark: {show: true},
@@ -227,8 +226,6 @@
                 restore: {show: true},
                 saveAsImage: {show: true}
               }
-            },
-            tooltip: {
             },
             legend: {
               x: 'right',
@@ -312,7 +309,7 @@
                 center: ['50%', '15%'],
                 radius: '25%',
                 z: 100,
-                itemStyle: itemStyle,
+//                itemStyle: itemStyle,
               }
             ]
           },

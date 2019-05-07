@@ -193,20 +193,13 @@
       })
     },
     methods:{
-      formatDate (val) {
-        const date = new Date(val);
-        const year = date.getFullYear();
-        const month = date.getMonth() > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`;
-        const day = date.getDate() > 9 ? date.getDate() + 1 : `0${date.getDate() + 1}`;
-        return `${year}-${month}-${day}`;
-        // console.log(val);
-      },
       getList() {
         this.listLoading = true;
-        let{page,limit,date,location,type,type1}=this.listQuery;
+        let{page,limit,date,location,type}=this.listQuery;
 
-        if(typeof date!='undefined'){
+        if(typeof date!='undefined' && date){
           date=new Date(date)
+          console.log('==============')
         }
         let filterData=this.list.filter(item=>{
           let idate=new Date(Date.parse(item.date))
@@ -248,9 +241,6 @@
       handleCreate() {
         this.resetTemp()
         this.dialogFormAdd = true
-        // this.$nextTick(() => {
-        //   this.$refs['dataForm'].clearValidate()
-        // })
       },
       addData() {
         this.$refs['AddForm'].validate((valid) => {
