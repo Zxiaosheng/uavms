@@ -45,6 +45,11 @@
           <span>{{ scope.row.taskName }}</span>
         </template>
       </el-table-column>
+      <el-table-column :label="$t('task.rodeName')" align="center" width="100">
+        <template slot-scope="scope">
+          <span>{{ scope.row.rodeName }}</span>
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('task.startTime')" align="center" width="160">
       <template slot-scope="scope">
       <span>{{ scope.row.startTime}}</span>
@@ -55,7 +60,7 @@
           <span>{{ scope.row.endTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.taskDesc')" align="center" width="280">
+      <el-table-column :label="$t('task.taskDesc')" align="center" width="200">
         <template slot-scope="scope">
           <span>{{ scope.row.taskDesc }}</span>
         </template>
@@ -65,7 +70,7 @@
           <span>{{ scope.row.taskTypes.typeName }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.head')" align="center" width="120">
+      <el-table-column :label="$t('task.head')" align="center" width="90">
         <template slot-scope="scope">
           <span>{{ scope.row.head }}</span>
         </template>
