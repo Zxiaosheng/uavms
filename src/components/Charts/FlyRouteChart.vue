@@ -1,7 +1,7 @@
 <template>
   <div class="chart-container">
 
-        <div :id="id" :class="className" :style="{height:height,width:width}" />
+        <div :id="id" :class="className" style="height:730px;width:100%" />
 
   </div>
 </template>
@@ -15,7 +15,6 @@ import 'echarts/lib/chart/map'
 // 引入对应图表的js文件
 import 'echarts/map/js/china'
 import 'echarts/map/js/province/fujian'
-import bmap from 'echarts/extension/bmap/bmap'
 import resize from './mixins/resize'
 
 export default {
@@ -232,7 +231,7 @@ export default {
         '南安': [118.23, 24.57],
         '南平': [118.10, 26.38],
         '宁德': [119.31, 26.39],
-        '莆田': [119.01, 24.26],
+        '莆田': [118.56, 25.56],
         '泉州': [118.36, 24.56],
         '三明': [117.36, 26.13],
         '邵武': [117.29, 27.20],
@@ -492,7 +491,7 @@ export default {
       this.chart = echarts.init(document.getElementById(this.id))
 
       this.chart.setOption({
-        backgroundColor: '#032971',
+        backgroundColor: 'rgb(31,45,41)',
         title: {
           show: false,
           text: '三场进出港航线图',
