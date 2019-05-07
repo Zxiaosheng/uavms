@@ -29,16 +29,23 @@
     data(){
       return {
         chart:null,
-        data1:[{value: 80, name: '百分比'}]
+        isRouterAlive:undefined,
+        //bug原因有可能在这里，value值需要时动态的，根据数据计算
+        progressData:[{value: 0, name: '进度'}],
+        occupancyData:[{value: 80, name: '占用率'}]
       }
     },
     mounted() {
-      //初始化Echarts实例
+      //初始化echarts实例
       this.initChart();
       setInterval(()=>{
-        this.data1[0].value = (Math.random() * 100).toFixed(2) - 0;
+        this.progressData[0].value += 1
+        this.occupancyData[0].value -= this.occupancyData[0].value/100
+        if(this.progressData[0].value > 100){
+          this.progressData[0].value = 0;
+        }
         this.initChart()
-      },2000)
+      },1000)
     },
     beforeDestroy() {
       if(this.initChart){
@@ -59,60 +66,72 @@
           tooltip : {
             formatter: "{a} <br/>{c} {b}"
           },
+          title: {
+            top:'10',
+            left:'20',
+            text: '机器实时占用率与任务实时进度',
+            textStyle:{
+              color:'#fff'
+            }
+          },
           series : [
             {
-              name: '速度',
+              name: '当日任务进度',
               type: 'gauge',
-              center: ['70%', '55%'],
+              center: ['68%', '55%'],
               z: 3,
               min: 0,
-              max: 220,
-              splitNumber: 11,
+              max: 100,
+              splitNumber: 10,
               radius: '75%',
-              axisLine: {            // 坐标轴线
-                lineStyle: {       // 属性lineStyle控制线条样式
-                  width: 6
+              // 坐标轴线
+              axisLine: {
+                lineStyle: {
+                  width: 6,
+                  color:[[0.2, '#ff8280'], [0.8, '#65d0de'],[1, 'rgb(79, 192, 141)']],
+                  shadowColor: 'rgba(101, 208, 222, 0.8)',
+                  shadowBlur: 100
                 }
               },
-              axisTick: {            // 坐标轴小标记
-                length: 15,        // 属性length控制线长
-                lineStyle: {       // 属性lineStyle控制线条样式
+              // 坐标轴小标记
+              axisTick: {
+                length: 20,
+                lineStyle: {
                   color: 'auto'
                 }
               },
-              splitLine: {           // 分隔线
-                length: 10,         // 属性length控制线长
-                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+              // 分隔线
+              splitLine: {
+                length: 10,
+                lineStyle: {
                   color: 'auto'
                 }
               },
+              // 刻度样式
               axisLabel: {
                 backgroundColor: 'auto',
                 borderRadius: 2,
-                color: '#eee',
+                color: '#fff',
                 padding: 3,
                 textShadowBlur: 2,
                 textShadowOffsetX: 1,
                 textShadowOffsetY: 1,
                 textShadowColor: '#fff'
               },
+              // 表盘中心名称
               title : {
-                // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                 fontWeight: 'bolder',
                 fontSize: 20,
-                fontStyle: 'italic'
+                fontStyle: 'normal',
+                color:'#fff'
               },
               detail : {
-                // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                formatter: function (value) {
-                  value = (value + '').split('.');
-                  value.length < 2 && (value.push('00'));
-                  return ('00' + value[0]).slice(-2)
-                    + '.' + (value[1] + '00').slice(0, 2);
+                formatter: value=>{
+                  return value + '%'
                 },
                 fontWeight: 'bolder',
                 borderRadius: 3,
-                backgroundColor: '#444',
+                backgroundColor: '#65d0de',
                 borderColor: '#aaa',
                 shadowBlur: 5,
                 shadowColor: '#333',
@@ -131,45 +150,60 @@
                 rich: {}
               },
               color:'#fff',
-              data:this.data1
+              data:this.progressData
             },
             {
               name: '转速',
               type: 'gauge',
-              center: ['30%', '55%'],    // 默认全局居中
-              radius: '55%',
+              center: ['25%', '55%'],
+              radius: '60%',
               min:0,
-              max:7,
+              max:100,
               endAngle:45,
-              splitNumber:7,
-              axisLine: {            // 坐标轴线
-                lineStyle: {       // 属性lineStyle控制线条样式
-                  width: 8
+              splitNumber:10,
+              // 坐标轴线
+              axisLine: {
+                lineStyle: {
+                  width: 6,
+                  color:[[0.8, 'rgb(79, 192, 141)'], [1, '#ff8280']],
+                  shadowColor: 'rgba(79, 192, 141, 0.8)',
+                  shadowBlur: 60
                 }
               },
-              axisTick: {            // 坐标轴小标记
-                length:12,        // 属性length控制线长
-                lineStyle: {       // 属性lineStyle控制线条样式
+              // 坐标轴小标记
+              axisTick: {
+                length:12,
+                lineStyle: {
                   color: 'auto'
                 }
               },
-              splitLine: {           // 分隔线
-                length:20,         // 属性length控制线长
-                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+              // 分隔线
+              splitLine: {
+                length:20,
+                lineStyle: {
                   color: 'auto'
                 }
               },
               pointer: {
-                width:5
+                width:4
               },
               title: {
-                offsetCenter: [0, '-30%'],       // x, y，单位px
+                offsetCenter: [0, '-30%'],
+                fontWeight: 'bolder',
+                fontSize: 18,
+                fontStyle: 'normal',
+                color:'#fff'
               },
               detail: {
-                // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                fontWeight: 'bolder'
+                fontWeight: 'bolder',
+                formatter: function (value) {
+                  value = (value + '').split('.');
+                  value.length < 2 && (value.push('00'));
+                  return ('00' + value[0]).slice(-2)
+                    + '.' + (value[1] + '00').slice(0, 2)+'%';
+                },
               },
-              data:[{value: 1.5, name: 'x1000 r/min'}]
+              data:this.occupancyData
             }
           ]
         },true);

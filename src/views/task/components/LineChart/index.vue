@@ -28,10 +28,16 @@
     },
     data(){
       return {
-        chart:null
+        chart:null,
+        failCnt:[],
+        successCnt:[]
       }
     },
     mounted() {
+      for(let i = 0; i < 31; i++){
+        this.successCnt.push(this.getRndInteger(20,50))
+        this.failCnt.push(this.getRndInteger(0,15))
+      }
       //初始化Echarts实例
       this.initChart()
     },
@@ -43,6 +49,10 @@
       this.chart = null
     },
     methods:{
+      //模拟[min,max]整数
+      getRndInteger(min, max) {
+          return Math.floor(Math.random() * (max - min + 1) ) + min;
+      },
       initChart() {
         //创建echarts实例
         this.chart = echarts.init(document.getElementById(this.id))
@@ -99,7 +109,7 @@
               name:'成功任务',
               type:'line',
               color:'rgb(79,192,141)',
-              data:[11, 11, 15, 13, 12, 13, 10,11, 21, 15, 13, 12, 13, 10,11, 18, 15, 13, 12, 13, 10,11, 11, 15, 13, 12, 13, 9,15,12,17],
+              data:this.successCnt,
               markPoint: {
                 data: [
                   {type: 'max', name: '最大值'},
@@ -134,7 +144,7 @@
               name:'失败任务',
               type:'line',
               color:'#ff8280',
-              data:[1, 10, 2, 5, 3, 5, 0,1, 10, 2, 5, 3, 2, 0,1, 10, 2, 5, 8, 2, 0,5, 10, 2, 5, 3, 2, 0,10,6,3],
+              data:this.failCnt,
               markPoint: {
                 data: [
                   {name: '日最低', value: -2, xAxis: 1, yAxis: -1.5}

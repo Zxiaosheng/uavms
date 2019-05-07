@@ -1,4 +1,8 @@
 export default {
+  device: {
+    title: 'DeviceManagement'
+
+  },
   historycount: {
     id: 'ID',
     typeId: 'TaskType',
@@ -28,6 +32,7 @@ export default {
     taskId: 'taskId',
     taskName: 'taskName',
     taskDesc: 'taskDesc',
+    rodeName: 'rodeName',
     taskType: 'taskType',
     startTime: 'startTime',
     endTime: 'endTime',
@@ -39,7 +44,20 @@ export default {
     btnPause: 'pause',
     btnDelete: 'delete'
   },
+  rode: {
+    id: 'id',
+    rodename:'rodename',
+    typeId: 'typeId',
+    date1: 'startTime',
+    date2: 'stopTime',
+    start: 'start',
+    end: 'end',
+    task: 'Task'
+  },
   route: {
+    device: 'Device',
+    deviceList: 'deviceList',
+    addDevice: 'AddDevice',
     flyArea: 'flyArea',
     flyAreaList: 'flyAreaList',
     bMap: 'bMap',
@@ -51,6 +69,9 @@ export default {
     taskCenter: 'TaskCenter',
     taskList: 'TaskList',
     taskBoard: 'TaskBoard',
+    rode: 'RodeManager',
+    rodelist: 'RodeList',
+    rodeechart: 'RodeEchart',
     dashboard: 'Dashboard',
     documentation: 'Documentation',
     guide: 'Guide',
@@ -113,7 +134,10 @@ export default {
     clipboardDemo: 'Clipboard',
     i18n: 'I18n',
     externalLink: 'External Link',
-    profile: 'Profile'
+    profile: 'Profile',
+    flight: 'flight',
+    map: 'map',
+    route: 'route'
   },
   navbar: {
     dashboard: 'Dashboard',
@@ -169,7 +193,19 @@ export default {
     latitude: 'Latitude',
     actions: 'Actions',
     edit: 'Edit',
-    delete: 'Delete'
+    delete: 'Delete',
+    clear: 'Clear'
+  },
+  flight: {
+    id: 'id',
+    typeId: 'typeId',
+    date1: 'startTime',
+    date2: 'endTime',
+    start: 'startPlace',
+    end: 'endPlace',
+    map: 'map',
+    route: 'route',
+    flight: 'flight'
   },
   table: {
     dynamicTips1: 'Fixed header, sorted by header order',

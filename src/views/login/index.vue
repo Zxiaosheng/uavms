@@ -47,27 +47,80 @@
           </span>
         </el-form-item>
       </el-tooltip>
+  <div class="verify">
+      <el-form-item  class="leftVerify" prop="verifycode" style="width: 66%">
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
+         <el-input v-model="loginForm.verifycode" placeholder="请输入验证码" class="identifyinput" >
+
+         </el-input>
+      </el-form-item>
+      <el-form-item class="rightVerify" >
+        <div class="identifybox">
+          <div @click="refreshCode">
+            <s-identify :identifyCode="identifyCode">
+
+            </s-identify>
+          </div>
+          <el-button @click="refreshCode" type='text' class="textbtn">看不清，换一张</el-button>
+        </div>
+      </el-form-item>
+  </div>
+      <!--<el-checkbox v-model="checked">记住账号</el-checkbox>-->
+
+
+      <el-button :loading="loading" type="primary" style="width:30%;margin-bottom:30px;" @click.native.prevent="handleLogin" >
         {{ $t('login.logIn') }}
       </el-button>
+      <el-button :loading="loading"  style="width:30%;margin-bottom:30px;" @click="handleRegiest" >
+        注册
+      </el-button>
 
-      <div style="position:relative">
-        <div class="tips">
-          <span>{{ $t('login.username') }} : admin</span>
-          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
-        </div>
-        <div class="tips">
-          <span style="margin-right:18px;">
-            {{ $t('login.username') }} : editor
-          </span>
-          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
-        </div>
+      <el-dialog
+        title="注册"
+        :visible.sync="dialogVisible"
+        :before-close="handleClose">
+        <el-form ref="dataForm"  :model="temp"  label-position="left" label-width="150px" style="width: 500px; margin-left:50px;">
+          <div class="diaInput">
 
-        <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
-          {{ $t('login.thirdparty') }}
-        </el-button>
-      </div>
+
+          <!--<el-form-item  prop="username">-->
+            <!--<el-input v-model="temp.username" :placeholder="$t('login.username')" type="text"></el-input>-->
+            <input type="text" v-model="temp.username" :placeholder="$t('login.username')" >
+          <!--</el-form-item>-->
+
+          <!--<el-form-item >-->
+          <input type="password" v-model="temp.password" placeholder="密码"  >
+            <!--<el-input type="password" v-model="temp.password" placeholder="密码" ></el-input>-->
+          <!--</el-form-item>-->
+
+          <!--<el-form-item >-->
+          <input type="password" v-model="temp.repassword" placeholder="请再次输入密码">
+            <!--<el-input type="password" v-model="temp.repassword" placeholder="请再次输入密码"></el-input>-->
+          <!--</el-form-item>-->
+          </div>
+        </el-form>
+
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="regiest">注册</el-button>
+  </span>
+      </el-dialog>
+      <!--<div style="position:relative">-->
+        <!--<div class="tips">-->
+          <!--<span>{{ $t('login.username') }} : admin</span>-->
+          <!--<span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>-->
+        <!--</div>-->
+        <!--<div class="tips">-->
+          <!--<span style="margin-right:18px;">-->
+            <!--{{ $t('login.username') }} : editor-->
+          <!--</span>-->
+          <!--<span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>-->
+        <!--</div>-->
+
+        <!--<el-button class="thirdparty-button" type="primary" @click="showDialog=true">-->
+          <!--{{ $t('login.thirdparty') }}-->
+        <!--</el-button>-->
+      <!--</div>-->
     </el-form>
 
     <el-dialog :title="$t('login.thirdparty')" :visible.sync="showDialog">
@@ -84,10 +137,11 @@
 import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import SocialSign from './components/SocialSignin'
-
+import SIdentify from '@/components/Identify/identify.vue'
 export default {
   name: 'Login',
-  components: { LangSelect, SocialSign },
+  components: { LangSelect, SocialSign, SIdentify },
+
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -103,20 +157,50 @@ export default {
         callback()
       }
     }
+//     验证码自定义验证规则
+     const validateVerifycode = (rule, value, callback) => {
+        if (value === '') {
+            callback(new Error('请输入验证码'))
+        } else if (value !== this.identifyCode) {
+            console.log('validateVerifycode:', value)
+             callback(new Error('验证码不正确!'))
+        } else {
+              callback()
+             }
+     }
+
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+//        username: 'admin',
+//        password: '111111'
+        username: '',
+        password: '',
+        repassword: '',
+        verifycode:''
       },
+      temp: {
+        username: '',
+        password: '',
+        repassword: '',
+        verifycode:''
+      },
+      identifyCodes: '1234567890',
+
+      identifyCode: '',
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        verifycode: [
+          { required: true, trigger: 'blur', validator: validateVerifycode }
+        ]
       },
       passwordType: 'password',
       capsTooltip: false,
       loading: false,
       showDialog: false,
-      redirect: undefined
+      redirect: undefined,
+      dialogVisible : false,
+//      checked: false,
     }
   },
   watch: {
@@ -136,6 +220,11 @@ export default {
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }
+    // 验证码初始化
+
+    this.identifyCode = ''
+
+    this.makeCode(this.identifyCodes, 4)
   },
   destroyed() {
     // window.removeEventListener('storage', this.afterQRScan)
@@ -180,7 +269,7 @@ export default {
           return false
         }
       })
-    }
+    },
     // afterQRScan() {
     //   if (e.key === 'x-admin-oauth-code') {
     //     const code = getQueryObject(e.newValue)
@@ -199,67 +288,167 @@ export default {
     //     }
     //   }
     // }
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    },
+    // 生成随机数
+     randomNum(min, max) {
+        return Math.floor(Math.random() * (max - min) + min) ;
+     },
+    // 切换验证码
+     refreshCode() {
+         this.identifyCode = '' ;
+         this.makeCode(this.identifyCodes, 4) ;
+      },
+    // 生成四位随机验证码
+     makeCode(o, l) {
+        for (let i = 0; i < l; i++) {
+            this.identifyCode += this.identifyCodes[
+            this.randomNum(0, this.identifyCodes.length)
+
+             ]
+        }
+       console.log(this.identifyCode)
+     },
+    resetForm(){
+      this.temp= {
+        username: '',
+          password: '',
+          repassword: '',
+          verifycode:''
+      }
+    },
+    handleRegiest(){
+      this.resetForm();
+      this.dialogVisible=true;
+
+    },
+    regiest(){
+      let {username,password,repassword} = this.temp;
+      if (username === '') {
+        this.$message.error('用户名不能为空');
+        return
+      }
+      if (password === '') {
+        this.$message.error('密码不能为空');
+        return
+      }
+      if (password !== repassword) {
+        this.$message.error('两次输入的密码不一致');
+        return
+      }
+
+      this.$message({
+        message: '恭喜你，注册成功',
+        type: 'success'
+      });
+      this.dialogVisible=false;
+
+    }
+
+
   }
 }
 </script>
 
-<style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
-$bg:#283443;
-$light_gray:#fff;
-$cursor: #fff;
-
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $cursor;
+<style>
+  .login-container{
+    width:100%;
+    height:100%;
+    background-image: url('img/center.jpg');
+    background-repeat:no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
   }
-}
+  .diaInput{
+    /*border: solid red;*/
+    display: flex;
+    flex-flow: column;
+  }
+  .diaInput input{
+    margin-bottom: 10px;
+    border: solid #ccc 1px;
+    border-radius: 0px;
+    padding: 12px 5px 12px 15px;
+    height: 47px;
+    caret-color: $cursor;
+  }
+  .verify{
+    display: flex;
+  }
+  .leftVerify{
+    height: 47px;
+  }
+  .identifybox{
+    height: 47px;
+  }
 
-/* reset element-ui css */
-.login-container {
+
+</style>
+
+<style lang="scss">
+  /* 修复input 背景不协调 和光标变色 */
+  /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
+
+  $bg:#283443;
+  $light_gray:#fff;
+  $cursor: #fff;
+
+  @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
+    .login-container .el-input input {
+      color: $cursor;
+    }
+  }
+
+  /* reset element-ui css */
+  .login-container {
   .el-input {
     display: inline-block;
     height: 47px;
     width: 85%;
 
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      caret-color: $cursor;
+  input {
+    background: transparent;
+    border: 0px;
+    -webkit-appearance: none;
+    border-radius: 0px;
+    padding: 12px 5px 12px 15px;
+    color: $light_gray;
 
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
-    }
+    height: 47px;
+    caret-color: $cursor;
+
+  &:-webkit-autofill {
+     box-shadow: 0 0 0px 1000px $bg inset !important;
+     -webkit-text-fill-color: $cursor !important;
+   }
+  }
   }
 
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.4);
     border-radius: 5px;
     color: #454545;
   }
-}
+  }
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+  $bg:#2d3a4b;
+  $dark_gray:#889aa4;
+  $light_gray:#eee;
 
-.login-container {
-  min-height: 100%;
-  width: 100%;
-  background-color: $bg;
-  overflow: hidden;
+  .login-container {
+    min-height: 100%;
+    width: 100%;
+    background-color: $bg;
+    overflow: hidden;
 
   .login-form {
     position: relative;
@@ -275,11 +464,11 @@ $light_gray:#eee;
     color: #fff;
     margin-bottom: 10px;
 
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
+  span {
+  &:first-of-type {
+     margin-right: 16px;
+   }
+  }
   }
 
   .svg-container {
@@ -293,22 +482,22 @@ $light_gray:#eee;
   .title-container {
     position: relative;
 
-    .title {
-      font-size: 26px;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
-      text-align: center;
-      font-weight: bold;
-    }
+  .title {
+    font-size: 26px;
+    color: $light_gray;
+    margin: 0px auto 40px auto;
+    text-align: center;
+    font-weight: bold;
+  }
 
-    .set-language {
-      color: #fff;
-      position: absolute;
-      top: 3px;
-      font-size: 18px;
-      right: 0px;
-      cursor: pointer;
-    }
+  .set-language {
+    color: #fff;
+    position: absolute;
+    top: 3px;
+    font-size: 18px;
+    right: 0px;
+    cursor: pointer;
+  }
   }
 
   .show-pwd {
@@ -332,5 +521,7 @@ $light_gray:#eee;
       display: none;
     }
   }
-}
+  }
 </style>
+
+

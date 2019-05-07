@@ -100,6 +100,12 @@ export const constantRoutes = [
           title: 'rodeechart',
           roles: ['admin']
         }
+      },
+      {
+        path: 'demo',
+        component: () => import('@/views/charts/FlyRoute'),
+        name: 'fly-rote-demo',
+        meta: { title: '飞行路径演示' }
       }
     ]
   },
@@ -122,6 +128,15 @@ export const constantRoutes = [
           title: 'troublelist',
           roles: ['admin']
         }
+      },
+      {
+        path: 'trouble-echart',
+        name: 'troubleechart',
+        component: () => import('@/views/trouble/trouble-echart'),
+        meta: {
+          title: 'troubleechart',
+          roles: ['admin']
+        }
       }
     ]
   },
@@ -140,29 +155,26 @@ export const constantRoutes = [
     component: Layout,
     alwaysShow: true,
     meta: {
-      title: '路线追踪',
+      title: 'flight',
       icon: 'international',
       roles: ['admin']
     },
     children: [
       {
         path: 'index',
-        name: 'flightlist',
+        name: 'route',
         component: () => import('@/views/flight'),
         meta: {
-          title: '路线',
+          title: 'route',
           roles: ['admin']
         }
-      }/*,
+      },
       {
-        path: 'index',
-        name: 'flight',
-        //component: () => import('@/views/flight'),
-        meta: {
-          title: '路线显示',
-          roles: ['admin']
-        }
-      },*/
+        path: 'bMap',
+        component: () => import('@/views/flight/map'),
+        name: 'map',
+        meta: { title: 'map', noCache: true }
+      }
 
     ]
   }

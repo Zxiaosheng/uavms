@@ -1,4 +1,7 @@
 export default {
+  device: {
+    title: '设备管理'
+  },
   historycount: {
     id: '编号',
     typeId: '任务类型',
@@ -27,6 +30,7 @@ export default {
   task: {
     taskId: '任务ID',
     taskName: '任务名称',
+    rodeName: '任务路线',
     taskDesc: '任务描述',
     taskType: '任务类型',
     startTime: '开始时间',
@@ -40,6 +44,9 @@ export default {
     btnDelete: '删除'
   },
   route: {
+    device: '设备管理',
+    deviceList: '设备列表',
+    addDevice: '设备添加',
     flyArea: '历史飞行区域',
     flyAreaList: '飞行区域统计表',
     bMap: '飞行区域热力图',
@@ -53,10 +60,11 @@ export default {
     taskBoard: '任务数据',
     taskList: '任务列表',
     rode: '路线管理',
-    rodelist: '路线统计',
-    rodeechart: '图表',
+    rodelist: '路线统计列表',
+    rodeechart: '路线统计图',
     trouble: '故障管理',
     troublelist: '故障列表',
+    troubleechart: '故障图表',
     dashboard: '首页',
     documentation: '文档',
     guide: '引导页',
@@ -119,12 +127,17 @@ export default {
     clipboardDemo: 'Clipboard',
     i18n: '国际化',
     externalLink: '外链',
-    profile: '个人中心'
+    profile: '个人中心',
+    flight: '路线追踪',
+    map: '飞行图',
+    route: '路线'
   },
   rode: {
+    id: '编号',
+    rodename:'路线名称',
     typeId: '型号',
-    date1: '出发时间',
-    date2: '到达时间',
+    date1: '启用时间',
+    date2: '停用时间',
     start: '出发地点',
     end: '到达地点',
     task: '任务'
@@ -136,8 +149,10 @@ export default {
     date1: '出发时间',
     date2: '到达时间',
     start: '出发地点',
-    end: '到达地点'
-
+    end: '到达地点',
+    map: '地图',
+    route: '路线',
+    flight: '路线追踪'
   },
   navbar: {
     dashboard: '首页',
@@ -190,10 +205,11 @@ export default {
     task: '执行任务',
     area: '飞行区域',
     longitude: '经度',
-    latitude: '维度',
+    latitude: '纬度',
     actions: '操作',
     edit: '编辑',
-    delete: '删除'
+    delete: '删除',
+    clear: '清空'
 
   },
   table: {

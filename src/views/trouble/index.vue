@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
     <div class="demo-input-size">
-      <el-date-picker v-model="listQuery.date1" type="date" placeholder="起始时间" style="width: 130px"/>
-      <el-date-picker v-model="listQuery.date2" type="date" placeholder="截止时间" style="width: 130px"/>
-      <el-select v-model="listQuery.type" value-key="id" @change="getList" placeholder="无人机类型" clearable class="filter-item" style="width: 130px">
+      <el-date-picker v-model="listQuery.date1" type="date" placeholder="起始日期" style="width: 130px"/>
+      <el-date-picker v-model="listQuery.date2" type="date" placeholder="截止日期" style="width: 130px"/>
+      <el-select v-model="listQuery.planType" value-key="id" @change="getList" placeholder="无人机类型" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in planType" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
-      <el-select v-model="listQuery.type" value-key="id" @change="getList" placeholder="故障类型" clearable class="filter-item" style="width: 130px">
+      <el-select v-model="listQuery.troubleType" value-key="id" @change="getList" placeholder="故障类型" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in troubleType" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
@@ -78,39 +78,39 @@
         </el-button>
       </div>
     </el-dialog>
+
     <!--新增弹出窗-->
-    <!--<el-dialog title="新增" :visible.sync="dialogFormAdd">-->
-      <!--<el-form ref="AddForm"   :model="addtemp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">-->
-        <!--<el-form-item  :label="$t('rode.typeId')" prop="typeId">-->
-          <!--<el-select v-model="addtemp.typeId.typeName" class="filter-item" placeholder="Please select">-->
-            <!--<el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>-->
-          <!--</el-select>-->
-        <!--</el-form-item>-->
-        <!--<el-form-item :label="$t('rode.date1')"  prop="date1">-->
-          <!--<el-date-picker v-model="addtemp.date1" type="date"  placeholder="Please pick a date" />-->
-        <!--</el-form-item>-->
-        <!--<el-form-item :label="$t('rode.date2')"  prop="date2">-->
-          <!--<el-date-picker v-model="addtemp.date2" type="date"  placeholder="Please pick a date" />-->
-        <!--</el-form-item>-->
-        <!--<el-form-item :label="$t('rode.start')"  prop="start">-->
-          <!--<el-input v-model="addtemp.start" />-->
-        <!--</el-form-item>-->
-        <!--<el-form-item :label="$t('rode.end')"  prop="end">-->
-          <!--<el-input v-model="addtemp.end" />-->
-        <!--</el-form-item>-->
-        <!--<el-form-item :label="$t('rode.task')"  prop="task">-->
-          <!--<el-input v-model="addtemp.task" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />-->
-        <!--</el-form-item>-->
-      <!--</el-form>-->
-      <!--<div slot="footer" class="dialog-footer">-->
-        <!--<el-button @click="dialogFormAdd = false">-->
-          <!--{{ $t('table.cancel') }}-->
-        <!--</el-button>-->
-        <!--<el-button type="primary" @click="addData()">-->
-          <!--{{ $t('table.confirm') }}-->
-        <!--</el-button>-->
-      <!--</div>-->
-    <!--</el-dialog>-->
+    <el-dialog title="新增" :visible.sync="dialogFormAdd">
+      <el-form ref="AddForm"   :model="addtemp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+        <el-form-item label="日期"  prop="date">
+          <el-date-picker v-model="addtemp.date" type="date"  placeholder="Please pick a date" />
+        </el-form-item>
+        <el-form-item  label="无人机类型" prop="planType.typeName">
+          <el-select v-model="addtemp.planType.typeName" class="filter-item" placeholder="请选择">
+            <el-option v-for="item in planType"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item  label="故障类型" prop="troubleType.typeName">
+          <el-select v-model="addtemp.troubleType.typeName" class="filter-item" placeholder="请选择">
+            <el-option v-for="item in troubleType"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="故障次数"  prop="troubleCount">
+          <el-input v-model="addtemp.troubleCount" />
+        </el-form-item>
+        <el-form-item label="故障原因"  prop="troubleReason">
+          <el-input v-model="addtemp.troubleReason" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormAdd = false">
+          取消
+        </el-button>
+        <el-button type="primary" @click="addData()">
+          确定
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -136,7 +136,7 @@
         total: 0,
         pageData:[],
         planType: [{id:'1',typeName:'救援无人机'},{id:'2',typeName:'测绘无人机'},{id:'3',typeName:'拍摄无人机'},{id:'4',typeName:'交通无人机'}],
-        troubleType: [{id:'1',typeName:'电机故障'},{id:'2',typeName:'机械故障'},{id:'3',typeName:'操作故障'}],
+        troubleType: [{id:'1',typeName:'电机故障'},{id:'2',typeName:'电源故障'},{id:'3',typeName:'机翼故障'}],
         textMap: {
           update: 'Edit',
           create: 'Create'
@@ -145,19 +145,18 @@
           id:'',
           date: new Date(),
           planType: [{id:'1',typeName:'救援无人机'},{id:'2',typeName:'测绘无人机'},{id:'3',typeName:'拍摄无人机'},{id:'4',typeName:'交通无人机'}],
-          troubleType: [{id:'1',typeName:'电机故障'},{id:'2',typeName:'机械故障'},{id:'3',typeName:'操作故障'}],
+          troubleType: [{id:'1',typeName:'电机故障'},{id:'2',typeName:'电源故障'},{id:'3',typeName:'机翼故障'}],
           troubleCount: '',
           troubleReason:''
         },
-        // addtemp: {
-        //   id:'',
-        //   date1: new Date(),
-        //   date2: new Date(),
-        //   start: '',
-        //   end:'',
-        //   task:'',
-        //   typeId: [{id:1,typeName:'消防型'}]
-        // },
+        addtemp: {
+          id:undefined,
+          date: new Date(),
+          planType: [{id:'1',typeName:'救援无人机'},{id:'2',typeName:'测绘无人机'},{id:'3',typeName:'拍摄无人机'},{id:'4',typeName:'交通无人机'}],
+          troubleType: [{id:'1',typeName:'电机故障'},{id:'2',typeName:'电源故障'},{id:'3',typeName:'机翼故障'}],
+          troubleCount: '',
+          troubleReason: '',
+        },
         listQuery: {
           page: 1,
           limit: 20,
@@ -212,45 +211,38 @@
           this.$refs['dataForm'].clearValidate()
         })
       },
-      // handleCreate() {
-      //   this.resetTemp()
-      //   this.dialogFormAdd = true
-      // },
-      // addData() {
-      //   this.$refs['AddForm'].validate((valid) => {
-      //     if (valid) {
-      //       let time1=this.addtemp.date1;
-      //       let time2=this.addtemp.date2;
-      //       let m1=time1.getMonth()+1
-      //       let m2=time2.getMonth()+1
-      //       let d1=time1.getDate()
-      //       let d2=time2.getDate()
-      //       if(d1<9){
-      //         d1='0'+d1;
-      //       }
-      //       if(d2<9){
-      //         d2='0'+d2;
-      //       }
-      //       this.addtemp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-      //       this.addtemp.date1=time1.getFullYear()+"-"+0+m1+"-"+d1
-      //       this.addtemp.date2=time2.getFullYear()+"-"+0+m2+"-"+d2
-      //       createNews(this.addtemp).then(() => {
-      //         this.pageData.unshift(this.addtemp)
-      //         this.dialogFormAdd = false
-      //         this.$notify({
-      //           title: '成功',
-      //           message: '创建成功',
-      //           type: 'success',
-      //           duration: 2000
-      //         })
-      //         // this.addtemp.title=''
-      //         // this.addtemp.content=''
-      //         // this.addtemp.read=''
-      //       })
-      //       // this.addtemp=[];
-      //     }
-      //   })
-      // },
+      handleCreate() {
+        this.resetTemp()
+        this.dialogFormAdd = true
+      },
+      addData() {
+        this.$refs['AddForm'].validate((valid) => {
+          if (valid) {
+            let time1 = this.addtemp.date
+            let m1 = time1.getMonth()+1
+            let d1 = time1.getDate()
+            if(d1<9){
+              d1='0'+d1;
+            }
+            this.addtemp.id = parseInt(Math.random() * 100) + 1024 // mock a id
+            this.addtemp.date = time1.getFullYear()+"-"+0+m1+"-"+d1
+            createNews(this.addtemp).then(() => {
+              this.pageData.unshift(this.addtemp)
+              this.dialogFormAdd = false
+              this.$notify({
+                title: '成功',
+                message: '创建成功',
+                type: 'success',
+                duration: 2000
+              })
+              // this.addtemp.title=''
+              // this.addtemp.content=''
+              // this.addtemp.read=''
+            })
+            // this.addtemp=[];
+          }
+        })
+      },
       updateData() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
@@ -274,17 +266,16 @@
           }
         })
       },
-      // resetTemp() {
-      //   this.addtemp = {
-      //     id:undefined,
-      //     date1: new Date(),
-      //     date2: new Date(),
-      //     start: '',
-      //     end:'',
-      //     task:'',
-      //     typeId: [],
-      //   }
-      // },
+      resetTemp() {
+        this.addtemp = {
+          id:undefined,
+          date: new Date(),
+          planType: [],
+          troubleType: [],
+          troubleCount: '',
+          troubleReason: '',
+        }
+      },
       handleModifyStatus(row, status) {
         this.$message({
           message: '操作成功',

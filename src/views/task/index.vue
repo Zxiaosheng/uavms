@@ -1,19 +1,21 @@
 <template>
   <div class="app-container">
     <!--filter start-->
-    <div class="filter-container">
+    <div class="app-container" style="padding-left: 0">
       <!--ID排序选择-->
-      <el-select v-model="listQuery.sort" style="width: 200px" class="filter-item" @change="handleFilter">
+      <el-select v-model="listQuery.sort" style="width: 200px;" class="filter-item" align="left" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
       <el-input v-model="listQuery.taskName" :placeholder="$t('task.taskName')" style="width: 200px;" class="filter-item" @keyup.native.enter="handleFilter" />
       <el-select v-model="listQuery.taskType" :placeholder="$t('task.taskType')" clearable style="width: 180px" class="filter-item">
         <el-option v-for="item in taskTypes" :key="item.typeId" :label="item.typeName" :value="item.typeId" />
       </el-select>
+      <el-date-picker v-model="listQuery.startTime" type="date" value-format="yyyy-MM-dd" :placeholder="$t('task.startTime')"/>
+      <el-date-picker v-model="listQuery.endTime" type="date" value-format="yyyy-MM-dd" :placeholder="$t('task.endTime')" />
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleCreate">
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-plus" @click="handleCreate">
         {{ $t('table.add') }}
       </el-button>
     </div>
@@ -29,20 +31,27 @@
       highlight-current-row
       style="width: 100%;"
     >
-      <el-table-column fixed="left" :label="$t('task.taskId')" sortable="custom" align="center" width="100">
+      <el-table-column fixed="left" :label="$t('task.taskId')" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.taskId }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.taskStatus')" width="110px" align="center">
+      <el-table-column :label="$t('task.taskStatus')" width="110px" align="center" prop="taskStatus"
+      :filters="[{text:'进行',value:'Doing'},{text:'等待',value:'Wait'},{text:'超时',value:'OutTime'},{text:'暂停',value:'Pause'},{text:'正常',value:'Normal'},{text:'完成',value:'Finished'}]"
+      filter-placement="bottom-end"
+      :filter-method="filterTag">
         <template slot-scope="{row}">
-          <!-- row.status ? 'success' : 'info'-->
           <el-tag :type="row.taskStatus|taskStatusFilter">{{ row.taskStatus|taskStatusValFilter }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column :label="$t('task.taskName')" align="center" width="160">
         <template slot-scope="scope">
           <span>{{ scope.row.taskName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('task.rodeName')" align="center" width="100">
+        <template slot-scope="scope">
+          <span>{{ scope.row.rodes.rodeName }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('task.startTime')" align="center" width="160">
@@ -55,7 +64,7 @@
           <span>{{ scope.row.endTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.taskDesc')" align="center" width="280">
+      <el-table-column :label="$t('task.taskDesc')" align="center" width="210">
         <template slot-scope="scope">
           <span>{{ scope.row.taskDesc }}</span>
         </template>
@@ -65,12 +74,12 @@
           <span>{{ scope.row.taskTypes.typeName }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.head')" align="center" width="120">
+      <el-table-column :label="$t('task.head')" align="center" width="90">
         <template slot-scope="scope">
           <span>{{ scope.row.head }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.taskUav')" align="center" width="160">
+      <el-table-column :label="$t('task.taskUav')" align="center" width="150">
       <template slot-scope="scope">
       <span>{{ scope.row.taskUavs }}</span>
       </template>
@@ -100,36 +109,41 @@
     <!--page end-->
 
     <!--dialog start-->
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="30%">
-      <el-form ref="dataForm" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item :label="$t('task.taskName')" prop="head">
-          <el-input v-model="temp.taskName" type="text" placeholder="请输入任务名称"/>
+    <el-dialog :title="formTitle" :visible.sync="dialogFormVisible" width="30%" center>
+      <el-form ref="dataForm" :model="temp" :rules="rules" label-position="left" label-width="80px" style="width: 400px;height: 460px; margin-left:50px;">
+        <el-form-item :label="$t('task.taskName')" prop="taskName">
+          <el-input v-model="temp.taskName" type="text" placeholder="请输入任务名称" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('task.head')" prop="head">
-          <el-input v-model="temp.head" type="text" placeholder="请输入负责人"/>
+          <el-input v-model="temp.head" type="text" placeholder="请输入负责人" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('task.startTime')" prop="startTime">
-          <el-date-picker v-model="temp.startTime" value-format="yyyy-MM-dd HH:mm" type="datetime" placeholder="请选择开始时间" />
+          <el-date-picker v-model="temp.startTime" value-format="yyyy-MM-dd HH:mm" type="datetime" placeholder="请选择开始时间" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('task.endTime')" prop="endTime">
-          <el-date-picker v-model="temp.endTime" value-format="yyyy-MM-dd HH:mm" type="datetime" placeholder="请选择结束时间" />
+          <el-date-picker v-model="temp.endTime" value-format="yyyy-MM-dd HH:mm" type="datetime" placeholder="请选择结束时间" style="width: 100%"/>
+        </el-form-item>
+        <el-form-item :label="$t('task.taskUav')" prop="taskUavs">
+          <!--<el-input v-model="temp.taskUavs" />-->
+          <el-select v-model="temp.taskUavs" class="filter-item" placeholder="请选择机型" style="width: 100%">
+            <el-option v-for="(item,index) in taskUavs" :key="index" :label="item" :value="item"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('task.taskType')" prop="taskTypes">
+          <el-select v-model="temp.taskTypes.typeName" class="filter-item" placeholder="请选择任务类型" style="width: 100%">
+            <el-option v-for="item in taskTypes" :key="item.typeId" :label="item.typeName" :value="item.typeName"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('task.rodeName')" prop="rodes">
+          <el-select v-model="temp.rodes.rodeName" class="filter-item" placeholder="请选择任务类型" style="width: 100%">
+            <el-option v-for="item in rodes" :key="item.rodeId" :label="item.rodeName" :value="item.rodeName"/>
+          </el-select>
         </el-form-item>
         <el-form-item :label="$t('task.taskDesc')" prop="taskDesc">
-          <el-input v-model="temp.taskDesc" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入任务描述" />
-        </el-form-item>
-        <el-form-item :label="$t('task.taskUav')" prop="taskUav">
-          <!--<el-input v-model="temp.taskUavs" />-->
-          <el-select v-model="temp.taskUavs" class="filter-item" placeholder="Please select">
-            <el-option v-for="(item,index) in taskUavs" :key="index" :label="item" :value="item" />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('task.taskType')">
-          <el-select v-model="temp.taskTypes.typeName" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in taskTypes" :key="item.typeId" :label="item.typeName" :value="item.typeName" />
-          </el-select>
+          <el-input v-model="temp.taskDesc" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入任务描述" style="width: 100%"/>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer" class="dialog-footer" >
         <el-button @click="dialogFormVisible = false">
           {{ $t('table.cancel') }}
         </el-button>
@@ -145,6 +159,7 @@
 
 <script>
 import { fetchTasklist,updateTask,createTask } from '@/api/task'
+import {formatDate} from './utils.js'
 import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination'
 
@@ -165,6 +180,8 @@ export default {
         limit: 20,
         taskType: undefined,
         taskName: undefined,
+        startTime: '',
+        endTime:'',
         sort:'+id'
       },
       taskTypes:[
@@ -174,6 +191,38 @@ export default {
         { typeId: 4, typeName: '物流任务' },
         { typeId: 5, typeName: '巡警任务' },
         { typeId: 6, typeName: '其他任务' }
+      ],
+      rodes:[
+        {rodeId:1,rodeName:'河北线'},
+        {rodeId:2,rodeName:'山西线'},
+        {rodeId:3,rodeName:'辽宁线'},
+        {rodeId:4,rodeName:'吉林线'},
+        {rodeId:5,rodeName:'黑龙线'},
+        {rodeId:6,rodeName:'江苏线'},
+        {rodeId:7,rodeName:'浙江线'},
+        {rodeId:8,rodeName:'安徽线'},
+        {rodeId:9,rodeName:'福建线'},
+        {rodeId:10,rodeName:'江西线'},
+        {rodeId:11,rodeName:'山东线'},
+        {rodeId:12,rodeName:'河南线'},
+        {rodeId:13,rodeName:'湖北线'},
+        {rodeId:14,rodeName:'湖南线'},
+        {rodeId:15,rodeName:'广东线'},
+        {rodeId:16,rodeName:'海南线'},
+        {rodeId:17,rodeName:'四川线'},
+        {rodeId:18,rodeName:'贵州线'},
+        {rodeId:19,rodeName:'云南线'},
+        {rodeId:20,rodeName:'陕西线'},
+        {rodeId:21,rodeName:'甘肃线'},
+        {rodeId:22,rodeName:'青海线'},
+        {rodeId:23,rodeName:'北京线'},
+        {rodeId:24,rodeName:'上海线'},
+        {rodeId:25,rodeName:'重庆线'},
+        {rodeId:26,rodeName:'天津线'},
+        {rodeId:27,rodeName:'广西线'},
+        {rodeId:28,rodeName:'宁夏线'},
+        {rodeId:29,rodeName:'新疆线'},
+        {rodeId:30,rodeName:'内蒙古线'}
       ],
       taskUavs:['闪电F-28','科农A6-160','闪电F-35','猎鹰M6-84M6-84','天鹰M4-100','长空CK1B','长空CK1C','无侦5','ASN-12','WZ-2000','鲨鱼II'],
       // 生成ID正序和倒序的选择框
@@ -186,9 +235,7 @@ export default {
       taskStatusOptions: ['Finished','Wait','Normal' ,'OutTime','Pause'],
       dialogFormVisible:false,
       dialogStatus:'',
-      textMap: {
-        create: 'create'
-      },
+      formTitle:'创建任务',
       temp: {
         taskId: undefined,
         taskName: '',
@@ -196,11 +243,35 @@ export default {
         startTime: undefined,
         endTime: undefined,
         taskTypes:[{typeId:1,typeName:''}],
+        rodes:[{rodeId:1,rodeName:''}],
         taskUavs:'',
         taskStatus:'',
         head:''
       },
-      dialogConfirmVisible:false
+      dialogConfirmVisible:false,
+      // 表单验证规则
+      rules: {
+        head:[
+          { required: true, message: '请输入负责人名称', trigger: 'blur' },
+          { min: 2, max: 6, message: '长度在 2 到 6 个字符', trigger: 'blur' }
+        ],
+        taskName: [
+          { required: true, message: '请输入任务名称', trigger: 'blur' },
+          { min: 3, max: 5, message: '长度在 4 到 8 个字符', trigger: 'blur' }
+        ],
+        taskTypes: [
+          { required: true, message: '请选择任务类型', trigger: 'change' }
+        ],
+        rodes: [
+          { required: true, message: '请选择任务路线', trigger: 'change' }
+        ],
+        taskUavs: [
+          { required: true, message: '请选择任务机型', trigger: 'change' }
+        ],
+        taskDesc: [
+          { required: true, message: '请填写任务描述', trigger: 'blur' }
+        ]
+      }
     }
   },
   mounted() {
@@ -215,10 +286,39 @@ export default {
     })
   },
   methods: {
+    resetTemp() {
+      this.temp = {
+        taskId: undefined,
+        taskName: '',
+        taskDesc: '',
+        startTime: new Date(),
+        endTime: new Date(new Date().getTime() + 24*60*60*1000),
+        taskTypes:[{typeId:1,typeName:''}],
+        rodes:[{rodeId:1,rodeName:''}],
+        taskUavs:'',
+        taskStatus:'',
+        head:''
+      }
+    },
     getList() {
-      let { page, limit, taskType, taskName, sort } = this.listQuery
+      let { page, limit, taskType, taskName, sort, startTime, endTime } = this.listQuery
       // 过滤查询结果集
       let filterData = this.totalData.filter(item => {
+        let _startTime = new Date(item.startTime.split(" ")[0]).getTime()/1000;
+        let _endTime = new Date(item.endTime.split(" ")[0]).getTime()/1000;
+        //console.log(_startTime,_endTime);
+        let queryStartTime = new Date(startTime).getTime()/1000;
+        let queryEndTime = new Date(endTime).getTime()/1000;
+        //console.log(queryStartTime,queryEndTime);
+        if (queryStartTime && queryEndTime){
+          if(_startTime < queryStartTime || _endTime > queryEndTime) return false
+        }
+        if (queryStartTime && !queryEndTime){
+          if(_startTime < queryStartTime) return true
+        }
+        if (!queryStartTime && queryEndTime){
+          if(_endTime > queryEndTime) return true
+        }
         if (taskName && item.taskName.indexOf(taskName) < 0) return false
         if (taskType && item.taskTypes.typeId !== taskType) return false
         return true
@@ -238,7 +338,7 @@ export default {
       this.getList()
     },
     handleCreate() {
-      this.dialogStatus = 'create'
+      this.resetTemp()
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
@@ -249,6 +349,8 @@ export default {
         if (valid) {
           // 建议本次模拟数据中ID最大值加一
           this.temp.taskId = parseInt(Math.random() * 100) + 1024
+          this.temp.startTime = formatDate(this.temp.startTime,"yyyy-MM-dd hh:ss")
+          this.temp.endTime = formatDate(this.temp.endTime,"yyyy-MM-dd hh:ss")
           this.temp.taskStatus = 'Wait'
           createTask(this.temp).then(() => {
             //console.log(this.temp)
@@ -306,6 +408,22 @@ export default {
         });
       }
     },
+    filterTag(value, row){
+      //逻辑判断过滤
+      const valueMap = {
+        Finished:'Finished',
+        Wait:'Wait',
+        OutTime:'OutTime',
+        Normal:'Normal',
+        Pause:'Pause'
+      }
+      if(valueMap[value]){
+        return row.taskStatus === value
+      }
+      if(value === 'Doing'){
+        return row.taskStatus === 'OutTime' || row.taskStatus === 'Normal'
+      }
+    }
   },
   filters:{
     taskStatusValFilter(value){

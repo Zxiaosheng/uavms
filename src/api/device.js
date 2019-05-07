@@ -7,3 +7,19 @@ export function fetchList(query) {
     params: query
   })
 }
+
+export function createDev(data) {
+  return request({
+    url: '/device/add',
+    method: 'post',
+    data
+  })
+}
+
+export function uploadFile(data) {
+  return request({
+    url: '/upload/dev/file',
+    method: 'post',
+    data
+  })
+}

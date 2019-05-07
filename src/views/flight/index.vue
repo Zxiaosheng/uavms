@@ -112,9 +112,7 @@
         <el-form-item :label="$t('flight.end')" prop="end">
           <el-input v-model="addtemp.end" />
         </el-form-item>
-        <!--<el-form-item :label="$t('flight.task')"  prop="task">-->
-        <!--<el-input v-model="addtemp.task" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />-->
-        <!--</el-form-item>-->
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormAdd = false">
@@ -166,7 +164,6 @@ export default {
         date2: new Date(),
         start: '',
         end: '',
-        // task:'',
         typeId: [{ id: 1, typeName: '消防型' }]
       },
       addtemp: {
@@ -175,7 +172,6 @@ export default {
         date2: new Date(),
         start: '',
         end: '',
-        // task:'',
         typeId: [{ id: 1, typeName: '消防型' }]
       },
       listQuery: {
@@ -186,7 +182,6 @@ export default {
         date2: undefined,
         start: undefined,
         end: undefined,
-        // task:undefined,
         type: undefined
 
       },
@@ -210,12 +205,12 @@ export default {
       const { page, limit, id, date1, date2, start, end, type } = this.listQuery
 
       const fiterData = this.list.filter(item => {
+        if (id && item.id.indexOf(id) < 0) return false
         if (date1 && item.date1 !== date1) return false
         if (date2 && item.date2 !== date2) return false
         if (type && item.typeId.id !== type) return false
         if (start && item.start.indexOf(start) < 0) return false
         if (end && item.end.indexOf(end) < 0) return false
-        if (id && item.id.indexOf(id) < 0) return false
         return true
       })
 

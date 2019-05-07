@@ -23,7 +23,7 @@ export function createTask(data) {
 }
 export function getTaskCount(){
   return request({
-    url:'/task/count',
+    url: '/task/count',
     method: 'get'
   })
 }

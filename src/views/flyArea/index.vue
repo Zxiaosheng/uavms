@@ -21,6 +21,9 @@
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="resetList">
+        {{ $t('flyArea.clear') }}
+      </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
       {{ $t('table.add') }}
       </el-button>
@@ -68,13 +71,13 @@
         <el-form-item :label="$t('flyArea.date')" prop="date"  required>
           <el-date-picker v-model="temp.date" value-format="yyyy-MM-dd" type="date" placeholder="Please pick a date" style="width: 100%"/>
         </el-form-item>
-        <el-form-item :label="$t('flyArea.task')" prop="type" style="width: 100%">
+        <el-form-item :label="$t('flyArea.task')" prop="type" style="width: 100%" >
           <el-select v-model="temp.task.taskName" class="filter-item" placeholder="Please select" style="width: 100%">
             <el-option v-for="item in flyTask" :key="item.id" :label="item.taskName" :value="item.taskName" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('flyArea.area')" prop="type" style="width: 100%">
-          <el-select v-model="temp.area.areaName" class="filter-item" placeholder="Please select" style="width: 100%">
+        <el-form-item :label="$t('flyArea.area')" prop="type" style="width: 100%" >
+          <el-select v-model="temp.area.areaName" class="filter-item" placeholder="Please select" style="width: 100%" >
             <el-option v-for="item in flyArea" :key="item.id" :label="item.areaName" :value="item.areaName" />
           </el-select>
         </el-form-item>
@@ -148,8 +151,8 @@
                 { label: 'ID Descending', key: '-id'}
               ],
               textMap: {
-                update: 'Edit',
-                create: 'Create'
+                update: '编辑',
+                create: '新增'
               },
               dialogFormVisible: false,
               dialogStatus: '',
@@ -165,7 +168,7 @@
               rules: {
                 type: [{ required: true, message: 'type is required', trigger: 'change' }],
                 task: [{ required: true, message: 'task is required', trigger: 'change' }],
-                area: [{ required: true, message: 'areae is required', trigger: 'change' }],
+                area: [{ required: true, message: 'area is required', trigger: 'change' }],
                 longitude: [ {required: true, message: 'longitude is required', trigger: 'blur' },
                   { type: 'number', message: 'longitude is number'}
                 ],
@@ -191,7 +194,7 @@
       methods: {
 
         //获得每页要显示的数据
-        getList() {
+       getList() {
           let {page, limit, task, sort, type,area} = this.listQuery;
 
           //过滤查询结果集（先过滤，再分页）
@@ -269,6 +272,17 @@
               })
             }
           })
+        },
+        resetList(){
+          this.listQuery= {
+            page: 1,
+            limit: 20,
+            task: undefined,
+            type: undefined,
+            area: undefined,
+            sort: '+id',
+          }
+          this.getList();
         },
         resetTemp() {
           this.temp = {
