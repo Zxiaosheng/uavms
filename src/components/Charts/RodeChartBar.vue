@@ -1,5 +1,5 @@
 <template>
-  <div :id="id1" class="grid-content" :class="className1" style="height:430px;width:100%;padding: 0 20px 0 20px"/>
+  <div :id="id1" class="grid-content" :class="className1" style="height:430px;width:100%;"/>
 </template>
 
 <script>
@@ -33,7 +33,7 @@
             let list1=response.data.items
 
             let option1 = {
-              backgroundColor: 'rgb(31,45,41)',
+              // backgroundColor: 'rgb(31,45,41)',
               textStyle: {
                 color: '#fff'
               },
