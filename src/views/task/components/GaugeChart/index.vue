@@ -30,6 +30,7 @@
       return {
         chart:null,
         isRouterAlive:undefined,
+        //bug原因有可能在这里，value值需要时动态的，根据数据计算
         progressData:[{value: 0, name: '进度'}],
         occupancyData:[{value: 80, name: '占用率'}]
       }
