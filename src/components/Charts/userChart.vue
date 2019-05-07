@@ -7,18 +7,18 @@
     </el-row>
     <el-row class="top">
       <el-col :xs="24" :sm="24" :lg="12">
-        <div :id="id3" :class="className3" style="height:200px;width:400px;margin:20px;"/>
+        <div :id="id3" :class="className3" style="height:200px;width:550px;margin:20px;"/>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12">
-        <div :id="id4" :class="className4" style="height:300px;width:400px;margin:20px;"/>
+        <div :id="id4" :class="className4" style="height:300px;width:450px;margin:20px;"/>
       </el-col>
     </el-row>
     <el-row>
       <el-col :xs="24" :sm="24" :lg="12">
-        <div :id="id5" :class="className5" style="height:500px;width:450px;margin:20px;"/>
+        <div :id="id5" :class="className5" style="height:500px;width:550px;margin:20px;"/>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12">
-        <div :id="id2" :class="className2" style="height:300px;width:400px;margin:20px;"/>
+        <div :id="id2" :class="className2" style="height:250px;width:500px;margin:20px;"/>
       </el-col>
     </el-row>
   </div>
@@ -333,6 +333,8 @@
           '甘肃省': [103.73, 36.03],
           '广东省': [113.23, 23.16],
           '广西壮族自治区': [108.33, 22.84],
+          '新疆维吾尔自治区':[43.791789,87.624947],
+          '宁夏回族自治区':[106.27,38.47	],
           '贵州省': [106.71, 26.57],
           '河北省': [114.48, 38.03],
           '河南省': [113.65, 34.76],
@@ -350,7 +352,7 @@
           '湖北省': [114.298569, 30.584354],
           '江苏省': [118.76741, 32.041546],
           '安徽省': [117.283043, 31.861191],
-          '上海市': [121.472641, 31.231707],
+          '上海': [121.472641, 31.231707],
           '湖南省': [112.982277, 28.19409],
           '江西省': [115.892151, 28.676493],
           '浙江省': [120.15358, 30.287458],
