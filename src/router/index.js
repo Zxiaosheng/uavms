@@ -120,7 +120,16 @@ export const constantRoutes = [
           title: 'troublelist',
           roles: ['admin']
         }
-      }
+      },
+      // {
+      //   path: 'trouble-echart',
+      //   name: 'troubleechart',
+      //   component: () => import('@/views/trouble/trouble-echart'),
+      //   meta: {
+      //     title: 'troubleechart',
+      //     roles: ['admin']
+      //   }
+      // }
     ]
   },
   taskRouter,

@@ -14,6 +14,7 @@ import flyArea from './flyArea'
 import historycount from './history-count'
 import trouble from './trouble'
 import flight from './flight'
+// import troubleechart from './trouble-echart'
 
 
 const mocks = [
@@ -31,7 +32,8 @@ const mocks = [
   ...userManager,
   ...historycount,
   ...trouble,
-  ...flight
+  ...flight,
+  // ...troubleechart
 ]
 
 // for front mock

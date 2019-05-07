@@ -55,6 +55,7 @@ export default {
     rodeechart: '图表',
     trouble: '故障管理',
     troublelist: '故障列表',
+    troubleechart: '故障图表',
     dashboard: '首页',
     documentation: '文档',
     guide: '引导页',
