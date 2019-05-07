@@ -39,6 +39,25 @@
     </el-row>
 
     <!--<flypath></flypath>-->
+    <el-row :gutter="20">
+      <el-col :span="4">
+        <div class="grid-content bg-purple">
+          <!--千言万语-->
+          moumouzujian
+        </div>
+      </el-col>
+      <el-col :span="16">
+        <div class="grid-content bg-purple">
+          <task-card></task-card>
+        </div
+        ></el-col>
+      <el-col :span="4">
+        <div class="grid-content bg-purple">
+          <!--千言万语-->
+          moumouzujian
+        </div>
+      </el-col>
+    </el-row>
 
   </div>
 </template>
@@ -53,6 +72,8 @@ import BarChart from './components/BarChart'
 import TransactionTable from './components/TransactionTable'
 import TodoList from './components/TodoList'
 import BoxCard from './components/BoxCard'
+// 任务卡片化组件
+import TaskCard from './components/TaskCard'
 
 const lineChartData = {
   newVisitis: {
@@ -84,7 +105,8 @@ export default {
     BarChart,
     TransactionTable,
     TodoList,
-    BoxCard
+    BoxCard,
+    TaskCard
   },
   data() {
     return {
