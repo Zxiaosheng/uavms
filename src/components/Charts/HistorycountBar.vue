@@ -171,11 +171,11 @@
               lineStyle:{
                 color:'#fff',
               },
-              orient: 'vertical',
-              left:'95%',
-              x2:'0.3%',
-              top:90,
-              bottom:90,
+//              orient: 'vertical',
+//              left:'90%',
+//              x2:'0.3%',
+//              top:90,
+//              bottom:90,
               axisType: 'category',
               autoPlay: true,
               playInterval: 2000,
@@ -195,10 +195,11 @@
                   return (new Date(s)).getFullYear();
                 },
                 normal:{
-                  position:'right',
+//                  position:'right',
                   color:'#fff',
-                  rotate:'30',
-                  lineHeight:300,
+                  fontSize:15,
+//                  rotate:'30',
+//                  lineHeight:30,
                 }
               }
             },
@@ -242,10 +243,10 @@
             },
             calculable : true,
             grid: {
-              x: '10%',
-              x2: 150,
-              y: '28%',
-              y2: '10%',
+//              x: '10%',
+//              x2: 150,
+              y: '25%',
+              y2: '15%',
             },
             tooltip: {
               trigger: 'axis',
@@ -308,7 +309,7 @@
               {
                 name: '占比',
                 type: 'pie',
-                center: ['50%', '20%'],
+                center: ['50%', '15%'],
                 radius: '25%',
                 z: 100,
                 itemStyle: itemStyle,
