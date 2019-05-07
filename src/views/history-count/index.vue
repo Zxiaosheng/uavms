@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="demo-input-size">
-    <!--<div class="demo-input-suffix">-->
+      <!--<div class="demo-input-suffix">-->
       <!--<div class="filter-container">-->
       <el-select v-model="listQuery.type" value-key="id" @change="getList" :placeholder="$t('historycount.typeId')" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in typeId" :key="item.typeName" :label="item.typeName" :value="item.id" />
@@ -9,7 +9,7 @@
       <el-date-picker v-model="listQuery.date" type="date" value-format="yyyy-MM-dd" :placeholder="$t('historycount.date')"  style="width: 230px"/>
       <el-input v-model="listQuery.location" :placeholder="$t('historycount.location')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
       <!--<el-select v-model="listQuery.type1" value-key="id" @change="getList" :placeholder="$t('historycount.result')" clearable class="filter-item" style="width: 130px">-->
-        <!--<el-option v-for="item in result" :key="item.typeName" :label="item.typeName" :value="item.id" />-->
+      <!--<el-option v-for="item in result" :key="item.typeName" :label="item.typeName" :value="item.id" />-->
       <!--</el-select>-->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
@@ -29,9 +29,9 @@
       <el-table-column prop="location" align="center" :label="$t('historycount.location')" width="200"></el-table-column>
 
       <!--<el-table-column prop="result" align="center" :label="$t('historycount.result')" sortable width="200">-->
-        <!--<template slot-scope="scope">-->
-          <!--<el-tag :type="scope.row.result=='Success'?'success':'danger'">{{scope.row.result}}</el-tag>-->
-        <!--</template>-->
+      <!--<template slot-scope="scope">-->
+      <!--<el-tag :type="scope.row.result=='Success'?'success':'danger'">{{scope.row.result}}</el-tag>-->
+      <!--</template>-->
       <!--</el-table-column>-->
       <el-table-column prop="result.typeName" align="center" :label="$t('historycount.result')" sortable  width="200">
         <template slot-scope="scope">
@@ -89,10 +89,10 @@
     <el-dialog title="新增" :visible.sync="dialogFormAdd">
       <el-form ref="AddForm"  :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
         <el-form-item  :label="$t('historycount.typeId')" prop="typeId">
-        <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select" style="width:100%">
-          <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
-        </el-select>
-      </el-form-item>
+          <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select" style="width:100%">
+            <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
+          </el-select>
+        </el-form-item>
         <el-form-item :label="$t('historycount.date')"  prop="date">
           <el-date-picker v-model="temp.date" value-format="yyyy-MM-dd" style="width:100%" type="date" placeholder="Please pick a date" />
         </el-form-item>
@@ -100,7 +100,7 @@
           <el-input v-model="temp.location" style="width:100%" />
         </el-form-item>
         <!--<el-form-item :label="$t('historycount.result')" >-->
-          <!--<el-input v-model="temp.result" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />-->
+        <!--<el-input v-model="temp.result" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />-->
         <!--</el-form-item>-->
         <el-form-item  :label="$t('historycount.result')" prop="result">
           <el-select v-model="temp.result.typeName" class="filter-item" style="width:100%" placeholder="Please select">
