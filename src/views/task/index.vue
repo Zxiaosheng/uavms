@@ -15,7 +15,7 @@
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleCreate">
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-plus" @click="handleCreate">
         {{ $t('table.add') }}
       </el-button>
     </div>
@@ -31,15 +31,16 @@
       highlight-current-row
       style="width: 100%;"
     >
-      <el-table-column fixed="left" :label="$t('task.taskId')" sortable="custom" align="center" width="100">
+      <el-table-column fixed="left" :label="$t('task.taskId')" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.taskId }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.taskStatus')" width="110px" align="center">
+      <el-table-column :label="$t('task.taskStatus')" width="110px" align="center" prop="taskStatus"
+      :filters="[{text:'进行',value:'Doing'},{text:'等待',value:'Wait'},{text:'超时',value:'OutTime'},{text:'暂停',value:'Pause'},{text:'正常',value:'Normal'},{text:'完成',value:'Finished'}]"
+      filter-placement="bottom-end"
+      :filter-method="filterTag">
         <template slot-scope="{row}">
-          <!--务必加入过滤标签-->
-          <!-- row.status ? 'success' : 'info'-->
           <el-tag :type="row.taskStatus|taskStatusFilter">{{ row.taskStatus|taskStatusValFilter }}</el-tag>
         </template>
       </el-table-column>
@@ -305,10 +306,10 @@ export default {
       let filterData = this.totalData.filter(item => {
         let _startTime = new Date(item.startTime.split(" ")[0]).getTime()/1000;
         let _endTime = new Date(item.endTime.split(" ")[0]).getTime()/1000;
-        console.log(_startTime,_endTime);
+        //console.log(_startTime,_endTime);
         let queryStartTime = new Date(startTime).getTime()/1000;
         let queryEndTime = new Date(endTime).getTime()/1000;
-        console.log(queryStartTime,queryEndTime);
+        //console.log(queryStartTime,queryEndTime);
         if (queryStartTime && queryEndTime){
           if(_startTime < queryStartTime || _endTime > queryEndTime) return false
         }
@@ -407,6 +408,22 @@ export default {
         });
       }
     },
+    filterTag(value, row){
+      //逻辑判断过滤
+      const valueMap = {
+        Finished:'Finished',
+        Wait:'Wait',
+        OutTime:'OutTime',
+        Normal:'Normal',
+        Pause:'Pause'
+      }
+      if(valueMap[value]){
+        return row.taskStatus === value
+      }
+      if(value === 'Doing'){
+        return row.taskStatus === 'OutTime' || row.taskStatus === 'Normal'
+      }
+    }
   },
   filters:{
     taskStatusValFilter(value){
