@@ -98,7 +98,7 @@
     <!--新增弹出窗-->
     <el-dialog title="新增" :visible.sync="dialogFormAdd">
       <el-form ref="AddForm" :model="addtemp" :rules="rules" label-position="left" label-width="100px" style="width: 500px; margin-left:50px;">
-        <el-form-item  :label="$t('rode.typeId')" prop="typeId">
+        <el-form-item  :label="$t('rode.typeId')" prop="typeId.typeName">
           <el-select v-model="addtemp.typeId.typeName" class="filter-item" placeholder="请选择类型">
             <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
@@ -241,10 +241,10 @@
         },
         downloadLoading: false,
         rules: {
-          typeId: [
-            { required: false, message: '请选择型号', trigger: 'change' }
-          ],
-            date1: [
+          typeId:{
+              typeName:[{ required: true, message: '请选择型号', trigger: 'change' }]
+          },
+          date1: [
             { type: 'date', required: true, message: '请选择出发时间', trigger: 'change' }
           ],
             date2: [
