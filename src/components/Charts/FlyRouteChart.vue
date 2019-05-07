@@ -12,8 +12,8 @@
   //行政区划图
   import 'echarts/lib/chart/map'
   //引入对应图表的js文件
-  import 'echarts/map/js/china.js'
-
+  import 'echarts/map/js/province/fujian.js'
+  import bmap from 'echarts/extension/bmap/bmap';
   import resize from './mixins/resize'
 
 

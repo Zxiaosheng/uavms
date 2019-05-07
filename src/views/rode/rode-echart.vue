@@ -305,31 +305,33 @@
       }, 2100);
       })
 
-      //
+
+      // 预计飞行总数与实际飞行总数差距图
       var category = [];
       var dottedBase = +new Date();
       var lineData = [];
       var barData = [];
+      var cData= [];
 
       for (var i = 0; i < 20; i++) {
-        var date = new Date(dottedBase += 3600 * 24 * 1000);
+        var date = new Date(dottedBase -= 3600 * 24 * 1000);
         category.push([
           date.getFullYear(),
           date.getMonth() + 1,
           date.getDate()
         ].join('-'));
-        var b = Math.random() * 200;
-        var d = Math.random() * 200;
-        barData.push(b)
-        lineData.push(d + b);
+        var b = Math.round(Math.random() * 200);
+        var d = Math.round(Math.random() * 200);
+        barData.push(b) //预计飞行总数
+        lineData.push(d); //实际飞行总数
+        cData.push(Math.abs(d-b));
       }
 
 
-// 预计飞行总数与实际飞行总数差距图
      let option2 = {
         backgroundColor: 'rgb(31,45,41)',
        title: {
-         text: 'xx地区每日预计飞行路线总数与实际飞行路线总数对比',
+         text: '每日预计飞行路线总数与实际飞行路线总数对比',
          top:'10',
          textStyle: {
            color: '#fff'
@@ -389,7 +391,7 @@
           },
           data: barData
         },  {
-          name: '实际飞行总数与预计飞行总数差额',
+          name: '实际飞行总数-预计飞行总数',
           type: 'pictorialBar',
           symbol: 'rect',
           itemStyle: {
@@ -401,7 +403,7 @@
           symbolSize: [12, 4],
           symbolMargin: 1,
           z: -10,
-          data: lineData
+          data: cData
         }]
       };
      this.chart2.setOption(option2);
