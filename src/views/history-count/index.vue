@@ -199,32 +199,20 @@
         const month = date.getMonth() > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`;
         const day = date.getDate() > 9 ? date.getDate() + 1 : `0${date.getDate() + 1}`;
         return `${year}-${month}-${day}`;
-        console.log(val);
+        // console.log(val);
       },
       getList() {
         this.listLoading = true;
         let{page,limit,date,location,type,type1}=this.listQuery;
-        date=new Date(date)
+
+        if(typeof date!='undefined'){
+          date=new Date(date)
+        }
         let filterData=this.list.filter(item=>{
-//        let idate=this.formatDate(item.date)
           let idate=new Date(Date.parse(item.date))
 
-          console.log('++++++++++++++++++++++')
-          console.log(idate.getTime()=== date.getTime())
-          console.log(idate.getTime().toString())
-          console.log(date.getTime().toString())
-
-          if (date===NaN)
-              return false
-          else{
-            if(idate.getTime().toString() != date.getTime().toString()){
-              console.log('========================')
-              return false
-            }
-          }
-
+          if (date && idate.getTime() != date.getTime()) return false
           if (type && item.typeId.id !== type) return false
-//          if (type1 && item.result.id !== type1) return false
           if (location && item.location.indexOf(location) < 0) return false
           return true
         })
