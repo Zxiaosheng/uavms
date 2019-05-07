@@ -30,7 +30,7 @@
               </el-row>
             </el-col>
             <el-col :span="12">
-              <el-progress type="circle" :percentage="waitRate" width="120" color="#ff8280"></el-progress>
+              <el-progress type="circle" :percentage="waitRate" width="120" color="rgb(217,186,127)"></el-progress>
             </el-col>
           </el-card>
         </div>
@@ -64,7 +64,7 @@
               </el-row>
             </el-col>
             <el-col :span="12">
-              <el-progress type="circle" :percentage="timeOutRate" width="120" color="red"></el-progress>
+              <el-progress type="circle" :percentage="timeOutRate" width="120" color="rgb(224,92,90)"></el-progress>
             </el-col>
           </el-card>
         </div>
