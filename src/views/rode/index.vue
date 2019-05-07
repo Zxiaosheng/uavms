@@ -220,8 +220,8 @@
         temp: {
           id:'',
           rodename:'',
-          date1: new Date(),
-          date2: new Date(),
+          date1: '',
+          date2: '',
           start: [],
           end:[],
           task:'',
@@ -288,17 +288,20 @@
       getList() {
         this.listLoading = true;
         let{page,limit,task,date1,date2,start,end,type}=this.listQuery;
-        if(date1!=''){
-          date1=new Date(date1)
+        if(date1!==''){
+          date1=date1.getTime()
+
         }
-        if(date2!=''){
-          date2=new Date(date2)
+        if(date2!==''){
+          date2=date2.getTime()
         }
+
         let fiterData=this.list.filter(item=>{
-          let idate1=new Date(Date.parse(item.date1))
-          let idate2=new Date(Date.parse(item.date2))
-          if (date1 && idate1!==date1) return false
-          if (date2 && idate2!==date2) return false
+          let idate1=new Date(item.date1+" 00:00:00")
+          let idate2=new Date(item.date2+" 00:00:00")
+
+          if (date1 && idate1.getTime()!=date1) return false
+          if (date2 && idate2.getTime()!=date2) return false
           if (type && item.typeId.id !== type) return false
           if (start && item.start.indexOf(start) < 0) return false
           if (end && item.end.indexOf(end) < 0) return false
