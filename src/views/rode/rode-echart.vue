@@ -41,7 +41,7 @@
   .chart-container{
     position: relative;
     width: 100%;
-    height: calc(125vh - 6px);
+    height: calc(140vh - 30px);
     padding: 0 20px 0 20px;
     background-color: rgb(48,65,86);
   }
