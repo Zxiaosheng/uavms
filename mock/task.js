@@ -8,6 +8,7 @@ for (let i = 0;i < count; i++){
     taskId:'@increment',
     taskName:'@ctitle(4,8)',
     taskDesc:'@csentence(5, 12)',
+    rodeName:'@cword(2,3)路线',
     "taskTypes|1":[
       {typeId:1,typeName:'消防任务'},
       {typeId:2,typeName:'医疗任务'},
