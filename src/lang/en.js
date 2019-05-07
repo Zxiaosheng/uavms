@@ -46,6 +46,7 @@ export default {
   },
   rode: {
     id: 'id',
+    rodename:'rodename',
     typeId: 'typeId',
     date1: 'startTime',
     date2: 'stopTime',

@@ -128,6 +128,7 @@ export default {
   },
   rode: {
     id: '编号',
+    rodename:'路线名称',
     typeId: '型号',
     date1: '启用时间',
     date2: '停用时间',

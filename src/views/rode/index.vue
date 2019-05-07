@@ -22,6 +22,8 @@
 
       <el-table-column prop="id" :label="$t('rode.id')" width="100"></el-table-column>
 
+      <el-table-column prop="rodename" :label="$t('rode.rodename')" width="100"></el-table-column>
+
       <el-table-column prop="typeId.typeName" :label="$t('rode.typeId')"  align="center" width="100"></el-table-column>
 
       <el-table-column prop="date1" :label="$t('rode.date1')" width="150"></el-table-column>
@@ -70,6 +72,9 @@
             <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
+        <el-form-item :label="$t('rode.rodename')"  prop="rodename">
+          <el-input v-model="temp.rodename" />
+        </el-form-item>
         <el-form-item :label="$t('rode.date1')" prop="date">
           <el-date-picker v-model="temp.date1" type="date" value-format="yyyy-MM-dd" placeholder="请选择出发时间" />
         </el-form-item>
@@ -102,6 +107,9 @@
           <el-select v-model="addtemp.typeId.typeName" class="filter-item" placeholder="请选择类型">
             <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('rode.rodename')"  prop="rodename">
+            <el-input v-model="addtemp.rodename" />
         </el-form-item>
         <el-form-item :label="$t('rode.date1')"  prop="date1">
           <el-date-picker v-model="addtemp.date1" type="date"  placeholder="请选择出发时间" />
@@ -211,6 +219,7 @@
         }],
         temp: {
           id:'',
+          rodename:'',
           date1: new Date(),
           date2: new Date(),
           start: [],
@@ -220,6 +229,7 @@
         },
         addtemp: {
           id:'',
+          rodename:'',
           date1: new Date(),
           date2: new Date(),
           start:[],
@@ -231,8 +241,9 @@
           page: 1,
           limit: 20,
           id:undefined,
-          date1: undefined,
-          date2: undefined,
+          rodename:undefined,
+          date1: '',
+          date2: '',
           start: undefined,
           end:undefined,
           task:undefined,
@@ -277,13 +288,17 @@
       getList() {
         this.listLoading = true;
         let{page,limit,task,date1,date2,start,end,type}=this.listQuery;
-        date1=new Date(date1)
-        date2=new Date(date2)
+        if(date1!=''){
+          date1=new Date(date1)
+        }
+        if(date2!=''){
+          date2=new Date(date2)
+        }
         let fiterData=this.list.filter(item=>{
           let idate1=new Date(Date.parse(item.date1))
           let idate2=new Date(Date.parse(item.date2))
-          if (date1 && idate1 < date1) return false
-          if (date2 && idate2 > date2) return false
+          if (date1 && idate1!==date1) return false
+          if (date2 && idate2!==date2) return false
           if (type && item.typeId.id !== type) return false
           if (start && item.start.indexOf(start) < 0) return false
           if (end && item.end.indexOf(end) < 0) return false
@@ -378,6 +393,7 @@
       resetTemp() {
         this.addtemp = {
           id:undefined,
+          rodename:undefined,
           date1: new Date(),
           date2: new Date(),
           start: [],
