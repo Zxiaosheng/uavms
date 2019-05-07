@@ -37,6 +37,9 @@
         <box-card />
       </el-col>
     </el-row>
+
+    <!--<flypath></flypath>-->
+
   </div>
 </template>
 
