@@ -40,7 +40,7 @@
           arr.push(l)
         }
         return arr
-      }
+      },
     },
     mounted(){
       var dataMap = {};
@@ -211,13 +211,7 @@
               fontSize: 20
             },
             subtext: '数据来自中国联通统计小组',
-            left: 'left'
-          },
-          tooltip:{},
-          toolbox: {
-            show: true,
-            orient: 'vertical',
-            x:20,
+            left: 'left',
             top: 'center',
             feature: {
               mark: {show: true},
@@ -326,7 +320,7 @@
                 }
               }
             },
-          ]
+            ]
         },
         options: [
           {
