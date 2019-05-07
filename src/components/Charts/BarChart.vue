@@ -59,7 +59,7 @@
 
         this.chart.setOption({
           title: {
-            text: '无人机当前服役情况',
+            text: '无人机当前损耗情况',
             subtext: '数据分析'
           },
           tooltip: {
@@ -87,7 +87,7 @@
           },
           series: [
             {
-              name: '损耗率',
+              name: '值',
               type: 'bar',
               data: value,
               itemStyle: {

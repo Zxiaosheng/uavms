@@ -31,17 +31,23 @@
         chart:null,
         data:[
           ['score', 'amount', 'type'],
-          [89.3, 8212, '其他任务'],
-          [57.1, 8254, '医疗任务'],
-          [74.4, 1032, '交通任务'],
-          [50.1, 2755, '物流任务'],
-          [89.7, 1145, '巡警任务'],
-          [68.1, 9146, '消防任务'],
+          [80, 8000, '其他任务'],
+          [70, 7000, '医疗任务'],
+          [60, 6000, '交通任务'],
+          [50, 5000, '物流任务'],
+          [40, 4000, '巡警任务'],
+          [30, 3000, '消防任务'],
         ]
       }
     },
     mounted() {
-      //初始化Echarts实例
+      //数据包装处理
+      this.data.map(item=>{
+        if(typeof item[1] === 'number' && typeof item[0] === 'number'){
+          item[1] = this.getRndInteger(0,10000)
+          item[0] = parseFloat((item[1]/10000)*100)
+        }
+      })
       this.initChart();
     },
     beforeDestroy() {
@@ -52,6 +58,10 @@
       this.chart = null
     },
     methods:{
+      //模拟[min,max]整数
+      getRndInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) ) + min;
+      },
       initChart() {
         //创建echarts实例
         this.chart = echarts.init(document.getElementById(this.id))
@@ -110,7 +120,7 @@
               encode: {
                 // Map the "amount" column to X axis.
                 x: 'amount',
-                // Map the "product" column to Y axis
+                // Map the "type" column to Y axis
                 y: 'type'
               }
             }

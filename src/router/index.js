@@ -98,6 +98,12 @@ export const constantRoutes = [
           title: 'rodeechart',
           roles: ['admin']
         }
+      },
+      {
+        path: 'demo',
+        component: () => import('@/views/charts/FlyRoute'),
+        name: 'fly-rote-demo',
+        meta: { title: '飞行路径演示' }
       }
     ]
   },
@@ -182,16 +188,13 @@ export const constantRoutes = [
           title: '路线',
           roles: ['admin']
         }
-      }/*,
+      },
       {
-        path: 'index',
-        name: 'flight',
-        //component: () => import('@/views/flight'),
-        meta: {
-          title: '路线显示',
-          roles: ['admin']
-        }
-      },*/
+        path: 'bMap',
+        component: () => import('@/views/flight/map'),
+        name: 'bMap',
+        meta: { title: '地图', noCache: true }
+      }
 
     ]
   }

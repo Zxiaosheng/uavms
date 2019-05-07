@@ -1,14 +1,13 @@
 <template>
   <div class="app-container">
-    <!--<div class="demo-input-size">-->
-    <div class="demo-input-suffix">
+    <div class="demo-input-size">
+    <!--<div class="demo-input-suffix">-->
       <!--<div class="filter-container">-->
-      <el-input v-model="listQuery.location" :placeholder="$t('historycount.location')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-date-picker v-model="listQuery.date" type="date" :placeholder="$t('historycount.date')" size="medium" style="width: 230px"/>
-
       <el-select v-model="listQuery.type" value-key="id" @change="getList" :placeholder="$t('historycount.typeId')" clearable class="filter-item" style="width: 130px">
-        <el-option v-for="item in typeId" :key="item.typeName" :label="item.typeName" :value="item.typeName" />
+        <el-option v-for="item in typeId" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
+      <el-date-picker v-model="listQuery.date" type="date" value-format="yyyy-MM-dd" :placeholder="$t('historycount.date')"  style="width: 230px"/>
+      <el-input v-model="listQuery.location" :placeholder="$t('historycount.location')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
       <!--<el-select v-model="listQuery.type1" value-key="id" @change="getList" :placeholder="$t('historycount.result')" clearable class="filter-item" style="width: 130px">-->
         <!--<el-option v-for="item in result" :key="item.typeName" :label="item.typeName" :value="item.id" />-->
       <!--</el-select>-->
@@ -56,27 +55,23 @@
 
     <!--编辑弹出窗-->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm"  :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+      <el-form ref="dataForm"  :model="temp"  :rules="rules" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
 
         <el-form-item :label="$t('historycount.result')" prop="result">
-          <el-select v-model="temp.result.typeName" class="filter-item" placeholder="Please select">
+          <el-select v-model="temp.result.typeName" class="filter-item" placeholder="Please select" style="width:100%">
             <el-option v-for="item in result"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
 
         <el-form-item :label="$t('historycount.date')" prop="date">
-          <el-date-picker  v-model="temp.date" value-format="yyyy-MM-dd" type="date" placeholder="Please pick a date" />
+          <el-date-picker  v-model="temp.date" value-format="yyyy-MM-dd" type="date" placeholder="Please pick a date" style="width:100%"/>
         </el-form-item>
 
-        <el-form-item :label="$t('historycount.location')" prop="title">
-          <el-input v-model="temp.location" />
+        <el-form-item :label="$t('historycount.location')" prop="location">
+          <el-input v-model="temp.location" style="width:100%"/>
         </el-form-item>
-
-        <!--<el-form-item :label="$t('historycount.result')">-->
-          <!--<el-input v-model="temp.result" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />-->
-        <!--</el-form-item>-->
         <el-form-item :label="$t('historycount.typeId')" prop="typeId">
-          <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select">
+          <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select" style="width:100%">
             <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
@@ -92,24 +87,23 @@
     </el-dialog>
     <!--新增弹出窗-->
     <el-dialog title="新增" :visible.sync="dialogFormAdd">
-      <el-form ref="AddForm"  :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+      <el-form ref="AddForm"  :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
         <el-form-item  :label="$t('historycount.typeId')" prop="typeId">
-        <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select">
+        <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select" style="width:100%">
           <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
         </el-select>
       </el-form-item>
-
         <el-form-item :label="$t('historycount.date')"  prop="date">
-          <el-date-picker v-model="temp.date" value-format="yyyy-MM-dd" type="date" placeholder="Please pick a date" />
+          <el-date-picker v-model="temp.date" value-format="yyyy-MM-dd" style="width:100%" type="date" placeholder="Please pick a date" />
         </el-form-item>
-        <el-form-item :label="$t('historycount.location')"  prop="title">
-          <el-input v-model="temp.location" />
+        <el-form-item :label="$t('historycount.location')"  prop="location">
+          <el-input v-model="temp.location" style="width:100%" />
         </el-form-item>
         <!--<el-form-item :label="$t('historycount.result')" >-->
           <!--<el-input v-model="temp.result" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />-->
         <!--</el-form-item>-->
         <el-form-item  :label="$t('historycount.result')" prop="result">
-          <el-select v-model="temp.result.typeName" class="filter-item" placeholder="Please select">
+          <el-select v-model="temp.result.typeName" class="filter-item" style="width:100%" placeholder="Please select">
             <el-option v-for="item in result"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
@@ -137,6 +131,21 @@
     directives: { waves },
     data(){
       return{
+        rules: {
+          typeId: [
+            { required: true, message: '请选择', trigger: 'change' }
+          ],
+          date: [
+            { required: true, message: '请选择日期', trigger: 'change' }
+          ],
+          result: [
+            {required: true, message: '请选择', trigger: 'change' }
+          ],
+          location: [
+            { required: true, message: '请选择', trigger: 'change' }
+          ],
+        },
+
         list:[],
         dialogFormVisible: false,
         dialogFormAdd:false,
@@ -147,8 +156,8 @@
         typeId:[{id:'1',typeName:'消防型'},{id:'2',typeName:'物流型'},{id:'3',typeName:'医疗型'},{id:'4',typeName:'天眼型'},{id:'5',typeName:'交通型'},{id:'6',typeName:'其它型'}],
         result:[{id:'1',typeName:'Success'},{id:'2',typeName:'Failure'}],
         textMap: {
-          update: 'Edit',
-          create: 'Create'
+          update: '编辑',
+          create: '新增'
         },
         temp: {
           id:'',
@@ -162,7 +171,7 @@
           page: 1,
           limit: 20,
           id:undefined,
-          date: undefined,
+          date:undefined,
           location: undefined,
 //          result:undefined,
           type: undefined,
@@ -184,16 +193,39 @@
       })
     },
     methods:{
+      formatDate (val) {
+        const date = new Date(val);
+        const year = date.getFullYear();
+        const month = date.getMonth() > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`;
+        const day = date.getDate() > 9 ? date.getDate() + 1 : `0${date.getDate() + 1}`;
+        return `${year}-${month}-${day}`;
+        console.log(val);
+      },
       getList() {
         this.listLoading = true;
         let{page,limit,date,location,type,type1}=this.listQuery;
-
+        date=new Date(date)
         let filterData=this.list.filter(item=>{
-          if (date && item.date !== date) return false
+//        let idate=this.formatDate(item.date)
+          let idate=new Date(Date.parse(item.date))
+
+          console.log('++++++++++++++++++++++')
+          console.log(idate.getTime()=== date.getTime())
+          console.log(idate.getTime().toString())
+          console.log(date.getTime().toString())
+
+          if (date===NaN)
+              return false
+          else{
+            if(idate.getTime().toString() != date.getTime().toString()){
+              console.log('========================')
+              return false
+            }
+          }
+
           if (type && item.typeId.id !== type) return false
-          if (type1 && item.result.id !== type1) return false
+//          if (type1 && item.result.id !== type1) return false
           if (location && item.location.indexOf(location) < 0) return false
-//          if (result && item.result.indexOf(result) < 0) return false
           return true
         })
 

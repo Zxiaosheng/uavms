@@ -20,6 +20,8 @@
     </div>
     <el-table :data="pageData" v-loading="listLoading" border fit  highlight-current-row style="width: 100%;magin-top:20px;text-align: center">
 
+      <el-table-column prop="id" :label="$t('rode.id')" width="100"></el-table-column>
+
       <el-table-column prop="typeId.typeName" :label="$t('rode.typeId')"  align="center" width="100"></el-table-column>
 
       <el-table-column prop="date1" :label="$t('rode.date1')" width="150"></el-table-column>
@@ -61,18 +63,18 @@
 
     <!--编辑弹出窗-->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm"  :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+      <el-form ref="dataForm"  :model="temp" label-position="left" label-width="100px" style="width: 500px; margin-left:50px;">
 
         <el-form-item :label="$t('rode.typeId')" prop="typeId">
-          <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select">
+          <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="请选择型号">
             <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('rode.date1')" prop="date">
-          <el-date-picker v-model="temp.date1" type="date" value-format="yyyy-MM-dd" placeholder="Please pick a date" />
+          <el-date-picker v-model="temp.date1" type="date" value-format="yyyy-MM-dd" placeholder="请选择出发时间" />
         </el-form-item>
         <el-form-item :label="$t('rode.date2')" prop="date">
-          <el-date-picker v-model="temp.date2" type="date" value-format="yyyy-MM-dd" placeholder="Please pick a date" />
+          <el-date-picker v-model="temp.date2" type="date" value-format="yyyy-MM-dd" placeholder="请选择到达时间" />
         </el-form-item>
         <el-form-item :label="$t('rode.start')" prop="title">
           <el-input v-model="temp.start" />
@@ -95,26 +97,44 @@
     </el-dialog>
     <!--新增弹出窗-->
     <el-dialog title="新增" :visible.sync="dialogFormAdd">
-      <el-form ref="AddForm"   :model="addtemp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+      <el-form ref="AddForm" :model="addtemp" :rules="rules" label-position="left" label-width="100px" style="width: 500px; margin-left:50px;">
         <el-form-item  :label="$t('rode.typeId')" prop="typeId">
-          <el-select v-model="addtemp.typeId.typeName" class="filter-item" placeholder="Please select">
+          <el-select v-model="addtemp.typeId.typeName" class="filter-item" placeholder="请选择类型">
             <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('rode.date1')"  prop="date1">
-          <el-date-picker v-model="addtemp.date1" type="date"  placeholder="Please pick a date" />
+          <el-date-picker v-model="addtemp.date1" type="date"  placeholder="请选择出发时间" />
         </el-form-item>
         <el-form-item :label="$t('rode.date2')"  prop="date2">
-          <el-date-picker v-model="addtemp.date2" type="date"  placeholder="Please pick a date" />
+          <el-date-picker v-model="addtemp.date2" type="date"  placeholder="请选择到达时间" />
         </el-form-item>
+        <!--<el-form-item :label="$t('rode.start')"  prop="start">-->
+          <!--<el-input v-model="addtemp.start" />-->
+        <!--</el-form-item>-->
         <el-form-item :label="$t('rode.start')"  prop="start">
-          <el-input v-model="addtemp.start" />
+          <div class="block">
+            <el-cascader
+              expand-trigger="hover"
+              :options="options"
+              v-model="addtemp.start">
+            </el-cascader>
+          </div>
         </el-form-item>
-        <el-form-item :label="$t('rode.end')"  prop="end">
-          <el-input v-model="addtemp.end" />
+        <!--<el-form-item :label="$t('rode.end')"  prop="end">-->
+          <!--<el-input v-model="addtemp.end" />-->
+        <!--</el-form-item>-->
+        <el-form-item :label="$t('rode.end')"  prop="start">
+          <div class="block">
+            <el-cascader
+              expand-trigger="hover"
+              :options="options"
+              v-model="addtemp.end">
+            </el-cascader>
+          </div>
         </el-form-item>
         <el-form-item :label="$t('rode.task')"  prop="task">
-          <el-input v-model="addtemp.task" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+          <el-input v-model="addtemp.task" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入任务" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -138,15 +158,6 @@
     name: "index",
     components: { Pagination },
     directives: { waves },
-    filters: {
-      //对热度数据进行过滤，生成不同颜色的标签
-      // hotFilter(hot) {
-      //   return hot>=200 ? 'danger' : (hot>=100 ? 'waring' : 'success');
-      // },
-      // typeFilter(type) {
-      //   return newsType[type]
-      // }
-    },
     data(){
       return{
         list:[],
@@ -161,23 +172,60 @@
           update: 'Edit',
           create: 'Create'
         },
+        options: [{
+          value: '福建省',
+          label: '福建省',
+          children: [{
+            value: '福州',
+            label: '福州',
+            children: [{
+              value: '仓山区',
+              label: '仓山区'
+            }, {
+              value: '晋安区',
+              label: '晋安区'
+            }, {
+              value: '台江区',
+              label: '台江区'
+            }, {
+              value: '鼓楼区',
+              label: '鼓楼区'
+            },{
+              value: '马尾区',
+              label: '马尾区'
+            }]
+          }, {
+            value: '厦门',
+            label: '厦门',
+            children: [{
+              value: '集美区',
+              label: '集美区'
+            }, {
+              value: '湖里区',
+              label: '湖里区'
+            }, {
+                value: '思明区',
+                label: '思明区'
+              }]
+          }]
+        }],
         temp: {
           id:'',
           date1: new Date(),
           date2: new Date(),
-          start: '',
-          end:'',
+          start: [],
+          end:[],
           task:'',
-          typeId: [{id:1,typeName:'消防型'}]
+          typeId: [{id:'',typeName:''}]
         },
         addtemp: {
           id:'',
           date1: new Date(),
           date2: new Date(),
-          start: '',
-          end:'',
+          start:[],
+          end:[],
           task:'',
-          typeId: [{id:1,typeName:'消防型'}]
+          typeId: [{id:'',typeName:''}]
         },
         listQuery: {
           page: 1,
@@ -191,7 +239,27 @@
           type: undefined,
 
         },
-        downloadLoading: false
+        downloadLoading: false,
+        rules: {
+          typeId: [
+            { required: false, message: '请选择型号', trigger: 'change' }
+          ],
+            date1: [
+            { type: 'date', required: true, message: '请选择出发时间', trigger: 'change' }
+          ],
+            date2: [
+            { type: 'date', required: true, message: '请选择到达时间', trigger: 'change' }
+          ],
+          start: [
+            { required: true, message: '请输入出发地点', trigger: 'blur' }
+          ],
+          end: [
+            { required: true, message: '请输入到达地点', trigger: 'blur' }
+          ],
+          task: [
+            { required: true, message: '请输入任务', trigger: 'blur' }
+          ],
+        },
       }
     },
     mounted(){
@@ -212,7 +280,7 @@
         date1=new Date(date1)
         date2=new Date(date2)
         let fiterData=this.list.filter(item=>{
-           let idate1=new Date(Date.parse(item.date1))
+          let idate1=new Date(Date.parse(item.date1))
           let idate2=new Date(Date.parse(item.date2))
           if (date1 && idate1 < date1) return false
           if (date2 && idate2 > date2) return false
@@ -227,7 +295,7 @@
           return index<page*limit && index>=limit*(page-1)
         });
         this.listLoading = false;
-        this.total=this.pageData.length
+        this.total=fiterData.length
       },
       handleFilter() {
         this.listQuery.page = 1
@@ -312,8 +380,8 @@
           id:undefined,
           date1: new Date(),
           date2: new Date(),
-          start: '',
-          end:'',
+          start: [],
+          end:[],
           task:'',
           typeId: [],
         }
@@ -335,20 +403,20 @@
         const index = this.pageData.indexOf(row)
         this.pageData.splice(index, 1)
       },
-      handleDownload() {
-        this.downloadLoading = true
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-          const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-          const data = this.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: 'table-list'
-          })
-          this.downloadLoading = false
-        })
-      },
+      // handleDownload() {
+      //   this.downloadLoading = true
+      //   import('@/vendor/Export2Excel').then(excel => {
+      //     const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
+      //     const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
+      //     const data = this.formatJson(filterVal, this.list)
+      //     excel.export_json_to_excel({
+      //       header: tHeader,
+      //       data,
+      //       filename: 'table-list'
+      //     })
+      //     this.downloadLoading = false
+      //   })
+      // },
     }
   }
 </script>
