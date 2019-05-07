@@ -1,6 +1,8 @@
 <template>
   <div class="chart-container">
-    <div :id="id" :class="className" :style="{height:height,width:width}" />
+
+        <div :id="id" :class="className" :style="{height:height,width:width}" />
+
   </div>
 </template>
 
@@ -683,7 +685,7 @@
   .chart-container{
     position: relative;
     width: 100%;
-    height: calc(100vh - 56px);
+    height: calc(100vh - 80px);
     background-color: rgb(48,65,86);
   }
 </style>

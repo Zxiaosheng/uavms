@@ -6,6 +6,7 @@ const count = 100
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
     "id":"@increment",
+    "rodename":"@cword(3,5)路线",
     "date1":"@date",
     "date2":"@date",
     "start":"@city()",

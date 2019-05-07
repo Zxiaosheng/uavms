@@ -3,16 +3,16 @@
 
     <el-row :gutter="20">
       <el-col :span="12">
-        <div :id="id" class="grid-content" :class="className" style="height:430px;width:100%;padding:0 20px 0 20px"/>
+        <div :id="id" class="grid-content" :class="className" style="height:430px;width:100%;padding: 0 20px 0 20px"/>
       </el-col>
       <el-col :span="12">
-        <div :id="id1" class="grid-content" :class="className1" style="height:430px;width:100%;padding:0 20px 0 20px"/>
+        <div :id="id1" class="grid-content" :class="className1" style="height:430px;width:100%;padding: 0 20px 0 20px"/>
       </el-col>
     </el-row>
 
-    <el-row :gutter="20">
+    <el-row >
       <el-col :span="24">
-        <div :id="id2" class="grid-content" :class="className2" style="height:430px;width:100%;padding:0 20px 0 20px"/>
+        <div :id="id2" class="grid-content" :class="className2" style="height:430px;width:100%;padding: 0 20px 0 20px"/>
       </el-col>
     </el-row>
 
@@ -71,6 +71,7 @@
       this.chart1 = echarts.init(document.getElementById(this.id1));
       this.chart2 = echarts.init(document.getElementById(this.id2));
 
+
       //饼图
       fetchChartList().then(response => {
         this.list = response.data.items
@@ -86,6 +87,9 @@
               color: '#ffffff'
             }
           },
+          // grid:{
+          //   width:'100%'
+          // },
 
           tooltip: {
             trigger: 'item',
@@ -169,6 +173,9 @@
             color: '#fff'
           }
         },
+        // grid:{
+        //   width:'100%'
+        // },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -251,12 +258,11 @@
             type:'bar',
             xAxisIndex: 1,
             yAxisIndex: 1,
-            color:'rgb(20,205,212)',
+            color:'rgb(44,133,222)',
             data:(function (){
               var res = [];
               var len = 10;
               while (len--) {
-                console.log(list1)
                 res.push(list1.m);
 
               }
@@ -266,7 +272,6 @@
           {
             name:'飞行机器数',
             type:'line',
-            color:'#0f375f',
             data:(function (){
               var res = [];
               var len = 0;
@@ -279,7 +284,7 @@
           }
         ]
       };
-
+      this.chart1.setOption(option1);
       app.count = 11;
       setInterval(()=>{
         let axisData = (new Date()).toLocaleTimeString().replace(/^\D*/,'');
@@ -320,7 +325,7 @@
       }
 
 
-// option
+// 预计飞行总数与实际飞行总数差距图
      let option2 = {
         backgroundColor: 'rgb(31,45,41)',
        title: {
@@ -383,27 +388,8 @@
             }
           },
           data: barData
-        }, {
-          name: 'line',
-          type: 'bar',
-          barGap: '-100%',
-          barWidth: 10,
-          itemStyle: {
-            normal: {
-              color: new echarts.graphic.LinearGradient(
-                0, 0, 0, 1,
-                [
-                  {offset: 0, color: 'rgba(20,200,212,0.5)'},
-                  {offset: 0.2, color: 'rgba(20,200,212,0.2)'},
-                  {offset: 1, color: 'rgba(20,200,212,0)'}
-                ]
-              )
-            }
-          },
-          z: -12,
-          data: lineData
-        }, {
-          name: 'dotted',
+        },  {
+          name: '实际飞行总数与预计飞行总数差额',
           type: 'pictorialBar',
           symbol: 'rect',
           itemStyle: {
@@ -439,6 +425,7 @@
   .el-col {
     border-radius: 4px;
     margin-top: 10px;
+    /*border: 2px solid red;*/
   }
   .bg-purple-dark {
     background: #99a9bf;

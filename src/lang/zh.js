@@ -29,6 +29,7 @@ export default {
   task: {
     taskId: '任务ID',
     taskName: '任务名称',
+    rodeName: '任务路线',
     taskDesc: '任务描述',
     taskType: '任务类型',
     startTime: '开始时间',
@@ -130,6 +131,7 @@ export default {
   },
   rode: {
     id: '编号',
+    rodename:'路线名称',
     typeId: '型号',
     date1: '启用时间',
     date2: '停用时间',

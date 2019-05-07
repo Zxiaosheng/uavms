@@ -77,7 +77,7 @@
             {
               name: '当日任务进度',
               type: 'gauge',
-              center: ['70%', '55%'],
+              center: ['68%', '55%'],
               z: 3,
               min: 0,
               max: 100,
@@ -154,7 +154,7 @@
             {
               name: '转速',
               type: 'gauge',
-              center: ['30%', '55%'],
+              center: ['25%', '55%'],
               radius: '60%',
               min:0,
               max:100,
