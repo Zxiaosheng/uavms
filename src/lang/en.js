@@ -32,6 +32,7 @@ export default {
     taskId: 'taskId',
     taskName: 'taskName',
     taskDesc: 'taskDesc',
+    rodeName: 'rodeName',
     taskType: 'taskType',
     startTime: 'startTime',
     endTime: 'endTime',

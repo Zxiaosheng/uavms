@@ -218,10 +218,10 @@
     color: #fff;
   }
   .card-title,.card-count{
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
   }
   .card-count{
-    font-size: 50px;
+    font-size: 64px;
   }
 </style>
