@@ -22,7 +22,7 @@
 
       <el-table-column prop="id" :label="$t('rode.id')" width="100"></el-table-column>
 
-      <el-table-column prop="rodename" :label="$t('rode.rodename')" width="100"></el-table-column>
+      <el-table-column prop="rodename" :label="$t('rode.rodename')" width="120"></el-table-column>
 
       <el-table-column prop="typeId.typeName" :label="$t('rode.typeId')"  align="center" width="100"></el-table-column>
 
@@ -216,7 +216,13 @@
             }, {
                 value: '思明区',
                 label: '思明区'
-              }]
+              }, {
+              value: '同安区',
+              label: '同安区'
+            }, {
+              value: '海沧区',
+              label: '海沧区'
+            }]
           }]
         }],
         temp: {
