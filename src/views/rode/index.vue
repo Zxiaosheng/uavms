@@ -22,6 +22,8 @@
 
       <el-table-column prop="id" :label="$t('rode.id')" width="100"></el-table-column>
 
+      <el-table-column prop="rodename" :label="$t('rode.rodename')" width="120"></el-table-column>
+
       <el-table-column prop="typeId.typeName" :label="$t('rode.typeId')"  align="center" width="100"></el-table-column>
 
       <el-table-column prop="date1" :label="$t('rode.date1')" width="150"></el-table-column>
@@ -66,24 +68,27 @@
       <el-form ref="dataForm"  :model="temp" label-position="left" label-width="100px" style="width: 500px; margin-left:50px;">
 
         <el-form-item :label="$t('rode.typeId')" prop="typeId">
-          <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="请选择型号">
+          <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="请选择型号" style="width: 100%">
             <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
+        <el-form-item :label="$t('rode.rodename')"  prop="rodename">
+          <el-input v-model="temp.rodename" style="width: 100%"/>
+        </el-form-item>
         <el-form-item :label="$t('rode.date1')" prop="date">
-          <el-date-picker v-model="temp.date1" type="date" value-format="yyyy-MM-dd" placeholder="请选择出发时间" />
+          <el-date-picker v-model="temp.date1" type="date" value-format="yyyy-MM-dd" placeholder="请选择出发时间" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('rode.date2')" prop="date">
-          <el-date-picker v-model="temp.date2" type="date" value-format="yyyy-MM-dd" placeholder="请选择到达时间" />
+          <el-date-picker v-model="temp.date2" type="date" value-format="yyyy-MM-dd" placeholder="请选择到达时间" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('rode.start')" prop="title">
-          <el-input v-model="temp.start" />
+          <el-input v-model="temp.start" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('rode.end')" prop="title">
-          <el-input v-model="temp.end" />
+          <el-input v-model="temp.end" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('rode.task')">
-          <el-input v-model="temp.task" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+          <el-input v-model="temp.task" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" style="width: 100%"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -98,16 +103,19 @@
     <!--新增弹出窗-->
     <el-dialog title="新增" :visible.sync="dialogFormAdd">
       <el-form ref="AddForm" :model="addtemp" :rules="rules" label-position="left" label-width="100px" style="width: 500px; margin-left:50px;">
-        <el-form-item  :label="$t('rode.typeId')" prop="typeId">
-          <el-select v-model="addtemp.typeId.typeName" class="filter-item" placeholder="请选择类型">
+        <el-form-item  :label="$t('rode.typeId')" prop="typeId.typeName">
+          <el-select v-model="addtemp.typeId.typeName" class="filter-item" placeholder="请选择类型" style="width: 100%">
             <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
+        <el-form-item :label="$t('rode.rodename')"  prop="rodename">
+            <el-input v-model="addtemp.rodename" style="width: 100%"/>
+        </el-form-item>
         <el-form-item :label="$t('rode.date1')"  prop="date1">
-          <el-date-picker v-model="addtemp.date1" type="date"  placeholder="请选择出发时间" />
+          <el-date-picker v-model="addtemp.date1" type="date"  placeholder="请选择出发时间" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('rode.date2')"  prop="date2">
-          <el-date-picker v-model="addtemp.date2" type="date"  placeholder="请选择到达时间" />
+          <el-date-picker v-model="addtemp.date2" type="date"  placeholder="请选择到达时间" style="width: 100%"/>
         </el-form-item>
         <!--<el-form-item :label="$t('rode.start')"  prop="start">-->
           <!--<el-input v-model="addtemp.start" />-->
@@ -117,7 +125,8 @@
             <el-cascader
               expand-trigger="hover"
               :options="options"
-              v-model="addtemp.start">
+              v-model="addtemp.start"
+              style="width: 100%">
             </el-cascader>
           </div>
         </el-form-item>
@@ -125,16 +134,17 @@
           <!--<el-input v-model="addtemp.end" />-->
         <!--</el-form-item>-->
         <el-form-item :label="$t('rode.end')"  prop="start">
-          <div class="block">
+          <div class="block" >
             <el-cascader
               expand-trigger="hover"
               :options="options"
-              v-model="addtemp.end">
+              v-model="addtemp.end"
+              style="width: 100%">
             </el-cascader>
           </div>
         </el-form-item>
         <el-form-item :label="$t('rode.task')"  prop="task">
-          <el-input v-model="addtemp.task" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入任务" />
+          <el-input v-model="addtemp.task" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入任务" style="width: 100%"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -206,13 +216,20 @@
             }, {
                 value: '思明区',
                 label: '思明区'
-              }]
+              }, {
+              value: '同安区',
+              label: '同安区'
+            }, {
+              value: '海沧区',
+              label: '海沧区'
+            }]
           }]
         }],
         temp: {
           id:'',
-          date1: new Date(),
-          date2: new Date(),
+          rodename:'',
+          date1: '',
+          date2: '',
           start: [],
           end:[],
           task:'',
@@ -220,6 +237,7 @@
         },
         addtemp: {
           id:'',
+          rodename:'',
           date1: new Date(),
           date2: new Date(),
           start:[],
@@ -231,6 +249,7 @@
           page: 1,
           limit: 20,
           id:undefined,
+          rodename:undefined,
           date1: undefined,
           date2: undefined,
           start: undefined,
@@ -241,10 +260,13 @@
         },
         downloadLoading: false,
         rules: {
-          typeId: [
-            { required: false, message: '请选择型号', trigger: 'change' }
+          typeId:{
+              typeName:[{ required: true, message: '请选择型号', trigger: 'change' }]
+          },
+          rodename: [
+            { required: true, message: '请输入路线名称', trigger: 'blur' }
           ],
-            date1: [
+          date1: [
             { type: 'date', required: true, message: '请选择出发时间', trigger: 'change' }
           ],
             date2: [
@@ -277,13 +299,18 @@
       getList() {
         this.listLoading = true;
         let{page,limit,task,date1,date2,start,end,type}=this.listQuery;
-        date1=new Date(date1)
-        date2=new Date(date2)
+        if(date1 && date1!=undefined){
+          date1=date1.getTime()
+        }
+        if(date2 && date2!=undefined){
+          date2=date2.getTime()
+        }
         let fiterData=this.list.filter(item=>{
-          let idate1=new Date(Date.parse(item.date1))
-          let idate2=new Date(Date.parse(item.date2))
-          if (date1 && idate1 < date1) return false
-          if (date2 && idate2 > date2) return false
+          let idate1=new Date(item.date1+" 00:00:00")
+          let idate2=new Date(item.date2+" 00:00:00")
+
+          if (date1 && idate1.getTime()!=date1) return false
+          if (date2 && idate2.getTime()!=date2) return false
           if (type && item.typeId.id !== type) return false
           if (start && item.start.indexOf(start) < 0) return false
           if (end && item.end.indexOf(end) < 0) return false
@@ -378,6 +405,7 @@
       resetTemp() {
         this.addtemp = {
           id:undefined,
+          rodename:undefined,
           date1: new Date(),
           date2: new Date(),
           start: [],

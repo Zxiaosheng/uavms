@@ -1,6 +1,8 @@
 <template>
   <div class="chart-container">
-    <div :id="id" :class="className" :style="{height:height,width:width}" />
+
+        <div :id="id" :class="className" :style="{height:height,width:width}" />
+
   </div>
 </template>
 
@@ -10,8 +12,8 @@
   //行政区划图
   import 'echarts/lib/chart/map'
   //引入对应图表的js文件
-  import 'echarts/map/js/china.js'
-
+  import 'echarts/map/js/province/fujian.js'
+  import bmap from 'echarts/extension/bmap/bmap';
   import resize from './mixins/resize'
 
 
@@ -683,7 +685,7 @@
   .chart-container{
     position: relative;
     width: 100%;
-    height: calc(100vh - 56px);
+    height: calc(100vh - 80px);
     background-color: rgb(48,65,86);
   }
 </style>
