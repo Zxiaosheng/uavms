@@ -29,7 +29,7 @@
 
         type: Number,
 
-        default: 16
+        default: 35
 
       },
 
@@ -37,7 +37,7 @@
 
         type: Number,
 
-        default: 40
+        default: 45
 
       },
 
@@ -109,7 +109,7 @@
 
         type: Number,
 
-        default: 112
+        default: 150
 
       },
 
@@ -117,7 +117,7 @@
 
         type: Number,
 
-        default: 38
+        default: 47
 
       }
 

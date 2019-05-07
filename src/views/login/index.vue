@@ -47,14 +47,14 @@
           </span>
         </el-form-item>
       </el-tooltip>
+  <div class="verify">
+      <el-form-item  class="leftVerify" prop="verifycode" style="width: 66%">
 
-      <el-form-item  prop="verifycode">
-
-         <el-input v-model="loginForm.verifycode" placeholder="请输入验证码" class="identifyinput">
+         <el-input v-model="loginForm.verifycode" placeholder="请输入验证码" class="identifyinput" >
 
          </el-input>
       </el-form-item>
-      <el-form-item>
+      <el-form-item class="rightVerify" >
         <div class="identifybox">
           <div @click="refreshCode">
             <s-identify :identifyCode="identifyCode">
@@ -64,6 +64,7 @@
           <el-button @click="refreshCode" type='text' class="textbtn">看不清，换一张</el-button>
         </div>
       </el-form-item>
+  </div>
       <!--<el-checkbox v-model="checked">记住账号</el-checkbox>-->
 
 
@@ -377,6 +378,16 @@ export default {
     height: 47px;
     caret-color: $cursor;
   }
+  .verify{
+    display: flex;
+  }
+  .leftVerify{
+    height: 47px;
+  }
+  .identifybox{
+    height: 47px;
+  }
+
 
 </style>
 
