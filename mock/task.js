@@ -1,7 +1,5 @@
 import Mock from 'mockjs'
 
-let Random = Mock.Random
-
 // 模拟任务列表数据
 const List = [];
 const count = 40;
@@ -10,6 +8,7 @@ for (let i = 0;i < count; i++){
     taskId:'@increment',
     taskName:'@ctitle(4,8)',
     taskDesc:'@csentence(5, 12)',
+    rodeName:'@cword(2,3)路线',
     "taskTypes|1":[
       {typeId:1,typeName:'消防任务'},
       {typeId:2,typeName:'医疗任务'},
@@ -26,23 +25,6 @@ for (let i = 0;i < count; i++){
     head:'@cname'
   }))
 }
-
-
-// 模拟日期维度执行报告失败数据
-let execReportSucc = []
-for(let i = 0; i < 31; i++){
-  execReportSucc.push(Random.integer(19,52))
-}
-console.log(execReportSucc)
-
-// 模拟日期维度执行报告成功数据
-let execReportFail = []
-for(let i = 0; i < 31; i++){
-  execReportFail.push(Random.integer(0,31))
-}
-
-// 领域数据量
-const fieldCount = [];
 
 export default [
   //任务列表
@@ -91,28 +73,6 @@ export default [
         data: {
           count:List.length
         }
-      }
-    }
-  },
-  //任务报告成功数据
-  {
-    url: '/task/report/success/count',
-    type: 'get',
-    response: _ => {
-      return {
-        code: 20000,
-        data: execReportSucc
-      }
-    }
-  },
-  //任务报告失败数据
-  {
-    url: '/task/report/fail/count',
-    type: 'get',
-    response: _ => {
-      return {
-        code: 20000,
-        data: execReportFail
       }
     }
   },

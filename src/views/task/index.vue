@@ -36,6 +36,7 @@
       </el-table-column>
       <el-table-column :label="$t('task.taskStatus')" width="110px" align="center">
         <template slot-scope="{row}">
+          <!--务必加入过滤标签-->
           <!-- row.status ? 'success' : 'info'-->
           <el-tag :type="row.taskStatus|taskStatusFilter">{{ row.taskStatus|taskStatusValFilter }}</el-tag>
         </template>
@@ -43,6 +44,11 @@
       <el-table-column :label="$t('task.taskName')" align="center" width="160">
         <template slot-scope="scope">
           <span>{{ scope.row.taskName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('task.rodeName')" align="center" width="100">
+        <template slot-scope="scope">
+          <span>{{ scope.row.rodeName }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('task.startTime')" align="center" width="160">
@@ -55,7 +61,7 @@
           <span>{{ scope.row.endTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.taskDesc')" align="center" width="280">
+      <el-table-column :label="$t('task.taskDesc')" align="center" width="200">
         <template slot-scope="scope">
           <span>{{ scope.row.taskDesc }}</span>
         </template>
@@ -65,7 +71,7 @@
           <span>{{ scope.row.taskTypes.typeName }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.head')" align="center" width="120">
+      <el-table-column :label="$t('task.head')" align="center" width="90">
         <template slot-scope="scope">
           <span>{{ scope.row.head }}</span>
         </template>
@@ -100,36 +106,36 @@
     <!--page end-->
 
     <!--dialog start-->
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="30%">
-      <el-form ref="dataForm" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item :label="$t('task.taskName')" prop="head">
-          <el-input v-model="temp.taskName" type="text" placeholder="请输入任务名称"/>
+    <el-dialog :title="formTitle" :visible.sync="dialogFormVisible" width="30%" center>
+      <el-form ref="dataForm" :model="temp" :rules="rules" label-position="left" label-width="80px" style="width: 400px;height: 400px; margin-left:50px;">
+        <el-form-item :label="$t('task.taskName')" prop="taskName">
+          <el-input v-model="temp.taskName" type="text" placeholder="请输入任务名称" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('task.head')" prop="head">
-          <el-input v-model="temp.head" type="text" placeholder="请输入负责人"/>
+          <el-input v-model="temp.head" type="text" placeholder="请输入负责人" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('task.startTime')" prop="startTime">
-          <el-date-picker v-model="temp.startTime" value-format="yyyy-MM-dd HH:mm" type="datetime" placeholder="请选择开始时间" />
+          <el-date-picker v-model="temp.startTime" value-format="yyyy-MM-dd HH:mm" type="datetime" placeholder="请选择开始时间" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('task.endTime')" prop="endTime">
-          <el-date-picker v-model="temp.endTime" value-format="yyyy-MM-dd HH:mm" type="datetime" placeholder="请选择结束时间" />
+          <el-date-picker v-model="temp.endTime" value-format="yyyy-MM-dd HH:mm" type="datetime" placeholder="请选择结束时间" style="width: 100%"/>
+        </el-form-item>
+        <el-form-item :label="$t('task.taskUav')" prop="taskUavs">
+          <!--<el-input v-model="temp.taskUavs" />-->
+          <el-select v-model="temp.taskUavs" class="filter-item" placeholder="请选择机型" style="width: 100%">
+            <el-option v-for="(item,index) in taskUavs" :key="index" :label="item" :value="item"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('task.taskType')" prop="taskTypes">
+          <el-select v-model="temp.taskTypes.typeName" class="filter-item" placeholder="请选择任务类型" style="width: 100%">
+            <el-option v-for="item in taskTypes" :key="item.typeId" :label="item.typeName" :value="item.typeName"/>
+          </el-select>
         </el-form-item>
         <el-form-item :label="$t('task.taskDesc')" prop="taskDesc">
-          <el-input v-model="temp.taskDesc" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入任务描述" />
-        </el-form-item>
-        <el-form-item :label="$t('task.taskUav')" prop="taskUav">
-          <!--<el-input v-model="temp.taskUavs" />-->
-          <el-select v-model="temp.taskUavs" class="filter-item" placeholder="Please select">
-            <el-option v-for="(item,index) in taskUavs" :key="index" :label="item" :value="item" />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('task.taskType')">
-          <el-select v-model="temp.taskTypes.typeName" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in taskTypes" :key="item.typeId" :label="item.typeName" :value="item.typeName" />
-          </el-select>
+          <el-input v-model="temp.taskDesc" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入任务描述" style="width: 100%"/>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer" class="dialog-footer" >
         <el-button @click="dialogFormVisible = false">
           {{ $t('table.cancel') }}
         </el-button>
@@ -145,6 +151,7 @@
 
 <script>
 import { fetchTasklist,updateTask,createTask } from '@/api/task'
+import {formatDate} from './utils.js'
 import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination'
 
@@ -186,9 +193,7 @@ export default {
       taskStatusOptions: ['Finished','Wait','Normal' ,'OutTime','Pause'],
       dialogFormVisible:false,
       dialogStatus:'',
-      textMap: {
-        create: 'create'
-      },
+      formTitle:'创建任务',
       temp: {
         taskId: undefined,
         taskName: '',
@@ -200,7 +205,27 @@ export default {
         taskStatus:'',
         head:''
       },
-      dialogConfirmVisible:false
+      dialogConfirmVisible:false,
+      // 表单验证规则
+      rules: {
+        head:[
+          { required: true, message: '请输入负责人名称', trigger: 'blur' },
+          { min: 2, max: 6, message: '长度在 2 到 6 个字符', trigger: 'blur' }
+        ],
+        taskName: [
+          { required: true, message: '请输入任务名称', trigger: 'blur' },
+          { min: 3, max: 5, message: '长度在 4 到 8 个字符', trigger: 'blur' }
+        ],
+        taskTypes: [
+          { required: true, message: '请选择任务类型', trigger: 'change' }
+        ],
+        taskUavs: [
+          { required: true, message: '请选择任务机型', trigger: 'change' }
+        ],
+        taskDesc: [
+          { required: true, message: '请填写任务描述', trigger: 'blur' }
+        ]
+      }
     }
   },
   mounted() {
@@ -215,6 +240,19 @@ export default {
     })
   },
   methods: {
+    resetTemp() {
+      this.temp = {
+        taskId: undefined,
+        taskName: '',
+        taskDesc: '',
+        startTime: new Date(),
+        endTime: new Date(new Date().getTime() + 24*60*60*1000),
+        taskTypes:[{typeId:1,typeName:''}],
+        taskUavs:'',
+        taskStatus:'',
+        head:''
+      }
+    },
     getList() {
       let { page, limit, taskType, taskName, sort } = this.listQuery
       // 过滤查询结果集
@@ -238,7 +276,7 @@ export default {
       this.getList()
     },
     handleCreate() {
-      this.dialogStatus = 'create'
+      this.resetTemp()
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
@@ -249,6 +287,8 @@ export default {
         if (valid) {
           // 建议本次模拟数据中ID最大值加一
           this.temp.taskId = parseInt(Math.random() * 100) + 1024
+          this.temp.startTime = formatDate(this.temp.startTime,"yyyy-MM-dd hh:ss")
+          this.temp.endTime = formatDate(this.temp.endTime,"yyyy-MM-dd hh:ss")
           this.temp.taskStatus = 'Wait'
           createTask(this.temp).then(() => {
             //console.log(this.temp)

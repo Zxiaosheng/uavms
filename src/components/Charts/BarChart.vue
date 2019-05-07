@@ -87,7 +87,7 @@
           },
           series: [
             {
-              name: '损耗率',
+              name: '值',
               type: 'bar',
               data: value,
               itemStyle: {

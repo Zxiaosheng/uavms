@@ -131,10 +131,10 @@
 
         var itemStyle = {
           normal: {
-            opacity: 0.8,
+            opacity: 0.9,
             shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowOffsetY: 0,
+            shadowOffsetX: 10,
+            shadowOffsetY: 10,
             shadowColor: 'rgba(0, 0, 0,0.7)'
           }
         };
@@ -171,11 +171,11 @@
               lineStyle:{
                 color:'#fff',
               },
-              orient: 'vertical',
-              left:'95%',
-              x2:'0.3%',
-              top:90,
-              bottom:90,
+//              orient: 'vertical',
+//              left:'90%',
+//              x2:'0.3%',
+//              top:90,
+//              bottom:90,
               axisType: 'category',
               autoPlay: true,
               playInterval: 2000,
@@ -195,10 +195,11 @@
                   return (new Date(s)).getFullYear();
                 },
                 normal:{
-                  position:'right',
+//                  position:'right',
                   color:'#fff',
-                  rotate:'30',
-                  lineHeight:300,
+                  fontSize:15,
+//                  rotate:'30',
+//                  lineHeight:30,
                 }
               }
             },
@@ -216,8 +217,7 @@
             toolbox: {
               show: true,
               orient: 'vertical',
-              left: 'left',
-              x:40,
+              x:20,
               top: 'center',
               feature: {
                 mark: {show: true},
@@ -226,8 +226,6 @@
                 restore: {show: true},
                 saveAsImage: {show: true}
               }
-            },
-            tooltip: {
             },
             legend: {
               x: 'right',
@@ -242,10 +240,10 @@
             },
             calculable : true,
             grid: {
-              x: '10%',
-              x2: 150,
-              y: '28%',
-              y2: '10%',
+//              x: '10%',
+//              x2: 150,
+              y: '25%',
+              y2: '15%',
             },
             tooltip: {
               trigger: 'axis',
@@ -308,10 +306,10 @@
               {
                 name: '占比',
                 type: 'pie',
-                center: ['50%', '20%'],
+                center: ['50%', '15%'],
                 radius: '25%',
                 z: 100,
-                itemStyle: itemStyle,
+//                itemStyle: itemStyle,
               }
             ]
           },

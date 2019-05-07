@@ -1,9 +1,14 @@
 <template>
-  <div :id="id" :class="className" :style="{height:height,width:width}" />
+  <div class="chart-container">
+
+        <div :id="id" :class="className" :style="{height:height,width:width}" />
+
+  </div>
 </template>
 
 <script>
 import echarts from 'echarts'
+
 
 // 行政区划图
 import 'echarts/lib/chart/map'
@@ -20,6 +25,7 @@ export default {
     className: {
       type: String,
       default: 'chart'
+
     },
     id: {
       type: String,
@@ -269,6 +275,7 @@ export default {
         ['厦门', targetValue2],
         ['莆田', targetValue3]
       ].forEach(function(item, i) {
+
         series.push({
           name: item[0],
           type: 'lines',
@@ -551,5 +558,10 @@ export default {
 </script>
 
 <style scoped>
-
+  .chart-container{
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background-color: rgb(48,65,86);
+  }
 </style>

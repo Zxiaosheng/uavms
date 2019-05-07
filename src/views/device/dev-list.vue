@@ -51,8 +51,8 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="findData">搜索</el-button>
-        <el-button type="primary" @click="clearData">清空</el-button>
+        <el-button type="primary" @click="findData" icon="el-icon-search">搜索</el-button>
+        <el-button type="primary" @click="clearData" class="el-icon-search">清空</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -64,8 +64,8 @@
 
           <el-form label-position="left" inline class="demo-table-expand">
             <dev-chart :dev="props.row"></dev-chart>
-            <el-form-item label="设备名称">
-              <span>{{ props.row.name }}</span>
+            <el-form-item label="可执行任务">
+              <span>{{ props.row.taskType }}</span>
             </el-form-item>
             <el-form-item label="电池容量">
               <span>{{ props.row.powerMax }} mAh</span>
@@ -253,6 +253,11 @@
                 msg={
                   type: 'info',
                   message: '此设备正在执行任务'
+                }
+              }else if(item.status==='已停用'){
+                msg={
+                  type: 'info',
+                  message: '此设备已经停用'
                 }
               }else{
                 item.status='已停用'
