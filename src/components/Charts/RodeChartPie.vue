@@ -1,15 +1,11 @@
 <template>
-  <div :id="id" class="grid-content" :class="className" style="height:430px;width:100%;padding: 0 20px 0 20px"/>
+  <div :id="id" class="grid-content" :class="className" style="height:430px;width:100%"/>
 </template>
 
 <script>
   import echarts from 'echarts'
-  //行政区划图
-  import 'echarts/lib/chart/map'
-  //引入对应图表的js文件
-  import 'echarts/map/js/china.js'
   import resize from '../../components/Charts/mixins/resize'
-  import { fetchChartList,fetchMChartList } from '@/api/rode-echart'
+  import { fetchChartList,fetchMChartList} from '@/api/rode-echart'
     export default {
         name: "RodeChartPie",
         mixins: [resize],
@@ -39,7 +35,7 @@
           this.list = response.data.items
 
           this.chart.setOption({
-            backgroundColor: 'rgb(31,45,41)',
+            // backgroundColor: 'rgb(31,45,41)',
 
             title: {
               text: '福州市五区飞行路线总数统计饼图',
