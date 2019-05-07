@@ -1,5 +1,5 @@
 export default {
-  device:{
+  device: {
     title: '设备管理'
   },
   historycount: {
@@ -123,7 +123,10 @@ export default {
     clipboardDemo: 'Clipboard',
     i18n: '国际化',
     externalLink: '外链',
-    profile: '个人中心'
+    profile: '个人中心',
+    flight: '路线追踪',
+    map: '飞行图',
+    route: '路线'
   },
   rode: {
     id: '编号',
@@ -141,8 +144,10 @@ export default {
     date1: '出发时间',
     date2: '到达时间',
     start: '出发地点',
-    end: '到达地点'
-
+    end: '到达地点',
+    map: '地图',
+    route: '路线',
+    flight: '路线追踪'
   },
   navbar: {
     dashboard: '首页',

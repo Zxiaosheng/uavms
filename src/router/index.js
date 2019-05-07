@@ -166,25 +166,25 @@ export const constantRoutes = [
     component: Layout,
     alwaysShow: true,
     meta: {
-      title: '路线追踪',
+      title: 'flight',
       icon: 'international',
       roles: ['admin']
     },
     children: [
       {
         path: 'index',
-        name: 'flightlist',
+        name: 'route',
         component: () => import('@/views/flight'),
         meta: {
-          title: '路线',
+          title: 'route',
           roles: ['admin']
         }
       },
       {
         path: 'bMap',
         component: () => import('@/views/flight/map'),
-        name: 'bMap',
-        meta: { title: '地图', noCache: true }
+        name: 'map',
+        meta: { title: 'map', noCache: true }
       }
 
     ]

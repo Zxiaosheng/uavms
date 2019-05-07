@@ -1,5 +1,5 @@
 export default {
-  device:{
+  device: {
     title: 'DeviceManagement'
 
   },
@@ -132,7 +132,10 @@ export default {
     clipboardDemo: 'Clipboard',
     i18n: 'I18n',
     externalLink: 'External Link',
-    profile: 'Profile'
+    profile: 'Profile',
+    flight: 'flight',
+    map: 'map',
+    route: 'route'
   },
   navbar: {
     dashboard: 'Dashboard',
@@ -190,6 +193,17 @@ export default {
     edit: 'Edit',
     delete: 'Delete',
     clear: 'Clear'
+  },
+  flight: {
+    id: 'id',
+    typeId: 'typeId',
+    date1: 'startTime',
+    date2: 'endTime',
+    start: 'startPlace',
+    end: 'endPlace',
+    map: 'map',
+    route: 'route',
+    flight: 'flight'
   },
   table: {
     dynamicTips1: 'Fixed header, sorted by header order',
