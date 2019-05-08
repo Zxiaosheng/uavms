@@ -212,7 +212,6 @@
             },
             subtext: '数据来自中国联通统计小组',
             left: 'left',
-            top: 'center',
             feature: {
               mark: {show: true},
               dataView: {show: true, readOnly: false},
@@ -221,6 +220,7 @@
               saveAsImage: {show: true}
             }
           },
+          tooltip:{},
           legend: {
             x: 'right',
             top: 15,
@@ -232,12 +232,25 @@
 //              '天眼型': false, '交通型': false, '其它型': false
 //            }
           },
+          toolbox: {
+            show: true,
+            orient: 'vertical',
+            x:20,
+            top: 'center',
+            feature: {
+              mark: {show: true},
+              dataView: {show: true, readOnly: false},
+              magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+              restore: {show: true},
+              saveAsImage: {show: true}
+            }
+          },
           calculable : true,
           grid: {
 //              x: '10%',
 //              x2: 150,
             y: '28%',
-            y2: '15%',
+            y2: '17%',
             tooltip: {
               trigger: 'axis',
               axisPointer: {
@@ -299,14 +312,13 @@
             {
               name: '占比',
               type: 'pie',
-              center: ['50%', '16%'],
-              radius: '23%',
+              center: ['50%', '14%'],
+              radius: '20%',
               z: 100,
-              fontSize:40,
               label: {
                 normal: {
                   textStyle: {
-                    fontSize:15
+                    fontSize:12
                   }
                 }
               },
