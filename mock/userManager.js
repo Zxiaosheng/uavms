@@ -18,7 +18,7 @@ for (let i = 0; i < count; i++) {
 for (let i = 0; i < num; i++) {
   userMap.push(Mock.mock({
     "id": '@increment',
-    "totalNum": "@integer(1,100)",
+    "totalNum": "@integer(1,500)",
     "date":"@date(\"yyyy-MM-dd\")",
     'cadd': '@province' ,
   }))

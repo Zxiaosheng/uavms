@@ -74,8 +74,8 @@
         this.newadd = response.data.add - response.data.del
         //空圆形图
         this.chart1.setOption({
-          backgroundColor: 'rgb(31,45,41)',
-          opacity: 0.5,
+          backgroundColor: 'rgb(44,52,60)',
+          color: ['#6F00D2', '#C23531', '#6cacde'],
           tooltip: {
             trigger: 'item',
             formatter: "{a} <br/>{b}: {c} ({d}%)"
@@ -89,7 +89,6 @@
               color: "white"
             }
           },
-
           series: [
             {
               name: '访问来源',
@@ -114,6 +113,22 @@
                   show: false
                 }
               },
+              backgroundStyle: {
+                borderWidth: 5, //内边框宽度
+                borderColor: 'yellow', //背景内边框
+                color: 'white', //背景颜色
+                shadowColor: 'red', //阴影
+                shadowBlur: 10, //阴影模糊
+              },
+              outline: {
+                itemStyle: {
+                  borderWidth: '100',
+                  borderColor: 'yellow',
+                  shadowBlur: 10,
+                  shadowColor: 'red',
+                  borderRadius: 30,
+                }
+              },
               data: [
                 {value: this.tableData.add, name: '新增人数'},
                 {value: this.tableData.del, name: '删除人数'},
@@ -123,7 +138,6 @@
           ]
         });
       })
-
     },
     methods: {
       getSTime(val) {
@@ -194,7 +208,7 @@
     border: 1px solid grey;
   }
 
-  .allBox{
+  .allBox {
     background: #304156;
   }
 </style>
