@@ -1,21 +1,39 @@
 <template>
   <div class="chart-container">
-
-    <el-popover
-      placement="right"
-      width="200"
-      trigger="click">
-        <el-button type="info" size="medium" @click="changePlace(1)">福州</el-button>
-        <el-button type="info" size="medium" @click="changePlace(2)">厦门</el-button>
-        <el-button type="info" size="medium" @click="changePlace(3)">南平</el-button>
-        <el-button type="info" size="medium" @click="changePlace(4)">泉州</el-button>
-        <el-button type="info" size="medium" @click="changePlace(5)">漳州</el-button>
-        <el-button type="info" size="medium" @click="changePlace(6)">三明</el-button>
-        <el-button type="info" size="medium" @click="changePlace(7)">莆田</el-button>
-        <el-button type="info" size="medium" @click="changePlace(8)">龙岩</el-button>
-        <el-button type="info" size="medium" @click="changePlace(9)">宁德</el-button>
-      <el-button type="info" slot="reference" icon="el-icon-search" circle></el-button>
-    </el-popover>
+    <el-dropdown trigger="click" style="margin-top: 10px">
+      <span class="el-dropdown-link" style="color: #fff">
+        切换城市<i class="el-icon-caret-bottom el-icon--right"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown" style="width: 80px;text-align: center">
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(1)">福州</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(2)">厦门</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(3)">南平</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(4)">泉州</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(5)">漳州</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(6)">三明</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(7)">莆田</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(8)">龙岩</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(9)">宁德</span>
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
 
     <el-row :gutter="20">
       <el-col :span="12" >
@@ -55,6 +73,7 @@
     components: { RodeChartPie ,RodeChartBar ,RodeChart},
     methods:{
       changePlace(n){
+        // console.log(n)
          this.num=n
       }
     }
@@ -100,7 +119,7 @@
   }
   .el-button{
     padding:3px;
-    margin: 5px;
+    /*margin: 5px;*/
   }
 
 </style>
