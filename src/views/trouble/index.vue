@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <div class="demo-input-size">
-      <el-date-picker v-model="listQuery.date1" type="date" placeholder="起始日期" style="width: 130px"/>
-      <el-date-picker v-model="listQuery.date2" type="date" placeholder="截止日期" style="width: 130px"/>
+      <el-date-picker v-model="listQuery.createTimeStart" type="date" placeholder="起始日期" style="width: 130px"/>
+      <el-date-picker v-model="listQuery.createTimeEnd" type="date" placeholder="截止日期" style="width: 130px"/>
       <el-select v-model="listQuery.planType" value-key="id" @change="getList" placeholder="无人机类型" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in planType" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
@@ -163,6 +163,8 @@
           date:undefined,
           troubleCount: undefined,
           troubleReason: undefined,
+          createTimeStart: undefined,
+          createTimeEnd: undefined
         },
         downloadLoading: false
       }
@@ -181,7 +183,7 @@
     methods:{
       getList() {
         this.listLoading = true;
-        let{page,limit,date,planType,troubleType,troubleCount,troubleReason}=this.listQuery;
+        let{page,limit,date,planType,troubleType,troubleCount,troubleReason,createTimeStart,createTimeEnd}=this.listQuery;
         date=new Date(date)
         let fiterData=this.list.filter(item=>{
           let idate = new Date(Date.parse(item.date))
@@ -190,6 +192,10 @@
           if (troubleType && item.troubleType.id !== troubleType) return false
           if (troubleCount && item.troubleCount.indexOf(troubleCount) < 0) return false
           if (troubleReason && item.troubleReason.indexOf(troubleReason) < 0) return false
+          if (createTimeStart && new Date(createTimeStart) > new Date(item.date))
+            return false
+          if (createTimeEnd && new Date(createTimeEnd) < new Date(item.date))
+            return false
           return true
         })
 
