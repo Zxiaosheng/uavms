@@ -3,10 +3,10 @@
 
     <el-row :gutter="20">
       <el-col :span="12">
-        <div :id="id" class="grid-content" :class="className" style="height:430px;width:100%;padding:0 20px 0 20px"/>
+        <div :id="id" class="grid-content" :class="className" style="height:430px;width:100%;padding:100px 10px 0 20px"/>
       </el-col>
       <el-col :span="12">
-        <div :id="id1" class="grid-content" :class="className1" style="height:430px;width:100%;padding:0 20px 0 20px"/>
+        <div :id="id1" class="grid-content" :class="className1" style="height:430px;width:100%;padding:100px 50px 0 0px"/>
       </el-col>
     </el-row>
 
@@ -66,7 +66,7 @@
     mounted() {
 
       var colors = ['#5793f3', '#d14a61', '#675bba'];
-      var dataxAxis = ['电机故障', '电源故障', '机械故障'];
+      var dataxAxis = ['电机故障', '电源故障', '机械故障', '摄像头故障', '底座故障'];
       var datayAxis = ['故障次数'];
       var data = [220, 182, 191];
       var yMax = 500;
@@ -81,6 +81,8 @@
         this.list = response.data.items
 
         this.chart.setOption({
+          backgroundColor: 'rgb(31,45,41)',
+
           title: {
             text: '无人机故障统计图',
             // subtext: 'Feature Sample: Gradient Color, Shadow, Click Zoom',
@@ -183,6 +185,9 @@
       //         color: '#fff'
       //       }
       //     },
+      //     // grid:{
+      //     //   width:'100%'
+      //     // },
       //     tooltip: {
       //       trigger: 'axis',
       //       axisPointer: {
@@ -265,12 +270,11 @@
       //         type:'bar',
       //         xAxisIndex: 1,
       //         yAxisIndex: 1,
-      //         color:'rgb(20,205,212)',
+      //         color:'rgb(44,133,222)',
       //         data:(function (){
       //           var res = [];
       //           var len = 10;
       //           while (len--) {
-      //             console.log(list1)
       //             res.push(list1.m);
       //
       //           }
@@ -280,7 +284,6 @@
       //       {
       //         name:'飞行机器数',
       //         type:'line',
-      //         color:'#0f375f',
       //         data:(function (){
       //           var res = [];
       //           var len = 0;
@@ -293,7 +296,7 @@
       //       }
       //     ]
       //   };
-      //
+      //   this.chart1.setOption(option1);
       //   app.count = 11;
       //   setInterval(()=>{
       //     let axisData = (new Date()).toLocaleTimeString().replace(/^\D*/,'');
@@ -313,126 +316,91 @@
       //     this.chart1.setOption(option1);
       //   }, 2100);
       // })
-      //
-      // //
-      // var category = [];
-      // var dottedBase = +new Date();
-      // var lineData = [];
-      // var barData = [];
-      //
-      // for (var i = 0; i < 20; i++) {
-      //   var date = new Date(dottedBase += 3600 * 24 * 1000);
-      //   category.push([
-      //     date.getFullYear(),
-      //     date.getMonth() + 1,
-      //     date.getDate()
-      //   ].join('-'));
-      //   var b = Math.random() * 200;
-      //   var d = Math.random() * 200;
-      //   barData.push(b)
-      //   lineData.push(d + b);
-      // }
 
 
-// option
-//       let option2 = {
-//         backgroundColor: 'rgb(31,45,41)',
-//         title: {
-//           text: 'xx地区每日预计飞行路线总数与实际飞行路线总数对比',
-//           top:'10',
-//           textStyle: {
-//             color: '#fff'
-//           }
-//         },
-//         tooltip: {
-//           trigger: 'axis',
-//           axisPointer: {
-//             type: 'shadow'
-//           }
-//         },
-//         legend: {
-//           data: ['实际飞行总数', '预计飞行总数'],
-//           textStyle: {
-//             color: '#ccc'
-//           }
-//         },
-//         xAxis: {
-//           data: category,
-//           axisLine: {
-//             lineStyle: {
-//               color: '#ccc'
-//             }
-//           }
-//         },
-//         yAxis: {
-//           splitLine: {show: false},
-//           axisLine: {
-//             lineStyle: {
-//               color: '#ccc'
-//             }
-//           }
-//         },
-//         series: [{
-//           name: '实际飞行总数',
-//           type: 'line',
-//           smooth: true,
-//           showAllSymbol: true,
-//           symbol: 'emptyCircle',
-//           symbolSize: 15,
-//           data: lineData
-//         }, {
-//           name: '预计飞行总数',
-//           type: 'bar',
-//           barWidth: 10,
-//           itemStyle: {
-//             normal: {
-//               barBorderRadius: 5,
-//               color: new echarts.graphic.LinearGradient(
-//                 0, 0, 0, 1,
-//                 [
-//                   {offset: 0, color: '#14c8d4'},
-//                   {offset: 1, color: '#43eec6'}
-//                 ]
-//               )
-//             }
-//           },
-//           data: barData
-//         }, {
-//           name: 'line',
-//           type: 'bar',
-//           barGap: '-100%',
-//           barWidth: 10,
-//           itemStyle: {
-//             normal: {
-//               color: new echarts.graphic.LinearGradient(
-//                 0, 0, 0, 1,
-//                 [
-//                   {offset: 0, color: 'rgba(20,200,212,0.5)'},
-//                   {offset: 0.2, color: 'rgba(20,200,212,0.2)'},
-//                   {offset: 1, color: 'rgba(20,200,212,0)'}
-//                 ]
-//               )
-//             }
-//           },
-//           z: -12,
-//           data: lineData
-//         }, {
-//           name: 'dotted',
-//           type: 'pictorialBar',
-//           symbol: 'rect',
-//           itemStyle: {
-//             normal: {
-//               color: '#0f375f'
-//             }
-//           },
-//           symbolRepeat: true,
-//           symbolSize: [12, 4],
-//           symbolMargin: 1,
-//           z: -10,
-//           data: lineData
-//         }]
-//       };
-//       this.chart2.setOption(option2);
+      //饼图
+      fetchChartList().then(response => {
+        this.list = response.data.items
+
+        this.chart1.setOption({
+          backgroundColor: 'rgb(31,45,41)',
+
+          title: {
+            text: '无人机故障占比饼图',
+            left: 'center',
+            top: 20,
+            textStyle: {
+              color: '#ffffff'
+            }
+          },
+          // grid:{
+          //   width:'100%'
+          // },
+
+          tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+          },
+
+          visualMap: {
+            show: false,
+            min: 80,
+            max: 600,
+            inRange: {
+              colorLightness: [0, 1]
+            }
+          },
+          series: [
+            {
+              name: '无人机故障占比',
+              type: 'pie',
+              radius: '55%',
+              center: ['50%', '50%'],
+              data: [
+                {value:300,name:'电机故障'},
+                {value:332,name:'电源故障'},
+                {value:325,name:'机械故障'},
+                {value:432,name:'摄像头故障'},
+                {value:402,name:'底座故障'}
+              ]
+                .sort(function (a, b) {
+                  return a.value - b.value;
+                }),
+              roseType: 'radius',
+              label: {
+                normal: {
+                  textStyle: {
+                    color: '#ffffff'
+                  }
+                }
+              },
+              labelLine: {
+                normal: {
+                  lineStyle: {
+                    color: '#ffffff'
+                  },
+                  smooth: 0.2,
+                  length: 10,
+                  length2: 20
+                }
+              },
+              itemStyle: {
+                normal: {
+                  color: '#188df0',
+                  // shadowBlur: 200,
+                  // shadowColor: 'rgba(0, 0, 0,0.5)'
+                }
+              },
+
+              animationType: 'scale',
+              animationEasing: 'elasticOut',
+              animationDelay: function (idx) {
+                return Math.random() * 200;
+              }
+            }
+          ]
+        })
+      })
     },
   }
 </script>
