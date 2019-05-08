@@ -41,7 +41,8 @@ export default {
     btnFinished: '完成',
     btnStart: '开始',
     btnPause: '暂停',
-    btnDelete: '删除'
+    btnDelete: '删除',
+    chartView:'领域覆盖'
   },
   route: {
     device: '设备管理',

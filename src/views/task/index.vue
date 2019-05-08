@@ -2,6 +2,14 @@
   <div class="app-container">
     <!--filter start-->
     <div class="app-container" style="padding-left: 0">
+      <template>
+        <el-popover
+          placement="top-start"
+          trigger="hover">
+          <pie-chart></pie-chart>
+          <el-button v-waves class="filter-item" icon="el-icon-view" slot="reference">{{$t('task.chartView')}}</el-button>
+        </el-popover>
+      </template>
       <!--ID排序选择-->
       <el-select v-model="listQuery.sort" style="width: 200px;" class="filter-item" align="left" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
@@ -162,10 +170,11 @@ import { fetchTasklist,updateTask,createTask } from '@/api/task'
 import {formatDate} from './utils.js'
 import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination'
+import PieChart from './components/PieChart'
 
 export default {
   name: 'Index',
-  components: { Pagination },
+  components: { Pagination,PieChart },
   directives: { waves },
   data() {
     return {
@@ -271,7 +280,8 @@ export default {
         taskDesc: [
           { required: true, message: '请填写任务描述', trigger: 'blur' }
         ]
-      }
+      },
+      pieChartId:'pie'
     }
   },
   mounted() {
