@@ -2,38 +2,44 @@
   <div class="dashboard-editor-container">
     <github-corner class="github-corner" />
 
-    <panel-group @handleSetLineChartData="handleSetLineChartData" />
+    <!--<panel-group @handleSetLineChartData="handleSetLineChartData" />-->
 
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <line-chart :chart-data="lineChartData" />
-    </el-row>
 
-    <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8">
+
+    <el-row style="height: 60%">
+      <el-col :xs="24" :sm="24" :lg="6" class="height100">
+        <el-row style="background:#000;padding:16px 16px 0;margin-bottom:32px;" class="height50">
+          <line-chart :chart-data="lineChartData" />
+        </el-row>
+        <el-row  class="height50">
         <div class="chart-wrapper">
           <raddar-chart />
         </div>
+        </el-row>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <pie-chart />
-        </div>
+      <el-col :xs="24" :sm="24" :lg="12" class="height100">
+          <flypath></flypath>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <bar-chart />
-        </div>
+      <el-col :xs="24" :sm="24" :lg="6" class="height100">
+        <el-row class="height50">
+          <div class="chart-wrapper">
+            <bar-chart />
+          </div>
+        </el-row>
+     <el-row class="height50">
+       <transaction-table />
+     </el-row>
       </el-col>
     </el-row>
 
-    <el-row :gutter="8">
-      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
-        <transaction-table />
+    <el-row style="height: 30%">
+      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}"  class="height100">
+
       </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
+      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 12}" :xl="{span: 12}"  class="height100">
         <todo-list />
       </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
+      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" class="height100" >
         <box-card />
       </el-col>
     </el-row>
@@ -53,6 +59,8 @@ import BarChart from './components/BarChart'
 import TransactionTable from './components/TransactionTable'
 import TodoList from './components/TodoList'
 import BoxCard from './components/BoxCard'
+import ElRow from "element-ui/packages/row/src/row";
+import flypath from '@/components/Charts/FlyRouteChart'
 
 const lineChartData = {
   newVisitis: {
@@ -76,6 +84,7 @@ const lineChartData = {
 export default {
   name: 'DashboardAdmin',
   components: {
+    ElRow,
     GithubCorner,
     PanelGroup,
     LineChart,
@@ -84,7 +93,8 @@ export default {
     BarChart,
     TransactionTable,
     TodoList,
-    BoxCard
+    BoxCard,
+    flypath
   },
   data() {
     return {
@@ -100,10 +110,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .dashboard-editor-container {
   padding: 32px;
   background-color: rgb(240, 242, 245);
   position: relative;
+  height: calc(100vh);
 
   .github-corner {
     position: absolute;
@@ -116,6 +128,12 @@ export default {
     background: #fff;
     padding: 16px 16px 0;
     margin-bottom: 32px;
+  }
+  .height100{
+    height: 100%;
+  }
+  .height50{
+    height: 50%;
   }
 }
 </style>

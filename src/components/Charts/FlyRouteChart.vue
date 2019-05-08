@@ -33,11 +33,11 @@ export default {
     },
     width: {
       type: String,
-      default: '1000px'
+      default: '100%'
     },
     height: {
       type: String,
-      default: '1000px'
+      default: '100%'
     }
   },
   data() {
@@ -106,7 +106,7 @@ export default {
           name: '建阳'
         }, {
           name: '莆田',
-          value: 300
+          value: 100
         }],
         [{
           name: '晋江'
@@ -118,7 +118,7 @@ export default {
           name: '南安'
         }, {
           name: '莆田',
-          value: 50
+          value: 100
         }]
       ]
       const targetValue3 = [
@@ -144,7 +144,7 @@ export default {
           name: '龙海'
         }, {
           name: '厦门',
-          value: 300
+          value: 100
         }],
         [{
           name: '武夷山'
@@ -170,7 +170,7 @@ export default {
           name: '福州'
         }, {
           name: '建阳',
-          value: 300
+          value: 100
         }],
         [{
           name: '福州'
@@ -198,7 +198,7 @@ export default {
           name: '厦门'
         }, {
           name: '三明',
-          value: 300
+          value: 100
         }],
         [{
           name: '厦门'
@@ -210,7 +210,7 @@ export default {
           name: '厦门'
         }, {
           name: '晋江',
-          value: 10
+          value: 100
         }],
         [{
           name: '厦门'
@@ -220,7 +220,7 @@ export default {
         }]
       ]
       const geoCoordMap = {
-        '福州': [119.18, 26.05],
+        '福州': [119.306239,26.075302],
         '长乐': [119.31, 25.58],
         '福安': [119.39, 27.06],
         '福清': [119.23, 25.42],
@@ -232,13 +232,13 @@ export default {
         '南安': [118.23, 24.57],
         '南平': [118.10, 26.38],
         '宁德': [119.31, 26.39],
-        '莆田': [119.01, 24.26],
+        '莆田': [119.007558,25.431011],
         '泉州': [118.36, 24.56],
         '三明': [117.36, 26.13],
         '邵武': [117.29, 27.20],
         '石狮': [118.38, 24.44],
         '武夷山': [118.02, 27.46],
-        '厦门': [118.06, 24.27],
+        '厦门': [118.11022,24.490474],
         '永安': [117.23, 25.58],
         '漳平': [117.24, 25.17],
         '漳州': [117.39, 24.31]
@@ -267,13 +267,12 @@ export default {
         }
         return res
       }
-      const colorImport = ['#a6c84c', '#ffa022', '#46bee9'] // 航线的颜色
-      const colorExport = ['green', 'green', 'green'] // 航线的颜色
+      const color = ['#a6c84c', '#ffa022', '#46bee9'] // 航线的颜色
       const series = [];
       [
-        ['福州', targetValue1],
-        ['厦门', targetValue2],
-        ['莆田', targetValue3]
+        ['进港', targetValue1],
+        ['进港', targetValue2],
+        ['进港', targetValue3]
       ].forEach(function(item, i) {
 
         series.push({
@@ -289,7 +288,7 @@ export default {
           },
           lineStyle: {
             normal: {
-              color: colorImport[i],
+              color: color[i],
               width: 0,
               curveness: 0.2
             }
@@ -312,7 +311,7 @@ export default {
           },
           lineStyle: {
             normal: {
-              color: colorImport[i],
+              color: color[i],
               width: 1,
               opacity: 0.6,
               curveness: 0.2
@@ -339,10 +338,10 @@ export default {
           },
           itemStyle: {
             normal: {
-              color: colorImport[i]
+              color: color[i]
             },
             emphasis: {
-              areaColor: '#2B91B7'
+              areaColor: '#2037c7'
             }
           },
           data: item[1]
@@ -357,9 +356,9 @@ export default {
       });
 
       [
-        ['福州', exportValue1],
-        ['莆田', exportValue2],
-        ['厦门', exportValue3]
+        ['出港', exportValue1],
+        ['出港', exportValue2],
+        ['出港', exportValue3]
       ].forEach(function(item, i) {
         series.push({
           name: item[0],
@@ -374,7 +373,7 @@ export default {
           },
           lineStyle: {
             normal: {
-              color: colorExport[i],
+              color: color[i],
               width: 0,
               curveness: 0.2
             }
@@ -397,7 +396,7 @@ export default {
           },
           lineStyle: {
             normal: {
-              color: colorExport[i],
+              color: color[i],
               width: 1,
               opacity: 0.6,
               curveness: 0.2
@@ -424,10 +423,10 @@ export default {
           },
           itemStyle: {
             normal: {
-              color: colorExport[i]
+              color: color[i]
             },
             emphasis: {
-              areaColor: '#2B91B7'
+              areaColor: '#0b14b7'
             }
           },
           data: item[1]
@@ -439,87 +438,101 @@ export default {
               }
             })
         })
-      })
+      });
       // 被攻击点
-      series.push({
-        type: 'scatter',
-        coordinateSystem: 'geo',
-        zlevel: 2,
-        rippleEffect: {
-          period: 4,
-          brushType: 'stroke',
-          scale: 4
-        },
-        label: {
-          normal: {
-            show: true,
-            position: 'right',
-            color: '#00ffff',
-            formatter: '{b}',
-            textStyle: {
-              color: '#00ffff'
+      ['福州','莆田','厦门'].forEach(function(item, i) {
+        series.push({
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          zlevel: 2,
+          rippleEffect: {
+            period: 4,
+            brushType: 'stroke',
+            scale: 4
+          },
+          label: {
+            normal: {
+              show: true,
+              position: 'right',
+              color: '#00ffff',
+              formatter: '{b}',
+              textStyle: {
+                color: '#00ffff'
+              }
+            },
+            emphasis: {
+              show: false
             }
           },
-          emphasis: {
-            show: false
+          symbolSize: 20,
+          itemStyle: {
+            normal: {
+              show: true,
+              color: color[i]
+            }
+          },
+          data: [{
+            name: item,
+            value: geoCoordMap[item]
+              .concat([100])
           }
-        },
-        symbol: 'pin',
-        symbolSize: 20,
-        itemStyle: {
-          normal: {
-            show: true,
-            color: 'red'
-          }
-        },
-        data: [{
-          name: '福州',
-          value: geoCoordMap['福州']
-            .concat([100])
-        },
-        {
-          name: '厦门',
-          value: geoCoordMap['厦门']
-            .concat([100])
-        },
-        {
-          name: '莆田',
-          value: geoCoordMap['莆田']
-            .concat([100])
-        }
-        ]
-      })
+          ]
+        })
+      });
       this.chart = echarts.init(document.getElementById(this.id))
-
-      this.chart.setOption({
-        backgroundColor: '#032971',
-        title: {
-          show: false,
+      let setting={
+        backgroundColor: 'rgba(0,0,0,0.8)',
+          title: {
+        show: false,
           text: '三场进出港航线图',
           left: 'center',
           textStyle: {
-            color: '#fff'
-          }
-        },
+          color: '#fff'
+        }
+      },
         tooltip: {
           trigger: 'item',
-          formatter: function(params, ticket, callback) {
+            formatter: function(params, ticket, callback) {
             if (params.seriesType == 'effectScatter') {
               return '线路：' + params.data.name + '' +
-                  params.data.value[2]
+                params.data.value[2]
             } else if (params.seriesType == 'lines') {
               return params.data.fromName + '>' +
-                  params.data.toName + '<br />' +
-                  params.data.value
+                params.data.toName + '<br />' +
+                params.data.value
             } else {
               return params.name
             }
           }
         },
-        legend: {
+        //	geo地理坐标系组件
+        geo: {
+          map: '福建',
+            label: {
+            emphasis: {
+              show: true,
+                color: '#fff'
+            }
+          },
+          roam: true,
+            itemStyle: {
+            normal: {
+              areaColor: '#07056e',
+                borderColor: '#195bb9',
+                borderWidth: 1
+            },
+            emphasis: {
+              areaColor: '#2B91B7'
+            }
+          }
+        },
+        series: series
+      }
+       if(window.location.href.includes('demo'))
+        setting.legend={
           orient: 'horizontal',
           top: '70%',
-          left: '20%',
+          right: '20%',
           selected: {
             '进港': true
           },
@@ -528,30 +541,8 @@ export default {
             color: '#fff'
           },
           selectedMode: 'single'
-        },
-        //	geo地理坐标系组件
-        geo: {
-          map: '福建',
-          label: {
-            emphasis: {
-              show: true,
-              color: '#fff'
-            }
-          },
-          roam: true,
-          itemStyle: {
-            normal: {
-              areaColor: '#00186E',
-              borderColor: '#195BB9',
-              borderWidth: 1
-            },
-            emphasis: {
-              areaColor: '#2B91B7'
-            }
-          }
-        },
-        series: series
-      })
+        }
+      this.chart.setOption(setting)
     }
   }
 }
@@ -561,7 +552,7 @@ export default {
   .chart-container{
     position: relative;
     width: 100%;
-    height: calc(100vh - 80px);
+    height: 100%;
     background-color: rgb(48,65,86);
   }
 </style>
