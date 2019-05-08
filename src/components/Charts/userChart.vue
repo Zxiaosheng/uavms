@@ -2,23 +2,23 @@
   <div>
     <el-row>
       <el-col :xs="24" :sm="24" :lg="24">
-        <div :id="id" :class="className" style="height:300px;width:900px;margin:20px;"/>
+        <div :id="id" :class="className" style="height:300px;width:95%;margin:20px;"/>
       </el-col>
     </el-row>
     <el-row class="top">
       <el-col :xs="24" :sm="24" :lg="12">
-        <div :id="id3" :class="className3" style="height:400px;width:90%;margin:20px;"/>
+        <div :id="id3" :class="className3" style="height:400px;width:95%;margin:20px;"/>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12">
-        <div :id="id4" :class="className4" style="height:400px;width:90%;margin:20px;"/>
+        <div :id="id4" :class="className4" style="height:400px;width:95%;margin:20px;"/>
       </el-col>
     </el-row>
     <el-row>
       <el-col :xs="24" :sm="24" :lg="12">
-        <div :id="id5" :class="className5" style="height:400px;width:90%;margin:20px;"/>
+        <div :id="id5" :class="className5" style="height:400px;width:95%;margin:20px;"/>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12">
-        <div :id="id2" :class="className2" style="height:400px;width:90%;margin:20px;"/>
+        <div :id="id2" :class="className2" style="height:400px;width:95%;margin:20px;"/>
       </el-col>
     </el-row>
   </div>
@@ -716,8 +716,6 @@
     for (let i = 0; i < a.length; i++) {
       c[i] = {name: a[i], value: b[i]}
     }
-//    this.dayPie = c;
-//    console.log('触发函数',this.dayPie)
     return c
   }
 </script>

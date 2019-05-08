@@ -146,7 +146,7 @@
   .chart-container {
     position: relative;
     width: 100%;
-    height: calc(200vh - 30px);
+    height: calc(220vh - 30px);
   }
 
   ul, li, p {
