@@ -39,6 +39,7 @@
       //初始化echarts实例
       this.initChart();
       setInterval(()=>{
+        // 存在的问题是每秒刷新完了又回去重新
         this.progressData[0].value += 1
         this.occupancyData[0].value -= this.occupancyData[0].value/100
         if(this.progressData[0].value > 100){
