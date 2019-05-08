@@ -32,12 +32,48 @@
       return {
         chart: null,
         result:[
-          {value:10, name:'消防任务'},
-          {value:25, name:'医疗任务'},
-          {value:15, name:'交通任务'},
-          {value:25, name:'物流任务'},
-          {value:20, name:'巡警任务'},
-          {value:35, name:'其他任务'}
+          {
+            value:10,
+            name:'消防任务',
+            itemStyle:{
+              color:'#FF9900'
+            }
+          },
+          {
+            value:25,
+            name:'医疗任务',
+            itemStyle:{
+              color:'#44cc9f'
+            }
+          },
+          {
+            value:15,
+            name:'交通任务',
+            itemStyle:{
+              color:'#00CCCC'
+            }
+          },
+          {
+            value:25,
+            name:'物流任务',
+            itemStyle:{
+              color:'#996666'
+            }
+          },
+          {
+            value:20,
+            name:'巡警任务',
+            itemStyle:{
+              color:'#00CCFF'
+            }
+          },
+          {
+            value:35,
+            name:'其他任务',
+            itemStyle:{
+              color:'#FF9999'
+            }
+          }
         ]
       }
     },
@@ -89,7 +125,7 @@
               name:'领域覆盖率',
               type:'pie',
               radius : [20, 110],
-              center : ['52%', '50%'],
+              center : ['50%', '50%'],
               roseType : 'radius',
               label: {
                 normal: {

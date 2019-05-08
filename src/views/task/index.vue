@@ -7,7 +7,7 @@
           placement="top-start"
           trigger="hover">
           <pie-chart></pie-chart>
-          <el-button v-waves class="filter-item" icon="el-icon-view" slot="reference">{{$t('task.chartView')}}</el-button>
+          <el-button v-waves class="filter-item" icon="el-icon-view" type="info" plain slot="reference">{{$t('task.chartView')}}</el-button>
         </el-popover>
       </template>
       <!--ID排序选择-->
