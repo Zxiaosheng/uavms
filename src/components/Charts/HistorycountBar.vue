@@ -249,8 +249,8 @@
           grid: {
 //              x: '10%',
 //              x2: 150,
-            y: '28%',
-            y2: '17%',
+            y: '30%',
+            y2: '15%',
             tooltip: {
               trigger: 'axis',
               axisPointer: {

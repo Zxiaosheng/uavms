@@ -42,7 +42,8 @@ export default {
     btnFinished: 'finished',
     btnStart: 'start',
     btnPause: 'pause',
-    btnDelete: 'delete'
+    btnDelete: 'delete',
+    chartView:'chartView'
   },
   rode: {
     id: 'id',
