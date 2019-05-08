@@ -1,18 +1,34 @@
 <template>
   <div class="chart-container">
 
+    <el-popover
+      placement="right"
+      width="200"
+      trigger="click">
+        <el-button type="info" size="medium" @click="changePlace(1)">福州</el-button>
+        <el-button type="info" size="medium" @click="changePlace(2)">厦门</el-button>
+        <el-button type="info" size="medium" @click="changePlace(3)">南平</el-button>
+        <el-button type="info" size="medium" @click="changePlace(4)">泉州</el-button>
+        <el-button type="info" size="medium" @click="changePlace(5)">漳州</el-button>
+        <el-button type="info" size="medium" @click="changePlace(6)">三明</el-button>
+        <el-button type="info" size="medium" @click="changePlace(7)">莆田</el-button>
+        <el-button type="info" size="medium" @click="changePlace(8)">龙岩</el-button>
+        <el-button type="info" size="medium" @click="changePlace(9)">宁德</el-button>
+      <el-button type="info" slot="reference" icon="el-icon-search" circle></el-button>
+    </el-popover>
+
     <el-row :gutter="20">
       <el-col :span="12" >
-        <RodeChartPie  style="background-color:rgb(31,45,61)"></RodeChartPie>
+        <RodeChartPie :cp="this.num" style="background-color:rgb(31,45,61)"></RodeChartPie>
       </el-col>
       <el-col :span="12" >
-        <RodeChartBar  style="background-color:rgb(31,45,61)"></RodeChartBar>
+        <RodeChartBar  :cp="this.num" style="background-color:rgb(31,45,61)"></RodeChartBar>
       </el-col>
     </el-row>
 
     <el-row >
       <el-col :span="24" >
-        <RodeChart style="background-color:rgb(31,45,61);"></RodeChart>
+        <RodeChart :cp="this.num" style="background-color:rgb(31,45,61);"></RodeChart>
       </el-col>
     </el-row>
 
@@ -31,8 +47,17 @@
   import RodeChart from '@/components/Charts/RodeChart'
   export default {
     name: "rode-echart",
-
+    data(){
+      return{
+        num:1
+      }
+    },
     components: { RodeChartPie ,RodeChartBar ,RodeChart},
+    methods:{
+      changePlace(n){
+         this.num=n
+      }
+    }
 
   }
 </script>
@@ -73,4 +98,9 @@
     padding: 10px 0;
     background-color: #f9fafc;
   }
+  .el-button{
+    padding:3px;
+    margin: 5px;
+  }
+
 </style>
