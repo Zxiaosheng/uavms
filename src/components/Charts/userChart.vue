@@ -7,18 +7,18 @@
     </el-row>
     <el-row class="top">
       <el-col :xs="24" :sm="24" :lg="12">
-        <div :id="id3" :class="className3" style="height:200px;width:85%;margin:20px;"/>
+        <div :id="id3" :class="className3" style="height:400px;width:90%;margin:20px;"/>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12">
-        <div :id="id4" :class="className4" style="height:300px;width:80%;margin:20px;"/>
+        <div :id="id4" :class="className4" style="height:400px;width:90%;margin:20px;"/>
       </el-col>
     </el-row>
     <el-row>
       <el-col :xs="24" :sm="24" :lg="12">
-        <div :id="id5" :class="className5" style="height:500px;width:90%;margin:20px;"/>
+        <div :id="id5" :class="className5" style="height:400px;width:90%;margin:20px;"/>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12">
-        <div :id="id2" :class="className2" style="height:300px;width:80%;margin:20px;"/>
+        <div :id="id2" :class="className2" style="height:400px;width:90%;margin:20px;"/>
       </el-col>
     </el-row>
   </div>
@@ -163,15 +163,37 @@
                 lineStyle: {
                   color: 'white'
                 }
-              }
+              },
+              splitArea: {
+                areaStyle: {
+                  color: 'blue',
+                  backgroundColor: 'blue',
+                }
+              },
             },
           ],
+          visualMap: {
+            show: false,
+            min: 80,
+            max: 600,
+            inRange: {
+              colorLightness: [0, 1]
+            }
+          },
           series: [
             {
               data: this.newNum,
               type: 'line',
-              areaStyle: {},
+              areaStyle: {
+                color: '#004881',
+              },
+              itemStyle: {
+                normal: {
+                  color: '#0f375f',
+                }
+              },
             },
+
           ]
         })
         //男女生比例图
@@ -234,6 +256,14 @@
                 normal: {
                   formatter: 'max: {c}',
                   position: 'start'
+                }
+              },
+              areaStyle: {
+                color: '#004881',
+              },
+              itemStyle: {
+                normal: {
+                  color: '#0f375f',
                 }
               },
               lineStyle: {
@@ -322,8 +352,8 @@
           '甘肃省': [103.73, 36.03],
           '广东省': [113.23, 23.16],
           '广西壮族自治区': [108.33, 22.84],
-          '新疆维吾尔自治区':[43.791789,87.624947],
-          '宁夏回族自治区':[106.27,38.47	],
+          '新疆维吾尔自治区': [43.791789, 87.624947],
+          '宁夏回族自治区': [106.27, 38.47],
           '贵州省': [106.71, 26.57],
           '河北省': [114.48, 38.03],
           '河南省': [113.65, 34.76],
@@ -355,8 +385,8 @@
           '新疆省': [87.616880, 43.826630],
           '香港特别行政区': [114.165460, 22.275340],
           '澳门特别行政区': [113.549130, 22.198750],
-          '天津':[117.20,39.12],
-          '重庆':[106.55,29.57]
+          '天津': [117.20, 39.12],
+          '重庆': [106.55, 29.57]
         };
         let data = pieData(this.place, this.list);
         var convertData = function (data) {
@@ -378,8 +408,10 @@
             left: 'left',
             top: 20,
             textStyle: {
-              color: '#ccc'
-            }
+              color: "white",
+              fontWeight: "600",
+              fontFamily: "楷体",
+            },
           },
           tooltip: {
             trigger: 'item'
@@ -612,8 +644,10 @@
             left: 'left',
             top: 20,
             textStyle: {
-              color: '#ccc'
-            }
+              color: "white",
+              fontWeight: "600",
+              fontFamily: "楷体",
+            },
           },
 
           tooltip: {
