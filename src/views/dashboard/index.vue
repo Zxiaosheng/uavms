@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-container">
+  <div class="bgcol">
     <component :is="currentRole" />
   </div>
 </template>
@@ -29,3 +29,8 @@ export default {
   }
 }
 </script>
+<style>
+  .bgcol{
+    background-color: rgba(0,0,0,0.8);
+  }
+</style>

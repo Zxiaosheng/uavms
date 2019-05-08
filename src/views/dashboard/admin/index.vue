@@ -1,66 +1,68 @@
 <template>
   <div class="dashboard-editor-container">
-    <github-corner class="github-corner" />
 
     <!--<panel-group @handleSetLineChartData="handleSetLineChartData" />-->
 
 
 
-    <el-row style="height: 60%">
+    <el-row style="height: 60%" >
       <el-col :xs="24" :sm="24" :lg="6" class="height100">
-        <el-row style="background:#000;padding:16px 16px 0;margin-bottom:32px;" class="height50">
-          <line-chart :chart-data="lineChartData" />
-        </el-row>
-        <el-row  class="height50">
-        <div class="chart-wrapper">
-          <raddar-chart />
-        </div>
-        </el-row>
+<div class="margint20">
+  <rode-chart></rode-chart>
+</div>
+
+
+
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12" class="height100">
           <flypath></flypath>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="6" class="height100">
-        <el-row class="height50">
-          <div class="chart-wrapper">
-            <bar-chart />
-          </div>
-        </el-row>
-     <el-row class="height50">
-       <transaction-table />
-     </el-row>
+
       </el-col>
     </el-row>
 
-    <el-row style="height: 30%">
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}"  class="height100">
+    <!--<el-row style="height: 30%">-->
+      <!--<el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}"  class="height100">-->
 
-      </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 12}" :xl="{span: 12}"  class="height100">
-        <todo-list />
-      </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" class="height100" >
-        <box-card />
-      </el-col>
-    </el-row>
+      <!--</el-col>-->
+      <!--<el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 12}" :xl="{span: 12}"  class="height100">-->
+        <!--<todo-list />-->
+      <!--</el-col>-->
+      <!--<el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" class="height100" >-->
+        <!--<box-card />-->
+      <!--</el-col>-->
+    <!--</el-row>-->
 
     <!--<flypath></flypath>-->
+    <el-row :gutter="20" style="height: 40%">
+      <el-col :span="6">
+          <!--千言万语-->
+        1
+      </el-col>
+      <el-col :span="12" >
+<div style="margin-top: 10%">
+  <task-card></task-card>
+</div>
+</el-col>
+      <el-col :span="6">
+          <!--千言万语-->
+        1
+      </el-col>
+    </el-row>
 
   </div>
 </template>
 
 <script>
 import GithubCorner from '@/components/GithubCorner'
+import RodeChart from '@/components/Charts/RodeChart'
 import PanelGroup from './components/PanelGroup'
-import LineChart from './components/LineChart'
-import RaddarChart from './components/RaddarChart'
-import PieChart from './components/PieChart'
-import BarChart from './components/BarChart'
 import TransactionTable from './components/TransactionTable'
-import TodoList from './components/TodoList'
-import BoxCard from './components/BoxCard'
 import ElRow from "element-ui/packages/row/src/row";
 import flypath from '@/components/Charts/FlyRouteChart'
+// 任务卡片化组件
+import TaskCard from './components/TaskCard'
 
 const lineChartData = {
   newVisitis: {
@@ -87,14 +89,10 @@ export default {
     ElRow,
     GithubCorner,
     PanelGroup,
-    LineChart,
-    RaddarChart,
-    PieChart,
-    BarChart,
     TransactionTable,
-    TodoList,
-    BoxCard,
-    flypath
+    flypath,
+    TaskCard,
+    RodeChart
   },
   data() {
     return {
@@ -110,13 +108,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+*{
+  background-color: rgba(0,0,0,0.8);
+}
 .dashboard-editor-container {
-  padding: 32px;
-  background-color: rgb(240, 242, 245);
   position: relative;
-  height: calc(100vh);
-
+  height: calc(100vh - 50px);
+  background-color: rgba(0,0,0,0.8);
   .github-corner {
     position: absolute;
     top: 0px;
@@ -134,6 +132,9 @@ export default {
   }
   .height50{
     height: 50%;
+  }
+  .margint20{
+    margin-top: 20%;
   }
 }
 </style>

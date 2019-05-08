@@ -7,6 +7,7 @@ export default {
     typeId: '任务类型',
     date: '日期',
     location: '任务地点',
+
     result: '执行结果'
   },
   user: {
@@ -54,6 +55,7 @@ export default {
     historycountechart: '历史执行次数统计图',
     user: '用户管理',
     userManager: '用户列表',
+    userMap:'用户图表',
     taskCenter: '任务中心',
     taskBoard: '任务数据',
     taskList: '任务列表',

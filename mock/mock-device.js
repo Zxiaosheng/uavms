@@ -77,7 +77,6 @@ export default [
     url: '/get/device/list',
     type: 'get',
     response: config => {
-
       let {
         id, type, status, num, name, createTimeStart,
         createTimeEnd, page = 1, limit = 20, sort

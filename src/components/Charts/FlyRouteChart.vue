@@ -1,7 +1,7 @@
 <template>
   <div class="chart-container">
 
-        <div :id="id" :class="className" :style="{height:height,width:width}" />
+        <div :id="id" :class="className" style="height:100%;width:100%" />
 
   </div>
 </template>
@@ -15,7 +15,6 @@ import 'echarts/lib/chart/map'
 // 引入对应图表的js文件
 import 'echarts/map/js/china'
 import 'echarts/map/js/province/fujian'
-import bmap from 'echarts/extension/bmap/bmap'
 import resize from './mixins/resize'
 
 export default {

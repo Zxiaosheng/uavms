@@ -8,7 +8,38 @@ for (let i = 0;i < count; i++){
     taskId:'@increment',
     taskName:'@ctitle(4,8)',
     taskDesc:'@csentence(5, 12)',
-    rodeName:'@cword(2,3)路线',
+    "rodes|1":[
+      {rodeId:1,rodeName:'河北线'},
+      {rodeId:2,rodeName:'山西线'},
+      {rodeId:3,rodeName:'辽宁线'},
+      {rodeId:4,rodeName:'吉林线'},
+      {rodeId:5,rodeName:'黑龙线'},
+      {rodeId:6,rodeName:'江苏线'},
+      {rodeId:7,rodeName:'浙江线'},
+      {rodeId:8,rodeName:'安徽线'},
+      {rodeId:9,rodeName:'福建线'},
+      {rodeId:10,rodeName:'江西线'},
+      {rodeId:11,rodeName:'山东线'},
+      {rodeId:12,rodeName:'河南线'},
+      {rodeId:13,rodeName:'湖北线'},
+      {rodeId:14,rodeName:'湖南线'},
+      {rodeId:15,rodeName:'广东线'},
+      {rodeId:16,rodeName:'海南线'},
+      {rodeId:17,rodeName:'四川线'},
+      {rodeId:18,rodeName:'贵州线'},
+      {rodeId:19,rodeName:'云南线'},
+      {rodeId:20,rodeName:'陕西线'},
+      {rodeId:21,rodeName:'甘肃线'},
+      {rodeId:22,rodeName:'青海线'},
+      {rodeId:23,rodeName:'北京线'},
+      {rodeId:24,rodeName:'上海线'},
+      {rodeId:25,rodeName:'重庆线'},
+      {rodeId:26,rodeName:'天津线'},
+      {rodeId:27,rodeName:'广西线'},
+      {rodeId:28,rodeName:'宁夏线'},
+      {rodeId:29,rodeName:'新疆线'},
+      {rodeId:30,rodeName:'内蒙古线'}
+    ],
     "taskTypes|1":[
       {typeId:1,typeName:'消防任务'},
       {typeId:2,typeName:'医疗任务'},
@@ -75,5 +106,5 @@ export default [
         }
       }
     }
-  },
+  }
 ]
