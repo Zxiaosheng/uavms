@@ -3,10 +3,10 @@
 
     <el-row :gutter="20">
       <el-col :span="12">
-        <div :id="id" class="grid-content" :class="className" style="height:430px;width:100%;padding:100px 10px 0 20px"/>
+        <div :id="id" class="grid-content" :class="className" style="height:430px;width:100%;padding:100px 20px 0 20px"/>
       </el-col>
       <el-col :span="12">
-        <div :id="id1" class="grid-content" :class="className1" style="height:430px;width:100%;padding:100px 50px 0 0px"/>
+        <div :id="id1" class="grid-content" :class="className1" style="height:430px;width:100%;padding:100px 20px 0 0px"/>
       </el-col>
     </el-row>
 
