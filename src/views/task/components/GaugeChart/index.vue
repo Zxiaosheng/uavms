@@ -30,6 +30,7 @@
       return {
         chart:null,
         isRouterAlive:undefined,
+        //bug原因有可能在这里，value值需要时动态的，根据数据计算
         progressData:[{value: 0, name: '进度'}],
         occupancyData:[{value: 80, name: '占用率'}]
       }
@@ -38,6 +39,7 @@
       //初始化echarts实例
       this.initChart();
       setInterval(()=>{
+        // 存在的问题是每秒刷新完了又回去重新
         this.progressData[0].value += 1
         this.occupancyData[0].value -= this.occupancyData[0].value/100
         if(this.progressData[0].value > 100){

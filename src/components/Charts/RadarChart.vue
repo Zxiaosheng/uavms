@@ -62,9 +62,6 @@
           name.push(obj)
           val.push(this.res[key].value)
         }
-
-        console.log(val)
-
         this.chart=echarts.init(document.getElementById(this.id))
 
         this.chart.setOption({

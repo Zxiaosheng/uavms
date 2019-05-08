@@ -15,6 +15,8 @@ import deviceRouter from './modules/device'
 import taskRouter from './modules/task'
 import flyAreaRouter from './modules/flyArea'
 import historycountRouter from './modules/historycount'
+import userRouter from './modules/userManager'
+
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -145,30 +147,8 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-  {
-    path: '/user',
-    component: Layout,
-    redirect: '/user/page',
-    alwaysShow: true, // will always show the root menu
-    name: 'user',
-    meta: {
-      title: 'user',
-      icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: '/user/manager',
-        component: () => import('@/views/user/index'),
-        name: 'userManager',
-        meta: {
-          title: 'userManager',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      }
-    ]
-  },
   historycountRouter,
+  userRouter,
   {
     path: '/flight',
     name: 'flight',

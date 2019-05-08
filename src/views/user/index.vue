@@ -39,11 +39,11 @@
       <el-table-column prop="name" sortable :label="$t('user.name')" width="180"/>
       <el-table-column prop="date" sortable :label="$t('user.date')" width="180"/>
       <el-table-column prop="userType.typeUser" sortable :label="$t('user.userType')" width="150"/>
-      <el-table-column prop="sexType.typeSex" sortable :label="$t('user.sex')" width="150"/>
-      <el-table-column prop="telephone" sortable :label="$t('user.telephone')" width="150"/>
+      <el-table-column prop="sexType.typeSex" sortable :label="$t('user.sex')" width="100"/>
+      <el-table-column prop="telephone" sortable :label="$t('user.telephone')" width="120"/>
       <!--操作的设置-->
-      <el-table-column :label="$t('user.caption')">
-        <template slot-scope="scope" align="center" width="230">
+      <el-table-column :label="$t('user.caption')" width="150">
+        <template slot-scope="scope" align="center">
           <!--修改用户权限-->
           <el-button type="success" size="mini" @click="showEdtDialog(scope.row)">编辑</el-button>
           <!--编辑对话框的设置-->
