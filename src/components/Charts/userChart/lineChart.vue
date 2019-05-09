@@ -28,6 +28,7 @@
       this.chart = echarts.init(document.getElementById(this.id));
       //折线图
       this.chart.setOption({
+        backgroundColor: '#2c343c',
         title: {
           text: '最近一周用户登录趋势',
           textStyle: {

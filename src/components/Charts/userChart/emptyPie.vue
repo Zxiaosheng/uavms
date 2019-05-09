@@ -33,7 +33,7 @@
       //空圆形图
       this.chart.setOption({
         backgroundColor: 'rgb(44,52,60)',
-        color: ['#004881', '#C23531', '#6cacde'],
+        color: ['#188df0', '#004881', '#4FB1FD'],
         tooltip: {
           trigger: 'item',
           formatter: "{a} <br/>{b}: {c} ({d}%)"
