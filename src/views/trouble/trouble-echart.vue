@@ -409,7 +409,8 @@
   .chart-container{
     position: relative;
     width: 100%;
-    height: calc(125vh - 6px);
+    /*height: calc(125vh - 6px);*/
+    height: 100%;
     background-color: rgb(48,65,86);
   }
   .el-row {
