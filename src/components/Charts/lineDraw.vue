@@ -79,7 +79,8 @@
               color: 'rgb(44,110,148)',
             }
           },
-          smooth: true
+          smooth: true,
+          symbol: 'none'
         },
           {
             name: '已完成任务量',
@@ -94,7 +95,8 @@
                 color: 'rgb(44,120,136)',
               }
             },
-            smooth: true
+            smooth: true,
+            symbol: 'none'
           }
 
         ],
