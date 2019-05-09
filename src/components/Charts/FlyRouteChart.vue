@@ -556,5 +556,10 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgb(48,65,86);
+    /*position: relative;*/
+    /*width: 100%;*/
+    /*height: calc(100vh - 80px);*/
+    /*padding: 0 20px 0 20px;*/
+    /*background-color: rgb(48,65,86);*/
   }
 </style>

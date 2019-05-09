@@ -1,11 +1,11 @@
 <template>
-  <div :id="id" class="grid-content" :class="className" style="height:430px;width:100%"/>
+  <div :id="id" class="grid-content" :class="className" style="height:500px;width:100%"/>
 </template>
 
 <script>
   import echarts from 'echarts'
   import resize from '../../components/Charts/mixins/resize'
-  import { fetchChartList,fetchMChartList} from '@/api/rode-echart'
+  import { fetchChartList} from '@/api/rode-echart'
     export default {
         name: "RodeChartPie",
         mixins: [resize],
@@ -26,6 +26,7 @@
           return {
             chart: null,
             list:[],
+            list1:[],
             name:''
           }
         },
@@ -45,6 +46,10 @@
             fetchChartList().then(response => {
               this.list = response.data.items
 
+              for(var i=0;i<this.list.length;i++){
+                this.list[i].value+= Math.round(Math.random() * 20)
+              }
+
               this.chart.setOption({
 
                 title: {
@@ -55,9 +60,6 @@
                     color: '#ffffff'
                   }
                 },
-                // grid:{
-                //   width:'100%'
-                // },
 
                 tooltip: {
                   trigger: 'item',

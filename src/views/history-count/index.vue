@@ -19,6 +19,7 @@
         {{ $t('table.add') }}
       </el-button>
     </div>
+
     <el-table :data="pageData" v-loading="listLoading" border  style="width: 100%;text-align: center;margin-top: 20px"  :header-cell-style="{
     'background-color': '#fafafa'}">
 
@@ -46,38 +47,6 @@
           </el-button>
         </template>
       </el-table-column>
-
-    </el-table>
-
-      <el-table-column prop="id" align="center" :label="$t('historycount.id')"sortable width="150"></el-table-column>
-
-      <el-table-column prop="typeId.typeName" align="center" :label="$t('historycount.typeId')" sortable  width="140"></el-table-column>
-
-      <el-table-column prop="date" align="center" :label="$t('historycount.date')"sortable width="150">
-      </el-table-column>
-
-      <el-table-column prop="typeId.typeName" align="center" :label="$t('historycount.typeId')" sortable  width="140">
-
-      </el-table-column>
-
-      <el-table-column prop="location" align="center" :label="$t('historycount.location')" width="200">
-      </el-table-column>
-      <el-table-column prop="result.typeName" align="center" :label="$t('historycount.result')" sortable  width="200">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.result.typeName=='完成'?'success':(scope.row.result.typeName=='超时'?'danger':'info')">{{scope.row.result.typeName}}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="{row}">
-          <el-button type="primary" icon="el-icon-edit" @click="handleUpdate(row)">
-            {{ $t('table.edit') }}
-          </el-button>
-          <el-button v-if="row.status!='deleted'" icon="el-icon-delete" type="danger" @click="handleDelete(row)">
-            {{ $t('table.delete') }}
-          </el-button>
-        </template>
-      </el-table-column>
-
     </el-table>
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
@@ -107,6 +76,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
+          <!--<el-button @click="resetForm('dataForm')">-->
           {{ $t('table.cancel') }}
         </el-button>
         <el-button type="primary" @click="updateData()">
@@ -136,6 +106,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormAdd = false">
+          <!--<el-button @click="resetForm('AddForm')">-->
           {{ $t('table.cancel') }}
         </el-button>
         <el-button type="primary" @click="addData()">
@@ -143,6 +114,7 @@
         </el-button>
       </div>
     </el-dialog>
+
   </div>
 </template>
 
@@ -264,6 +236,9 @@
       handleCreate() {
         this.resetTemp()
         this.dialogFormAdd = true
+        this.$nextTick(() => {
+          this.$refs['AddForm'].clearValidate()
+        })
       },
       addData() {
         this.$refs['AddForm'].validate((valid) => {
@@ -325,6 +300,11 @@
         })
         const index = this.pageData.indexOf(row)
         this.pageData.splice(index, 1)
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+        this.dialogFormAdd = false
+        this.dialogFormVisible = false
       }
     }
   }

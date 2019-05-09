@@ -21,9 +21,9 @@ export default {
     head: {
       search: '搜索',
       type: '类型',
-      title: '请输入搜索内容....',
-      limit: '请输入用户权限...',
-      sex: '请输入性别...',
+      title: '请输入名字',
+      limit: '请输入用户权限',
+      sex: '请输入性别',
       add: '新增'
     }
   },
@@ -166,8 +166,12 @@ export default {
   login: {
     title: '系统登录',
     logIn: '登录',
+    register: '注册',
     username: '账号',
     password: '密码',
+    repassword: '请再次输入密码',
+    verifycode: '请输入验证码',
+    cancel: '取消',
     any: '随便填',
     thirdparty: '第三方登录',
     thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'

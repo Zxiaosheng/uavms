@@ -1,6 +1,6 @@
 <template>
   <div class="chart-container">
-    <el-dropdown trigger="click" style="margin-top: 10px">
+    <el-dropdown trigger="click" style="margin-top: 10px;position: fixed;top:45%;right:0;z-index: 99999999">
       <span class="el-dropdown-link" style="color: #fff">
         切换城市<i class="el-icon-caret-bottom el-icon--right"></i>
       </span>
@@ -121,5 +121,15 @@
     padding:3px;
     /*margin: 5px;*/
   }
-
+.el-dropdown{
+  width: 100px;
+  height: 50px;
+  border-radius:4px 0 0 4px ;
+  color: #fff;
+  font-weight: bold;
+  font-size: 15px;
+  text-align: center;
+  line-height: 50px;
+  background-color: rgb(24,144,255);
+}
 </style>
