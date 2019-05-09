@@ -76,6 +76,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
+          <!--<el-button @click="resetForm('dataForm')">-->
           {{ $t('table.cancel') }}
         </el-button>
         <el-button type="primary" @click="updateData()">
@@ -105,6 +106,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormAdd = false">
+          <!--<el-button @click="resetForm('AddForm')">-->
           {{ $t('table.cancel') }}
         </el-button>
         <el-button type="primary" @click="addData()">
@@ -234,6 +236,9 @@
       handleCreate() {
         this.resetTemp()
         this.dialogFormAdd = true
+        this.$nextTick(() => {
+          this.$refs['AddForm'].clearValidate()
+        })
       },
       addData() {
         this.$refs['AddForm'].validate((valid) => {
@@ -295,6 +300,11 @@
         })
         const index = this.pageData.indexOf(row)
         this.pageData.splice(index, 1)
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+        this.dialogFormAdd = false
+        this.dialogFormVisible = false
       }
     }
   }
