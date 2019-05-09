@@ -4,17 +4,17 @@
     <!--<panel-group @handleSetLineChartData="handleSetLineChartData" />-->
 
 
-    <el-row style="height: 60%">
-      <el-col :span="6" class="height100">
+    <el-row :gutter="20" style="height: 60%;padding-bottom: 10px">
+      <el-col :span="8" class="height100">
 
-          <rode-chart id2="rode" height="100%"></rode-chart>
+          <rode-chart id2="rode" height="100%" :cp="Number(1)"></rode-chart>
 
       </el-col>
-      <el-col :span="12" class="height100">
+      <el-col :span="8" class="height100">
         <flypath id="flypath"></flypath>
       </el-col>
-      <el-col :span="6" class="height100">
-<his-count height="100%" width="90%"></his-count>
+      <el-col :span="8" class="height100">
+<his-count height="100%" width="100%"></his-count>
       </el-col>
     </el-row>
 
@@ -31,17 +31,17 @@
     <!--</el-row>-->
 
     <!--<flypath></flypath>-->
-    <el-row  style="height: 40%">
-      <el-col :span="6" class="height100">
+    <el-row :gutter="20"  style="height: 40%">
+      <el-col :span="8" class="height100">
         <!--千言万语-->
         <gauge-chart id="gau" height="100%" width="100%" ></gauge-chart>
       </el-col>
-      <el-col :span="12" class="height100">
-        <div style="margin-top: 10%">
+      <el-col :span="8" class="height100">
+        <div style="padding-top: 10%;height: 100%;">
           <task-card></task-card>
         </div>
       </el-col >
-      <el-col :span="6" class="height100">
+      <el-col :span="8" class="height100">
       <bar-chart id="bar" height="100%" width="100%" ></bar-chart>
       </el-col >
     </el-row>
@@ -108,14 +108,15 @@
 </script>
 
 <style lang="scss" scoped>
-  * {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
 
   .dashboard-editor-container {
     position: relative;
     height: calc(100vh - 50px);
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgb(48,65,86);
+
+.el-row>div>div{
+  background-color: rgb(31,45,61);
+}
 
   .github-corner {
     position: absolute;
