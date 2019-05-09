@@ -8,6 +8,7 @@
   import bmap from 'echarts/extension/bmap/bmap'
 
   export default {
+    mixins: [resize],
     name: "BarChart",
     props: {
       place: {
@@ -16,7 +17,6 @@
       list: {
         type: Array,
       },
-      mixins: [resize],
       id: {
         type: String,
         default: 'id4'

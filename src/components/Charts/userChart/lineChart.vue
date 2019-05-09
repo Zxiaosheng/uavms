@@ -7,6 +7,7 @@
   import resize from '../mixins/resize'
   export default {
     name: "UserRoute",
+    mixins: [resize],
     props: {
       dateData: {
         type: Array,
@@ -14,7 +15,6 @@
       yNum: {
         type: Array,
       },
-      mixins: [resize],
       className: {
         type: String,
         default: 'chart1'

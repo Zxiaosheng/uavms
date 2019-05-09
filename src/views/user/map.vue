@@ -48,7 +48,6 @@
 </template>
 
 <script>
-  //  import userChart from '@/components/Charts/userChart/userChart'
   import {userMap} from '@/api/userManager'
   import resize from '../../components/Charts/mixins/resize'
   import echarts from 'echarts'
@@ -58,8 +57,6 @@
   import columnChart from '@/components/Charts/userChart/columnChart'
   import pieMap from '@/components/Charts/userChart/pieMap'
   import baiduChart from '@/components/Charts/userChart/baiduChart'
-
-
   export default {
     name: "UserRoute",
     components: {baiduChart, emptyPie, lineChart, sexChart, columnChart, pieMap},
@@ -120,6 +117,7 @@
   }
 
   h4 {
+    font-size: 25px;
     text-align: center;
     margin: 0 auto;
     height: 40px;
