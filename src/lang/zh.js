@@ -21,9 +21,9 @@ export default {
     head: {
       search: '搜索',
       type: '类型',
-      title: '请输入搜索内容....',
-      limit: '请输入用户权限...',
-      sex: '请输入性别...',
+      title: '请输入名字',
+      limit: '请输入用户权限',
+      sex: '请输入性别',
       add: '新增'
     }
   },
