@@ -140,7 +140,7 @@
       };
       let option = {
         baseOption:{
-          backgroundColor: '#1F2D29',
+          backgroundColor: '#1F2D3D',
           color: [
             '#7289AB','#73B9BC','#73A373','#fec42c', '#E69D87', '#C23531'
           ],
