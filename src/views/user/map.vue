@@ -2,51 +2,69 @@
   <div class="allBox">
     <h4>无人机用户管理</h4>
     <div class="body">
-      <div>近一周关键指标</div>
-      <ul style="margin:0;padding:0;display: flex;align-items: center;justify-content: center;">
-        <div shadow="always" :id="id1" :class="className1"
-             style="background:#1F2D29;height:150px;width:350px;margin:20px"/>
-        <li class="bor">
-          <p>新增人数</p>
-          <p>{{ tableData.add }}</p>
-        </li>
-        <li class="bor">
-          <p>删除人数</p>
-          <p>{{ tableData.del }}</p>
-        </li>
-        <li>
-          <p>净增人数</p>
-          <p>{{ newadd }}</p>
-        </li>
-      </ul>
-    </div>
-    <div class="pieChar">
-      <div class="chart-container">
-        <userChart height="80%" :aaa="value1" width="80%"/>
-      </div>
+      <div class="titleName">近一周关键指标</div>
+      <el-row class="top" style="border-left: 5px">
+        <el-col :xs="24" :sm="24" :lg="9">
+          <emptyPie v-if="add" :tableData="tableData" :add="add" :del="del" background="#1F2D29"/>
+        </el-col>
+        <el-col :xs="24" :sm="24" :lg="15" class="outCon">
+          <div>
+            <p>新增人数</p>
+            <p>{{ tableData.add }}</p>
+          </div>
+          <div>
+            <p>删除人数</p>
+            <p>{{ tableData.del }}</p>
+          </div>
+          <div>
+            <p>净增人数</p>
+            <p>{{newadd}}</p>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row style="margin-top: 10px">
+        <el-col :xs="24" :sm="24" :lg="24">
+          <lineChart v-if="newNum[0]" :yNum="newNum" :dateData="dateData" background="#1F2D29"/>
+        </el-col>
+      </el-row>
+      <el-row style="margin-top: 10px">
+        <el-col :xs="24" :sm="24" :lg="12">
+          <sex-chart v-if="newNum[0]" :tableData="tableData" background="#1F2D29"/>
+        </el-col>
+        <el-col :xs="24" :sm="24" :lg="12">
+          <columnChart v-if="newNum[0]" :dateData="dateData" :newNum="newNum"/>
+        </el-col>
+      </el-row>
+      <el-row style="margin-top: 10px">
+        <el-col :xs="24" :sm="24" :lg="12">
+          <pie-map v-if="newNum[0]" :place="place" :list="list" background="#1F2D29"/>
+        </el-col>
+        <el-col :xs="24" :sm="24" :lg="12">
+          <baiduChart v-if="newNum[0]" :place="place" :list="list" background="#1F2D29"/>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
 
 <script>
-  import userChart from '@/components/Charts/userChart'
+  //  import userChart from '@/components/Charts/userChart/userChart'
   import {userMap} from '@/api/userManager'
-  import echarts from 'echarts'
   import resize from '../../components/Charts/mixins/resize'
+  import echarts from 'echarts'
+  import emptyPie from '@/components/Charts/userChart/emptyPie'
+  import lineChart from '@/components/Charts/userChart/lineChart'
+  import sexChart from '@/components/Charts/userChart/sexChart'
+  import columnChart from '@/components/Charts/userChart/columnChart'
+  import pieMap from '@/components/Charts/userChart/pieMap'
+  import baiduChart from '@/components/Charts/userChart/baiduChart'
+
 
   export default {
     name: "UserRoute",
-    components: {userChart},
+    components: {baiduChart, emptyPie, lineChart, sexChart, columnChart, pieMap},
     props: {
       mixins: [resize],
-      className1: {
-        type: String,
-        default: 'chart1'
-      },
-      id1: {
-        type: String,
-        default: 'id1'
-      },
     },
     data() {
       return {
@@ -55,90 +73,36 @@
         newadd: '',
         value1: [],
         chart1: '',
+        add: 0,
+        del: 0,
+        newNum: [],
+        dateData: [],
+        list: [],
+        date: [],
+        place: [],
       }
     },
-    mounted() {
-      this.chart1 = echarts.init(document.getElementById(this.id1));
+    created() {
       // 首次挂载列表组件
       userMap({}).then(response => {
         this.tableData = response.data
-        // 获得数据总数
         this.total = response.data.total
         this.newadd = response.data.add - response.data.del
-        //空圆形图
-        this.chart1.setOption({
-          backgroundColor: 'rgb(44,52,60)',
-          color: ['#6F00D2', '#C23531', '#6cacde'],
-          tooltip: {
-            trigger: 'item',
-            formatter: "{a} <br/>{b}: {c} ({d}%)"
-          },
-          legend: {
-            orient: 'vertical',
-            x: 'left',
-            data: ['新增人数', '删除人数', '净增人数'],
-            textStyle: {
-              color: "white",
-              fontWeight: "600",
-              fontFamily: "楷体",
-            },
-          },
-          series: [
-            {
-              name: '访问来源',
-              type: 'pie',
-              radius: ['40%', '60%'],
-              avoidLabelOverlap: false,
-              label: {
-                normal: {
-                  show: false,
-                  position: 'center'
-                },
-                emphasis: {
-                  show: true,
-                  textStyle: {
-                    fontSize: '10',
-                    fontWeight: 'bold'
-                  }
-                }
-              },
-              labelLine: {
-                normal: {
-                  show: false
-                }
-              },
-              backgroundStyle: {
-                borderWidth: 5, //内边框宽度
-                borderColor: 'yellow', //背景内边框
-                color: 'white', //背景颜色
-                shadowColor: 'red', //阴影
-                shadowBlur: 10, //阴影模糊
-              },
-              outline: {
-                itemStyle: {
-                  borderWidth: '100',
-                  borderColor: 'yellow',
-                  shadowBlur: 10,
-                  shadowColor: 'red',
-                  borderRadius: 30,
-                }
-              },
-              data: [
-                {value: this.tableData.add, name: '新增人数'},
-                {value: this.tableData.del, name: '删除人数'},
-                {value: this.tableData.add - this.tableData.del, name: '净增人数'},
-              ]
-            }
-          ]
-        });
+        this.add = response.data.add
+        this.del = response.data.del
+        for (var i = 0; i < response.data.items.length; i++) {
+          this.list.push(response.data.items[i].totalNum)
+          this.date.push(response.data.items[i].date)
+          this.place.push(response.data.items[i].cadd)
+          let dayNum = this.list;
+          let date = this.date;
+          let item = dayNum[Math.floor(Math.random() * dayNum.length)];
+          let newDate = date[Math.floor(Math.random() * date.length)];
+          this.newNum.push(item);
+          this.dateData.push(newDate);
+        }
       })
     },
-    methods: {
-      getSTime(val) {
-        console.log('val', val)
-        this.value1 = val;//这个sTime是在data中声明的，也就是v-model绑定的值
-      }
-    }
   }
 </script>
 
@@ -149,45 +113,10 @@
     height: calc(220vh - 30px);
   }
 
-  ul, li, p {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
   .body {
     margin-top: 10px;
     border: 1px solid grey;
     margin: 0 auto;
-  }
-
-  .body > div, .pieNum {
-    font-size: 15px;
-    padding-left: 5px;
-    font-weight: 600;
-    font-family: "楷体", "楷体_GB2312";
-  }
-
-  ul {
-    display: flex;
-  }
-
-  ul > li {
-    height: 100px;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
-
-  .bor {
-    border-right: 1px solid gainsboro;
-  }
-
-  ul > li > p {
-    font-size: 18px;
-    height: 45px;
   }
 
   h4 {
@@ -196,14 +125,36 @@
     height: 40px;
     line-height: 40px;
     color: white;
+    font-weight: 600;
+    font-family: "楷体";
   }
 
-  .pieChar {
-    margin-top: 10px;
-    border: 1px solid grey;
+  .titleName {
+    color: white;
+    font-weight: 600;
+    font-family: "楷体";
+    height: 30px;
+    line-height: 30px;
+    margin-left: 5px;
   }
 
   .allBox {
     background: #304156;
+  }
+  .outCon{
+    display:flex;
+  }
+  .outCon>div{
+    flex:1;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content:center;
+    border-left: 1px solid white;
+    margin-left: 2px;
+  }
+  .outCon>div>p{
+    font-size: 20px;
+    color: white;
   }
 </style>
