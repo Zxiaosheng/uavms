@@ -167,7 +167,16 @@ export const constantRoutes = [
           title: 'troubleechart',
           roles: ['admin']
         }
-      }
+      },
+      // {
+      //   path: 'trouble-test',
+      //   name: 'troubletest',
+      //   component: () => import('@/views/trouble/trouble-test'),
+      //   meta: {
+      //     title: 'troubletest',
+      //     roles: ['admin']
+      //   }
+      // }
     ]
   },
 
