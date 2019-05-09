@@ -1,5 +1,8 @@
 <template>
-  <div :id="id" :class="className" style="height:550px;width:100%" />
+  <div class="content">
+    <div :id="id" :class="className" style="height:550px;width:100%"/> <!--style="height:550px;width:100%"-->
+  </div>
+
 </template>
 
 <script>
@@ -282,7 +285,7 @@ export default {
     },
     height: {
       type: String,
-      default: '500px'
+      default: '600px'
     }
   },
   mounted() {
@@ -350,5 +353,9 @@ export default {
 </script>
 
 <style scoped>
-
+.content{
+  width:100%;
+  height: calc(100vh - 50px);
+  background-color: rgb(48,65,86);
+}
 </style>
