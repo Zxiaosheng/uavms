@@ -24,6 +24,13 @@ const deviceRouter = {
       name: 'DeviceAdd',
       meta: { title: 'addDevice' }
     }
+    ,
+    {
+      path: 'test',
+      component: () => import('@/components/Rode/Rode'),
+      name: 'test',
+      meta: { title: 'test' }
+    }
 
   ]
 }
