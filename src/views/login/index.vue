@@ -50,7 +50,7 @@
   <div class="verify">
       <el-form-item  class="leftVerify" prop="verifycode" style="width: 66%">
 
-         <el-input v-model="loginForm.verifycode" placeholder="请输入验证码" class="identifyinput" >
+         <el-input v-model="loginForm.verifycode" :placeholder="$t('login.verifycode')" class="identifyinput" >
 
          </el-input>
       </el-form-item>
@@ -67,16 +67,16 @@
   </div>
       <!--<el-checkbox v-model="checked">记住账号</el-checkbox>-->
 
-
-      <el-button :loading="loading" type="primary" style="width:30%;margin-bottom:30px;" @click.native.prevent="handleLogin" >
+<div class="btn">
+      <el-button :loading="loading" type="primary" style="width:100%;margin:30px 0;" @click.native.prevent="handleLogin" >
         {{ $t('login.logIn') }}
       </el-button>
-      <el-button :loading="loading"  style="width:30%;margin-bottom:30px;" @click="handleRegiest" >
-        注册
+      <el-button class='reg' :loading="loading"  style="width:100%;margin-bottom:30px;" @click="handleRegiest" >
+        {{ $t('login.register') }}
       </el-button>
-
+  </div>
       <el-dialog
-        title="注册"
+        title='注册'
         :visible.sync="dialogVisible"
         :before-close="handleClose">
         <el-form ref="dataForm"  :model="temp"  label-position="left" label-width="150px" style="width: 500px; margin-left:50px;">
@@ -89,20 +89,20 @@
           <!--</el-form-item>-->
 
           <!--<el-form-item >-->
-          <input type="password" v-model="temp.password" placeholder="密码"  >
+          <input type="password" v-model="temp.password" :placeholder="$t('login.password')"  >
             <!--<el-input type="password" v-model="temp.password" placeholder="密码" ></el-input>-->
           <!--</el-form-item>-->
 
           <!--<el-form-item >-->
-          <input type="password" v-model="temp.repassword" placeholder="请再次输入密码">
+          <input type="password" v-model="temp.repassword" :placeholder="$t('login.repassword')">
             <!--<el-input type="password" v-model="temp.repassword" placeholder="请再次输入密码"></el-input>-->
           <!--</el-form-item>-->
           </div>
         </el-form>
 
         <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="regiest">注册</el-button>
+    <el-button @click="dialogVisible = false">{{ $t('login.cancel') }}</el-button>
+    <el-button type="primary" @click="regiest">{{ $t('login.register') }}</el-button>
   </span>
       </el-dialog>
       <!--<div style="position:relative">-->
@@ -386,6 +386,17 @@ export default {
   }
   .identifybox{
     height: 47px;
+  }
+  .btn{
+    width: 450px;
+    /*border: solid red;*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+  }
+  .btn .reg{
+    margin-left: -1px;
   }
 
 
