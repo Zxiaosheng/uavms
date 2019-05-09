@@ -1,11 +1,11 @@
 <template>
-  <div :id="id" class="grid-content" :class="className" style="height:430px;width:100%"/>
+  <div :id="id" class="grid-content" :class="className" style="height:500px;width:100%"/>
 </template>
 
 <script>
   import echarts from 'echarts'
   import resize from '../../components/Charts/mixins/resize'
-  import { fetchChartList,fetchMChartList} from '@/api/rode-echart'
+  import { fetchChartList} from '@/api/rode-echart'
     export default {
         name: "RodeChartPie",
         mixins: [resize],

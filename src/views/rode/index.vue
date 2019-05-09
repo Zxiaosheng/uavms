@@ -18,7 +18,7 @@
         <!--{{ $t('table.export') }}-->
       <!--</el-button>-->
     </div>
-    <el-table :data="pageData" v-loading="listLoading" border fit  highlight-current-row style="width: 100%;magin-top:20px;text-align: center">
+    <el-table :data="pageData" v-loading="listLoading" border fit  highlight-current-row style="width: 100%;magin-top:20px;">
 
       <el-table-column prop="id" :label="$t('rode.id')" width="100"></el-table-column>
 
@@ -452,4 +452,7 @@
 .el-table{
   margin-top: 20px;
 }
+  .el-table-column {
+    align:center
+  }
 </style>
