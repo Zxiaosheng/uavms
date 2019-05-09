@@ -21,13 +21,6 @@
       </ul>
     </div>
     <div class="pieChar">
-      <!--<div class="pieNum">近一周人数统计</div>-->
-      <!--日期数据的引入-->
-      <!--<div class="block">-->
-      <!--<el-date-picker @change="getSTime" style="width: 400px;" v-model="value1" type="daterange" range-separator="至"-->
-      <!--value-format="yyyy-MM-dd HH:mm:ss" start-placeholder="开始日期" end-placeholder="结束日期">-->
-      <!--</el-date-picker>-->
-      <!--</div>-->
       <div class="chart-container">
         <userChart height="80%" :aaa="value1" width="80%"/>
       </div>
@@ -85,9 +78,10 @@
             x: 'left',
             data: ['新增人数', '删除人数', '净增人数'],
             textStyle: {
-              fontSize: '10',
-              color: "white"
-            }
+              color: "white",
+              fontWeight: "600",
+              fontFamily: "楷体",
+            },
           },
           series: [
             {
@@ -152,6 +146,7 @@
   .chart-container {
     position: relative;
     width: 100%;
+    height: calc(220vh - 30px);
   }
 
   ul, li, p {

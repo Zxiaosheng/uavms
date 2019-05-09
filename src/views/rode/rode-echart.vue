@@ -1,18 +1,52 @@
 <template>
   <div class="chart-container">
+    <el-dropdown trigger="click" style="margin-top: 10px">
+      <span class="el-dropdown-link" style="color: #fff">
+        切换城市<i class="el-icon-caret-bottom el-icon--right"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown" style="width: 80px;text-align: center">
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(1)">福州</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(2)">厦门</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(3)">南平</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(4)">泉州</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(5)">漳州</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(6)">三明</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(7)">莆田</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(8)">龙岩</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="clearfix" >
+          <span @click="changePlace(9)">宁德</span>
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
 
     <el-row :gutter="20">
       <el-col :span="12" >
-        <RodeChartPie  style="background-color:rgb(31,45,61)"></RodeChartPie>
+        <RodeChartPie :cp="this.num" style="background-color:rgb(31,45,61)"></RodeChartPie>
       </el-col>
       <el-col :span="12" >
-        <RodeChartBar  style="background-color:rgb(31,45,61)"></RodeChartBar>
+        <RodeChartBar  :cp="this.num" style="background-color:rgb(31,45,61)"></RodeChartBar>
       </el-col>
     </el-row>
 
     <el-row >
       <el-col :span="24" >
-        <RodeChart style="background-color:rgb(31,45,61);"></RodeChart>
+        <RodeChart :cp="this.num" style="background-color:rgb(31,45,61);"></RodeChart>
       </el-col>
     </el-row>
 
@@ -31,8 +65,18 @@
   import RodeChart from '@/components/Charts/RodeChart'
   export default {
     name: "rode-echart",
-
+    data(){
+      return{
+        num:1
+      }
+    },
     components: { RodeChartPie ,RodeChartBar ,RodeChart},
+    methods:{
+      changePlace(n){
+        // console.log(n)
+         this.num=n
+      }
+    }
 
   }
 </script>
@@ -73,4 +117,9 @@
     padding: 10px 0;
     background-color: #f9fafc;
   }
+  .el-button{
+    padding:3px;
+    /*margin: 5px;*/
+  }
+
 </style>

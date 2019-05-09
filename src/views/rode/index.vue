@@ -256,7 +256,6 @@
           end:undefined,
           task:undefined,
           type: undefined,
-
         },
         downloadLoading: false,
         rules: {
