@@ -4,7 +4,7 @@
 
 <script>
   import echarts from 'echarts'
-  import resize from '../../components/Charts/mixins/resize'
+  import resize from './mixins/resize'
 
   import {fetchChartList, fetchMChartList} from '@/api/rode-echart'
 
