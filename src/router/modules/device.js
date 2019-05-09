@@ -29,6 +29,12 @@ const deviceRouter = {
       component: () => import('@/components/Charts/RodeDynamic'),
       name: 'test',
       meta: { title: 'test' }
+    },
+    {
+      path: 'test2',
+      component: () => import('@/components/Charts/RodeFlyDynamic.vue'),
+      name: 'test2',
+      meta: { title: 'test2' }
     }
   ]
 }
