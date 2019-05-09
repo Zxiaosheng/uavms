@@ -542,6 +542,9 @@ export default {
           selectedMode: 'single'
         }
       this.chart.setOption(setting)
+      window.addEventListener("resize",()=>{
+        this.chart.resize();
+      });
     }
   }
 }

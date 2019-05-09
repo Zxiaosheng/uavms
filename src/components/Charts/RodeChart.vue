@@ -5,6 +5,7 @@
 <script>
   import echarts from 'echarts'
   import resize from '../../components/Charts/mixins/resize'
+
   import {fetchChartList, fetchMChartList} from '@/api/rode-echart'
 
   export default {
@@ -156,7 +157,12 @@
             showAllSymbol: true,
             symbol: 'emptyCircle',
             symbolSize: 15,
-            data: lineData
+            data: lineData,
+            itemStyle: {
+              normal: {
+                color: 'rgb(36,128,220)',
+              }
+            }
           }, {
             name: '预计飞行总数',
             type: 'bar',
@@ -193,7 +199,6 @@
         this.chart2.setOption(option2);
       }
     }
-
   }
 </script>
 
