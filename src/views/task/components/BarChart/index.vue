@@ -73,7 +73,7 @@
           title: {
             top:'10',
             right:'20',
-            text: '服务领域',
+            text: '2019年服务领域',
             textStyle:{
               color:'#fff'
             }
