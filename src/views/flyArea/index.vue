@@ -63,7 +63,7 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" >
       <el-form ref="dataForm"  :model="temp" :rules="rules" label-position="left" label-width="100px" style="width: 500px; margin-left:50px;">
-        <el-form-item :label="$t('flyArea.type')" prop="type" style="width: 100%" >
+        <el-form-item :label="$t('flyArea.type')" prop="type.typeName" style="width: 100%" >
           <el-select v-model="temp.type.typeName" class="filter-item" placeholder="Please select" style="width: 100%">
             <el-option v-for="item in flyType" :key="item.id" :label="item.typeName" :value="item.typeName" />
           </el-select>
@@ -71,12 +71,12 @@
         <el-form-item :label="$t('flyArea.date')" prop="date"  required>
           <el-date-picker v-model="temp.date" value-format="yyyy-MM-dd" type="date" placeholder="Please pick a date" style="width: 100%"/>
         </el-form-item>
-        <el-form-item :label="$t('flyArea.task')" prop="type" style="width: 100%" >
+        <el-form-item :label="$t('flyArea.task')" prop="task.taskName" style="width: 100%" >
           <el-select v-model="temp.task.taskName" class="filter-item" placeholder="Please select" style="width: 100%">
             <el-option v-for="item in flyTask" :key="item.id" :label="item.taskName" :value="item.taskName" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('flyArea.area')" prop="type" style="width: 100%" >
+        <el-form-item :label="$t('flyArea.area')" prop="area.areaName" style="width: 100%" >
           <el-select v-model="temp.area.areaName" class="filter-item" placeholder="Please select" style="width: 100%" >
             <el-option v-for="item in flyArea" :key="item.id" :label="item.areaName" :value="item.areaName" />
           </el-select>
@@ -166,9 +166,18 @@
                 latitude:''
               },
               rules: {
-                type: [{ required: true, message: 'type is required', trigger: 'change' }],
-                task: [{ required: true, message: 'task is required', trigger: 'change' }],
-                area: [{ required: true, message: 'area is required', trigger: 'change' }],
+                type: {
+                  typeName:[{ required: true, message: 'type is required', trigger: 'change' }]
+                },
+
+                task: {
+                  taskName:[{ required: true, message: 'task is required', trigger: 'change' }]
+                },
+
+                area:{
+                  areaName:[{ required: true, message: 'area is required', trigger: 'change' }]
+                },
+
                 longitude: [ {required: true, message: 'longitude is required', trigger: 'blur' },
                   { type: 'number', message: 'longitude is number'}
                 ],
