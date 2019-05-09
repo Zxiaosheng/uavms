@@ -53,7 +53,7 @@
         },
         series: [
           {
-            name: '用户人数分布88',
+            name: '用户人数分布',
             type: 'pie',
             radius: '55%',
             center: ['50%', '50%'],

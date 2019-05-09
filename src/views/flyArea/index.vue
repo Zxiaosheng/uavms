@@ -192,7 +192,7 @@
       mounted(){
         //首次挂载新闻列表组件时获得所有新闻数据
         fetchflyAreaList({}).then(response=>{
-          console.log(response);
+//          console.log(response);
           this.tableData=response.data.items
           //获得数据总数
           this.total=response.data.total;

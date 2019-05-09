@@ -26,6 +26,7 @@
             type: String,
             default: '500px'
           }
+
         },
         data() {
           return {
@@ -39,9 +40,8 @@
             backgroundColor:'#0A1123',
             title: {
               text: '五种无人机任务执行数量对比图',
-              textAlign: 'center ',
-              textVerticalAlign:'botom',
-              top: 10,
+              left: 'left',
+              top: 20,
               textStyle: {
                 color: '#ffffff'
               }
@@ -53,6 +53,7 @@
             legend: {
               orient: 'vertical',
               x: 'left',
+              bottom:'20px',
               data:['消防任务','医疗任务','交通任务','物流任务','巡警任务'],
               textStyle: {
                 color: '#ffffff'
