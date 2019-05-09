@@ -2,7 +2,7 @@ import Mock from 'mockjs'
 
 // 模拟任务列表数据
 const List = [];
-const count = 40;
+const count = 999;
 for (let i = 0;i < count; i++){
   List.push(Mock.mock({
     taskId:'@increment',

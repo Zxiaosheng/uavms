@@ -53,7 +53,9 @@ export default {
     date2: 'stopTime',
     start: 'start',
     end: 'end',
-    task: 'Task'
+    task: 'Task',
+    add:'Add',
+    edit:'Edit'
   },
   route: {
     device: 'Device',

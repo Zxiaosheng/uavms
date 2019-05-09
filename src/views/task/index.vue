@@ -11,15 +11,15 @@
         </el-popover>
       </template>
       <!--ID排序选择-->
-      <el-select v-model="listQuery.sort" style="width: 200px;" class="filter-item" align="left" @change="handleFilter">
+      <el-select v-model="listQuery.sort" style="width: 140px;" class="filter-item" align="left" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
-      <el-input v-model="listQuery.taskName" :placeholder="$t('task.taskName')" style="width: 200px;" class="filter-item" @keyup.native.enter="handleFilter" />
-      <el-select v-model="listQuery.taskType" :placeholder="$t('task.taskType')" clearable style="width: 180px" class="filter-item">
+      <el-select v-model="listQuery.taskType" :placeholder="$t('task.taskType')" clearable style="width: 140px" class="filter-item">
         <el-option v-for="item in taskTypes" :key="item.typeId" :label="item.typeName" :value="item.typeId" />
       </el-select>
-      <el-date-picker v-model="listQuery.startTime" type="date" value-format="yyyy-MM-dd" :placeholder="$t('task.startTime')"/>
-      <el-date-picker v-model="listQuery.endTime" type="date" value-format="yyyy-MM-dd" :placeholder="$t('task.endTime')" />
+      <el-date-picker v-model="listQuery.startTime" type="date" value-format="yyyy-MM-dd" style="width: 140px" :placeholder="$t('task.startTime')"/>
+      <el-date-picker v-model="listQuery.endTime" type="date" value-format="yyyy-MM-dd" style="width: 140px" :placeholder="$t('task.endTime')" />
+      <el-input v-model="listQuery.taskName" :placeholder="$t('task.taskName')" style="width: 140px;" class="filter-item" @keyup.native.enter="handleFilter" />
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
@@ -63,12 +63,14 @@
         </template>
       </el-table-column>
       <el-table-column :label="$t('task.startTime')" align="center" width="160">
-      <template slot-scope="scope">
-      <span>{{ scope.row.startTime}}</span>
-      </template>
+        <template slot-scope="scope">
+          <i class="el-icon-time"></i>
+          <span>{{ scope.row.startTime}}</span>
+        </template>
       </el-table-column>
       <el-table-column :label="$t('task.endTime')" align="center" width="160">
         <template slot-scope="scope">
+          <i class="el-icon-time"></i>
           <span>{{ scope.row.endTime}}</span>
         </template>
       </el-table-column>
@@ -217,8 +219,8 @@ export default {
       taskUavs:['闪电F-28','科农A6-160','闪电F-35','猎鹰M6-84M6-84','天鹰M4-100','长空CK1B','长空CK1C','无侦5','ASN-12','WZ-2000','鲨鱼II'],
       // 生成ID正序和倒序的选择框
       sortOptions: [
-        { label: '根据任务ID正序排列', key: '+id' },
-        { label: '根据任务ID倒序排列', key: '-id' }
+        { label: '任务ID正序排', key: '+id' },
+        { label: '任务ID倒序排', key: '-id' }
       ],
       // 任务只有完成按钮，暂停按钮，开启按钮，删除按钮四个按钮，完成，超时，暂停，正常四个状态
       statusOptions: ['finished','pause','start', 'delete'],
@@ -338,8 +340,8 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          // 建议本次模拟数据中ID最大值加一
-          this.temp.taskId = parseInt(Math.random() * 100) + 1024
+          //本次模拟数据中ID最大值+1
+          this.temp.taskId = this.totalData[this.totalData.length-1].taskId+1 //parseInt(Math.random() * 100) + 1024
           this.temp.startTime = formatDate(this.temp.startTime,"yyyy-MM-dd hh:ss")
           this.temp.endTime = formatDate(this.temp.endTime,"yyyy-MM-dd hh:ss")
           this.temp.taskStatus = 'Wait'

@@ -62,7 +62,7 @@
             label: {
               normal: {
                 textStyle: {
-                  color: ''
+                  color: 'white'
                 }
               }
             },
