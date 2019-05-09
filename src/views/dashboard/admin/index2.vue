@@ -2,50 +2,37 @@
   <div class="dashboard-editor-container">
 
     <!--<panel-group @handleSetLineChartData="handleSetLineChartData" />-->
+    <el-row>
+      <p>
+        asdfgh
+      </p>
+    </el-row>
 
-
-    <el-row :gutter="20" style="height: 60%;padding-bottom: 10px">
-      <el-col :span="8" class="height100">
-
+    <el-row :gutter="40" style="height: 90%" type="flex" >
+      <el-col :span="6" class="height100">
+        <el-row class="height50 i_box" style="margin-bottom: 10px">
           <rode-chart id2="rode" height="100%" :cp="Number(1)"></rode-chart>
+        </el-row>
+        <el-row class="height50 i_box">
+          <gauge-chart id="gau" height="100%" width="100%"></gauge-chart>
+        </el-row>
 
       </el-col>
-      <el-col :span="8" class="height100">
+      <el-col :span="10" class="height100">
         <flypath id="flypath"></flypath>
       </el-col>
-      <el-col :span="8" class="height100">
-<his-count height="100%" width="100%"></his-count>
+      <el-col :span="6" class="height100">
+        <el-row class="height30 i_box" style="margin-bottom: 10px">
+        <chart-c id="chartc" height="100%" width="100%"></chart-c>
+        </el-row>
+        <el-row class="height30 i_box" style="margin-bottom: 10px">
+          <his-count id="his" height="100%" width="100%"></his-count>
+        </el-row>
+        <el-row class="height30 i_box">
+          <bar-chart id="bar" height="100%" width="100%"></bar-chart>
+        </el-row>
       </el-col>
     </el-row>
-
-    <!--<el-row style="height: 30%">-->
-    <!--<el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}"  class="height100">-->
-
-    <!--</el-col>-->
-    <!--<el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 12}" :xl="{span: 12}"  class="height100">-->
-    <!--<todo-list />-->
-    <!--</el-col>-->
-    <!--<el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" class="height100" >-->
-    <!--<box-card />-->
-    <!--</el-col>-->
-    <!--</el-row>-->
-
-    <!--<flypath></flypath>-->
-    <el-row :gutter="20"  style="height: 40%">
-      <el-col :span="8" class="height100">
-        <!--千言万语-->
-        <gauge-chart id="gau" height="100%" width="100%" ></gauge-chart>
-      </el-col>
-      <el-col :span="8" class="height100">
-        <div style="padding-top: 10%;height: 100%;">
-          <task-card></task-card>
-        </div>
-      </el-col >
-      <el-col :span="8" class="height100">
-      <bar-chart id="bar" height="100%" width="100%" ></bar-chart>
-      </el-col >
-    </el-row>
-
   </div>
 </template>
 
@@ -60,6 +47,7 @@
   import TaskCard from './components/TaskCard'
   import GaugeChart from '@/views/task/components/GaugeChart'
   import BarChart from '@/views/task/components/BarChart'
+  import chartC from '@/components/Charts/IndexChartCricl'
 
   const lineChartData = {
     newVisitis: {
@@ -93,6 +81,7 @@
       GaugeChart,
       hisCount,
       BarChart,
+      chartC
     },
     data() {
       return {
@@ -109,14 +98,15 @@
 
 <style lang="scss" scoped>
 
+  .i_box>div {
+    background-color: rgb(31, 45, 61);
+  }
   .dashboard-editor-container {
     position: relative;
     height: calc(100vh - 50px);
-    background-color: rgb(48,65,86);
+    background-color: rgb(48, 65, 86);
 
-.el-row>div>div{
-  background-color: rgb(31,45,61);
-}
+
 
   .github-corner {
     position: absolute;
@@ -136,12 +126,14 @@
   }
 
   .height50 {
-    height: 50%;
-  }
+       height: 50%;
+     }
+  .height30 {
+       height: 30%;
+     }
 
   .margint20 {
     margin-top: 20%;
   }
-
   }
 </style>

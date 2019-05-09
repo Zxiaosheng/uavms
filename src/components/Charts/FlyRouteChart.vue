@@ -19,8 +19,8 @@ import resize from './mixins/resize'
 
 export default {
   name: 'FlyRouteChart',
+  mixins: [resize],
   props: {
-    mixins: [resize],
     className: {
       type: String,
       default: 'chart'
