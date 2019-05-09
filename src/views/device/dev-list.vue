@@ -59,6 +59,7 @@
       :data="page.list"
       style="width: 100%"
       :expand-row-keys="expands"
+      :row-key='getRowKeys'
       @expand-change="expandSelect"
       border>
       <el-table-column type="expand">
@@ -201,6 +202,9 @@
     name: "dev-list",
     data(){
       return{
+        getRowKeys (row) {
+          return row.id
+        },
         expands: [],
         page: {},
         currentPage:1,
