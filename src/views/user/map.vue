@@ -4,10 +4,10 @@
     <div class="body">
       <div class="titleName">近一周关键指标</div>
       <el-row class="top" style="border-left: 5px">
-        <el-col :xs="24" :sm="24" :lg="9">
+        <el-col :lg="9">
           <emptyPie v-if="add" :tableData="tableData" :add="add" :del="del" background="#1F2D29"/>
         </el-col>
-        <el-col :xs="24" :sm="24" :lg="15" class="outCon">
+        <el-col :lg="15" class="outCon">
           <div>
             <p>新增人数</p>
             <p>{{ tableData.add }}</p>
@@ -28,18 +28,18 @@
         </el-col>
       </el-row>
       <el-row style="margin-top: 10px">
-        <el-col :xs="24" :sm="24" :lg="12">
+        <el-col :lg="12">
           <sex-chart v-if="newNum[0]" :tableData="tableData" background="#1F2D29"/>
         </el-col>
-        <el-col :xs="24" :sm="24" :lg="12">
+        <el-col :lg="12">
           <columnChart v-if="newNum[0]" :dateData="dateData" :newNum="newNum"/>
         </el-col>
       </el-row>
       <el-row style="margin-top: 10px">
-        <el-col :xs="24" :sm="24" :lg="12">
+        <el-col :lg="12">
           <pie-map v-if="newNum[0]" :place="place" :list="list" background="#1F2D29"/>
         </el-col>
-        <el-col :xs="24" :sm="24" :lg="12">
+        <el-col :lg="12">
           <baiduChart v-if="newNum[0]" :place="place" :list="list" background="#1F2D29"/>
         </el-col>
       </el-row>
@@ -57,6 +57,7 @@
   import columnChart from '@/components/Charts/userChart/columnChart'
   import pieMap from '@/components/Charts/userChart/pieMap'
   import baiduChart from '@/components/Charts/userChart/baiduChart'
+//  import FirstTrouble from '@/components/Charts/FirstTrouble'
   export default {
     name: "UserRoute",
     components: {baiduChart, emptyPie, lineChart, sexChart, columnChart, pieMap},

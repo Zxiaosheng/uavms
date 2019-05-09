@@ -1,14 +1,9 @@
 <template>
   <div class="dashboard-editor-container">
-
     <!--<panel-group @handleSetLineChartData="handleSetLineChartData" />-->
-
-
     <el-row :gutter="20" style="height: 60%;padding-bottom: 10px">
       <el-col :span="8" class="height100">
-
           <rode-chart id2="rode" height="100%" :cp="Number(1)"></rode-chart>
-
       </el-col>
       <el-col :span="8" class="height100">
         <flypath id="flypath"></flypath>
@@ -112,7 +107,8 @@
   .dashboard-editor-container {
     position: relative;
     height: calc(100vh - 50px);
-    background-color: rgb(48,65,86);
+    background-color: rgb(48, 65, 86);
+  }
 
 .el-row>div>div{
   background-color: rgb(31,45,61);
@@ -143,5 +139,4 @@
     margin-top: 20%;
   }
 
-  }
 </style>

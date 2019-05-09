@@ -136,7 +136,7 @@
           symbol: spirit,
           symbolSize: 30,
           symbolBoundingData: maxData,
-          data: [891, 1220],
+          data: [maxData, maxData],
           z: 5
         }]
       });
