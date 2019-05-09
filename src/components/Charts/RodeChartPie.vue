@@ -26,6 +26,7 @@
           return {
             chart: null,
             list:[],
+            list1:[],
             name:''
           }
         },
@@ -45,6 +46,10 @@
             fetchChartList().then(response => {
               this.list = response.data.items
 
+              for(var i=0;i<this.list.length;i++){
+                this.list[i].value+= Math.round(Math.random() * 20)
+              }
+
               this.chart.setOption({
 
                 title: {
@@ -55,9 +60,6 @@
                     color: '#ffffff'
                   }
                 },
-                // grid:{
-                //   width:'100%'
-                // },
 
                 tooltip: {
                   trigger: 'item',

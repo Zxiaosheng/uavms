@@ -156,7 +156,12 @@
             showAllSymbol: true,
             symbol: 'emptyCircle',
             symbolSize: 15,
-            data: lineData
+            data: lineData,
+            itemStyle: {
+              normal: {
+                color: 'rgb(36,128,220)',
+              }
+            }
           }, {
             name: '预计飞行总数',
             type: 'bar',
