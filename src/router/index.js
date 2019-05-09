@@ -109,6 +109,36 @@ export const constantRoutes = [
       }
     ]
   },
+  taskRouter,
+  {
+    path: '/flight',
+    name: 'flight',
+    component: Layout,
+    alwaysShow: true,
+    meta: {
+      title: 'flight',
+      icon: 'international',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: 'index',
+        name: 'route',
+        component: () => import('@/views/flight'),
+        meta: {
+          title: 'route',
+          roles: ['admin']
+        }
+      },
+      {
+        path: 'bMap',
+        component: () => import('@/views/flight/map'),
+        name: 'map',
+        meta: { title: 'map', noCache: true }
+      }
+
+    ]
+  },
   {
     path: '/trouble',
     name: 'trouble',
@@ -140,7 +170,7 @@ export const constantRoutes = [
       }
     ]
   },
-  taskRouter,
+
   flyAreaRouter,
   {
     path: '/login',
@@ -149,35 +179,7 @@ export const constantRoutes = [
   },
   historycountRouter,
   userRouter,
-  {
-    path: '/flight',
-    name: 'flight',
-    component: Layout,
-    alwaysShow: true,
-    meta: {
-      title: 'flight',
-      icon: 'international',
-      roles: ['admin']
-    },
-    children: [
-      {
-        path: 'index',
-        name: 'route',
-        component: () => import('@/views/flight'),
-        meta: {
-          title: 'route',
-          roles: ['admin']
-        }
-      },
-      {
-        path: 'bMap',
-        component: () => import('@/views/flight/map'),
-        name: 'map',
-        meta: { title: 'map', noCache: true }
-      }
 
-    ]
-  }
 
   // {
   //   path: '/auth-redirect',
