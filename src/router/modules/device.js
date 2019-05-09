@@ -23,6 +23,12 @@ const deviceRouter = {
       component: () => import('@/views/device/dev-add'),
       name: 'DeviceAdd',
       meta: { title: 'addDevice' }
+    },
+    {
+      path: 'test',
+      component: () => import('@/components/Charts/RodeDynamic'),
+      name: 'test',
+      meta: { title: 'test' }
     }
   ]
 }
