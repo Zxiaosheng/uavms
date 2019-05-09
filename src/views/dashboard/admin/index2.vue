@@ -26,7 +26,7 @@
         <chart-c id="chartc" height="100%" width="100%"></chart-c>
         </el-row>
         <el-row class="height30 i_box" style="margin-bottom: 10px">
-          <his-count id="his" height="100%" width="100%"></his-count>
+       <trouble id2="trouble" height="100%" width="100%"></trouble>
         </el-row>
         <el-row class="height30 i_box">
           <bar-chart id="bar" height="100%" width="100%"></bar-chart>
@@ -48,6 +48,7 @@
   import GaugeChart from '@/views/task/components/GaugeChart'
   import BarChart from '@/views/task/components/BarChart'
   import chartC from '@/components/Charts/IndexChartCricl'
+  import trouble from '@/components/Charts/FirstTrouble'
 
   const lineChartData = {
     newVisitis: {
@@ -81,12 +82,21 @@
       GaugeChart,
       hisCount,
       BarChart,
-      chartC
+      chartC,
+      trouble
     },
     data() {
       return {
         lineChartData: lineChartData.newVisitis
       }
+    },
+    mounted(){
+      let body=document.getElementsByClassName('dashboard-editor-container')[0]
+      let MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver
+      let observer = new MutationObserver(()=>{
+        console.log('333')
+      })
+      observer.observe(body, { attributes: true, attributeFilter: ['style'], attributeOldValue: true })
     },
     methods: {
       handleSetLineChartData(type) {
@@ -104,6 +114,7 @@
   .dashboard-editor-container {
     position: relative;
     height: calc(100vh - 50px);
+    width:100%;
     background-color: rgb(48, 65, 86);
 
 
