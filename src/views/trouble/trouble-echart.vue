@@ -356,16 +356,18 @@
               type: 'pie',
               radius: '55%',
               center: ['50%', '50%'],
-              data: [
-                {value:300,name:'电机故障'},
+              data:
+                // this.list
+                [
+                {value:300, name:'电机故障'},
                 {value:332,name:'电源故障'},
                 {value:325,name:'机械故障'},
                 {value:432,name:'摄像头故障'},
                 {value:402,name:'底座故障'}
               ]
-                .sort(function (a, b) {
-                  return a.value - b.value;
-                }),
+              .sort(function (a, b) {
+                return a.value - b.value;
+              }),
               roseType: 'radius',
               label: {
                 normal: {
