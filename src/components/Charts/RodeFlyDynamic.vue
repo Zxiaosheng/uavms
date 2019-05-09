@@ -161,7 +161,7 @@
         // 地图自定义样式
         let bmap = {
           center: [startPoint.x, startPoint.y],
-          zoom: 13,
+          zoom: 12,
           roam: true,
           mapStyle: {
             styleJson: [
