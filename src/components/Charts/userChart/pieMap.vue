@@ -8,8 +8,8 @@
 
   export default {
     name: "UserRoute",
+    mixins: [resize],
     props: {
-      mixins: [resize],
       place: {
         type: Array,
       },

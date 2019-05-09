@@ -81,13 +81,6 @@
                     radius: '55%',
                     center: ['50%', '50%'],
                     data:this.list
-                    //   [
-                    //   {value:300,name:'仓山区'},
-                    //   {value:332,name:'晋安区'},
-                    //   {value:325,name:'鼓楼区'},
-                    //   {value:432,name:'台江区'},
-                    //   {value:402,name:'马尾区'}
-                    // ]
                       .sort(function (a, b) {
                         return a.value - b.value;
                       }),
@@ -112,8 +105,6 @@
                     itemStyle: {
                       normal: {
                         color: '#0f375f',
-                        // shadowBlur: 200,
-                        // shadowColor: 'rgba(0, 0, 0,0.5)'
                       }
                     },
 

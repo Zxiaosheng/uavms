@@ -7,9 +7,9 @@
   import resize from '../mixins/resize'
 
   export default {
+    mixins: [resize],
     name: "UserRoute",
     props: {
-      mixins: [resize],
       dateData: {
         type: Array,
       },

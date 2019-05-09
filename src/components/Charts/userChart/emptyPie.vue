@@ -8,6 +8,7 @@
 
   export default {
     name: "UserRoute",
+    mixins: [resize],
     props: {
       tableData: {
         type: Object
@@ -18,7 +19,6 @@
       del:{
         type: Number,
       },
-      mixins: [resize],
       className: {
         type: String,
         default: 'chart'
