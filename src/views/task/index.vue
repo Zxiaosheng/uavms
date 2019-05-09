@@ -2,6 +2,14 @@
   <div class="app-container">
     <!--filter start-->
     <div class="app-container" style="padding-left: 0">
+      <template>
+        <el-popover
+          placement="top-start"
+          trigger="hover">
+          <pie-chart></pie-chart>
+          <el-button v-waves class="filter-item" icon="el-icon-view" type="info" plain slot="reference">{{$t('task.chartView')}}</el-button>
+        </el-popover>
+      </template>
       <!--ID排序选择-->
       <el-select v-model="listQuery.sort" style="width: 200px;" class="filter-item" align="left" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
@@ -110,7 +118,7 @@
 
     <!--dialog start-->
     <el-dialog :title="formTitle" :visible.sync="dialogFormVisible" width="30%" center>
-      <el-form ref="dataForm" :model="temp" :rules="rules" label-position="left" label-width="80px" style="width: 400px;height: 460px; margin-left:50px;">
+      <el-form ref="dataForm" :model="temp" :rules="rules" label-position="left" label-width="80px" >
         <el-form-item :label="$t('task.taskName')" prop="taskName">
           <el-input v-model="temp.taskName" type="text" placeholder="请输入任务名称" style="width: 100%"/>
         </el-form-item>
@@ -162,10 +170,11 @@ import { fetchTasklist,updateTask,createTask } from '@/api/task'
 import {formatDate} from './utils.js'
 import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination'
+import PieChart from './components/PieChart'
 
 export default {
   name: 'Index',
-  components: { Pagination },
+  components: { Pagination,PieChart },
   directives: { waves },
   data() {
     return {
@@ -193,36 +202,17 @@ export default {
         { typeId: 6, typeName: '其他任务' }
       ],
       rodes:[
-        {rodeId:1,rodeName:'河北线'},
-        {rodeId:2,rodeName:'山西线'},
-        {rodeId:3,rodeName:'辽宁线'},
-        {rodeId:4,rodeName:'吉林线'},
-        {rodeId:5,rodeName:'黑龙线'},
-        {rodeId:6,rodeName:'江苏线'},
-        {rodeId:7,rodeName:'浙江线'},
-        {rodeId:8,rodeName:'安徽线'},
-        {rodeId:9,rodeName:'福建线'},
-        {rodeId:10,rodeName:'江西线'},
-        {rodeId:11,rodeName:'山东线'},
-        {rodeId:12,rodeName:'河南线'},
-        {rodeId:13,rodeName:'湖北线'},
-        {rodeId:14,rodeName:'湖南线'},
-        {rodeId:15,rodeName:'广东线'},
-        {rodeId:16,rodeName:'海南线'},
-        {rodeId:17,rodeName:'四川线'},
-        {rodeId:18,rodeName:'贵州线'},
-        {rodeId:19,rodeName:'云南线'},
-        {rodeId:20,rodeName:'陕西线'},
-        {rodeId:21,rodeName:'甘肃线'},
-        {rodeId:22,rodeName:'青海线'},
-        {rodeId:23,rodeName:'北京线'},
-        {rodeId:24,rodeName:'上海线'},
-        {rodeId:25,rodeName:'重庆线'},
-        {rodeId:26,rodeName:'天津线'},
-        {rodeId:27,rodeName:'广西线'},
-        {rodeId:28,rodeName:'宁夏线'},
-        {rodeId:29,rodeName:'新疆线'},
-        {rodeId:30,rodeName:'内蒙古线'}
+        {rodeId:1,rodeName:'福州线'},
+        {rodeId:2,rodeName:'厦门线'},
+        {rodeId:3,rodeName:'漳州线'},
+        {rodeId:4,rodeName:'泉州线'},
+        {rodeId:5,rodeName:'龙岩线'},
+        {rodeId:6,rodeName:'南平线'},
+        {rodeId:7,rodeName:'莆田线'},
+        {rodeId:8,rodeName:'三明线'},
+        {rodeId:9,rodeName:'平潭线'},
+        {rodeId:10,rodeName:'福清线'},
+        {rodeId:10,rodeName:'宁德线'}
       ],
       taskUavs:['闪电F-28','科农A6-160','闪电F-35','猎鹰M6-84M6-84','天鹰M4-100','长空CK1B','长空CK1C','无侦5','ASN-12','WZ-2000','鲨鱼II'],
       // 生成ID正序和倒序的选择框
@@ -271,7 +261,8 @@ export default {
         taskDesc: [
           { required: true, message: '请填写任务描述', trigger: 'blur' }
         ]
-      }
+      },
+      pieChartId:'pie'
     }
   },
   mounted() {

@@ -1,7 +1,6 @@
 import Mock from 'mockjs'
 
 const List = []
-const List1 = []
 const count = 5
 
 for (let i = 0; i < count; i++) {
@@ -9,10 +8,7 @@ for (let i = 0; i < count; i++) {
     "value|300-400":350,
     "name": '@cword(2)'+'区',
   }))
-  List1.push(Mock.mock({
-    "r":Math.round(Math.random() * 1000),
-    "m": (Math.random()*10 + 5).toFixed(1) - 0,
-  }))
+
 }
 
 export default [
@@ -42,4 +38,5 @@ export default [
       }
     }
   },
+
 ]

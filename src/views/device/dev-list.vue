@@ -58,6 +58,9 @@
     <el-table
       :data="page.list"
       style="width: 100%"
+      :expand-row-keys="expands"
+      :row-key='getRowKeys'
+      @expand-change="expandSelect"
       border>
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -199,6 +202,10 @@
     name: "dev-list",
     data(){
       return{
+        getRowKeys (row) {
+          return row.id
+        },
+        expands: [],
         page: {},
         currentPage:1,
         listQuery: {
@@ -228,6 +235,18 @@
       this.getList()
     },
     methods: {
+      // 折叠面板每次只能展开一行
+      expandSelect (row, expandedRows) {
+        var that = this
+        if (expandedRows.length) {
+          that.expands = []
+          if (row) {
+            that.expands.push(row.id)
+          }
+        } else {
+          that.expands = []
+        }
+      },
       toEdit(item){
         this.editData={...item}
         this.flag=this.page.list.indexOf(item)

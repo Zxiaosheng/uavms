@@ -41,7 +41,8 @@ export default {
     btnFinished: '完成',
     btnStart: '开始',
     btnPause: '暂停',
-    btnDelete: '删除'
+    btnDelete: '删除',
+    chartView:'领域覆盖'
   },
   route: {
     device: '设备管理',
@@ -50,9 +51,9 @@ export default {
     flyArea: '历史飞行区域',
     flyAreaList: '飞行区域统计表',
     bMap: '飞行区域热力图',
-    historycount: '历史执行次数',
-    historycountlist: '历史执行次数列表',
-    historycountechart: '历史执行次数统计图',
+    historycount: '历史飞行次数',
+    historycountlist: '历史飞行次数列表',
+    historycountechart: '历史飞行次数统计图',
     user: '用户管理',
     userManager: '用户列表',
     userMap:'用户图表',
@@ -165,8 +166,12 @@ export default {
   login: {
     title: '系统登录',
     logIn: '登录',
+    register: '注册',
     username: '账号',
     password: '密码',
+    repassword: '请再次输入密码',
+    verifycode: '请输入验证码',
+    cancel: '取消',
     any: '随便填',
     thirdparty: '第三方登录',
     thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'

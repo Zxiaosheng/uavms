@@ -42,7 +42,8 @@ export default {
     btnFinished: 'finished',
     btnStart: 'start',
     btnPause: 'pause',
-    btnDelete: 'delete'
+    btnDelete: 'delete',
+    chartView:'chartView'
   },
   rode: {
     id: 'id',
@@ -150,8 +151,12 @@ export default {
   login: {
     title: 'Login Form',
     logIn: 'Login',
+    register: 'Register',
     username: 'Username',
     password: 'Password',
+    repassword: 'Repassword',
+    verifycode: 'Please enter verifycode',
+    cancel: 'Cancel',
     any: 'any',
     thirdparty: 'Or connect with',
     thirdpartyTips: 'Can not be simulated on local, so please combine you own business simulation! ! !'

@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <div class="demo-input-size">
-      <el-input v-model="listQuery.start" :placeholder="$t('flight.start')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-input v-model="listQuery.end" :placeholder="$t('flight.end')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+      <el-input v-model="listQuery.start" :placeholder="$t('flight.start')" style="width: 150px;" class="filter-item" @keyup.enter.native="getList" />
+      <el-input v-model="listQuery.end" :placeholder="$t('flight.end')" style="width: 150px;" class="filter-item" @keyup.enter.native="getList" />
       <el-date-picker v-model="listQuery.date1" type="date" :placeholder="$t('flight.date1')" />
       <el-date-picker v-model="listQuery.date2" type="date" :placeholder="$t('flight.date2')" />
       <el-select v-model="listQuery.type" value-key="id" :placeholder="$t('flight.typeId')" clearable class="filter-item" style="width: 130px" @change="getList">
@@ -14,9 +14,9 @@
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
         {{ $t('table.add') }}
       </el-button>
-      <!--<el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">-->
-      <!--{{ $t('table.export') }}-->
-      <!--</el-button>-->
+      <!--<el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
+      {{ $t('table.export') }}
+      </el-button>-->
     </div>
     <el-table v-loading="listLoading" :data="pageData" border fit highlight-current-row style="width: 100%;magin-top:20px;text-align: center">
 
@@ -37,12 +37,7 @@
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             {{ $t('table.edit') }}
           </el-button>
-          <!--<el-button v-if="row.status!='published'" size="mini" type="success" @click="handleModifyStatus(row,'published')">-->
-          <!--{{ $t('table.publish') }}-->
-          <!--</el-button>-->
-          <!--<el-button v-if="row.status!='draft'" size="mini" @click="handleModifyStatus(row,'draft')">-->
-          <!--{{ $t('table.draft') }}-->
-          <!--</el-button>-->
+
           <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row)">
             {{ $t('table.delete') }}
           </el-button>

@@ -6,7 +6,7 @@ const count = 5
 
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
-    "value|100-200":150,
+    "value|300-450":350,
     "name": '@cword(2)'+'故障',
   }))
   List1.push(Mock.mock({

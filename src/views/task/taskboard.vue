@@ -118,7 +118,6 @@
     data(){
       return {
         lineChartId:'line',
-        pieChartId:'pie',
         gaugeChartId:'gauge',
         barChartId:'bar',
         taskCount:0,
