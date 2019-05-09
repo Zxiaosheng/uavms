@@ -92,7 +92,7 @@
       RodeChart,
       GaugeChart,
       hisCount,
-      BarChart
+      BarChart,
     },
     data() {
       return {
