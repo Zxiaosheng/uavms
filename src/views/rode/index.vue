@@ -3,8 +3,8 @@
     <div class="demo-input-size">
       <el-input v-model="listQuery.start" :placeholder="$t('rode.start')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
       <el-input v-model="listQuery.end" :placeholder="$t('rode.end')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-date-picker v-model="listQuery.date1" type="date" :placeholder="$t('rode.date1')" />
-      <el-date-picker v-model="listQuery.date2" type="date" :placeholder="$t('rode.date2')" />
+      <el-date-picker v-model="listQuery.date1" type="date" :placeholder="$t('rode.date1')" @change="getList"/>
+      <el-date-picker v-model="listQuery.date2" type="date" :placeholder="$t('rode.date2')" @change="getList"/>
       <el-select v-model="listQuery.type" value-key="id" @change="getList" :placeholder="$t('rode.typeId')" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in typeId" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
@@ -36,23 +36,12 @@
 
       <el-table-column prop="task" :label="$t('rode.task')"  ></el-table-column>
 
-      <!--<el-table-column prop="read" sortable label="热度"  width="100">-->
-        <!--<template slot-scope="scope">-->
-          <!--<el-tag :type="scope.row.read | hotFilter()">{{scope.row.read}}</el-tag>-->
-        <!--</template>-->
-      <!--</el-table-column>-->
-
       <el-table-column :label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             {{ $t('table.edit') }}
           </el-button>
-          <!--<el-button v-if="row.status!='published'" size="mini" type="success" @click="handleModifyStatus(row,'published')">-->
-          <!--{{ $t('table.publish') }}-->
-          <!--</el-button>-->
-          <!--<el-button v-if="row.status!='draft'" size="mini" @click="handleModifyStatus(row,'draft')">-->
-          <!--{{ $t('table.draft') }}-->
-          <!--</el-button>-->
+
           <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row)">
             {{ $t('table.delete') }}
           </el-button>
@@ -117,9 +106,6 @@
         <el-form-item :label="$t('rode.date2')"  prop="date2">
           <el-date-picker v-model="addtemp.date2" type="date"  placeholder="请选择到达时间" style="width: 100%"/>
         </el-form-item>
-        <!--<el-form-item :label="$t('rode.start')"  prop="start">-->
-          <!--<el-input v-model="addtemp.start" />-->
-        <!--</el-form-item>-->
         <el-form-item :label="$t('rode.start')"  prop="start">
           <div class="block">
             <el-cascader
@@ -130,9 +116,6 @@
             </el-cascader>
           </div>
         </el-form-item>
-        <!--<el-form-item :label="$t('rode.end')"  prop="end">-->
-          <!--<el-input v-model="addtemp.end" />-->
-        <!--</el-form-item>-->
         <el-form-item :label="$t('rode.end')"  prop="start">
           <div class="block" >
             <el-cascader
@@ -430,20 +413,7 @@
         const index = this.pageData.indexOf(row)
         this.pageData.splice(index, 1)
       },
-      // handleDownload() {
-      //   this.downloadLoading = true
-      //   import('@/vendor/Export2Excel').then(excel => {
-      //     const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-      //     const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-      //     const data = this.formatJson(filterVal, this.list)
-      //     excel.export_json_to_excel({
-      //       header: tHeader,
-      //       data,
-      //       filename: 'table-list'
-      //     })
-      //     this.downloadLoading = false
-      //   })
-      // },
+
     }
   }
 </script>
