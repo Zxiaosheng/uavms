@@ -102,9 +102,9 @@ export const constantRoutes = [
         }
       },
       {
-        path: 'demo',
-        component: () => import('@/views/charts/FlyRoute'),
-        name: 'fly-rote-demo',
+        path: 'rode-flyechart',
+        component: () => import('@/views/rode/rode-flyechart'),
+        name: 'rode-flyechart',
         meta: { title: '飞行路径演示' }
       }
     ]

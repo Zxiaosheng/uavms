@@ -24,11 +24,11 @@
       },
       width: {
         type: String,
-        default: '1200px'
+        default: '1430px'
       },
       height: {
         type: String,
-        default: '700px'
+        default: '680px'
       },
       mapName: {
         type: String,
@@ -38,6 +38,11 @@
     data(){
       return{
         chart: null
+      }
+    },
+    watch:{
+      mapName(){
+        this.initChart()
       }
     },
     beforeDestroy() {

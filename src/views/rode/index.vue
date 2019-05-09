@@ -53,7 +53,7 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
     <!--编辑弹出窗-->
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <el-dialog :title="$t('rode.edit')" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm"  :model="temp" label-position="left" label-width="100px" style="width: 500px; margin-left:50px;">
 
         <el-form-item :label="$t('rode.typeId')" prop="typeId">
@@ -90,7 +90,7 @@
       </div>
     </el-dialog>
     <!--新增弹出窗-->
-    <el-dialog title="新增" :visible.sync="dialogFormAdd">
+    <el-dialog :title="$t('rode.add')" :visible.sync="dialogFormAdd">
       <el-form ref="AddForm" :model="addtemp" :rules="rules" label-position="left" label-width="100px" style="width: 500px; margin-left:50px;">
         <el-form-item  :label="$t('rode.typeId')" prop="typeId.typeName">
           <el-select v-model="addtemp.typeId.typeName" class="filter-item" placeholder="请选择类型" style="width: 100%">
@@ -312,19 +312,18 @@
       },
       handleUpdate(row) {
         this.temp = Object.assign({}, row) // copy obj
-        // this.temp.timestamp = new Date(this.temp.timestamp)
         this.dialogStatus = 'update'
         this.dialogFormVisible = true
         this.$nextTick(() => {
-          this.$refs['dataForm'].clearValidate()
+          this.$refs['AddForm'].clearValidate()
         })
       },
       handleCreate() {
         this.resetTemp()
         this.dialogFormAdd = true
-        // this.$nextTick(() => {
-        //   this.$refs['dataForm'].clearValidate()
-        // })
+        this.$nextTick(() => {
+          this.$refs['AddForm'].clearValidate()
+        })
       },
       addData() {
         this.$refs['AddForm'].validate((valid) => {
@@ -353,11 +352,8 @@
                 type: 'success',
                 duration: 2000
               })
-              // this.addtemp.title=''
-              // this.addtemp.content=''
-              // this.addtemp.read=''
+
             })
-            // this.addtemp=[];
           }
         })
       },

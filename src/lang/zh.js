@@ -141,8 +141,9 @@ export default {
     date2: '停用时间',
     start: '出发地点',
     end: '到达地点',
-    task: '任务'
-
+    task: '任务',
+    add:'新增',
+    edit:'编辑'
   },
   flight: {
     id: '编号',
