@@ -209,8 +209,7 @@
               },
               axisLine: {
                 lineStyle: {
-                  color: '#eee'
-                }
+                  color: '#eee' }
               },
             }
           ],
