@@ -38,6 +38,7 @@
     <el-row :gutter="20">
       <el-col :span="12" >
         <RodeChartPie :cp="this.num" style="background-color:rgb(31,45,61)"></RodeChartPie>
+        <!--<IndexChartCricl  style="background-color:rgb(31,45,61);"></IndexChartCricl>-->
       </el-col>
       <el-col :span="12" >
         <RodeChartBar  :cp="this.num" style="background-color:rgb(31,45,61)"></RodeChartBar>
@@ -63,6 +64,7 @@
   import RodeChartPie from '@/components/Charts/RodeChartPie'
   import RodeChartBar from '@/components/Charts/RodeChartBar'
   import RodeChart from '@/components/Charts/RodeChart'
+  // import IndexChartCricl from '@/components/Charts/IndexChartCricl'
   export default {
     name: "rode-echart",
     data(){
