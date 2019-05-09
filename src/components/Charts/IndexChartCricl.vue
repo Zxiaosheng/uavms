@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" class="grid-content" :class="className" style="height:500px;width:100%"/>
+  <div :id="id" class="grid-content" :class="className" :style="{height:height,width:width}"/>
 </template>
 
 <script>
@@ -17,8 +17,15 @@
           id: {
             type: String,
             default: 'chart'
+          },
+          width: {
+            type: String,
+            default: '100%'
+          },
+          height: {
+            type: String,
+            default: '500px'
           }
-
         },
         data() {
           return {
@@ -32,8 +39,9 @@
             backgroundColor:'#0A1123',
             title: {
               text: '五种无人机任务执行数量对比图',
-              left: 'center',
-              top: 20,
+              textAlign: 'center ',
+              textVerticalAlign:'botom',
+              top: 10,
               textStyle: {
                 color: '#ffffff'
               }
