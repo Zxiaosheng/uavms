@@ -17,7 +17,7 @@
       </el-button>
     </div>
 
-    <el-table :data="pageData" v-loading="listLoading" style="width: 100%;magin-top:20px;text-align: center">
+    <el-table :data="pageData" v-loading="listLoading" border fit  highlight-current-row style="width: 100%;magin-top:20px;text-align: center">
 
       <el-table-column prop="date" label="日期"  align="center" width="150"></el-table-column>
 
