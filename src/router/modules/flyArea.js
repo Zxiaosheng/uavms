@@ -25,6 +25,12 @@ const userRouter = {
       name: 'bMap',
       meta: { title: 'bMap', noCache: true }
     }
+    // {
+    //   path: 'line',
+    //   component: () => import('@/views/flyArea/line'),
+    //   name: 'line',
+    //   meta: { title: 'line', noCache: true }
+    // }
   ]
 }
 export default userRouter
