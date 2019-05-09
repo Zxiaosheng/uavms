@@ -3,8 +3,8 @@
     <div class="demo-input-size">
       <el-input v-model="listQuery.start" :placeholder="$t('flight.start')" style="width: 150px;" class="filter-item" @keyup.enter.native="getList" />
       <el-input v-model="listQuery.end" :placeholder="$t('flight.end')" style="width: 150px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-date-picker v-model="listQuery.date1" type="date" :placeholder="$t('flight.date1')" />
-      <el-date-picker v-model="listQuery.date2" type="date" :placeholder="$t('flight.date2')" />
+      <el-date-picker v-model="listQuery.date1" type="date" value-format="yyyy-MM-dd" :placeholder="$t('flight.date1')" />
+      <el-date-picker v-model="listQuery.date2" type="date" value-format="yyyy-MM-dd" :placeholder="$t('flight.date2')" />
       <el-select v-model="listQuery.type" value-key="id" :placeholder="$t('flight.typeId')" clearable class="filter-item" style="width: 130px" @change="getList">
         <el-option v-for="item in typeId" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
@@ -148,7 +148,7 @@ export default {
       listLoading: false,
       total: 0,
       pageData: [],
-      typeId: [{ id: '1', typeName: '消防型' }, { id: '2', typeName: '物流型' }, { id: '3', typeName: '医疗型' }, { id: '4', typeName: '天眼型' }],
+      typeId: [{ id: '1', typeName: '救援型' }, { id: '2', typeName: '测绘型' }, { id: '3', typeName: '拍摄型' }, { id: '4', typeName: '交通型' }],
       textMap: {
         update: 'Edit',
         create: 'Create'
@@ -159,7 +159,7 @@ export default {
         date2: new Date(),
         start: '',
         end: '',
-        typeId: [{ id: 1, typeName: '消防型' }]
+        typeId: [{ id: 1, typeName: '救援型' }]
       },
       addtemp: {
         id: '',
@@ -167,7 +167,7 @@ export default {
         date2: new Date(),
         start: '',
         end: '',
-        typeId: [{ id: 1, typeName: '消防型' }]
+        typeId: [{ id: 1, typeName: '救援型' }]
       },
       listQuery: {
         page: 1,
