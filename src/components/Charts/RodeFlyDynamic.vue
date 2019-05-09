@@ -24,11 +24,11 @@
       },
       width: {
         type: String,
-        default: '1430px'
+        default: '100%'
       },
       height: {
         type: String,
-        default: '680px'
+        default: '100%'
       },
       mapName: {
         type: String,
@@ -501,9 +501,10 @@
 
 <style scoped>
   .chart-container{
+    background-color: #0a0f24;
+    text-align: center;
     position: relative;
     width: 100%;
     height: 100%;
-    background-color: rgb(48,65,86);
   }
 </style>
