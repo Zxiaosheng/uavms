@@ -10,7 +10,7 @@ const userRouter = {
   name: 'flyArea',
   meta: {
     title: 'flyArea',
-    icon: 'international'
+    icon: 'tab'
   },
   children: [
     {
