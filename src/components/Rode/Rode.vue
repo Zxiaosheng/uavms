@@ -1,5 +1,5 @@
 <template>
-  <div class="con">
+  <div class="chart-container">
     <div>无人机路线当前路线展示</div>
     <ul>
       <li>
@@ -19,11 +19,7 @@
         <div><span>5 </span>种</div>
       </li>
     </ul>
-    <RodeDynamic></RodeDynamic>
-    <el-button-group>
-      <el-button type="primary" icon="el-icon-arrow-left">上一页</el-button>
-      <el-button type="primary">下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-    </el-button-group>
+    <RodeDynamic :mapName="this.mapName"></RodeDynamic>
   </div>
 </template>
 
@@ -31,6 +27,12 @@
   import RodeDynamic from '../Charts/RodeFlyDynamic.vue'
   export default {
     name: "Rode",
+    props:{
+      mapName: {
+        type: Object,
+        default: '福州'
+      }
+    },
     components:{
       RodeDynamic
     }
@@ -38,10 +40,12 @@
 </script>
 
 <style scoped>
-  .con{
+  .chart-container{
+    text-align: center;
+    font-size: 18px;
     background-color: #0a0f24;
-    height: 200px;
-    width: 500px;
+    height: 600px;
+    width: 100%;
   }
 
   .chart-container>div{
@@ -59,6 +63,9 @@
   .chart-container>ul>li>div>span{
     color: #2c74ba;
     font-size: 35px;
+  }
+  .chart-container>ul>li>span{
+    font-size: 13px;
   }
   .el-footer-btn{
     display: flex;
