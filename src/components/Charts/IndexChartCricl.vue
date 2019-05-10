@@ -38,27 +38,11 @@
 
           let option1 = {
             backgroundColor:'#0A1123',
-            title: {
-              text: '五种无人机任务执行数量对比图',
-              left: 'left',
-              top: 20,
-              textStyle: {
-                color: '#ffffff'
-              }
-            },
             tooltip: {
               trigger: 'item',
-              formatter: "{a} <br/>{b}: {c} ({d}%)"
+              formatter: "{a} <br/>{b}: {c} ({d}%)",
             },
-            legend: {
-              orient: 'vertical',
-              x: 'left',
-              bottom:'20px',
-              data:['消防任务','医疗任务','交通任务','物流任务','巡警任务'],
-              textStyle: {
-                color: '#ffffff'
-              }
-            },
+
             color:['rgb(37,96,149)','rgb(67,164,215)','rgb(77,191,254)','rgb(78,236,239)','rgb(133,190,135)'],
             series: [
               {
@@ -68,22 +52,23 @@
                 avoidLabelOverlap: false,
                 label: {
                   normal: {
-                    show: false,
-                    position: 'center'
-                  },
+                    show: true,
+                    // position: 'center',
+                    formatter: '{b}'
+                  }
+                },
+                labelLine: {
+                  normal: {
+                    show: true
+                  }
+                },
                   emphasis: {
                     show: true,
                     textStyle: {
                       fontSize: '30',
                       fontWeight: 'bold'
                     }
-                  }
-                },
-                labelLine: {
-                  normal: {
-                    show: false
-                  }
-                },
+                  },
                 data:[
                   {value:335, name:'消防任务'},
                   {value:310, name:'医疗任务'},

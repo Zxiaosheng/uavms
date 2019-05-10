@@ -26,11 +26,29 @@ const userRouter = {
       meta: { title: 'bMap', noCache: true }
     },
     {
-      path: 'line',
-      component: () => import('@/views/flyArea/line'),
-      name: 'line',
-      meta: { title: 'line', noCache: true }
+      path: 'index1',
+      name: 'historycountlist',
+      component: () => import('@/views/history-count'),
+      meta: {
+        title: 'historycountlist',
+        roles: ['admin']
+      }
+    },
+    {
+      path: 'count-echart',
+      name: 'historycountechart',
+      component: () => import('@/views/history-count/count-echart'),
+      meta: {
+        title: 'historycountechart',
+        roles: ['admin']
+      }
     }
+    // {
+    //   path: 'line',
+    //   component: () => import('@/views/flyArea/line'),
+    //   name: 'line',
+    //   meta: { title: 'line', noCache: true }
+    // }
   ]
 }
 export default userRouter
