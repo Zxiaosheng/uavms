@@ -1,8 +1,6 @@
 <template>
-  <div>
     <div :id="id" :class="className" :style="{height:height,width:width}" />
 
-  </div>
 
 </template>
 <script>

@@ -4,7 +4,7 @@
 
 <script>
   import echarts from 'echarts'
-  import resize from '../../components/Charts/mixins/resize'
+  import resize from './mixins/resize'
 
   import {fetchChartList} from '@/api/troubletest'
 
@@ -77,7 +77,7 @@
 
 
         let option2 = {
-          backgroundColor: '#161139',
+          backgroundColor: '#0A1123',
           tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -171,6 +171,20 @@
           }]
         };
         this.chart2.setOption(option2);
+        window.addEventListener("resize",()=>{
+          console.log('111')
+          this.chart2.resize();
+        });
+        let id2=this.id2;
+        let body=document.getElementsByClassName('dashboard-editor-container')[0]
+        console.log(body)
+
+        let MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver
+        let observer = new MutationObserver(()=>{
+          console.log('222')
+          this.chart2.resize();
+        })
+        observer.observe(body, { attributes: true, attributeFilter: ['style'], attributeOldValue: true })
       }
     }
   }
