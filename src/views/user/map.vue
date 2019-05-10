@@ -43,6 +43,11 @@
           <baiduChart v-if="newNum[0]" :place="place" :list="list" background="#1F2D29"/>
         </el-col>
       </el-row>
+      <el-row style="margin-top: 10px">
+        <el-col :lg="12">
+          <adarChart background="#1F2D29"/>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
@@ -57,10 +62,11 @@
   import columnChart from '@/components/Charts/userChart/columnChart'
   import pieMap from '@/components/Charts/userChart/pieMap'
   import baiduChart from '@/components/Charts/userChart/baiduChart'
-//  import FirstTrouble from '@/components/Charts/FirstTrouble'
+  import adarChart from '@/components/Charts/adarChart'
+
   export default {
     name: "UserRoute",
-    components: {baiduChart, emptyPie, lineChart, sexChart, columnChart, pieMap},
+    components: {baiduChart, emptyPie, lineChart, sexChart, columnChart, pieMap,adarChart},
     props: {
       mixins: [resize],
     },
