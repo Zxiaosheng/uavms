@@ -1,6 +1,6 @@
 <template>
   <div class="chart-container">
-    <div :id="id" :class="className" style="height:550px;width:100%" />
+    <div :id="id" :class="className" style="height:700px;width:100%" />
   </div>
 </template>
 
@@ -65,10 +65,10 @@
         //   startPoint = {
         //     x: 119.31217,
         //     y: 26.064285
-        //   }118.674555,24.883913
+        //   }118.643509,24.963606
         startPoint = {
-            x: 118.674555,
-            y: 24.883913
+            x: 118.643509,
+            y: 24.963606
         }
           //地图上的坐标对应地点
           geoCoordMap = {
