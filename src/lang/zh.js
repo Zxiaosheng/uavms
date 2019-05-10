@@ -49,7 +49,7 @@ export default {
     device: '设备管理',
     deviceList: '设备列表',
     addDevice: '设备添加',
-    flyArea: '历史飞行区域',
+    flyArea: '历史记录',
     flyAreaList: '飞行区域统计表',
     bMap: '飞行区域热力图',
     historycount: '历史飞行次数',

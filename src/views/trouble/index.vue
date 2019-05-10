@@ -19,17 +19,17 @@
 
     <el-table :data="pageData" v-loading="listLoading" border fit  highlight-current-row style="width: 100%;magin-top:20px;text-align: center">
 
-      <el-table-column prop="date" label="日期"  align="center" width="150"></el-table-column>
+      <el-table-column prop="date" label="日期"  align="center" width="100"></el-table-column>
 
-      <el-table-column prop="planType.typeName" label="无人机类型" width="150"></el-table-column>
+      <el-table-column prop="planType.typeName" label="无人机类型" width="120"></el-table-column>
 
-      <el-table-column prop="troubleType.typeName" label="故障类型" width="150"></el-table-column>
+      <el-table-column prop="troubleType.typeName" label="故障类型" width="100"></el-table-column>
 
-      <el-table-column prop="troubleCount" label="故障次数" width="150"></el-table-column>
+      <el-table-column prop="troubleCount" label="故障次数" width="80"></el-table-column>
 
       <el-table-column prop="troubleReason" label="故障原因"></el-table-column>
 
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="160" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             编辑

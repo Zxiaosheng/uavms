@@ -50,7 +50,8 @@
   .chart-container{
     position: relative;
     width: 100%;
-    height: calc(140vh - 30px);
+    height: calc(108vh - 105px);
+    /*height: 800px;*/
     background-color: rgb(48,65,86);
   }
   .el-row {
@@ -96,4 +97,5 @@
   line-height: 50px;
   background-color: rgb(24,144,255);
 }
+
 </style>
