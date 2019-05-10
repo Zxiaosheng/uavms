@@ -40,7 +40,7 @@
             backgroundColor:'#0A1123',
             tooltip: {
               trigger: 'item',
-              formatter: "{a} <br/>{b}: {c} ({d}%)"
+              formatter: "{a} <br/>{b}: {c} ({d}%)",
             },
 
             color:['rgb(37,96,149)','rgb(67,164,215)','rgb(77,191,254)','rgb(78,236,239)','rgb(133,190,135)'],
