@@ -1,25 +1,25 @@
 <template>
   <div class="chart-container" :style="{height:height,width:width}">
     <ul>
-      <li>
-        <span>消防</span>
-        <div><span>12 </span>种</div>
+      <li v-for="item of serialMap.list">
+        <span>{{item.title}}</span>
+        <div><span>{{item.total}} </span>种</div>
       </li>
-      <li>
-        <span>物流</span>
-        <div><span>8 </span>种</div>
-      </li>
-      <li>
-        <span>医疗</span>
-        <div><span>16 </span>种</div>
-      </li>
-      <li>
-        <span>测绘</span>
-        <div><span>5 </span>种</div>
-      </li>
+      <!--<li>-->
+        <!--<span>物流</span>-->
+        <!--<div><span>8 </span>种</div>-->
+      <!--</li>-->
+      <!--<li>-->
+        <!--<span>医疗</span>-->
+        <!--<div><span>16 </span>种</div>-->
+      <!--</li>-->
+      <!--<li>-->
+        <!--<span>测绘</span>-->
+        <!--<div><span>5 </span>种</div>-->
+      <!--</li>-->
     </ul>
     <div class="chart-container2">
-    <RodeDynamic id="rode" :mapName="this.mapName"></RodeDynamic>
+    <RodeDynamic id="rode" :mapName="serialMap.mapName"></RodeDynamic>
     </div>
     <el-button-group style="height: 15%;padding-top:7.5% ">
       <el-button type="primary" @click="change('福州')" style="background-color: #0A1123">福州</el-button>
@@ -44,7 +44,16 @@
     },
     data(){
       return{
-        mapName:  '福州'
+        serialMap: {
+          mapName:  '福州',
+          list: [
+            {title: '消防', total: 8},
+            {title: '物流', total: 12},
+            {title: '医疗', total: 6},
+            {title: '天眼', total: 2},
+            {title: '测绘', total: 3}
+          ]
+        }
       }
     },
     components:{
@@ -52,7 +61,29 @@
     },
     methods:{
       change(ele){
-        this.mapName=ele;
+        if(ele=='福州'){
+          this.serialMap={
+            mapName:  '福州',
+            list: [
+              {title: '消防', total: 8},
+              {title: '物流', total: 12},
+              {title: '医疗', total: 6},
+              {title: '天眼', total: 2},
+              {title: '测绘', total: 3}
+            ]
+          }
+        }else if(ele=='厦门'){
+          this.serialMap={
+              mapName:  '厦门',
+              list: [
+                {title: '消防', total: 8},
+                {title: '物流', total: 20},
+                {title: '医疗', total: 8},
+                {title: '天眼', total: 6},
+                {title: '测绘', total: 1}
+              ]
+            }
+        }
       }
     }
   }
