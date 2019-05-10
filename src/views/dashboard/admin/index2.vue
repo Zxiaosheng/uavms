@@ -19,7 +19,7 @@
         </el-row>
       </el-col>
       <el-col :span="12" class="height100">
-        <rode :mapName="mapName"></rode>
+        <rode height="100%" width="100%"></rode>
       </el-col>
       <el-col :span="6" class="height100">
         <el-row class="heightR i_box" >
