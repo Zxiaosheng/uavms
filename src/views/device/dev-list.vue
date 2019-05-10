@@ -2,6 +2,12 @@
 
   <div class="dev-list">
 
+    <div class="i-charts">
+      <Pie></Pie>
+      <LineChart></LineChart>
+    </div>
+
+
     <el-form :inline="true" :model="listQuery" class="demo-form-inline">
       <el-form-item label="">
         <el-select v-model="listQuery.sort" @change="findData">
@@ -198,6 +204,9 @@
   import { fetchList } from '@/api/device'
   import DevChart from './dev-chart'
 
+  import Pie from './com/Pie'
+  import LineChart from './com/Line'
+
   export default {
     name: "dev-list",
     data(){
@@ -229,7 +238,7 @@
 
     },
     components: {
-      DevChart
+      DevChart,Pie,LineChart
     },
     created() {
       this.getList()
@@ -358,5 +367,15 @@
   }
   .block{
     margin-top: 20px;
+  }
+  .i-charts{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #bfc3cd;
+  }
+  .i-charts>div{
+    /*border: 1px solid blue;*/
   }
 </style>

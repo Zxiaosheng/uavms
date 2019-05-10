@@ -46,7 +46,7 @@ export default {
   },
   route: {
     device: '设备管理',
-    deviceList: '设备列表',
+    deviceList: '设备统计',
     addDevice: '设备添加',
     flyArea: '历史记录',
     flyAreaList: '飞行区域统计表',
