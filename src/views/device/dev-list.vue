@@ -128,7 +128,9 @@
       <el-table-column
         label="状态"
         prop="status"
-        width="65">
+        width="65"
+        :filters="filters"
+        :filter-method="filterTag">
       </el-table-column>
       <el-table-column
         label="出厂日期"
@@ -217,6 +219,16 @@
     name: "dev-list",
     data(){
       return{
+        filters:[
+          { text: '飞行中', value: '飞行中' },
+          { text: '充电中', value: '充电中' },
+          { text: '故障中', value: '故障中' },
+          { text: '维修中', value: '维修中' },
+          { text: '离线中', value: '离线中' },
+          { text: '电量低', value: '电量低' },
+          { text: '待命中', value: '待命中' },
+          { text: '已停用', value: '已停用' }
+        ],
         getRowKeys (row) {
           return row.id
         },
@@ -250,6 +262,9 @@
       this.getList()
     },
     methods: {
+      filterTag(value, row) {
+        return row.status === value;
+      },
       // 折叠面板每次只能展开一行
       expandSelect (row, expandedRows) {
         var that = this
