@@ -26,7 +26,7 @@ const userRouter = {
       meta: { title: 'bMap', noCache: true }
     },
     {
-      path: 'index',
+      path: 'index1',
       name: 'historycountlist',
       component: () => import('@/views/history-count'),
       meta: {
@@ -42,7 +42,7 @@ const userRouter = {
         title: 'historycountechart',
         roles: ['admin']
       }
-    },
+    }
     // {
     //   path: 'line',
     //   component: () => import('@/views/flyArea/line'),
