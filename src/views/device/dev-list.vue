@@ -143,7 +143,13 @@
           <el-button
             size="mini"
             type="danger"
+            v-show="scope.row.status!='已停用'"
             @click="stopUse(scope.row.id)">停用</el-button>
+          <el-button
+            size="mini"
+            type="success"
+            v-show="scope.row.status=='已停用'"
+            @click="startUse(scope.row.id)">启用</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -294,6 +300,32 @@
                   message: '停用成功'
                 }
               }
+            }
+          })
+
+          this.$message(msg);
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });
+        });
+
+      },
+      startUse(id){
+
+        this.$confirm('此操作将使得该设备恢复启用, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+
+          let msg={};
+          this.page.list.filter(item=>{
+            item.status='待命中'
+            msg={
+              type: 'success',
+              message: '启用成功'
             }
           })
 
