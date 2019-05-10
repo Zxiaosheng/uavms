@@ -12,7 +12,8 @@ for (let i = 0; i < count; i++) {
     "userType|1": [{id: 1, typeUser: '普通用户'}, {id: 2, typeUser: '管理员'}],
     "sexType|1": [{id: 1, typeSex: '男'}, {id: 2, typeSex: '女'}],
     "telephone": /^1[385][1-9]\d{8}/,
-    "name": "@cname(3,5)"
+    "name": "@cname(3,5)",
+    'company':'@cword(5)',
   }))
 }
 for (let i = 0; i < num; i++) {

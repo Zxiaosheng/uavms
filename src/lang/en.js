@@ -19,6 +19,7 @@ export default {
     sex: 'Sex',
     telephone: 'Telephone',
     caption: 'Caption',
+    company:'Company',
     head: {
       search: 'Search',
       type: 'Type',

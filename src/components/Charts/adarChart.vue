@@ -71,16 +71,16 @@
       this.chart = echarts.init(document.getElementById(this.id));
       this.chart.setOption({
         backgroundColor: '#0A1123',
-        legend: {
-          bottom: 5,
-          data: ['福州', '厦门'],
-          itemGap: 20,
-          textStyle: {
-            color: '#fff',
-            fontSize: 10
-          },
-          selectedMode: 'single'
-        },
+//        legend: {
+//          bottom: 5,
+//          data: ['福州', '厦门'],
+//          itemGap: 20,
+//          textStyle: {
+//            color: '#0A1123',
+//            fontSize: 10
+//          },
+//          selectedMode: 'single'
+//        },
         radar: {
           indicator: [
             {name: '福州', max: 300},
@@ -94,7 +94,7 @@
           splitNumber: 5,
           name: {
             textStyle: {
-              color: 'rgb(238, 197, 102)'
+              color: 'rgb(77,191,154)'
             }
           },
           splitLine: {

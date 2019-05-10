@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-contanier">
     <!--搜索框的引入-->
     <div class="filter-container">
       <el-input
@@ -34,15 +34,16 @@
       </el-button>
     </div>
     <!--表格的渲染-->
-    <el-table :data="pageData" border style="width: 100%;text-align: center">
+    <el-table :data="pageData" border style="width: 100%;text-align: center" align="center">
       <el-table-column prop="id" align="center" sortable :label="$t('user.id')" width="130"/>
-      <el-table-column prop="name" sortable :label="$t('user.name')" width="180"/>
-      <el-table-column prop="date" sortable :label="$t('user.date')" width="180"/>
-      <el-table-column prop="userType.typeUser" sortable :label="$t('user.userType')" width="150"/>
-      <el-table-column prop="sexType.typeSex" sortable :label="$t('user.sex')" width="100"/>
-      <el-table-column prop="telephone" sortable :label="$t('user.telephone')" width="120"/>
+      <el-table-column prop="name" sortable :label="$t('user.name')" width="150" align="center" />
+      <el-table-column prop="date" sortable :label="$t('user.date')" width="150" align="center"/>
+      <el-table-column prop="userType.typeUser" sortable :label="$t('user.userType')" align="center" width="140"/>
+      <el-table-column prop="sexType.typeSex" sortable :label="$t('user.sex')" align="center" width="140"/>
+      <el-table-column prop="company" sortable :label="$t('user.company')" align="center" width="140" />
+      <el-table-column prop="telephone" sortable :label="$t('user.telephone')" align="center" width="150" />
       <!--操作的设置-->
-      <el-table-column :label="$t('user.caption')" width="150">
+      <el-table-column :label="$t('user.caption')">
         <template slot-scope="scope" align="center">
           <!--修改用户权限-->
           <el-button type="success" size="mini" @click="showEdtDialog(scope.row)">编辑</el-button>
