@@ -34,7 +34,7 @@
 
       <el-table-column prop="end" :label="$t('rode.end')" width="150"></el-table-column>
 
-      <el-table-column prop="task" :label="$t('rode.task')"  ></el-table-column>
+      <el-table-column prop="task" :label="$t('rode.task')"></el-table-column>
 
       <el-table-column :label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
