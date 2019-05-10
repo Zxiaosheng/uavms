@@ -3,9 +3,9 @@
 
     <!--<panel-group @handleSetLineChartData="handleSetLineChartData" />-->
     <el-row style="height: 8%;min-height: 1.5em" type="flex" align="middle" justify="center">
-      <div style="margin: auto;color: white">
-        asdfgh
-      </div>
+      <h2 style="margin: auto;color: white">
+        无人机实时数据分析平台
+      </h2>
     </el-row>
 
     <el-row :gutter="20" style="height: 90%" type="flex" >
@@ -19,7 +19,7 @@
         </el-row>
       </el-col>
       <el-col :span="12" class="height100">
-        <flypath id="flypath"></flypath>
+        <rode :mapName="mapName"></rode>
       </el-col>
       <el-col :span="6" class="height100">
         <el-row class="heightR i_box" >
@@ -52,6 +52,7 @@
   import barC from '@/components/Charts/bar'
   import lineC from '@/components/Charts/lineDraw'
   import adarC from '@/components/Charts/adarChart'
+  import rode from '@/components/Rode/Rode'
 
   const lineChartData = {
     newVisitis: {
@@ -89,11 +90,13 @@
       trouble,
       barC,
       lineC,
-      adarC
+      adarC,
+      rode
     },
     data() {
       return {
-        lineChartData: lineChartData.newVisitis
+        lineChartData: lineChartData.newVisitis,
+
       }
     },
     mounted(){

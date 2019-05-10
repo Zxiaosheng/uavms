@@ -1,6 +1,5 @@
 <template>
   <div class="chart-container">
-    <div>无人机路线当前路线展示</div>
     <ul>
       <li>
         <span>消防</span>
@@ -19,7 +18,11 @@
         <div><span>5 </span>种</div>
       </li>
     </ul>
-    <RodeDynamic :mapName="this.mapName"></RodeDynamic>
+    <RodeDynamic id="rode" :mapName="this.mapName"></RodeDynamic>
+    <el-button-group style="margin-top: 20px">
+      <el-button type="primary" @click="change('福州')" style="background-color: #0A1123">福州</el-button>
+      <el-button type="primary" @click="change('厦门')" style="background-color: #0A1123">厦门</el-button>
+    </el-button-group>
   </div>
 </template>
 
@@ -28,18 +31,28 @@
   export default {
     name: "Rode",
     props:{
-      mapName: {
-        type: Object,
-        default: '福州'
+
+    },
+    data(){
+      return{
+        mapName:  '福州'
       }
     },
     components:{
       RodeDynamic
+    },
+    methods:{
+      change(ele){
+        this.mapName=ele;
+      }
     }
   }
 </script>
 
 <style scoped>
+  .el-button{
+    box-shadow: inset 0 0 5px 0.5px #00537D;
+  }
   .chart-container{
     text-align: center;
     font-size: 18px;
