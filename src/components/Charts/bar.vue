@@ -40,7 +40,8 @@
       this.chart = echarts.init(document.getElementById(this.id))
       let option = {
         legend:{
-          x: 60,
+//          x: 60,
+          left:'left',
           top: 15,
           textStyle:{
             color:'#fff'

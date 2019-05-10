@@ -77,18 +77,18 @@ export default [
     url: '/get/device/list',
     type: 'get',
     response: config => {
-      let {
+      const {
         id, type, status, num, name, createTimeStart,
         createTimeEnd, page = 1, limit = 20, sort
       } = config.query
 
       let listTemp = List.filter(item => {
 
-        if (id && item.id !== +id) return false
-        if (type && item.type !== type) return false
-        if (status && item.status !== status) return false
-        if (num && item.num !== num) return false
-        if (name && item.name !== name) return false
+        if (id && item.id != id) return false
+        if (type && item.type != type) return false
+        if (status && item.status != status) return false
+        if (num && item.num != num) return false
+        if (name && !item.name.includes(name)) return false
         if (createTimeStart && new Date(createTimeStart) > new Date(item.createTime))
           return false
         if (createTimeEnd && new Date(createTimeEnd) < new Date(item.createTime))
