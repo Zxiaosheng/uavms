@@ -18,6 +18,7 @@ export default {
     sex: '性别',
     telephone: '电话号码',
     caption: '操作',
+    company:'公司',
     head: {
       search: '搜索',
       type: '类型',

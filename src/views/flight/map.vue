@@ -1,6 +1,11 @@
 <template>
   <div class="content">
-    <div :id="id" :class="className" style="height:550px;width:100%"/> <!--style="height:550px;width:100%"-->
+    <el-row :gutter="20">
+      <div :id="id" :class="className" style="height:550px;width:100%"/> <!--style="height:550px;width:100%"-->
+    </el-row>
+    <el-row :gutter="20">
+
+    </el-row>
   </div>
 
 </template>

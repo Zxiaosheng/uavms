@@ -3,32 +3,32 @@
 
     <!--<panel-group @handleSetLineChartData="handleSetLineChartData" />-->
     <el-row style="height: 8%;min-height: 1.5em" type="flex" align="middle" justify="center">
-      <div style="margin: auto;color: white">
-        asdfgh
-      </div>
+      <h2 style="margin: auto;color: white">
+        无人机实时数据分析平台
+      </h2>
     </el-row>
 
-    <el-row :gutter="40" style="height: 90%" type="flex" >
+    <el-row :gutter="20" style="height: 90%" type="flex" >
       <el-col :span="6" class="height100">
 
-        <el-row class="height40 i_box">
+        <el-row class="heightL i_box" style=" padding-bottom: 10px;">
           <lineC id="lineC" height="100%" width="100%"></lineC>
         </el-row>
-        <el-row class="height40 i_box" style="margin-bottom: 10px">
+        <el-row class="heightL i_box" style=" padding-top: 10px;">
           <bar-c id="barc" height="100%" width="100%"></bar-c>
         </el-row>
       </el-col>
-      <el-col :span="10" class="height100">
-        <flypath id="flypath"></flypath>
+      <el-col :span="12" class="height100">
+        <rode :mapName="mapName"></rode>
       </el-col>
       <el-col :span="6" class="height100">
-        <el-row class="height30 i_box" style="margin: 3% 0">
+        <el-row class="heightR i_box" >
         <chart-c id="chartc" height="100%" width="100%"></chart-c>
         </el-row>
-        <el-row class="height30 i_box" style="margin: 3% 0">
+        <el-row class="heightR i_box" style="padding: 10px 0">
        <trouble id2="trouble" height="100%" width="100%"></trouble>
         </el-row>
-        <el-row class="height30 i_box">
+        <el-row class="heightR i_box">
           <adar-c id="adar" height="100%" width="100%"></adar-c>
         </el-row>
       </el-col>
@@ -52,6 +52,7 @@
   import barC from '@/components/Charts/bar'
   import lineC from '@/components/Charts/lineDraw'
   import adarC from '@/components/Charts/adarChart'
+  import rode from '@/components/Rode/Rode'
 
   const lineChartData = {
     newVisitis: {
@@ -89,11 +90,13 @@
       trouble,
       barC,
       lineC,
-      adarC
+      adarC,
+      rode
     },
     data() {
       return {
-        lineChartData: lineChartData.newVisitis
+        lineChartData: lineChartData.newVisitis,
+
       }
     },
     mounted(){
@@ -115,13 +118,20 @@
 <style lang="scss" scoped>
 
   .i_box>div {
+    -webkit-box-shadow:inset 0 0 15px 0.5px #00537D;
+    -moz-box-shadow:inset 0 0 15px 0.5px #00537D;
+    box-shadow: inset 0 0 15px 0.5px #00537D;
+    padding: 15px;
+    box-sizing: border-box;
+    border: 1px solid #00537D;
     background-color: rgb(31, 45, 61);
   }
   .dashboard-editor-container {
     position: relative;
+    padding:0px 10px ;
     height: calc(100vh - 50px);
     width:100%;
-    background-color: rgb(48, 65, 86);
+    background-color:#0A1123;
 
 
 
@@ -142,12 +152,11 @@
     height: 100%;
   }
 
-  .height40 {
-       height: 40%;
-    margin: 10% 0;
+  .heightL {
+       height: 50%;
      }
-  .height30 {
-       height: 30%;
+  .heightR {
+       height: 33.3%;
      }
 
   .margint20 {

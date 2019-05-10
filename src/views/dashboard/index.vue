@@ -31,6 +31,6 @@ export default {
 </script>
 <style>
   .bgcol{
-    background-color: rgb(48,65,86);
+    background-color: #0A1123;
   }
 </style>
