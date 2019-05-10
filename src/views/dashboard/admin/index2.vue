@@ -29,7 +29,7 @@
        <trouble id2="trouble" height="100%" width="100%"></trouble>
         </el-row>
         <el-row class="height30 i_box">
-          <bar-chart id="bar" height="100%" width="100%"></bar-chart>
+          <adar-c id="adar" height="100%" width="100%"></adar-c>
         </el-row>
       </el-col>
     </el-row>
@@ -51,6 +51,7 @@
   import trouble from '@/components/Charts/FirstTrouble'
   import barC from '@/components/Charts/bar'
   import lineC from '@/components/Charts/lineDraw'
+  import adarC from '@/components/Charts/adarChart'
 
   const lineChartData = {
     newVisitis: {
@@ -87,7 +88,8 @@
       chartC,
       trouble,
       barC,
-      lineC
+      lineC,
+      adarC
     },
     data() {
       return {

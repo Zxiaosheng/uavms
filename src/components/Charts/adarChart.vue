@@ -70,14 +70,7 @@
 
       this.chart = echarts.init(document.getElementById(this.id));
       this.chart.setOption({
-        backgroundColor: '#161627',
-        title: {
-          text: '福建省飞行路线分布',
-          left: 'center',
-          textStyle: {
-            color: '#eee'
-          }
-        },
+        backgroundColor: '#0A1123',
         legend: {
           bottom: 5,
           data: ['福州', '厦门'],
