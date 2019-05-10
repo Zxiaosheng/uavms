@@ -70,8 +70,7 @@
 
       this.chart = echarts.init(document.getElementById(this.id));
       this.chart.setOption({
-        backgroundColor: '#161627',
-
+        backgroundColor: '#0A1123',
         legend: {
           bottom: 5,
           data: ['福州', '厦门'],
