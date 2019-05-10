@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" :class="className" :height="height" :width="width"/>
+  <div :id="id" :class="className" :style="{height:height,width:width}"/>
 </template>
 
 <script>
@@ -71,13 +71,7 @@
       this.chart = echarts.init(document.getElementById(this.id));
       this.chart.setOption({
         backgroundColor: '#161627',
-        title: {
-          text: '福建省飞行路线分布',
-          left: 'center',
-          textStyle: {
-            color: '#eee'
-          }
-        },
+
         legend: {
           bottom: 5,
           data: ['福州', '厦门'],
