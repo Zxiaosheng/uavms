@@ -105,7 +105,7 @@ export const constantRoutes = [
         path: 'rode-flyechart',
         component: () => import('@/views/rode/rode-flyechart'),
         name: 'rode-flyechart',
-        meta: { title: '飞行路径演示' }
+        meta: { title: '实时路线图' }
       }
     ]
   },

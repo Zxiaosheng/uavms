@@ -1,7 +1,5 @@
 <template>
-  <div class="chart-container">
     <div :id="id" :class="className" :style="{height:height,width:width}" />
-  </div>
 </template>
 
 <script>
@@ -500,11 +498,5 @@
 </script>
 
 <style scoped>
-  .chart-container{
-    background-color: #0a0f24;
-    text-align: center;
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
+
 </style>

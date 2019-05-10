@@ -47,14 +47,14 @@ export default {
   },
   route: {
     device: '设备管理',
-    deviceList: '设备列表',
+    deviceList: '设备统计',
     addDevice: '设备添加',
     flyArea: '历史记录',
     flyAreaList: '飞行区域统计表',
     bMap: '飞行区域热力图',
-    historycount: '历史飞行次数',
-    historycountlist: '历史飞行次数列表',
-    historycountechart: '历史飞行次数统计图',
+    historycount: '飞行次数统计',
+    historycountlist: '飞行次数统计表',
+    historycountechart: '飞行次数统计图',
     user: '用户管理',
     userManager: '用户列表',
     userMap:'用户图表',
@@ -62,7 +62,7 @@ export default {
     taskBoard: '任务数据',
     taskList: '任务列表',
     rode: '路线管理',
-    rodelist: '路线统计列表',
+    rodelist: '路线统计表',
     rodeechart: '路线统计图',
     trouble: '故障管理',
     troublelist: '故障列表',
@@ -131,8 +131,8 @@ export default {
     externalLink: '外链',
     profile: '个人中心',
     flight: '路线追踪',
-    map: '飞行图',
-    route: '路线'
+    map: '实时路线',
+    route: '路线统计'
   },
   rode: {
     id: '编号',

@@ -2,6 +2,12 @@
 
   <div class="dev-list">
 
+    <div class="i-charts">
+      <Pie></Pie>
+      <LineChart></LineChart>
+    </div>
+
+
     <el-form :inline="true" :model="listQuery" class="demo-form-inline">
       <el-form-item label="">
         <el-select v-model="listQuery.sort" @change="findData">
@@ -137,7 +143,13 @@
           <el-button
             size="mini"
             type="danger"
+            v-show="scope.row.status!='已停用'"
             @click="stopUse(scope.row.id)">停用</el-button>
+          <el-button
+            size="mini"
+            type="success"
+            v-show="scope.row.status=='已停用'"
+            @click="startUse(scope.row.id)">启用</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -198,6 +210,9 @@
   import { fetchList } from '@/api/device'
   import DevChart from './dev-chart'
 
+  import Pie from './com/Pie'
+  import LineChart from './com/Line'
+
   export default {
     name: "dev-list",
     data(){
@@ -229,7 +244,7 @@
 
     },
     components: {
-      DevChart
+      DevChart,Pie,LineChart
     },
     created() {
       this.getList()
@@ -285,6 +300,32 @@
                   message: '停用成功'
                 }
               }
+            }
+          })
+
+          this.$message(msg);
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });
+        });
+
+      },
+      startUse(id){
+
+        this.$confirm('此操作将使得该设备恢复启用, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+
+          let msg={};
+          this.page.list.filter(item=>{
+            item.status='待命中'
+            msg={
+              type: 'success',
+              message: '启用成功'
             }
           })
 
@@ -358,5 +399,15 @@
   }
   .block{
     margin-top: 20px;
+  }
+  .i-charts{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #bfc3cd;
+  }
+  .i-charts>div{
+    /*border: 1px solid blue;*/
   }
 </style>
