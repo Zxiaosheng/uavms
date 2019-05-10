@@ -50,7 +50,7 @@
   <div class="verify">
       <el-form-item  class="leftVerify" prop="verifycode" style="width: 66%">
 
-         <el-input v-model="loginForm.verifycode" :placeholder="$t('login.verifycode')" class="identifyinput" >
+         <el-input v-model="loginForm.verifycode" :placeholder="$t('login.verifycode')" class="identifyinput" @keyup.enter.native="handleLogin">
 
          </el-input>
       </el-form-item>
