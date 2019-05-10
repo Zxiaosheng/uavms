@@ -136,7 +136,7 @@
           symbol: spirit,
           symbolSize: 30,
           symbolBoundingData: maxData,
-          data: [maxData, maxData],
+          data: [this.tableData.man, this.tableData.women],
           z: 5
         }]
       });
