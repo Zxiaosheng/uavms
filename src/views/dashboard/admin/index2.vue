@@ -96,7 +96,7 @@
     data() {
       return {
         lineChartData: lineChartData.newVisitis,
-
+        mapName:"",
       }
     },
     mounted(){
@@ -128,12 +128,12 @@
   }
   .dashboard-editor-container {
     position: relative;
-    padding:0px 10px ;
+    padding: 0px 10px;
     height: calc(100vh - 50px);
-    width:100%;
-    background-color:#0A1123;
+    width: 100%;
+    background-color: #0A1123;
 
-
+  }
 
   .github-corner {
     position: absolute;
@@ -161,6 +161,5 @@
 
   .margint20 {
     margin-top: 20%;
-  }
   }
 </style>
