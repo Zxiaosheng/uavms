@@ -186,7 +186,7 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-  historycountRouter,
+  // historycountRouter,
   userRouter,
 
 
