@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
     <div class="demo-input-size">
-      <el-input v-model="listQuery.start" :placeholder="$t('rode.start')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-input v-model="listQuery.end" :placeholder="$t('rode.end')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-date-picker v-model="listQuery.date1" type="date" :placeholder="$t('rode.date1')" @change="getList"/>
-      <el-date-picker v-model="listQuery.date2" type="date" :placeholder="$t('rode.date2')" @change="getList"/>
-      <el-select v-model="listQuery.type" value-key="id" @change="getList" :placeholder="$t('rode.typeId')" clearable class="filter-item" style="width: 130px">
-        <el-option v-for="item in typeId" :key="item.typeName" :label="item.typeName" :value="item.id" />
+      <el-input v-model="listQuery.routeLeave" :placeholder="$t('rode.start')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+      <el-input v-model="listQuery.routeArrival" :placeholder="$t('rode.end')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+      <el-date-picker v-model="listQuery.routeStart" type="date" :placeholder="$t('rode.date1')" @change="getList"/>
+      <el-date-picker v-model="listQuery.routeEnd" type="date" :placeholder="$t('rode.date2')" @change="getList"/>
+      <el-select v-model="listQuery.taskTypeId" value-key="id" @change="getList" :placeholder="$t('rode.typeId')" clearable class="filter-item" style="width: 130px">
+        <el-option v-for="item in allTaskType" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
@@ -22,19 +22,23 @@
 
       <el-table-column prop="id" :label="$t('rode.id')" width="100"></el-table-column>
 
-      <el-table-column prop="rodename" :label="$t('rode.rodename')" width="120"></el-table-column>
+      <el-table-column prop="routeName" :label="$t('rode.rodename')" width="120"></el-table-column>
 
-      <el-table-column prop="typeId.typeName" :label="$t('rode.typeId')"  align="center" width="100"></el-table-column>
+      <el-table-column prop="taskType.typeName" :label="$t('rode.typeId')"  align="center" width="100"></el-table-column>
 
-      <el-table-column prop="date1" :label="$t('rode.date1')" width="150"></el-table-column>
+      <el-table-column prop="routeStart" :label="$t('rode.date1')" width="160"></el-table-column>
 
-      <el-table-column prop="date2" :label="$t('rode.date2')" width="150"></el-table-column>
+      <el-table-column prop="routeEnd" :label="$t('rode.date2')" width="160"></el-table-column>
 
-      <el-table-column prop="start" :label="$t('rode.start')" width="150"></el-table-column>
+      <el-table-column prop="leave.locationName" :label="$t('rode.start')" width="150"></el-table-column>
 
-      <el-table-column prop="end" :label="$t('rode.end')" width="150"></el-table-column>
+      <el-table-column prop="arrival.locationName" :label="$t('rode.end')" width="150"></el-table-column>
 
-      <el-table-column prop="task" :label="$t('rode.task')"></el-table-column>
+      <el-table-column prop="routeStatus"  :label="$t('rode.task')">
+        <template slot-scope="scope">
+          <p>{{scope.row.routeStatus | getstatus()}}</p>
+        </template>
+      </el-table-column>
 
       <el-table-column :label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
@@ -43,7 +47,7 @@
           </el-button>
 
           <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row)">
-            {{ $t('table.delete') }}
+            {{ $t('table.stop') }}
           </el-button>
         </template>
       </el-table-column>
@@ -53,65 +57,65 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
     <!--编辑弹出窗-->
-    <el-dialog :title="$t('rode.edit')" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm"  :model="temp" label-position="left" label-width="100px" style="width: 500px; margin-left:50px;">
+    <!--<el-dialog :title="$t('rode.edit')" :visible.sync="dialogFormVisible">-->
+      <!--<el-form ref="dataForm"  :model="temp" label-position="left" label-width="100px" style="width: 500px; margin-left:50px;">-->
 
-        <el-form-item :label="$t('rode.typeId')" prop="typeId">
-          <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="请选择型号" style="width: 100%">
-            <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('rode.rodename')"  prop="rodename">
-          <el-input v-model="temp.rodename" style="width: 100%"/>
-        </el-form-item>
-        <el-form-item :label="$t('rode.date1')" prop="date">
-          <el-date-picker v-model="temp.date1" type="date" value-format="yyyy-MM-dd" placeholder="请选择出发时间" style="width: 100%"/>
-        </el-form-item>
-        <el-form-item :label="$t('rode.date2')" prop="date">
-          <el-date-picker v-model="temp.date2" type="date" value-format="yyyy-MM-dd" placeholder="请选择到达时间" style="width: 100%"/>
-        </el-form-item>
-        <el-form-item :label="$t('rode.start')" prop="title">
-          <el-input v-model="temp.start" style="width: 100%"/>
-        </el-form-item>
-        <el-form-item :label="$t('rode.end')" prop="title">
-          <el-input v-model="temp.end" style="width: 100%"/>
-        </el-form-item>
-        <el-form-item :label="$t('rode.task')">
-          <el-input v-model="temp.task" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" style="width: 100%"/>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">
-          {{ $t('table.cancel') }}
-        </el-button>
-        <el-button type="primary" @click="updateData()">
-          {{ $t('table.confirm') }}
-        </el-button>
-      </div>
-    </el-dialog>
+        <!--<el-form-item :label="$t('rode.typeId')" prop="typeId">-->
+          <!--<el-select v-model="allTaskType" class="filter-item" placeholder="请选择型号" style="width: 100%">-->
+            <!--<el-option v-for="item in allTaskType"  :key="item.typeName" :label="item.typeName" :value="item.id"/>-->
+          <!--</el-select>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item :label="$t('rode.rodename')"  prop="rodename">-->
+          <!--<el-input v-model="temp.rodename" style="width: 100%"/>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item :label="$t('rode.date1')" prop="date">-->
+          <!--<el-date-picker v-model="temp.date1" type="date" value-format="yyyy-MM-dd" placeholder="请选择出发时间" style="width: 100%"/>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item :label="$t('rode.date2')" prop="date">-->
+          <!--<el-date-picker v-model="temp.date2" type="date" value-format="yyyy-MM-dd" placeholder="请选择到达时间" style="width: 100%"/>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item :label="$t('rode.start')" prop="title">-->
+          <!--<el-input v-model="temp.start" style="width: 100%"/>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item :label="$t('rode.end')" prop="title">-->
+          <!--<el-input v-model="temp.end" style="width: 100%"/>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item :label="$t('rode.task')">-->
+          <!--<el-input v-model="temp.task" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" style="width: 100%"/>-->
+        <!--</el-form-item>-->
+      <!--</el-form>-->
+      <!--<div slot="footer" class="dialog-footer">-->
+        <!--<el-button @click="dialogFormVisible = false">-->
+          <!--{{ $t('table.cancel') }}-->
+        <!--</el-button>-->
+        <!--<el-button type="primary" @click="updateData()">-->
+          <!--{{ $t('table.confirm') }}-->
+        <!--</el-button>-->
+      <!--</div>-->
+    <!--</el-dialog>-->
     <!--新增弹出窗-->
     <el-dialog :title="$t('rode.add')" :visible.sync="dialogFormAdd">
       <el-form ref="AddForm" :model="addtemp" :rules="rules" label-position="left" label-width="100px" style="width: 500px; margin-left:50px;">
         <el-form-item  :label="$t('rode.typeId')" prop="typeId.typeName">
-          <el-select v-model="addtemp.typeId.typeName" class="filter-item" placeholder="请选择类型" style="width: 100%">
-            <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
+          <el-select v-model="addtemp.taskTypeId" class="filter-item" placeholder="请选择类型" style="width: 100%">
+            <el-option v-for="item in allTaskType"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('rode.rodename')"  prop="rodename">
-            <el-input v-model="addtemp.rodename" style="width: 100%"/>
+            <el-input v-model="addtemp.routeName" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('rode.date1')"  prop="date1">
-          <el-date-picker v-model="addtemp.date1" type="date"  placeholder="请选择出发时间" style="width: 100%"/>
+          <el-date-picker v-model="addtemp.routeStart" type="date"  placeholder="请选择出发时间" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('rode.date2')"  prop="date2">
-          <el-date-picker v-model="addtemp.date2" type="date"  placeholder="请选择到达时间" style="width: 100%"/>
+          <el-date-picker v-model="addtemp.routeEnd" type="date"  placeholder="请选择到达时间" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('rode.start')"  prop="start">
           <div class="block">
             <el-cascader
               expand-trigger="hover"
               :options="options"
-              v-model="addtemp.start"
+              v-model="addtemp.routeLeave"
               style="width: 100%">
             </el-cascader>
           </div>
@@ -121,13 +125,13 @@
             <el-cascader
               expand-trigger="hover"
               :options="options"
-              v-model="addtemp.end"
+              v-model="addtemp.routeArrival"
               style="width: 100%">
             </el-cascader>
           </div>
         </el-form-item>
         <el-form-item :label="$t('rode.task')"  prop="task">
-          <el-input v-model="addtemp.task" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入任务" style="width: 100%"/>
+          <el-input v-model="addtemp.taskTypeId" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入任务" style="width: 100%"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -143,7 +147,7 @@
 </template>
 
 <script>
-  import { fetchNewsList,updateNews,createNews } from '@/api/rode'
+  import { fetchRodeList,updateNews,createNews,fetchTaskType} from '@/api/rode'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
@@ -160,7 +164,8 @@
         listLoading:false,
         total: 0,
         pageData:[],
-        typeId:[{id:'1',typeName:'消防型'},{id:'2',typeName:'物流型'},{id:'3',typeName:'医疗型'},{id:'4',typeName:'天眼型'}],
+        allTaskType:[],
+        // typeId:[{id:'1',typeName:'消防型'},{id:'2',typeName:'物流型'},{id:'3',typeName:'医疗型'},{id:'4',typeName:'天眼型'}],
         textMap: {
           update: 'Edit',
           create: 'Create'
@@ -209,36 +214,37 @@
           }]
         }],
         temp: {
-          id:'',
-          rodename:'',
-          date1: '',
-          date2: '',
-          start: [],
-          end:[],
-          task:'',
-          typeId: [{id:'',typeName:''}]
+          routeNo:undefined,
+          routeName:undefined,
+          routeLeave: undefined,
+          routeArrival: undefined,
+          routeStart: undefined,
+          routeEnd:undefined,
+          taskTypeId:undefined,
+          routeStatus: undefined
+          // typeId: [{id:'',typeName:''}]
         },
         addtemp: {
-          id:'',
-          rodename:'',
-          date1: new Date(),
-          date2: new Date(),
-          start:[],
-          end:[],
-          task:'',
-          typeId: [{id:'',typeName:''}]
+          routeNo:undefined,
+          routeName:undefined,
+          routeLeave: undefined,
+          routeArrival: undefined,
+          routeStart: undefined,
+          routeEnd:undefined,
+          taskTypeId:undefined,
+          routeStatus: undefined
         },
         listQuery: {
           page: 1,
           limit: 20,
-          id:undefined,
-          rodename:undefined,
-          date1: undefined,
-          date2: undefined,
-          start: undefined,
-          end:undefined,
-          task:undefined,
-          type: undefined,
+          routeNo:undefined,
+          routeName:undefined,
+          routeLeave: undefined,
+          routeArrival: undefined,
+          routeStart: undefined,
+          routeEnd:undefined,
+          taskTypeId:undefined,
+          routeStatus: undefined,
         },
         downloadLoading: false,
         rules: {
@@ -267,44 +273,33 @@
       }
     },
     mounted(){
-      this.listLoading=true;
-      //首次挂载列表组件
-      fetchNewsList(this.listQuery).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
-        this.getList();
-        //关闭加载框
-        this.listLoading=false;
-      })
+      this.getList();
+    },
+    filters:{
+      getstatus(s){
+        if(s=='t'){
+          return '使用中'
+        }else {
+          return '停用'
+        }
+      }
     },
     methods:{
       getList() {
-        this.listLoading = true;
-        let{page,limit,task,date1,date2,start,end,type}=this.listQuery;
-        if(date1 && date1!=undefined){
-          date1=date1.getTime()
-        }
-        if(date2 && date2!=undefined){
-          date2=date2.getTime()
-        }
-        let fiterData=this.list.filter(item=>{
-          let idate1=new Date(item.date1+" 00:00:00")
-          let idate2=new Date(item.date2+" 00:00:00")
-
-          if (date1 && idate1.getTime()!=date1) return false
-          if (date2 && idate2.getTime()!=date2) return false
-          if (type && item.typeId.id !== type) return false
-          if (start && item.start.indexOf(start) < 0) return false
-          if (end && item.end.indexOf(end) < 0) return false
-          if (task && item.task.indexOf(task) < 0) return false
-          return true
+        this.listLoading=true;
+        //首次挂载列表组件
+        fetchRodeList(this.listQuery).then(response => {
+          this.pageData = response.data.list
+          this.total = response.data.total
+          //关闭加载框
+          this.listLoading=false;
         })
 
-        this.pageData=fiterData.filter((item,index)=>{
-          return index<page*limit && index>=limit*(page-1)
-        });
-        this.listLoading = false;
-        this.total=fiterData.length
+        //获取任务类型
+        fetchTaskType().then(response =>{
+          this.taskType = response.data
+          console.log(this.taskType)
+        })
       },
       handleFilter() {
         this.listQuery.page = 1
