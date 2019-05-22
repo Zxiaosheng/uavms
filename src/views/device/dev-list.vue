@@ -19,13 +19,13 @@
         <el-input v-model="listQuery.id" placeholder="输入ID搜索"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input v-model="listQuery.num" placeholder="输入型号搜索"></el-input>
+        <el-input v-model="listQuery.deviceNum" placeholder="输入型号搜索"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input v-model="listQuery.name" placeholder="输入名称搜索"></el-input>
+        <el-input v-model="listQuery.deviceName" placeholder="输入名称搜索"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-select v-model="listQuery.type" placeholder="选择类型搜索">
+        <el-select v-model="listQuery.deviceType" placeholder="选择类型搜索">
           <el-option label="选择类型搜索" value=""></el-option>
           <el-option label="微型" value="微型"></el-option>
           <el-option label="小型" value="小型"></el-option>
@@ -34,7 +34,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="">
-        <el-select v-model="listQuery.status" placeholder="选择状态搜索">
+        <el-select v-model="listQuery.deviceStatus" placeholder="选择状态搜索">
           <el-option label="选择状态搜索" value=""></el-option>
           <el-option label="飞行中" value="飞行中"></el-option>
           <el-option label="待命中" value="待命中"></el-option>
@@ -48,11 +48,11 @@
       </el-form-item>
       <el-form-item label="">
         <el-col :span="11">
-          <el-date-picker type="date" placeholder="范围开始日期" v-model="listQuery.createTimeStart" style="width: 100%;"></el-date-picker>
+          <el-date-picker type="date" placeholder="范围开始日期" value-format="yyyy-MM-dd HH:mm:ss" v-model="listQuery.createTimeStart" style="width: 100%;"></el-date-picker>
         </el-col>
         <el-col class="line" :span="1">至</el-col>
         <el-col :span="11">
-          <el-date-picker placeholder="范围结束时间" v-model="listQuery.createTimeEnd" style="width: 100%;"></el-date-picker>
+          <el-date-picker placeholder="范围结束时间" value-format="yyyy-MM-dd HH:mm:ss" v-model="listQuery.createTimeEnd" style="width: 100%;"></el-date-picker>
         </el-col>
       </el-form-item>
 
@@ -237,10 +237,10 @@
         currentPage:1,
         listQuery: {
           id: '',
-          type: '',
-          status: '',
-          num: '',
-          name: '',
+          deviceType: '',
+          deviceStatus: '',
+          deviceNum: '',
+          deviceName: '',
           createTimeStart: '',
           createTimeEnd: '',
           limit: 10,
@@ -351,7 +351,6 @@
             message: '已取消'
           });
         });
-
       },
       async getList(){
         this.listLoading=true;
