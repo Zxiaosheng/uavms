@@ -10,7 +10,8 @@ import rodeechart from './rode-echart'
 import rode from './rode'
 import device from './mock-device'
 import userManager from './userManager'
-import flyArea from './flyArea'
+// import flyArea from './flyArea'
+// import flyAreaBackPage from './flyAreaBackPage'
 import historycount from './history-count'
 import trouble from './trouble'
 import flight from './flight'
@@ -28,7 +29,8 @@ const mocks = [
   ...task,
   ...device,
   ...userManager,
-  ...flyArea,
+  // ...flyArea,
+  // ...flyAreaBackPage,
   ...userManager,
   ...historycount,
   ...trouble,

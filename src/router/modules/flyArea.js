@@ -13,9 +13,15 @@ const userRouter = {
     icon: 'tab'
   },
   children: [
+    // {
+    //   path: 'index',
+    //   component: () => import('@/views/flyArea/index'),
+    //   name: 'flyAreaList',
+    //   meta: { title: 'flyAreaList' }
+    // },
     {
       path: 'index',
-      component: () => import('@/views/flyArea/index'),
+      component: () => import('@/views/flyArea/flyAreaBackPage.vue'),
       name: 'flyAreaList',
       meta: { title: 'flyAreaList' }
     },
