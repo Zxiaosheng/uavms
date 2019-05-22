@@ -3,14 +3,14 @@
     <div class="demo-input-size">
       <!--<div class="demo-input-suffix">-->
       <!--<div class="filter-container">-->
-      <el-select v-model="listQuery.type1" value-key="id" @change="getList" :placeholder="$t('historycount.result')" clearable class="filter-item" style="width: 130px">
+      <el-select v-model="listQuery.taskStatus" value-key="id" @change="getList" :placeholder="$t('historycount.result')" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in result" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
-      <el-select v-model="listQuery.type" value-key="id" @change="getList" :placeholder="$t('historycount.typeId')" clearable class="filter-item" style="width: 130px">
+      <el-select v-model="listQuery.taskType" value-key="id" @change="getList" :placeholder="$t('historycount.typeId')" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in typeId" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
-      <el-date-picker v-model="listQuery.date" type="date" value-format="yyyy-MM-dd" :placeholder="$t('historycount.date')"  style="width: 230px"/>
-      <el-input v-model="listQuery.location" :placeholder="$t('historycount.location')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+      <el-date-picker v-model="listQuery.taskStartTime" type="datetime" value-format="yyyy-MM-dd" :placeholder="$t('historycount.date')"  style="width: 230px"/>
+      <el-input v-model="listQuery.rodeId" :placeholder="$t('historycount.location')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
 
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
@@ -20,21 +20,24 @@
       </el-button>
     </div>
 
-    <el-table :data="pageData" v-loading="listLoading" border  style="width: 100%;text-align: center;margin-top: 20px"  :header-cell-style="{
+    <el-table :data="list" v-loading="listLoading" border  style="width: 100%;text-align: center;margin-top: 20px"  :header-cell-style="{
     'background-color': '#fafafa'}">
 
       <el-table-column prop="id" align="center" :label="$t('historycount.id')"sortable width="150"></el-table-column>
 
-      <el-table-column prop="typeId.typeName" align="center" :label="$t('historycount.typeId')" sortable  width="140"></el-table-column>
+      <el-table-column prop="taskType.typeName" align="center" :label="$t('historycount.typeId')" sortable  width="140"></el-table-column>
 
-      <el-table-column prop="date" align="center" :label="$t('historycount.date')"sortable width="150"></el-table-column>
+      <el-table-column prop="taskStartTime" align="center" :label="$t('historycount.date')"sortable width="250"></el-table-column>
 
-      <el-table-column prop="location" align="center" :label="$t('historycount.location')" width="200"></el-table-column>
+      <el-table-column prop="rodeId" align="center" :label="$t('historycount.location')" width="200"></el-table-column>
 
-      <el-table-column prop="result.typeName" align="center" :label="$t('historycount.result')" sortable width="230">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.result.typeName=='完成'?'success':(scope.row.result.typeName=='超时'?'danger':'info')">{{scope.row.result.typeName}}</el-tag>
+      <el-table-column prop="taskStatus" align="center" :label="$t('historycount.result')" sortable width="200">
+        <template slot-scope="{row}">
+          <el-tag :type="row.taskStatus|taskStatusFilter">{{ row.taskStatus|taskStatusValFilter }}</el-tag>
         </template>
+        <!--<template slot-scope="{row}">-->
+          <!--<el-tag :type="row.taskStatus|taskStatusFilter">{{ row.taskStatus|taskStatusValFilter }}</el-tag>-->
+        <!--</template>-->
       </el-table-column>
 
       <el-table-column :label="$t('table.actions')" align="center"  class-name="small-padding fixed-width">
@@ -143,7 +146,6 @@
             { required: true, message: '请选择', trigger: 'change' }
           ],
         },
-
         list:[],
         dialogFormVisible: false,
         dialogFormAdd:false,
@@ -151,8 +153,8 @@
         listLoading:false,
         total: 0,
         pageData:[],
-        typeId:[{id:'1',typeName:'消防型'},{id:'2',typeName:'物流型'},{id:'3',typeName:'医疗型'},{id:'4',typeName:'天眼型'},{id:'5',typeName:'交通型'},{id:'6',typeName:'其它型'}],
-        result:[{id:'1',typeName:'完成'},{id:'2',typeName:'超时'},{id:'3',typeName:'取消'}],
+        typeId:[{id:'1',typeName:'消防'},{id:'2',typeName:'医疗'},{id:'3',typeName:'交通'},{id:'4',typeName:'物流'},{id:'5',typeName:'巡警'},{id:'6',typeName:'其它'}],
+        result:[{id:'a',typeName:'未执行'},{id:'b',typeName:'执行中'},{id:'c',typeName:'已完成'},{id:'d',typeName:'已取消'},{id:'e',typeName:'超时完成'}],
         textMap: {
           update: '编辑',
           create: '新增'
@@ -168,47 +170,75 @@
         listQuery: {
           page: 1,
           limit: 20,
-          id:undefined,
-          date:undefined,
-          location: undefined,
-          type: undefined,
-          type1: undefined,
+//          id:undefined,
+//          date:undefined,
+//          location: undefined,
+//          type: undefined,
+//          type1: undefined,
+          taskStatus:undefined,
+          taskStartTime:undefined,
+          taskType:undefined,
+          rodeId:undefined
         },
         downloadLoading: false
       }
     },
+    filters:{
+      taskStatusValFilter(value){
+        const statusMap = {
+          a:'未执行',
+          b:'执行中',
+          c:'已完成',
+          d:'已取消',
+          e:'超时完成'
+        };
+        return statusMap[value]
+      },
+      taskStatusFilter(status){
+        const statusMap = {
+          a:'success',
+          b:'danger',
+          c:'warning',
+          d:'primary',
+          e:'info'
+        };
+        return statusMap[status];
+      },
+    },
     mounted(){
-      this.listLoading=true;
-      //首次挂载列表组件
-      fetchhistoryList(this.listQuery).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
-        this.getList();
-        //关闭加载框
-        this.listLoading=false;
-      })
+     this.getList();
     },
     methods:{
-      getList() {
-        this.listLoading = true;
-        let{page,limit,date,location,type,type1}=this.listQuery;
-
-        if(typeof date!='undefined' && date){
-          date=new Date(date)
-        }
-        let filterData=this.list.filter(item=>{
-          let idate=new Date(Date.parse(item.date))
-          if (date && idate.getTime() != date.getTime()) return false
-          if (type && item.typeId.id !== type) return false
-          if (type1 && item.result.id !== type1) return false
-          if (location && item.location.indexOf(location) < 0) return false
-          return true
+//      getList() {
+//        this.listLoading = true;
+//        let{page,limit,date,location,type,type1}=this.listQuery;
+//
+//        if(typeof date!='undefined' && date){
+//          date=new Date(date)
+//        }
+//        let filterData=this.list.filter(item=>{
+//          let idate=new Date(Date.parse(item.date))
+//          if (date && idate.getTime() != date.getTime()) return false
+//          if (type && item.typeId.id !== type) return false
+//          if (type1 && item.result.id !== type1) return false
+//          if (location && item.location.indexOf(location) < 0) return false
+//          return true
+//        })
+//
+//        this.pageData=filterData.filter((item,index)=>{
+//          return index<page*limit && index>=limit*(page-1)
+//        });
+//        this.listLoading = false;
+//      },
+      getList(){
+        this.listLoading=true;
+        //首次挂载列表组件
+        fetchhistoryList(this.listQuery).then(response => {
+          this.list = response.data.list
+          this.total = response.data.total
+          //关闭加载框
+          this.listLoading=false;
         })
-
-        this.pageData=filterData.filter((item,index)=>{
-          return index<page*limit && index>=limit*(page-1)
-        });
-        this.listLoading = false;
       },
       handleFilter() {
         this.listQuery.page = 1

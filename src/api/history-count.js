@@ -2,7 +2,8 @@ import request from '@/utils/request'
 
 export function fetchhistoryList(query) {
   return request({
-    url: '/history-count/l',
+    // url: '/history-count/l',
+    url:'http://127.0.0.1:8088/task/list',
     method: 'get',
     params: query
   })
