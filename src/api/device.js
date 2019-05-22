@@ -1,10 +1,14 @@
 import request from '@/utils/request'
 
 export function fetchList(query) {
+
+  let { page,limit }=query;
+  let params={ page,limit }
   return request({
-    url: '/get/device/list',
-    method: 'get',
-    params: query
+    url: 'http://localhost:8088/dev/list',
+    method: 'post',
+    data: query,
+    params: params
   })
 }
 

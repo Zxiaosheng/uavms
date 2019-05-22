@@ -74,7 +74,7 @@
           <el-form label-position="left" inline class="demo-table-expand">
             <dev-chart :dev="props.row"></dev-chart>
             <el-form-item label="可执行任务">
-              <span>{{ props.row.taskType }}</span>
+              <span>{{ props.row.taskType.typeName }}</span>
             </el-form-item>
             <el-form-item label="电池容量">
               <span>{{ props.row.powerMax }} mAh</span>
@@ -89,7 +89,7 @@
               <img :src="props.row.imgUrl" alt="无人机" class="dev-img">
             </el-form-item>
             <el-form-item label="设备描述">
-              <span>{{ props.row.desc }}</span>
+              <span>{{ props.row.deviceDesc }}</span>
             </el-form-item>
 
           </el-form>
@@ -108,26 +108,26 @@
       </el-table-column>
       <el-table-column
         label="型号"
-        prop="num"
+        prop="deviceNum"
         width="125">
       </el-table-column>
       <el-table-column
         label="设备名称"
-        prop="name"
+        prop="deviceName"
         width="140">
       </el-table-column>
       <el-table-column
         label="设备简介"
-        prop="comm">
+        prop="deviceComm">
       </el-table-column>
       <el-table-column
         label="类型"
-        prop="type"
+        prop="deviceType"
         width="55">
       </el-table-column>
       <el-table-column
         label="状态"
-        prop="status"
+        prop="deviceStatus"
         width="65"
         :filters="filters"
         :filter-method="filterTag">
@@ -354,9 +354,10 @@
 
       },
       async getList(){
-
+        this.listLoading=true;
         const { data } = await fetchList(this.listQuery)
         this.page=data
+        this.listLoading=false;
       },
       findData(){
 
