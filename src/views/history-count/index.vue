@@ -7,10 +7,10 @@
         <el-option v-for="item in result" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
       <el-select v-model="listQuery.taskType" value-key="id" @change="getList" :placeholder="$t('historycount.typeId')" clearable class="filter-item" style="width: 130px">
-        <el-option v-for="item in typeId" :key="item.typeName" :label="item.typeName" :value="item.id" />
+        <el-option v-for="item in taskType" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
-      <el-date-picker v-model="listQuery.taskStartTime" type="datetime" value-format="yyyy-MM-dd" :placeholder="$t('historycount.date')"  style="width: 230px"/>
-      <el-input v-model="listQuery.rodeId" :placeholder="$t('historycount.location')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+      <el-date-picker v-model="listQuery.taskStartTime" type="datetime"  value-format="yyyy-MM-dd HH:mm:ss" :placeholder="$t('historycount.date')"  style="width: 230px"/>
+      <el-input v-model="listQuery.route.routeName" :placeholder="$t('historycount.location')" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
 
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
@@ -29,7 +29,7 @@
 
       <el-table-column prop="taskStartTime" align="center" :label="$t('historycount.date')"sortable width="250"></el-table-column>
 
-      <el-table-column prop="rodeId" align="center" :label="$t('historycount.location')" width="200"></el-table-column>
+      <el-table-column prop="route.routeName" align="center" :label="$t('historycount.location')" width="200"></el-table-column>
 
       <el-table-column prop="taskStatus" align="center" :label="$t('historycount.result')" sortable width="200">
         <template slot-scope="{row}">
@@ -123,6 +123,7 @@
 
 <script>
   import { fetchhistoryList,updatehistory,createhistory } from '@/api/history-count'
+  import {fetchTaskType} from '@/api/rode'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
@@ -147,13 +148,15 @@
           ],
         },
         list:[],
+        taskType:[],
         dialogFormVisible: false,
         dialogFormAdd:false,
         dialogStatus: '',
         listLoading:false,
         total: 0,
         pageData:[],
-        typeId:[{id:'1',typeName:'消防'},{id:'2',typeName:'医疗'},{id:'3',typeName:'交通'},{id:'4',typeName:'物流'},{id:'5',typeName:'巡警'},{id:'6',typeName:'其它'}],
+        typeId:[],
+//        typeId:[{id:'1',typeName:'消防'},{id:'2',typeName:'医疗'},{id:'3',typeName:'交通'},{id:'4',typeName:'物流'},{id:'5',typeName:'巡警'},{id:'6',typeName:'其它'}],
         result:[{id:'a',typeName:'未执行'},{id:'b',typeName:'执行中'},{id:'c',typeName:'已完成'},{id:'d',typeName:'已取消'},{id:'e',typeName:'超时完成'}],
         textMap: {
           update: '编辑',
@@ -178,7 +181,7 @@
           taskStatus:undefined,
           taskStartTime:undefined,
           taskType:undefined,
-          rodeId:undefined
+          route:{routeName:''}
         },
         downloadLoading: false
       }
@@ -235,9 +238,14 @@
         //首次挂载列表组件
         fetchhistoryList(this.listQuery).then(response => {
           this.list = response.data.list
+          console.log(this.list)
           this.total = response.data.total
           //关闭加载框
           this.listLoading=false;
+        })
+        fetchTaskType().then(response =>{
+          this.taskType = response.data
+//          console.log(this.taskType)
         })
       },
       handleFilter() {
@@ -328,8 +336,8 @@
           type: 'success',
           duration: 2000
         })
-        const index = this.pageData.indexOf(row)
-        this.pageData.splice(index, 1)
+        const index = this.list.indexOf(row)
+        this.list.splice(index, 1)
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
