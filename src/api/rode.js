@@ -10,7 +10,7 @@ export function fetchRodeList(query) {
     params: query
   })
 }
-//获取所有路线类型
+//获取所有任务类型
 export function fetchTaskType(query) {
   return request({
     url: 'http://localhost:8088/tasktype/getall',
@@ -19,16 +19,37 @@ export function fetchTaskType(query) {
   })
 }
 
+//获取所有的地点
+export function fetchLocation(query) {
+  return request({
+    url: 'http://localhost:8088/location/all',
+    method: 'get',
+    params: query
+  })
+}
+//修改路线状态
+export function setLocationStatus(query) {
+  return request({
+    url: 'http://localhost:8088/route/setstaus',
+    method: 'post',
+    content_type: 'application/json',
+    data: query,
+    params: query
+  })
+}
+//修改
 export function updateNews(data) {
   return request({
-    url: '/rode/update',
+    url: 'http://localhost:8088/route/updatelist',
     method: 'post',
     data
   })
 }
+//新增
 export function createNews(data) {
   return request({
-    url: '/rode/create',
+    url: 'http://localhost:8088/route/addlist',
+    content_type: 'application/json',
     method: 'post',
     data
   })
