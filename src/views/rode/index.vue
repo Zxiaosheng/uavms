@@ -73,10 +73,10 @@
           <el-input v-model="temp.routeName" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('rode.date1')" prop="date">
-          <el-date-picker v-model="temp.routeStart" type="date" value-format="yyyy-MM-dd" placeholder="请选择出发时间" style="width: 100%"/>
+          <el-date-picker v-model="temp.routeStart" type="date" value-format="yyyy-MM-dd HH:mm:ss" placeholder="请选择出发时间" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('rode.date2')" prop="date">
-          <el-date-picker v-model="temp.routeEnd" type="date" value-format="yyyy-MM-dd" placeholder="请选择到达时间" style="width: 100%"/>
+          <el-date-picker v-model="temp.routeEnd" type="date" value-format="yyyy-MM-dd HH:mm:ss" placeholder="请选择到达时间" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('rode.start')" prop="typeId">
           <el-select v-model="temp.routeLeave" class="filter-item" placeholder="请选择出发地" style="width: 100%">
@@ -291,10 +291,9 @@
 
       //弹出编辑模态对话框
       handleUpdate(row) {
-
-        let {routeName,routeLeave,routeArrival,routeStart,routeEnd,taskTypeId,routeStatus}=row;
-        this.temp={routeName,routeLeave,routeArrival,routeStart,routeEnd,taskTypeId,routeStatus}
-        console.log(this.temp)
+        console.log(row)
+        let {id,routeNo,routeName,routeLeave,routeArrival,routeStart,routeEnd,taskTypeId,routeStatus,isDelete}=row;
+        this.temp={id,routeNo,routeName,routeLeave,routeArrival,routeStart,routeEnd,taskTypeId,routeStatus,isDelete}
         this.dialogFormVisible = true
         this.$nextTick(() => {
           this.$refs['AddForm'].clearValidate()
@@ -302,7 +301,7 @@
       },
       //弹出新增模态对话框
       handleCreate() {
-        // this.resetTemp()
+        this.resetTemp()
         this.dialogFormAdd = true
         this.$nextTick(() => {
           this.$refs['AddForm'].clearValidate()
@@ -332,7 +331,6 @@
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             const tempData = Object.assign({}, this.temp)
-            console.log(tempData)
             updateNews(tempData).then(() => {
               this.dialogFormVisible = false
               this.$notify({
@@ -353,16 +351,18 @@
         })
         row.status = status
       },
-      // handleDelete(row) {
-      //   this.$notify({
-      //     title: '成功',
-      //     message: '删除成功',
-      //     type: 'success',
-      //     duration: 2000
-      //   })
-      //   const index = this.pageData.indexOf(row)
-      //   this.pageData.splice(index, 1)
-      // },
+      resetTemp() {
+        this.addtemp = {
+          routeNo:'',
+          routeName:'',
+          routeLeave: '',
+          routeArrival: '',
+          routeStart: '',
+          routeEnd:'',
+          taskTypeId:'',
+          routeStatus: ''
+        }
+      }
 
     }
   }

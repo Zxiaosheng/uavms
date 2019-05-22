@@ -3,7 +3,7 @@ import request from '@/utils/request'
 //获取路线列表
 export function fetchRodeList(query) {
   return request({
-    url: 'http://localhost:8088/route/list',
+    url: theBaseUrl+'/route/list',
     content_type: 'application/json',
     data: query,
     method: 'post',
@@ -13,7 +13,7 @@ export function fetchRodeList(query) {
 //获取所有任务类型
 export function fetchTaskType(query) {
   return request({
-    url: 'http://localhost:8088/tasktype/getall',
+    url: theBaseUrl+'/tasktype/getall',
     method: 'get',
     params: query
   })
@@ -30,7 +30,7 @@ export function fetchLocation(query) {
 //修改路线状态
 export function setLocationStatus(query) {
   return request({
-    url: 'http://localhost:8088/route/setstaus',
+    url: theBaseUrl+'/route/setstaus',
     method: 'post',
     content_type: 'application/json',
     data: query,
@@ -40,7 +40,7 @@ export function setLocationStatus(query) {
 //修改
 export function updateNews(data) {
   return request({
-    url: 'http://localhost:8088/route/updatelist',
+    url: theBaseUrl+'/route/updatelist',
     method: 'post',
     data
   })
@@ -48,7 +48,7 @@ export function updateNews(data) {
 //新增
 export function createNews(data) {
   return request({
-    url: 'http://localhost:8088/route/addlist',
+    url: theBaseUrl+'/route/addlist',
     content_type: 'application/json',
     method: 'post',
     data
