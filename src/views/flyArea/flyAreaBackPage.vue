@@ -2,15 +2,15 @@
   <div class="app-container">
     <div class="filter-container">
       <!--机型检索输入框-->
-      <el-select v-model="listQuery.type" @change="getList" :placeholder="$t('flyArea.type')" clearable class="filter-item" style="width: 110px">
+      <el-select v-model="listQuery.deviceId" @change="getList" :placeholder="$t('flyArea.type')" clearable class="filter-item" style="width: 110px">
         <el-option v-for="item in flyType" :key="item.id" :label="item.typeName+'('+item.id+')'" :value="item.id" />
       </el-select>
       <!--任务类型检索区-->
-      <el-select v-model="listQuery.task" @change="getList" :placeholder="$t('flyArea.task')" clearable class="filter-item" style="width: 110px">
+      <el-select v-model="listQuery.taskType" value-key="id" @change="getList" :placeholder="$t('flyArea.task')" clearable class="filter-item" style="width: 110px">
         <el-option v-for="item in flyTask" :key="item.id" :label="item.taskName+'('+item.id+')'" :value="item.id" />
       </el-select>
       <!--飞行区域检索-->
-      <el-select v-model="listQuery.area" @change="getList" :placeholder="$t('flyArea.area')" clearable class="filter-item" style="width: 110px">
+      <el-select v-model="listQuery.route" @change="getList" :placeholder="$t('flyArea.area')" clearable class="filter-item" style="width: 110px">
         <el-option v-for="item in flyArea" :key="item.id" :label="item.areaName+'('+item.id+')'" :value="item.id" />
       </el-select>
       <!--ID排序选择-->
@@ -35,18 +35,24 @@
     <el-table  :data="tableData" border  style="width: 100%" align="center">
       <el-table-column prop="id" align="center" sortable :label="$t('flyArea.id')"  width="100">
       </el-table-column>
-      <el-table-column prop="type.typeName" align="center" sortable :label="$t('flyArea.type')"  width="150">
+      <el-table-column prop="deviceId" align="center" sortable :label="$t('flyArea.type')"  width="150">
+        <template slot-scope="scope">
+          <p>{{scope.row.deviceId | getDeviceStatus()}}</p>
+        </template>
       </el-table-column>
       <el-table-column prop="date" sortable :label="$t('flyArea.date')"  align="center" width="170">
 
       </el-table-column>
-      <el-table-column prop="task.taskName" sortable :label="$t('flyArea.task')" align="center" width="120">
+      <el-table-column prop="taskType" sortable :label="$t('flyArea.task')" align="center" width="120">
+        <template slot-scope="scope">
+          <p>{{scope.row.taskType.typeName | getTaskTypeStatus()}}</p>
+        </template>
       </el-table-column>
-      <el-table-column prop="area.areaName" sortable :label="$t('flyArea.area')" align="center" width="150">
+      <el-table-column prop="route.arrival.locationName" sortable :label="$t('flyArea.area')" align="center" width="150">
       </el-table-column>
-      <el-table-column prop="longitude" :label="$t('flyArea.longitude')" align="center" width="120">
+      <el-table-column prop="route.arrival.longitude" :label="$t('flyArea.longitude')" align="center" width="120">
       </el-table-column>
-      <el-table-column prop="latitude"  :label="$t('flyArea.latitude')"  align="center" width="120">
+      <el-table-column prop="route.arrival.latitude"  :label="$t('flyArea.latitude')"  align="center" width="120">
       </el-table-column>
       <el-table-column :label="$t('flyArea.actions')" align="center"  class-name="small-padding fixed-width">
         <template slot-scope="{row}">
@@ -63,21 +69,21 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" >
       <el-form ref="dataForm"  :model="temp" :rules="rules" label-position="left" label-width="100px" style="width: 500px; margin-left:50px;">
-        <el-form-item :label="$t('flyArea.type')" prop="type.typeName" style="width: 100%" >
-          <el-select v-model="temp.type.typeName" class="filter-item" placeholder="Please select" style="width: 100%">
+        <el-form-item :label="$t('flyArea.type')" prop="deviceId.typeName" style="width: 100%" >
+          <el-select v-model="temp.deviceId.typeName" class="filter-item" placeholder="Please select" style="width: 100%">
             <el-option v-for="item in flyType" :key="item.id" :label="item.typeName" :value="item.typeName" />
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('flyArea.date')" prop="date"  required>
           <el-date-picker v-model="temp.date" value-format="yyyy-MM-dd" type="date" placeholder="Please pick a date" style="width: 100%"/>
         </el-form-item>
-        <el-form-item :label="$t('flyArea.task')" prop="task.taskName" style="width: 100%" >
-          <el-select v-model="temp.task.taskName" class="filter-item" placeholder="Please select" style="width: 100%">
+        <el-form-item :label="$t('flyArea.task')" prop="taskType" style="width: 100%" >
+          <el-select v-model="temp.taskType" class="filter-item" placeholder="Please select" style="width: 100%">
             <el-option v-for="item in flyTask" :key="item.id" :label="item.taskName" :value="item.taskName" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('flyArea.area')" prop="area.areaName" style="width: 100%" >
-          <el-select v-model="temp.area.areaName" class="filter-item" placeholder="Please select" style="width: 100%" >
+        <el-form-item :label="$t('flyArea.area')" prop="route" style="width: 100%" >
+          <el-select v-model="temp.route" class="filter-item" placeholder="Please select" style="width: 100%" >
             <el-option v-for="item in flyArea" :key="item.id" :label="item.areaName" :value="item.areaName" />
           </el-select>
         </el-form-item>
@@ -107,7 +113,7 @@
   import { parseTime } from '@/utils'
   import Pagination from '@/components/Pagination'
   import waves from '@/directive/waves' // waves directive
-  const flyType=[{id:1,typeName:'大型机'},{id:2,typeName:'中型机'},{id:3,typeName:'小型机'}]
+  const flyType=[{id:1,typeName:'大型'},{id:2,typeName:'中型'},{id:3,typeName:'小型'},{id:4,typeName:'微型'}]
   const flyTask=[
     {id:1,taskName:'消防'},
     {id:2,taskName:'医疗'},
@@ -138,9 +144,9 @@
               listQuery: {
                 page: 1,
                 limit: 20,
-                task: undefined,
-                type: undefined,
-                area: undefined,
+                taskType: undefined,
+                deviceId: undefined,
+                route: undefined,
                 sort: '+id',
               },
               //前台每页要呈现的数据
@@ -158,23 +164,23 @@
               dialogStatus: '',
               temp: {
                 id: undefined,
-                type: {},
+                deviceId: {},
                 date:new Date(),
-                task:{},
-                area:{},
+                taskType:{},
+                route:{},
                 longitude:'',
                 latitude:''
               },
               rules: {
-                type: {
+                deviceId: {
                   typeName:[{ required: true, message: 'type is required', trigger: 'change' }]
                 },
 
-                task: {
+                taskType: {
                   taskName:[{ required: true, message: 'task is required', trigger: 'change' }]
                 },
 
-                area:{
+                route:{
                   areaName:[{ required: true, message: 'area is required', trigger: 'change' }]
                 },
 
@@ -192,6 +198,34 @@
       mounted(){
         //获取第一页
         this.getList();
+      },
+      filters:{
+        getDeviceStatus(s){
+          if(s=='1'){
+            return '大型'
+          } if(s=='2'){
+            return '中型'
+          } if(s=='3'){
+            return '小型'
+          }else {
+            return '微型'
+          }
+        },
+        getTaskTypeStatus(s){
+          if(s=='消防'){
+            return '消防'
+          } if(s=='医疗'){
+            return '医疗'
+          } if(s=='交通'){
+            return '交通'
+          }if(s=='物流'){
+            return '物流'
+          }if(s=='巡警'){
+            return '巡警'
+          }else {
+            return '其他'
+          }
+        }
       },
       methods: {
 
@@ -271,9 +305,9 @@
           this.listQuery= {
             page: 1,
             limit: 20,
-            task: undefined,
-            type: undefined,
-            area: undefined,
+            taskType: undefined,
+            deviceId: undefined,
+            route: undefined,
             sort: '+id',
           }
           this.getList();
@@ -281,11 +315,11 @@
         resetTemp() {
           this.temp = {
             id: undefined,
-            type: {},
+            deviceId: {},
             date:'',
 //            date:new Date(),
-            task:{},
-            area:{},
+            taskType:{},
+            route:{},
             longitude:'',
             latitude:''
           }
@@ -301,8 +335,8 @@
         handleDownload() {
           this.downloadLoading = true
           import('@/vendor/Export2Excel').then(excel => {
-            const tHeader = ['type', 'date', 'task', 'area', 'longitude','latitude']
-            const filterVal = ['type', 'date', 'task', 'area', 'longitude','latitude']
+            const tHeader = ['deviceId', 'date', 'taskType', 'route', 'longitude','latitude']
+            const filterVal = ['deviceId', 'date', 'taskType', 'route', 'longitude','latitude']
             const data = this.formatJson(filterVal, this.tableData)
             excel.export_json_to_excel({
               header: tHeader,
@@ -314,13 +348,13 @@
         },
         formatJson(filterVal, jsonData) {
           return jsonData.map(v => filterVal.map(j => {
-            if (j=='type'){
+            if (j=='deviceId'){
               return v[j].typeName
             }
-            if (j=='task'){
+            if (j=='taskType'){
               return v[j].taskName
             }
-            if (j=='area'){
+            if (j=='route'){
               return v[j].areaName
             }
             else {
