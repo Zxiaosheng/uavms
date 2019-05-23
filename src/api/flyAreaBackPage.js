@@ -19,3 +19,11 @@ export function fetchLocation(query) {
 
   })
 }
+//获取所有任务类型
+export function fetchTaskType(query) {
+  return axios({
+    url: 'http://localhost:8088/tasktype/getall',
+    method: 'get',
+    params: query
+  })
+}

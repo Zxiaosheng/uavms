@@ -6,8 +6,8 @@
         <el-option v-for="item in flyType" :key="item.id" :label="item.typeName+'('+item.id+')'" :value="item.id" />
       </el-select>
       <!--任务类型检索区-->
-      <el-select v-model="listQuery.taskType" value-key="id" @change="getList" :placeholder="$t('flyArea.task')" clearable class="filter-item" style="width: 110px">
-        <el-option v-for="item in flyTask" :key="item.id" :label="item.taskName+'('+item.id+')'" :value="item.id" />
+      <el-select v-model="listQuery.taskType.id" value-key="id" @change="getList" :placeholder="$t('flyArea.task')" clearable class="filter-item" style="width: 110px">
+        <el-option v-for="item in allTaskType" :key="item.id" :label="item.typeName" :value="item.id" />
       </el-select>
       <!--飞行区域检索-->
       <el-select v-model="listQuery.route.routeArrival" @change="getList" :placeholder="$t('flyArea.area')" clearable class="filter-item" style="width: 110px">
@@ -109,7 +109,7 @@
 
 <script>
   import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/article'
-  import {fetchflyAreaListBackPage,fetchLocation} from '@/api/flyAreaBackPage'
+  import {fetchflyAreaListBackPage,fetchLocation,fetchTaskType} from '@/api/flyAreaBackPage'
   import { parseTime } from '@/utils'
   import Pagination from '@/components/Pagination'
   import waves from '@/directive/waves' // waves directive
@@ -141,11 +141,12 @@
               flyTask,
               flyArea,
               location:[], //存放城市
+              allTaskType:[], //存放任务类型
               tableData:[],
               listQuery: {
                 page: 1,
                 limit: 20,
-                taskType: undefined,
+                taskType: {},
                 deviceId: undefined,
                 route: {},
                 order: '+id',
@@ -197,7 +198,11 @@
             }
         },
       mounted(){
-
+        //获取任务类型
+        fetchTaskType().then(response =>{
+          this.allTaskType = response.data
+          // console.log(this.allTaskType)
+        });
         //获取地点
         fetchLocation().then(response =>{
           this.location=response.data;
