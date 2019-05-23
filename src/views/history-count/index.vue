@@ -6,7 +6,7 @@
       <el-select v-model="listQuery.taskStatus" value-key="id" @change="getList" :placeholder="$t('historycount.result')" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in result" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
-      <el-select v-model="listQuery.taskType" value-key="id" @change="getList" :placeholder="$t('historycount.typeId')" clearable class="filter-item" style="width: 130px">
+      <el-select v-model="listQuery.taskType.id" value-key="id" @change="getList" :placeholder="$t('historycount.typeId')" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in taskType" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
       <el-date-picker v-model="listQuery.taskStartTime" type="datetime"  value-format="yyyy-MM-dd HH:mm:ss" :placeholder="$t('historycount.date')"  style="width: 230px"/>
@@ -35,9 +35,6 @@
         <template slot-scope="{row}">
           <el-tag :type="row.taskStatus|taskStatusFilter">{{ row.taskStatus|taskStatusValFilter }}</el-tag>
         </template>
-        <!--<template slot-scope="{row}">-->
-          <!--<el-tag :type="row.taskStatus|taskStatusFilter">{{ row.taskStatus|taskStatusValFilter }}</el-tag>-->
-        <!--</template>-->
       </el-table-column>
 
       <el-table-column :label="$t('table.actions')" align="center"  class-name="small-padding fixed-width">
@@ -156,7 +153,6 @@
         total: 0,
         pageData:[],
         typeId:[],
-//        typeId:[{id:'1',typeName:'消防'},{id:'2',typeName:'医疗'},{id:'3',typeName:'交通'},{id:'4',typeName:'物流'},{id:'5',typeName:'巡警'},{id:'6',typeName:'其它'}],
         result:[{id:'a',typeName:'未执行'},{id:'b',typeName:'执行中'},{id:'c',typeName:'已完成'},{id:'d',typeName:'已取消'},{id:'e',typeName:'超时完成'}],
         textMap: {
           update: '编辑',
@@ -173,14 +169,9 @@
         listQuery: {
           page: 1,
           limit: 20,
-//          id:undefined,
-//          date:undefined,
-//          location: undefined,
-//          type: undefined,
-//          type1: undefined,
           taskStatus:undefined,
           taskStartTime:undefined,
-          taskType:undefined,
+          taskType:{id:''},
           route:{routeName:''}
         },
         downloadLoading: false

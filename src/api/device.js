@@ -5,7 +5,7 @@ export function fetchList(query) {
   let { page,limit }=query;
   let params={ page,limit }
   return request({
-    url: theBaseUrl+'/dev/list',
+    url: '/serve/dev/list',
     method: 'post',
     data: query,
     params: params
