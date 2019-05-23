@@ -2,14 +2,14 @@ import request from '@/utils/request'
 
 export function fetchChartList() {
   return request({
-    url: '/rode/chartlist',
+    url: process.env.VUE_APP_BASE_API+'/rode/chartlist',
     method: 'get',
     // params: query
   })
 }
 export function fetchMChartList(query) {
   return request({
-    url: '/rode/mchartlist',
+    url: process.env.VUE_APP_BASE_API+'/rode/mchartlist',
     method: 'get',
     params: query
   })

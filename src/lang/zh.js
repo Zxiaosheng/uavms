@@ -143,6 +143,7 @@ export default {
     start: '出发地点',
     end: '到达地点',
     task: '任务状态',
+    taskstatus:'路线状态',
     add:'新增',
     edit:'编辑'
   },
