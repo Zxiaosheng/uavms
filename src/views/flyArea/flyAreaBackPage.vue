@@ -10,11 +10,11 @@
         <el-option v-for="item in flyTask" :key="item.id" :label="item.taskName+'('+item.id+')'" :value="item.id" />
       </el-select>
       <!--飞行区域检索-->
-      <el-select v-model="listQuery.route" @change="getList" :placeholder="$t('flyArea.area')" clearable class="filter-item" style="width: 110px">
-        <el-option v-for="item in flyArea" :key="item.id" :label="item.areaName+'('+item.id+')'" :value="item.id" />
+      <el-select v-model="listQuery.route.routeArrival" @change="getList" :placeholder="$t('flyArea.area')" clearable class="filter-item" style="width: 110px">
+        <el-option v-for="item in location" :key="item.id" :label="item.locationName" :value="item.id" />
       </el-select>
       <!--ID排序选择-->
-      <el-select v-model="listQuery.sort" @change="getList" style="width: 140px" class="filter-item">
+      <el-select v-model="listQuery.order" @change="getList" style="width: 140px" class="filter-item">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
       <!--搜索按钮-->
@@ -109,7 +109,7 @@
 
 <script>
   import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/article'
-  import {fetchflyAreaListBackPage} from '@/api/flyAreaBackPage'
+  import {fetchflyAreaListBackPage,fetchLocation} from '@/api/flyAreaBackPage'
   import { parseTime } from '@/utils'
   import Pagination from '@/components/Pagination'
   import waves from '@/directive/waves' // waves directive
@@ -140,14 +140,15 @@
               flyType,
               flyTask,
               flyArea,
+              location:[], //存放城市
               tableData:[],
               listQuery: {
                 page: 1,
                 limit: 20,
                 taskType: undefined,
                 deviceId: undefined,
-                route: undefined,
-                sort: '+id',
+                route: {},
+                order: '+id',
               },
               //前台每页要呈现的数据
               pageData:[],
@@ -196,6 +197,12 @@
             }
         },
       mounted(){
+
+        //获取地点
+        fetchLocation().then(response =>{
+          this.location=response.data;
+           console.log(this.location)
+        });
         //获取第一页
         this.getList();
       },
@@ -307,8 +314,8 @@
             limit: 20,
             taskType: undefined,
             deviceId: undefined,
-            route: undefined,
-            sort: '+id',
+            route: {},
+            order: '+id',
           }
           this.getList();
         },
