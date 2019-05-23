@@ -20,7 +20,7 @@ import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
 
-window.theBaseUrl='http://localhost:8088/'
+// window.theBaseUrl='http://localhost:8088/'
 
 /**
  * If you don't want to use mock-server
