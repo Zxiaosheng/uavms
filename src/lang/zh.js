@@ -6,7 +6,7 @@ export default {
     id: '编号',
     typeId: '任务类型',
     date: '日期',
-    location: '任务地点',
+    location: '任务路线',
 
     result: '执行结果'
   },

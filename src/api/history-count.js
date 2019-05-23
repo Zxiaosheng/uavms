@@ -2,7 +2,6 @@ import request from '@/utils/request'
 
 export function fetchhistoryList(query) {
 
-  // console.log("console.log(query)=====:")
   // console.log(query)
 
   let{page, limit} = query;

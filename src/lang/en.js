@@ -7,7 +7,7 @@ export default {
     id: 'ID',
     typeId: 'TaskType',
     date: 'Date',
-    location: 'TaskLocation',
+    location: 'TaskRoute',
     result: 'TaskResult'
   },
   // user用户列表的数据、
