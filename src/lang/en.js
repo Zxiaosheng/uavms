@@ -8,7 +8,8 @@ export default {
     typeId: 'TaskType',
     date: 'Date',
     location: 'TaskRoute',
-    result: 'TaskResult'
+    result: 'TaskResult',
+    refresh:'Refresh'
   },
   // user用户列表的数据、
   user: {

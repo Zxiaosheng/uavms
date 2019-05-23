@@ -7,7 +7,7 @@ export default {
     typeId: '任务类型',
     date: '日期',
     location: '任务路线',
-
+    refresh:'刷新',
     result: '执行结果'
   },
   user: {
