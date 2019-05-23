@@ -6,7 +6,7 @@ export default {
   historycount: {
     id: 'ID',
     typeId: 'TaskType',
-    date: 'Date',
+    date: 'StartTime',
     location: 'TaskRoute',
     result: 'TaskResult',
     refresh:'Refresh'

@@ -5,7 +5,7 @@ export default {
   historycount: {
     id: '编号',
     typeId: '任务类型',
-    date: '日期',
+    date: '任务执行时间',
     location: '任务路线',
     refresh:'刷新',
     result: '执行结果'
