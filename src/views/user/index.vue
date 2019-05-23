@@ -2,27 +2,15 @@
   <div class="app-contanier">
     <!--搜索框的引入-->
     <div class="filter-container">
-      <el-input
-        v-model="listQuery.title"
-        :placeholder="$t('user.head.title')"
-        style="width: 200px;"
-        class="filter-item"
-        @keyup.enter.native="handleFilter"
-        @keyup.native.enter="getList"
-      />
+      <el-input v-model="listQuery.userName" :placeholder="$t('user.head.title')" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" @keyup.native.enter="getList"/>
       <!--身份的筛选-->
-      <el-select
-        v-model="listQuery.userType"
-        :placeholder="$t('user.head.limit')"
-        style="width: 160px"
-        class="filter-item"
-        @change="getList"
-      >
-        <el-option v-for="item in userType" :key="item.id" :label="item.typeName" :value="item.id"/>
+      <el-select v-model="listQuery.userPri" :placeholder="$t('user.head.limit')" style="width: 160px" class="filter-item" @change="getList">
+        <el-option v-for="item in userType" :key="item.id" :label="item.typeName" :value="item.typeName"/>
       </el-select>
       <!--性别的筛选-->
-      <el-select v-model="listQuery.sexType" :placeholder="$t('user.head.sex')" style="width: 160px" class="filter-item" @change="getList">
-        <el-option v-for="item in sexType" :key="item.id" :label="item.typeSex" :value="item.id"/>
+      <el-select v-model="listQuery.userSex" :placeholder="$t('user.head.sex')" style="width: 160px" class="filter-item"
+                 @change="getList">
+        <el-option v-for="item in sexType" :key="item.id" :label="item.typeSex" :value="item.typeSex"/>
       </el-select>
       <!--搜索按钮的设置-->
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="getList">
@@ -34,14 +22,14 @@
       </el-button>
     </div>
     <!--表格的渲染-->
-    <el-table :data="pageData" border style="width: 100%;text-align: center" align="center">
-      <el-table-column prop="id" align="center" sortable :label="$t('user.id')" width="130"/>
-      <el-table-column prop="name" sortable :label="$t('user.name')" width="150" align="center" />
-      <el-table-column prop="date" sortable :label="$t('user.date')" width="150" align="center"/>
-      <el-table-column prop="userType.typeUser" sortable :label="$t('user.userType')" align="center" width="140"/>
-      <el-table-column prop="sexType.typeSex" sortable :label="$t('user.sex')" align="center" width="140"/>
-      <el-table-column prop="company" sortable :label="$t('user.company')" align="center" width="140" />
-      <el-table-column prop="telephone" sortable :label="$t('user.telephone')" align="center" width="150" />
+    <el-table :data="tableData" border style="width: 100%;text-align: center" align="center">
+      <el-table-column prop="userId" align="center" sortable :label="$t('user.id')" width="130"/>
+      <el-table-column prop="userName" sortable :label="$t('user.name')" width="150" align="center"/>
+      <el-table-column prop="userDate" sortable :label="$t('user.date')" width="150" align="center"/>
+      <el-table-column prop="userPrivileges" sortable :label="$t('user.userType')" align="center" width="140"/>
+      <el-table-column prop="userSex" sortable :label="$t('user.sex')" align="center" width="140"/>
+      <el-table-column prop="userCompany" sortable :label="$t('user.company')" align="center" width="140"/>
+      <el-table-column prop="userTelephone" sortable :label="$t('user.telephone')" align="center" width="150"/>
       <!--操作的设置-->
       <el-table-column :label="$t('user.caption')">
         <template slot-scope="scope" align="center">
@@ -72,7 +60,7 @@
               <!--性别下拉框的设置-->
               <el-form-item label="用户性别">
                 <el-select v-model="form.sexType.typeSex" value-key="id" placeholder="请选择" style="width: 120px">
-                  <el-option v-for="type in sexType" :key="type.id" :label="type.typeSex" :value="type.typeSex"/>
+                  <el-option v-for="type in sexType" :key="type.id" :label="type.typeSex" :value="type.id"/>
                 </el-select>
               </el-form-item>
 
@@ -147,25 +135,30 @@
         listQuery: {
           page: 1,
           limit: 20,
-          title: undefined,
-          sexType: undefined,
-          userType: undefined,
+          userName: undefined,
+          userPri: undefined,
+          userSex: undefined,
           sort: '+id'
         }
       }
     },
     mounted() {
-      // 首次挂载新闻列表组件时获得所有新闻数据
-      userList({}).then(response => {
-        this.tableData = response.data.items
-        // 获得数据总数
-        this.total = response.data.total
-        // 获取到分页第一页的数据
-        this.getList()
-      })
+      this.getList();
     },
 
     methods: {
+      // 分页的操作+过滤
+      getList() {
+        //显示加载框
+        this.listLoading = true;
+        //首次挂载新闻列表组件时获得所有新闻数据
+        userList(this.listQuery).then(response => {
+          this.tableData = response.data.list
+          // 获得数据总数
+          this.total = response.data.total;
+          this.listLoading=false;
+        })
+      },
       resetTemp() {
         this.form = {
           id: '',
@@ -219,44 +212,17 @@
         this.listQuery.page = 1
         this.getList()
       },
-      // 分页的操作+过滤
-      getList() {
-        // 将初始的这些值赋给新的点击事件中
-        const {page, limit, title, sort, sexType, userType} = this.listQuery
-        // 过滤查询结果集（先过滤，再分页）
-        let filterData = this.tableData.filter(item => {
-          // 实现换页显示
-          console.log('item',item)
-          this.listQuery.page = page
-          // 如果title不为0
-          if (title && item.name.indexOf(title) < 0) return false
-          if (sexType && (item.sexType.id !== sexType)) return false
-          if (userType && item.userType.id != userType) return false
-          return true
-        })
-        this.total = filterData.length
-        // 排序
-        if (sort === '-id') {
-          filterData = filterData.reverse()
-        }
-        // 从总数据中过滤出当前页要显示的数据集
-        this.pageData = filterData.filter((item, index) =>
-          index < page * limit && index >= limit * (page - 1)
-        )
-      },
-
       // 修改用户权限的操作
       // 编辑按钮的设置
       showEdtDialog(edit) {
         this.dialogStatus = 'update',
-        this.dialogFormVisible = !this.dialogFormVisible
+          this.dialogFormVisible = !this.dialogFormVisible
         this.tableData.forEach((row) => {
           if (row.id === edit.id) {
             this.edtRowId = row.id
             this.form.userType.typeName = row.userType.typeName
             this.form.id = row.id;
             this.form.date = row.date;
-//            this.form.sexType.typeSex = row.sex.typeSex;
             this.form.name = row.name;
             this.form.telephone = row.telephone;
           }
@@ -264,7 +230,7 @@
       },
       // 编辑按钮的保存操作
       saveData() {
-          this.dialogFormVisible = !this.dialogFormVisible
+        this.dialogFormVisible = !this.dialogFormVisible
         let num = -1
         this.tableData.forEach((index, idx) => {
           if (index.id === this.edtRowId) {
