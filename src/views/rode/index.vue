@@ -30,9 +30,9 @@
 
       <el-table-column prop="taskType.typeName" :label="$t('rode.typeId')"  align="center" width="100"></el-table-column>
 
-      <el-table-column prop="routeStart" :label="$t('rode.date1')" width="165"></el-table-column>
+      <el-table-column prop="routeStart" :label="$t('rode.date1')" :formatter="dateFormat" width="165"></el-table-column>
 
-      <el-table-column prop="routeEnd" :label="$t('rode.date2')" width="165"></el-table-column>
+      <el-table-column prop="routeEnd" :label="$t('rode.date2')" :formatter="dateFormat" width="165"></el-table-column>
 
       <el-table-column prop="leave.locationName" :label="$t('rode.start')" width="150"></el-table-column>
 
@@ -266,6 +266,14 @@
       }
     },
     methods:{
+      dateFormat(row, column, cellValue, index){
+
+        if(cellValue!=null){
+          const dateMat= cellValue;
+          const timeFormat= dateMat.substr(0,dateMat.indexOf(' '));
+          return timeFormat;
+        }
+      },
       getList() {
         this.listLoading=true;
         //首次挂载列表组件
