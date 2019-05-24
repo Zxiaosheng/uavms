@@ -2,14 +2,14 @@ import request from '@/utils/request'
 
 export function fetchTasklist(query) {
   return request({
-    url: '/task/list',
+    url:process.env.VUE_APP_BASE_API+ '/task/list',
     method: 'get',
     params: query
   })
 }
 export function updateTask(data) {
   return request({
-    url: '/task/update',
+    url: process.env.VUE_APP_BASE_API+'/task/update',
     method: 'post',
     data
   })

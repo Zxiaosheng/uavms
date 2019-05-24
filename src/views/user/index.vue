@@ -2,9 +2,11 @@
   <div class="app-contanier">
     <!--搜索框的引入-->
     <div class="filter-container">
-      <el-input v-model="listQuery.userName" :placeholder="$t('user.head.title')" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" @keyup.native.enter="getList"/>
+      <el-input v-model="listQuery.userName" :placeholder="$t('user.head.title')" style="width: 200px;"
+                class="filter-item" @keyup.enter.native="handleFilter" @keyup.native.enter="getList"/>
       <!--身份的筛选-->
-      <el-select v-model="listQuery.userPri" :placeholder="$t('user.head.limit')" style="width: 160px" class="filter-item" @change="getList">
+      <el-select v-model="listQuery.userPri" :placeholder="$t('user.head.limit')" style="width: 160px"
+                 class="filter-item" @change="getList">
         <el-option v-for="item in userType" :key="item.id" :label="item.typeName" :value="item.typeName"/>
       </el-select>
       <!--性别的筛选-->
@@ -41,32 +43,38 @@
                      style="width: 400px; margin-left:50px;">
 
               <el-form-item label="姓名">
-                <el-input v-model="form.name" width="60"></el-input>
+                <el-input v-model="form.userName" width="60"></el-input>
               </el-form-item>
 
               <!--日期的设置-->
               <el-form-item label="日期" width="100">
-                <el-date-picker v-model="form.date" value-format="yyyy-MM-dd" placeholder="选择日期">
+                <el-date-picker v-model="form.userDate" value-format="yyyy-MM-dd" placeholder="选择日期">
                 </el-date-picker>
               </el-form-item>
 
               <!--类别下拉框的设置-->
               <el-form-item label="用户类别">
-                <el-select v-model="form.userType.typeUser" value-key="id" placeholder="请选择" style="width: 120px">
+                <el-select v-model="form.userPrivileges" value-key="id" placeholder="请选择" style="width: 120px">
                   <el-option v-for="type in userType" :key="type.id" :label="type.typeName" :value="type.typeName"/>
                 </el-select>
               </el-form-item>
 
               <!--性别下拉框的设置-->
               <el-form-item label="用户性别">
-                <el-select v-model="form.sexType.typeSex" value-key="id" placeholder="请选择" style="width: 120px">
+                <el-select v-model="form.userSex" value-key="id" placeholder="请选择" style="width: 120px">
                   <el-option v-for="type in sexType" :key="type.id" :label="type.typeSex" :value="type.id"/>
                 </el-select>
               </el-form-item>
 
               <!--电话号码的设置-->
               <el-form-item label="电话号码">
-                <el-input v-model="form.telephone" width="60"></el-input>
+                <el-input v-model="form.userTelephone" width="60"></el-input>
+              </el-form-item>
+
+
+              <!--公司的设置-->
+              <el-form-item label="公司">
+                <el-input v-model="form.userCompany" width="60"></el-input>
               </el-form-item>
             </el-form>
 
@@ -93,7 +101,7 @@
 </template>
 
 <script>
-  import {userList, createArticle} from '@/api/userManager'
+  import {userList, userAdd, userUpdate, isDel} from '@/api/userManager'
   import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
   export default {
@@ -114,14 +122,16 @@
         dialogFormVisible: false,
         //选择新增或修改表格
         dialogStatus: "",
-        // 页面修改用户权限临时存储的位置
+        //存放编辑数据
         form: {
-          id: '',
-          name: '',
-          date: "",
-          telephone: "",
-          userType: {},
-          sexType: {}
+          userId: "",
+          userCompany: "",
+          userDate: "",
+          userName: "",
+          userPrivileges: "",
+          userSex: "",
+          userTelephone: "",
+          isDelete: 0
         },
         userType: [
           {id: 1, typeName: '普通用户'},
@@ -139,6 +149,9 @@
           userPri: undefined,
           userSex: undefined,
           sort: '+id'
+        },
+        isDelObj: {
+          userId: ""
         }
       }
     },
@@ -153,29 +166,24 @@
         this.listLoading = true;
         //首次挂载新闻列表组件时获得所有新闻数据
         userList(this.listQuery).then(response => {
+          console.log("response", response);
           this.tableData = response.data.list
           // 获得数据总数
           this.total = response.data.total;
-          this.listLoading=false;
+          this.listLoading = false;
         })
       },
+      //新增表格数据
       resetTemp() {
         this.form = {
-          id: '',
-          name: '',
-          date: "",
-          telephone: "",
-          userType: {},
-          sexType: {}
+          userId: "",
+          userCompany: "",
+          userDate: "",
+          userName: "",
+          userPrivileges: "",
+          userSex: "",
+          userTelephone: "",
         }
-        userType: [
-          {id: '', typeName: ''},
-          {id: '', typeName: ''}
-        ]
-        sexType: [
-          {id: '', typeSex: ''},
-          {id: '', typeSex: ''}
-        ]
       },
       // 新增表格数据的操作
       handleCreate() {
@@ -189,12 +197,13 @@
       },
       createData() {
         this.$refs['dataForm'].validate((valid) => {
+          console.log('表单验证')
           if (valid) {
-            this.form.id = parseInt(Math.random() * 100) + 1024 // mock a id
-            createArticle(this.form).then(() => {
+            this.form.userId = parseInt(Math.random() * 100) + 1024 // mock a id
+            userAdd(this.form).then(() => {
               //创建一个新的对象插入，否则指针会一直指向this.form
-              const tempData = Object.assign({}, this.form)
-              this.tableData.unshift(tempData)
+//              const tempData = Object.assign({}, this.form)
+//              this.tableData.unshift(tempData)
               this.dialogFormVisible = false
               this.$notify({
                 title: '成功',
@@ -214,35 +223,38 @@
       },
       // 修改用户权限的操作
       // 编辑按钮的设置
-      showEdtDialog(edit) {
+      showEdtDialog(row) {
         this.dialogStatus = 'update',
           this.dialogFormVisible = !this.dialogFormVisible
-        this.tableData.forEach((row) => {
-          if (row.id === edit.id) {
-            this.edtRowId = row.id
-            this.form.userType.typeName = row.userType.typeName
-            this.form.id = row.id;
-            this.form.date = row.date;
-            this.form.name = row.name;
-            this.form.telephone = row.telephone;
-          }
+        let {userId, userCompany, userDate, userName, userPrivileges, userSex, userTelephone, isDelete} = row;
+        this.form = {userId, userCompany, userDate, userName, userPrivileges, userSex, userTelephone, isDelete};
+        console.log('编辑处的数据', this.form)
+        this.$nextTick(() => {
+          this.$refs['dataForm'].clearValidate()
         })
       },
       // 编辑按钮的保存操作
       saveData() {
+        console.log('编辑保存数据')
         this.dialogFormVisible = !this.dialogFormVisible
         let num = -1
-        this.tableData.forEach((index, idx) => {
-          if (index.id === this.edtRowId) {
-            num = idx
-            this.tableData[num].userType.typeUser = this.form.userType.typeUser
-            this.tableData[num].name = this.form.name
-            this.tableData[num].telephone = this.form.telephone
-            this.tableData[num].date = this.form.date
-            this.tableData[num].sexType.typeSex = this.form.sexType.typeSex
+        this.$refs['dataForm'].validate((valid) => {
+          if (valid) {
+            console.log('valid', valid)
+            const tempData = Object.assign({}, this.form)
+            console.log('编辑后的数据', tempData)
+            userUpdate(tempData).then(() => {
+              this.$notify({
+                title: '成功',
+                message: '更新成功',
+                type: 'success',
+                duration: 2000
+              })
+              this.getList()
+            })
           }
         })
-//        this.edtRowId = -1
+
       },
       // 删除某一行数据的操作
       delNews(row) {
@@ -252,16 +264,21 @@
           type: 'warning'
         }).then(() => {
           let index = 0
-          this.tableData.forEach((news, idx) => {
-            if (news.id === row.id) {
-              index = idx
-            }
-          })
-          this.tableData.splice(index, 1)
-          this.getList();
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
+          console.log(row)
+          console.log("111", row.userId);
+          let userId = row.userId
+          this.isDelObj = {userId}
+          console.log(this.isDelObj)
+          const delData = Object.assign({}, this.isDelObj)
+          console.log('eeeee',delData)
+          isDel(delData).then(() => {
+            this.$notify({
+              title: '成功',
+              message: '删除成功',
+              type: 'success',
+              duration: 2000
+            })
+            this.getList()
           })
         }).catch(() => {
           this.$message({

@@ -5,7 +5,7 @@ import request from '@/utils/request'
  */
 export function userList(query) {
   return request({
-    url: theBaseUrl+'/user/select',
+    url:'/serve/user/select',
     method: 'get',
     data:query,
     params: query
@@ -17,8 +17,8 @@ export function userList(query) {
  */
 export function userAdd(query) {
   return request({
-    url: theBaseUrl+'/user/add',
-    method: 'get',
+    url: '/serve/user/add',
+    method: 'POST',
     data:query,
     params: query
   })
@@ -30,8 +30,8 @@ export function userAdd(query) {
  */
 export function userUpdate(query) {
   return request({
-    url: theBaseUrl+'/user/update',
-    method: 'get',
+    url:'/serve/user/update',
+    method: 'post',
     data:query,
     params: query
   })
@@ -42,14 +42,25 @@ export function userUpdate(query) {
  */
 export function userDel(query) {
   return request({
-    url: theBaseUrl+'/user/del',
+    url: '/serve/user/del',
     method: 'get',
     data:query,
     params: query
   })
 }
 
-
+/**
+ * 是否删除的状态
+ * @param query
+ */
+export function isDel(query) {
+  return request({
+    url: '/serve/user/delStatu',
+    method: 'get',
+    data:query,
+    params: query
+  })
+}
 
 
 
