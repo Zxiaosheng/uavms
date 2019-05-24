@@ -11,14 +11,14 @@
         </el-popover>
       </template>
       <!--ID排序选择-->
-      <el-select v-model="listQuery.sort" style="width: 140px;" class="filter-item" align="left" @change="handleFilter">
+      <el-select v-model="listQuery.order" style="width: 140px;" class="filter-item" align="left" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
-      <el-select v-model="listQuery.taskType" :placeholder="$t('task.taskType')" clearable style="width: 140px" class="filter-item">
-        <el-option v-for="item in taskTypes" :key="item.typeId" :label="item.typeName" :value="item.typeId" />
+      <el-select v-model="listQuery.taskTypeId" :placeholder="$t('task.taskType')" clearable style="width: 140px" class="filter-item">
+        <el-option v-for="item in taskType" :key="item.id" :label="item.typeName" :value="item.id" />
       </el-select>
-      <el-date-picker v-model="listQuery.startTime" type="date" value-format="yyyy-MM-dd" style="width: 140px" :placeholder="$t('task.startTime')"/>
-      <el-date-picker v-model="listQuery.endTime" type="date" value-format="yyyy-MM-dd" style="width: 140px" :placeholder="$t('task.endTime')" />
+      <el-date-picker v-model="listQuery.taskStartTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" style="width: 140px" :placeholder="$t('task.taskStartTime')"/>
+      <el-date-picker v-model="listQuery.taskEndTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" style="width: 140px" :placeholder="$t('task.taskEndTime')" />
       <el-input v-model="listQuery.taskName" :placeholder="$t('task.taskName')" style="width: 140px;" class="filter-item" @keyup.native.enter="handleFilter" />
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
@@ -33,19 +33,19 @@
     <el-table
       :key="tableKey"
       v-loading="listLoading"
-      :data="pageList"
+      :data="totalData"
       border
       fit
       highlight-current-row
       style="width: 100%;"
     >
-      <el-table-column fixed="left" :label="$t('task.taskId')" align="center" width="100">
+      <el-table-column fixed="left" :label="$t('task.id')" align="center" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.taskId }}</span>
+          <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('task.taskStatus')" width="110px" align="center" prop="taskStatus"
-      :filters="[{text:'进行',value:'Doing'},{text:'等待',value:'Wait'},{text:'超时',value:'OutTime'},{text:'暂停',value:'Pause'},{text:'正常',value:'Normal'},{text:'完成',value:'Finished'}]"
+      :filters="[{text:'等待',value:'a'},{text:'超时',value:'e'},{text:'暂停',value:'d'},{text:'正常',value:'b'},{text:'完成',value:'c'}]"
       filter-placement="bottom-end"
       :filter-method="filterTag">
         <template slot-scope="{row}">
@@ -57,21 +57,21 @@
           <span>{{ scope.row.taskName }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.rodeName')" align="center" width="100">
+      <el-table-column :label="$t('task.routeName')" align="center" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.rodes.rodeName }}</span>
+          <span>{{ scope.row.rodes.routeName }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.startTime')" align="center" width="160">
+      <el-table-column :label="$t('task.taskStartTime')" align="center" width="180">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span>{{ scope.row.startTime}}</span>
+          <span>{{ scope.row.taskStartTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.endTime')" align="center" width="160">
+      <el-table-column :label="$t('task.taskEndTime')" align="center" width="180">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span>{{ scope.row.endTime}}</span>
+          <span>{{ scope.row.taskEndTime}}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('task.taskDesc')" align="center" width="210">
@@ -81,28 +81,28 @@
       </el-table-column>
       <el-table-column :label="$t('task.taskType')" width="100px" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.taskTypes.typeName }}</span>
+          <span>{{ scope.row.taskType.typeName }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.head')" align="center" width="90">
+      <el-table-column :label="$t('task.taskHeader')" align="center" width="90">
         <template slot-scope="scope">
-          <span>{{ scope.row.head }}</span>
+          <span>{{ scope.row.taskHeader }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('task.taskUav')" align="center" width="150">
       <template slot-scope="scope">
-      <span>{{ scope.row.taskUavs }}</span>
+      <span>{{ scope.row.device }}</span>
       </template>
       </el-table-column>
       <el-table-column fixed="right" :label="$t('table.actions')" align="center" width="300" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button :disabled="!(row.taskStatus=='OutTime'||row.taskStatus=='Normal')" size="mini" type="success" @click="handleModifyStatus(row,'finished')">
+          <el-button :disabled="!(row.taskStatus=='e'||row.taskStatus=='b')" size="mini" type="success" @click="handleModifyStatus(row,'finished')">
             {{ $t('task.btnFinished') }}
           </el-button>
-          <el-button :disabled="!(row.taskStatus=='Wait'||row.taskStatus=='Pause')" size="mini" type="primary" @click="handleModifyStatus(row,'start')">
+          <el-button :disabled="!(row.taskStatus=='a'||row.taskStatus=='d')" size="mini" type="primary" @click="handleModifyStatus(row,'start')">
             {{ $t('task.btnStart') }}
           </el-button>
-          <el-button :disabled="!(row.taskStatus=='OutTime'||row.taskStatus=='Normal')" size="mini" @click="handleModifyStatus(row,'pause')">
+          <el-button :disabled="!(row.taskStatus=='e'||row.taskStatus=='b')" size="mini" @click="handleModifyStatus(row,'pause')">
             {{ $t('task.btnPause') }}
           </el-button>
           <el-button size="mini" type="danger" @click="handleModifyStatus(row,'delete')">
@@ -124,29 +124,29 @@
         <el-form-item :label="$t('task.taskName')" prop="taskName">
           <el-input v-model="temp.taskName" type="text" placeholder="请输入任务名称" style="width: 100%"/>
         </el-form-item>
-        <el-form-item :label="$t('task.head')" prop="head">
-          <el-input v-model="temp.head" type="text" placeholder="请输入负责人" style="width: 100%"/>
+        <el-form-item :label="$t('task.taskHeader')" prop="taskHeader">
+          <el-input v-model="temp.taskHeader" type="text" placeholder="请输入负责人" style="width: 100%"/>
         </el-form-item>
-        <el-form-item :label="$t('task.startTime')" prop="startTime">
-          <el-date-picker v-model="temp.startTime" value-format="yyyy-MM-dd HH:mm" type="datetime" placeholder="请选择开始时间" style="width: 100%"/>
+        <el-form-item :label="$t('task.taskStartTime')" prop="taskStartTime">
+          <el-date-picker v-model="temp.taskStartTime" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="请选择开始时间" style="width: 100%"/>
         </el-form-item>
-        <el-form-item :label="$t('task.endTime')" prop="endTime">
-          <el-date-picker v-model="temp.endTime" value-format="yyyy-MM-dd HH:mm" type="datetime" placeholder="请选择结束时间" style="width: 100%"/>
+        <el-form-item :label="$t('task.taskEndTime')" prop="taskEndTime">
+          <el-date-picker v-model="temp.taskEndTime" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="请选择结束时间" style="width: 100%"/>
         </el-form-item>
-        <el-form-item :label="$t('task.taskUav')" prop="taskUavs">
-          <!--<el-input v-model="temp.taskUavs" />-->
-          <el-select v-model="temp.taskUavs" class="filter-item" placeholder="请选择机型" style="width: 100%">
-            <el-option v-for="(item,index) in taskUavs" :key="index" :label="item" :value="item"/>
+        <el-form-item :label="$t('task.taskUav')" prop="device">
+          <!--<el-input v-model="temp.device" />-->
+          <el-select v-model="temp.deviceId" class="filter-item" placeholder="请选择机型" style="width: 100%">
+            <el-option v-for="(item,index) in device" :key="index" :label="item" :value="item.id"/>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('task.taskType')" prop="taskTypes">
-          <el-select v-model="temp.taskTypes.typeName" class="filter-item" placeholder="请选择任务类型" style="width: 100%">
-            <el-option v-for="item in taskTypes" :key="item.typeId" :label="item.typeName" :value="item.typeName"/>
+        <el-form-item :label="$t('task.taskTypeId')" prop="taskType">
+          <el-select v-model="temp.taskTypeId" class="filter-item" placeholder="请选择任务类型" style="width: 100%">
+            <el-option v-for="item in taskType" :key="item.id" :label="item.typeName" :value="item.id"/>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('task.rodeName')" prop="rodes">
-          <el-select v-model="temp.rodes.rodeName" class="filter-item" placeholder="请选择任务类型" style="width: 100%">
-            <el-option v-for="item in rodes" :key="item.rodeId" :label="item.rodeName" :value="item.rodeName"/>
+        <el-form-item :label="$t('task.rodeId')" prop="rodes">
+          <el-select v-model="temp.rodeId" class="filter-item" placeholder="请选择任务类型" style="width: 100%">
+            <el-option v-for="item in rodes" :key="item.id" :label="item.routeName" :value="item.id"/>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('task.taskDesc')" prop="taskDesc">
@@ -168,7 +168,7 @@
 </template>
 
 <script>
-import { fetchTasklist,updateTask,createTask } from '@/api/task'
+import { fetchTasklist,updateTask,createTask,fetchTaskTypelist,fetchDevicelist,taskDelete } from '@/api/task'
 import {formatDate} from './utils.js'
 import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination'
@@ -183,40 +183,33 @@ export default {
       tableKey: 0,
       // 从后台获取的总数据
       totalData: null,
-      pageList: null,
       total: 0,
       listLoading: true,
       listQuery: {
         page: 1,
         limit: 20,
-        taskType: undefined,
+        taskTypeId: undefined,
         taskName: undefined,
-        startTime: '',
-        endTime:'',
-        sort:'+id'
+        taskStartTime: '',
+        taskEndTime:'',
+        order:'+id'
       },
-      taskTypes:[
-        { typeId: 1, typeName: '消防任务' },
-        { typeId: 2, typeName: '医疗任务' },
-        { typeId: 3, typeName: '交通任务' },
-        { typeId: 4, typeName: '物流任务' },
-        { typeId: 5, typeName: '巡警任务' },
-        { typeId: 6, typeName: '其他任务' }
+      taskType:[
       ],
       rodes:[
-        {rodeId:1,rodeName:'福州线'},
-        {rodeId:2,rodeName:'厦门线'},
-        {rodeId:3,rodeName:'漳州线'},
-        {rodeId:4,rodeName:'泉州线'},
-        {rodeId:5,rodeName:'龙岩线'},
-        {rodeId:6,rodeName:'南平线'},
-        {rodeId:7,rodeName:'莆田线'},
-        {rodeId:8,rodeName:'三明线'},
-        {rodeId:9,rodeName:'平潭线'},
-        {rodeId:10,rodeName:'福清线'},
-        {rodeId:10,rodeName:'宁德线'}
+        {id:1,routeName:'福州线'},
+        {id:2,routeName:'厦门线'},
+        {id:3,routeName:'漳州线'},
+        {id:4,routeName:'泉州线'},
+        {id:5,routeName:'龙岩线'},
+        {id:6,routeName:'南平线'},
+        {id:7,routeName:'莆田线'},
+        {id:8,routeName:'三明线'},
+        {id:9,routeName:'平潭线'},
+        {id:10,routeName:'福清线'},
+        {id:11,routeName:'宁德线'}
       ],
-      taskUavs:['闪电F-28','科农A6-160','闪电F-35','猎鹰M6-84M6-84','天鹰M4-100','长空CK1B','长空CK1C','无侦5','ASN-12','WZ-2000','鲨鱼II'],
+      device:[],
       // 生成ID正序和倒序的选择框
       sortOptions: [
         { label: '任务ID正序排', key: '+id' },
@@ -224,26 +217,25 @@ export default {
       ],
       // 任务只有完成按钮，暂停按钮，开启按钮，删除按钮四个按钮，完成，超时，暂停，正常四个状态
       statusOptions: ['finished','pause','start', 'delete'],
-      taskStatusOptions: ['Finished','Wait','Normal' ,'OutTime','Pause'],
+      taskStatusOptions: ['c','a','b' ,'e','d'],
       dialogFormVisible:false,
       dialogStatus:'',
       formTitle:'创建任务',
       temp: {
-        taskId: undefined,
         taskName: '',
         taskDesc: '',
-        startTime: undefined,
-        endTime: undefined,
-        taskTypes:[{typeId:1,typeName:''}],
-        rodes:[{rodeId:1,rodeName:''}],
-        taskUavs:'',
+        taskStartTime: undefined,
+        taskEndTime: undefined,
+        taskTypeId:"",
+        rodeId:"",
+        deviceId:'',
         taskStatus:'',
-        head:''
+        taskHeader:''
       },
       dialogConfirmVisible:false,
       // 表单验证规则
       rules: {
-        head:[
+        taskHeader:[
           { required: true, message: '请输入负责人名称', trigger: 'blur' },
           { min: 2, max: 6, message: '长度在 2 到 6 个字符', trigger: 'blur' }
         ],
@@ -251,13 +243,13 @@ export default {
           { required: true, message: '请输入任务名称', trigger: 'blur' },
           { min: 3, max: 5, message: '长度在 4 到 8 个字符', trigger: 'blur' }
         ],
-        taskTypes: [
+        taskType: [
           { required: true, message: '请选择任务类型', trigger: 'change' }
         ],
         rodes: [
           { required: true, message: '请选择任务路线', trigger: 'change' }
         ],
-        taskUavs: [
+        device: [
           { required: true, message: '请选择任务机型', trigger: 'change' }
         ],
         taskDesc: [
@@ -269,63 +261,28 @@ export default {
   },
   mounted() {
     this.listLoading = true
-    fetchTasklist({}).then(resp => {
-      this.totalData = resp.data.items
-      this.total = resp.data.total
-      this.getList()
-      setTimeout(() => {
-        this.listLoading = false
-      }, 200)
-    })
-  },
+    fetchTaskTypelist().then(res=>this.taskType=res.data).then(fetchDevicelist().then(res=>this.device=res.data.data.items).then(_=>this.getList())
+  )},
   methods: {
     resetTemp() {
       this.temp = {
-        taskId: undefined,
         taskName: '',
         taskDesc: '',
-        startTime: new Date(),
-        endTime: new Date(new Date().getTime() + 24*60*60*1000),
-        taskTypes:[{typeId:1,typeName:''}],
-        rodes:[{rodeId:1,rodeName:''}],
-        taskUavs:'',
+        taskStartTime: new Date(),
+        taskEndTime: new Date(new Date().getTime() + 24*60*60*1000),
+        taskType:[{id:1,typeName:''}],
+        rodes:[{id:1,routeName:''}],
+        device:'',
         taskStatus:'',
-        head:''
+        taskHeader:''
       }
     },
     getList() {
-      let { page, limit, taskType, taskName, sort, startTime, endTime } = this.listQuery
-      // 过滤查询结果集
-      let filterData = this.totalData.filter(item => {
-        let _startTime = new Date(item.startTime.split(" ")[0]).getTime()/1000;
-        let _endTime = new Date(item.endTime.split(" ")[0]).getTime()/1000;
-        //console.log(_startTime,_endTime);
-        let queryStartTime = new Date(startTime).getTime()/1000;
-        let queryEndTime = new Date(endTime).getTime()/1000;
-        //console.log(queryStartTime,queryEndTime);
-        if (queryStartTime && queryEndTime){
-          if(_startTime < queryStartTime || _endTime > queryEndTime) return false
-        }
-        if (queryStartTime && !queryEndTime){
-          if(_startTime < queryStartTime) return true
-        }
-        if (!queryStartTime && queryEndTime){
-          if(_endTime > queryEndTime) return true
-        }
-        if (taskName && item.taskName.indexOf(taskName) < 0) return false
-        if (taskType && item.taskTypes.typeId !== taskType) return false
-        return true
+      fetchTasklist(this.listQuery).then(resp => {
+        this.totalData = resp.data.data.list;
+        this.total = resp.data.data.total;
+        this.listLoading = false
       })
-
-      //排序
-      if(sort === '-id'){
-        filterData = filterData.reverse();
-      }
-
-      // 分页过滤
-      this.pageList = filterData
-        .filter((item, index) => index < page * limit && index >= limit * (page - 1))
-      //console.log(this.pageList)
     },
     handleFilter() {
       this.getList()
@@ -341,13 +298,13 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           //本次模拟数据中ID最大值+1
-          this.temp.taskId = this.totalData[this.totalData.length-1].taskId+1 //parseInt(Math.random() * 100) + 1024
-          this.temp.startTime = formatDate(this.temp.startTime,"yyyy-MM-dd hh:ss")
-          this.temp.endTime = formatDate(this.temp.endTime,"yyyy-MM-dd hh:ss")
-          this.temp.taskStatus = 'Wait'
+//          this.temp.id = this.totalData[this.totalData.length-1].id+1 //parseInt(Math.random() * 100) + 1024
+//          this.temp.taskStartTime = formatDate(this.temp.taskStartTime,"yyyy-MM-dd HH:mm:ss")
+//          this.temp.taskEndTime = formatDate(this.temp.taskEndTime,"yyyy-MM-dd HH:mm:ss")
+          this.temp.taskStatus = 'a'
           createTask(this.temp).then(() => {
             //console.log(this.temp)
-            this.pageList.unshift(this.temp)
+//            this.totalData.unshift(this.temp)
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
@@ -362,16 +319,16 @@ export default {
     deleteData(){
       console.log(this.deleteObj)
       const index = this.totalData.indexOf(this.deleteObj)
-      this.pageList.splice(index, 1)
+      this.totalData.splice(index, 1)
       this.dialogConfirmVisible = false
     },
     handleModifyStatus(row, status) {
       if(status === 'finished'){
-        row.taskStatus = 'Finished'
+        row.taskStatus = 'c'
       }else if(status === 'start'){
-        row.taskStatus = 'Normal'
+        row.taskStatus = 'b'
       }else if(status === 'pause'){
-        row.taskStatus = 'Wait'
+        row.taskStatus = 'a'
       }else if(status === 'delete'){
         this.dialogConfirmVisible = true
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -381,18 +338,19 @@ export default {
         }).then(() => {
           //执行删除
           let index = -1;
-          this.pageList.forEach((thisTask,idx)=>{
-            if(thisTask.taskId === row.taskId)
-              index = idx;
+          this.totalData.forEach((thisTask,idx)=>{
+            if(thisTask.id === row.id)
+              index = idx+1;
           });
-          this.pageList.splice(index,1);
-          // const index = this.totalData.indexOf(row)
-          // this.pageList.splice(index, 1)
-
-          this.$message({
+          taskDelete({id:index}).then(_=>  {this.$message({
             type: 'success',
             message: '删除成功!'
           });
+          this.getList()})
+          // const index = this.totalData.indexOf(row)
+          // this.totalData.splice(index, 1)
+
+
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -404,38 +362,35 @@ export default {
     filterTag(value, row){
       //逻辑判断过滤
       const valueMap = {
-        Finished:'Finished',
-        Wait:'Wait',
-        OutTime:'OutTime',
-        Normal:'Normal',
-        Pause:'Pause'
+        c:'c',
+        a:'a',
+        e:'e',
+        b:'b',
+        d:'d'
       }
       if(valueMap[value]){
         return row.taskStatus === value
-      }
-      if(value === 'Doing'){
-        return row.taskStatus === 'OutTime' || row.taskStatus === 'Normal'
       }
     }
   },
   filters:{
     taskStatusValFilter(value){
       const statusMap = {
-        Finished:'完成',
-        Wait:'等待',
-        OutTime:'超时',
-        Normal:'正常',
-        Pause:'暂停'
+        c:'完成',
+        a:'等待',
+        e:'超时',
+        b:'正常',
+        d:'暂停'
       };
       return statusMap[value]
     },
     taskStatusFilter(status){
       const statusMap = {
-        Finished:'success',
-        OutTime:'danger',
-        Wait:'warning',
-        Normal:'primary',
-        Pause:'info'
+        c:'success',
+        e:'danger',
+        a:'warning',
+        b:'primary',
+        d:'info'
       };
       return statusMap[status];
     },
