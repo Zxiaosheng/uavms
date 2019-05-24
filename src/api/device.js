@@ -38,8 +38,11 @@ export function createDev(data) {
 
 export function uploadFile(data) {
   return request({
-    url: '/upload/dev/file',
+    url: '/serve/dev/file/import',
     method: 'post',
+    headers: {
+      contentType: 'multipart/form-data'
+    },
     data
   })
 }
