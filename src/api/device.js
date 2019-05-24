@@ -30,7 +30,7 @@ export function editStatus(data) {
 
 export function createDev(data) {
   return request({
-    url: '/device/add',
+    url: '/serve/dev/add',
     method: 'post',
     data
   })
