@@ -145,12 +145,12 @@
           <el-button
             size="mini"
             type="danger"
-            v-show="scope.row.status!='已停用'"
+            v-show="scope.row.deviceStatus!=='已停用'"
             @click="stopUse(scope.row.id)">停用</el-button>
           <el-button
             size="mini"
             type="success"
-            v-show="scope.row.status=='已停用'"
+            v-show="scope.row.deviceStatus==='已停用'"
             @click="startUse(scope.row.id)">启用</el-button>
         </template>
       </el-table-column>
@@ -174,13 +174,13 @@
           <el-input v-model="editData.id" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="设备名称">
-          <el-input v-model="editData.name"></el-input>
+          <el-input v-model="editData.deviceName"></el-input>
         </el-form-item>
         <el-form-item label="设备简介">
-          <el-input type="textarea" v-model="editData.desc" rows="6"></el-input>
+          <el-input type="textarea" v-model="editData.deviceComm" rows="6"></el-input>
         </el-form-item>
         <el-form-item label="设备类型">
-          <el-select v-model="editData.type" placeholder="">
+          <el-select v-model="editData.deviceType" placeholder="">
             <el-option label="微型" value="微型"></el-option>
             <el-option label="小型" value="小型"></el-option>
             <el-option label="中型" value="中型"></el-option>
@@ -188,7 +188,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="当前状态">
-          <el-select v-model="editData.status" placeholder="">
+          <el-select v-model="editData.deviceStatus" placeholder="">
             <el-option label="飞行中" value="飞行中"></el-option>
             <el-option label="待命中" value="待命中"></el-option>
             <el-option label="充电中" value="充电中"></el-option>
@@ -209,7 +209,7 @@
 </template>
 
 <script>
-  import { fetchList } from '@/api/device'
+  import { fetchList,editDev,editStatus } from '@/api/device'
   import DevChart from './dev-chart'
 
   import Pie from './com/Pie'
@@ -283,8 +283,13 @@
         this.dialogFormVisible=true
       },
       edit(){
-        this.page.list.splice(this.flag,1,{...this.editData})
-        this.dialogFormVisible = false
+
+        editDev(this.editData).then(()=>{
+
+          this.page.list.splice(this.flag,1,{...this.editData})
+          this.dialogFormVisible = false
+        })
+
       },
       stopUse(id){
 
@@ -298,27 +303,28 @@
           this.page.list.filter(item=>{
 
             if(id===item.id){
-              if(item.status==='飞行中'){
+              if(item.deviceStatus!=='待命中'){
                 msg={
                   type: 'info',
-                  message: '此设备正在执行任务'
+                  message: '此设备不处于空闲状态'
                 }
-              }else if(item.status==='已停用'){
-                msg={
-                  type: 'info',
-                  message: '此设备已经停用'
-                }
+                this.$message(msg);
               }else{
-                item.status='已停用'
-                msg={
-                  type: 'success',
-                  message: '停用成功'
-                }
+
+                editStatus({id: item.id, deviceStatus: '已停用'}).then(()=>{
+                  msg={
+                    type: 'success',
+                    message: '停用成功'
+                  }
+                  item.deviceStatus='已停用'
+                  this.$message(msg);
+                })
+
               }
+
             }
           })
 
-          this.$message(msg);
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -337,19 +343,26 @@
 
           let msg={};
           this.page.list.filter(item=>{
-            item.status='待命中'
-            msg={
-              type: 'success',
-              message: '启用成功'
+
+            if(id===item.id){
+              editStatus({id: item.id, deviceStatus: '待命中'}).then(()=>{
+                msg={
+                  type: 'success',
+                  message: '启用成功'
+                }
+                item.deviceStatus='待命中'
+                this.$message(msg);
+              })
             }
+
           })
 
-          this.$message(msg);
         }).catch(() => {
+
           this.$message({
             type: 'info',
             message: '已取消'
-          });
+          })
         });
       },
       async getList(){
