@@ -5,9 +5,9 @@ export default {
   historycount: {
     id: '编号',
     typeId: '任务类型',
-    date: '日期',
-    location: '任务地点',
-
+    date: '任务执行时间',
+    location: '任务路线',
+    refresh:'刷新',
     result: '执行结果'
   },
   user: {
@@ -143,6 +143,7 @@ export default {
     start: '出发地点',
     end: '到达地点',
     task: '任务状态',
+    taskstatus:'路线状态',
     add:'新增',
     edit:'编辑'
   },

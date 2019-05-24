@@ -15,8 +15,8 @@
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="handleCreate">
-        {{ $t('table.add') }}
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-refresh" @click="getList">
+        {{ $t('historycount.refresh') }}
       </el-button>
     </div>
 
@@ -31,7 +31,10 @@
 
       <el-table-column prop="route.routeName" align="center" :label="$t('historycount.location')" width="200"></el-table-column>
 
-      <el-table-column prop="taskStatus" align="center" :label="$t('historycount.result')" sortable width="200">
+      <el-table-column prop="taskStatus" align="center" :label="$t('historycount.result')" sortable width="200"
+                       :filters="[{text:'未执行',value:'a'},{text:'执行中',value:'b'},{text:'已完成',value:'c'},{text:'已取消',value:'d'},{text:'超时完成',value:'e'}]"
+                       filter-placement="bottom-end"
+                       :filter-method="filterTag">
         <template slot-scope="{row}">
           <el-tag :type="row.taskStatus|taskStatusFilter">{{ row.taskStatus|taskStatusValFilter }}</el-tag>
         </template>
@@ -39,10 +42,10 @@
 
       <el-table-column :label="$t('table.actions')" align="center"  class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            {{ $t('table.edit') }}
-          </el-button>
-          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row)">
+          <!--<el-button type="primary" size="mini" @click="handleUpdate(row)">-->
+            <!--{{ $t('table.edit') }}-->
+          <!--</el-button>-->
+          <el-button size="mini" type="danger" @click="handleDelete(row)">
             {{ $t('table.delete') }}
           </el-button>
         </template>
@@ -52,7 +55,7 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
     <!--编辑弹出窗-->
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <el-dialog title="编辑" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm"  :model="temp"  :rules="rules" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
 
         <el-form-item :label="$t('historycount.result')" prop="result.typeName">
@@ -114,12 +117,19 @@
         </el-button>
       </div>
     </el-dialog>
-
+    <!--删除弹出框-->
+    <el-dialog title="确认删除记录？" :visible.sync="centerDialogVisible" width="30%" center>
+      <span>删除之后可以从数据库任务表恢复</span>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="centerDialogVisible = false">取 消</el-button>
+          <el-button type="danger" @click="deleteData()">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-  import { fetchhistoryList,updatehistory,createhistory } from '@/api/history-count'
+  import { fetchhistoryList,isdeletehistory} from '@/api/history-count'
   import {fetchTaskType} from '@/api/rode'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // secondary package based on el-pagination
@@ -148,16 +158,15 @@
         taskType:[],
         dialogFormVisible: false,
         dialogFormAdd:false,
-        dialogStatus: '',
+        centerDialogVisible:false,
+        dialogStatus:'',
         listLoading:false,
         total: 0,
+        deleterow:0,
         pageData:[],
         typeId:[],
-        result:[{id:'a',typeName:'未执行'},{id:'b',typeName:'执行中'},{id:'c',typeName:'已完成'},{id:'d',typeName:'已取消'},{id:'e',typeName:'超时完成'}],
-        textMap: {
-          update: '编辑',
-          create: '新增'
-        },
+        result:[],
+//        result:[{id:'a',typeName:'未执行'},{id:'b',typeName:'执行中'},{id:'c',typeName:'已完成'},{id:'d',typeName:'已取消'},{id:'e',typeName:'超时完成'}],
         temp: {
           id:'',
           date: new Date(),
@@ -321,19 +330,42 @@
         row.status = status
       },
       handleDelete(row) {
-        this.$notify({
-          title: '成功',
-          message: '删除成功',
-          type: 'success',
-          duration: 2000
-        })
-        const index = this.list.indexOf(row)
-        this.list.splice(index, 1)
+        this.centerDialogVisible = true,
+          this.deleterow=row.id;
+//        console.log(this.deleterow);
+      },
+      deleteData(){
+        this.centerDialogVisible = false
+//        const index = this.list.indexOf(row)
+//        this.list.splice(index, 1)
+        console.log(this.deleterow);
+          isdeletehistory({id:this.deleterow}).then(response =>{
+            this.$notify({
+              title: '成功',
+              message: '修改成功',
+              type: 'success',
+              duration: 2000
+            })
+            this.getList();
+          })
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
         this.dialogFormAdd = false
         this.dialogFormVisible = false
+      },
+      filterTag(value, row){
+        //逻辑判断过滤
+        const valueMap = {
+          a:'a',
+          b:'b',
+          c:'c',
+          d:'d',
+          e:'e'
+        }
+        if(valueMap[value]){
+          return row.taskStatus === value
+        }
       }
     }
   }

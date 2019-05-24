@@ -12,15 +12,15 @@
       <el-select v-model="listQuery.taskTypeId" value-key="id" @change="getList" :placeholder="$t('rode.typeId')" clearable class="filter-item" style="width: 130px">
         <el-option v-for="(item ,idx ) of allTaskType" :key="idx" :label="item.typeName" :value="item.id" />
       </el-select>
+        <el-select v-model="listQuery.routeStatus" value-key="id" @change="getList" :placeholder="$t('rode.taskstatus')" clearable class="filter-item" style="width: 130px">
+          <el-option v-for="(item,idx) in routeStatus" :key="idx" :label="item.msg" :value="item.status" />
+        </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
         {{ $t('table.add') }}
       </el-button>
-      <!--<el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">-->
-        <!--{{ $t('table.export') }}-->
-      <!--</el-button>-->
     </div>
     <el-table :data="pageData" v-loading="listLoading" border fit  highlight-current-row style="width: 100%;magin-top:20px;">
 
@@ -38,7 +38,7 @@
 
       <el-table-column prop="arrival.locationName" :label="$t('rode.end')" width="150"></el-table-column>
 
-      <el-table-column prop="routeStatus"  :label="$t('rode.task')">
+      <el-table-column prop="routeStatus"  :label="$t('rode.taskstatus')">
         <template slot-scope="scope">
           <p>{{scope.row.routeStatus | getstatus()}}</p>
         </template>
@@ -88,7 +88,7 @@
             <el-option v-for="(item,idx) in location"  :key="idx" :label="item.locationName" :value="item.id"/>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('rode.task')" prop="routeStatus">
+        <el-form-item :label="$t('rode.taskstatus')" prop="routeStatus">
           <el-select v-model="temp.routeStatus" class="filter-item" placeholder="请选择任务状态" style="width: 100%">
             <el-option v-for="(item,idx) in routeStatus"  :key="idx" :label="item.msg" :value="item.status"/>
           </el-select>
@@ -130,7 +130,7 @@
             <el-option v-for="(item,idx) in location"  :key="idx" :label="item.locationName" :value="item.id"/>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('rode.task')" prop="routeStatus">
+        <el-form-item :label="$t('rode.taskstatus')" prop="routeStatus">
           <el-select v-model="addtemp.routeStatus" class="filter-item" placeholder="请选择任务状态" style="width: 100%">
             <el-option v-for="(item,idx) in routeStatus"  :key="idx" :label="item.msg" :value="item.status"/>
           </el-select>
@@ -207,7 +207,7 @@
           routeStart: undefined,
           routeEnd:undefined,
           taskTypeId:undefined,
-          routeStatus: undefined,
+          routeStatus: undefined
         },
         downloadLoading: false,
         rules: {
@@ -320,6 +320,7 @@
         this.$refs['AddForm'].validate((valid) => {
           if (valid) {
             this.addtemp.routeNo=new Date().getTime();
+            // console.log(this.addtemp)
             createNews(this.addtemp).then(() => {
               // this.pageData.unshift(this.addtemp)
               this.dialogFormAdd = false

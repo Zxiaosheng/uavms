@@ -2,25 +2,24 @@ import request from '@/utils/request'
 
 export function fetchhistoryList(query) {
 
-  // console.log("console.log(query)=====:")
   // console.log(query)
-
   let{page, limit} = query;
   let params = {page, limit};
+  // console.log(params)
   return request({
     // url: '/history-count/l',
-    url:theBaseUrl+'task/list',
+    url:'/serve/task/list',
     method: 'post',
-    params: query,
-    data: query
+    params: query,//传到地址栏上，==后端RequestParam
+    data: query//传到body里，==后端RequestBody
   })
 }
 
-export function updatehistory(data) {
+export function isdeletehistory(data) {
   return request({
-    url: '/history-count/u',
-    method: 'post',
-    data
+    url: '/serve/task/isdelete',
+    method: 'get',
+    params:data
   })
 }
 export function createhistory(data) {
