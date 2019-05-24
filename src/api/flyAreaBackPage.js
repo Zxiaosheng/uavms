@@ -3,7 +3,7 @@ import axios from '@/utils/request'
 export function fetchflyAreaListBackPage(query) {
   return axios({
     // url: '/flyArea/list',
-    url: 'http://localhost:8088/flyTask/selectFly',
+    url: '/serve/flyTask/selectFly',
     data:query,
     content_type:'application/json',
     method: 'post',
@@ -13,7 +13,7 @@ export function fetchflyAreaListBackPage(query) {
 //获取所有的地点
 export function fetchLocation(query) {
   return axios({
-    url: 'http://localhost:8088/location/all',
+    url: '/serve/location/all',
     method: 'get',
     params: query,
 
@@ -22,8 +22,34 @@ export function fetchLocation(query) {
 //获取所有任务类型
 export function fetchTaskType(query) {
   return axios({
-    url: 'http://localhost:8088/tasktype/getall',
+    url: '/serve/tasktype/getall',
     method: 'get',
     params: query
+  })
+}
+//新增
+export function createFly(data) {
+  return axios({
+    url: '/serve/flyTask/newFly',
+    content_type: 'application/json',
+    method: 'post',
+    data
+  })
+}
+//编辑
+export function updateFly(data) {
+  return axios({
+    url: '/serve/flyTask/edtFly',
+    content_type: 'application/json',
+    method: 'post',
+    data
+  })
+}
+//删除
+export function deletFly(query) {
+  return axios({
+    url: '/serve/flyTask/updateIsDelete',
+    method: 'get',
+    params: query,
   })
 }
