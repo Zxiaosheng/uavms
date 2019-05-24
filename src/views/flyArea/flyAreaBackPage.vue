@@ -40,7 +40,7 @@
           <p>{{scope.row.deviceId | getDeviceStatus()}}</p>
         </template>
       </el-table-column>
-      <el-table-column prop="date" sortable :label="$t('flyArea.date')"  align="center" width="170">
+      <el-table-column prop="taskStartTime" sortable :label="$t('flyArea.date')"  align="center" width="170">
 
       </el-table-column>
       <el-table-column prop="taskType" sortable :label="$t('flyArea.task')" align="center" width="120">
@@ -68,31 +68,31 @@
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" >
-      <el-form ref="dataForm"  :model="temp" :rules="rules" label-position="left" label-width="100px" style="width: 500px; margin-left:50px;">
+      <el-form ref="dataForm"  :model="temp"  label-position="left" label-width="100px" style="width: 500px; margin-left:50px;">
         <el-form-item :label="$t('flyArea.type')" prop="deviceId.typeName" style="width: 100%" >
-          <el-select v-model="temp.deviceId.typeName" class="filter-item" placeholder="Please select" style="width: 100%">
-            <el-option v-for="item in flyType" :key="item.id" :label="item.typeName" :value="item.typeName" />
+          <el-select v-model="temp.deviceId" class="filter-item" placeholder="Please select" style="width: 100%">
+            <el-option v-for="item in flyType" :key="item.id" :label="item.typeName" :value="item.id" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('flyArea.date')" prop="date"  required>
-          <el-date-picker v-model="temp.date" value-format="yyyy-MM-dd" type="date" placeholder="Please pick a date" style="width: 100%"/>
+        <el-form-item :label="$t('flyArea.date')" prop="taskStartTime"  >
+          <el-date-picker v-model="temp.taskStartTime" value-format="yyyy-MM-dd" type="date" placeholder="Please pick a date" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('flyArea.task')" prop="taskType" style="width: 100%" >
-          <el-select v-model="temp.taskType" class="filter-item" placeholder="Please select" style="width: 100%">
-            <el-option v-for="item in flyTask" :key="item.id" :label="item.taskName" :value="item.taskName" />
+          <el-select v-model="temp.taskTypeId" class="filter-item" placeholder="Please select" style="width: 100%">
+            <el-option v-for="item in allTaskType" :key="item.id" :label="item.typeName" :value="item.id" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('flyArea.area')" prop="route" style="width: 100%" >
-          <el-select v-model="temp.route" class="filter-item" placeholder="Please select" style="width: 100%" >
-            <el-option v-for="item in flyArea" :key="item.id" :label="item.areaName" :value="item.areaName" />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('flyArea.longitude')" prop="longitude" style="width: 100%">
-          <el-input v-model.number="temp.longitude"  />
-        </el-form-item>
-        <el-form-item :label="$t('flyArea.latitude')" prop="latitude" style="width: 100%">
-          <el-input v-model.number="temp.latitude" />
-        </el-form-item>
+        <!--<el-form-item :label="$t('flyArea.area')" prop="route" style="width: 100%" >-->
+          <!--<el-select v-model="temp.route.routeArrival" class="filter-item" placeholder="Please select" style="width: 100%" >-->
+            <!--<el-option v-for="item in location" :key="item.id" :label="item.locationName" :value="item.locationName" />-->
+          <!--</el-select>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item :label="$t('flyArea.longitude')" prop="longitude" style="width: 100%">-->
+          <!--<el-input v-model.number="temp.longitude"  />-->
+        <!--</el-form-item>-->
+        <!--<el-form-item :label="$t('flyArea.latitude')" prop="latitude" style="width: 100%">-->
+          <!--<el-input v-model.number="temp.latitude" />-->
+        <!--</el-form-item>-->
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -109,7 +109,7 @@
 
 <script>
   import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/article'
-  import {fetchflyAreaListBackPage,fetchLocation,fetchTaskType} from '@/api/flyAreaBackPage'
+  import {fetchflyAreaListBackPage,fetchLocation,fetchTaskType,createFly,updateFly,deletFly} from '@/api/flyAreaBackPage'
   import { parseTime } from '@/utils'
   import Pagination from '@/components/Pagination'
   import waves from '@/directive/waves' // waves directive
@@ -166,9 +166,9 @@
               dialogStatus: '',
               temp: {
                 id: undefined,
-                deviceId: {},
-                date:new Date(),
-                taskType:{},
+                deviceId: "",
+                taskStartTime:new Date(),
+                taskTypeId:"",
                 route:{},
                 longitude:'',
                 latitude:''
@@ -178,12 +178,12 @@
                   typeName:[{ required: true, message: 'type is required', trigger: 'change' }]
                 },
 
-                taskType: {
-                  taskName:[{ required: true, message: 'task is required', trigger: 'change' }]
+                allTaskType: {
+                  typeName:[{ required: true, message: 'task is required', trigger: 'change' }]
                 },
 
-                route:{
-                  areaName:[{ required: true, message: 'area is required', trigger: 'change' }]
+                location:{
+                  locationName:[{ required: true, message: 'area is required', trigger: 'change' }]
                 },
 
                 longitude: [ {required: true, message: 'longitude is required', trigger: 'blur' },
@@ -253,19 +253,21 @@
          })
         },
         handleDelete(row) {
-
-          this.$notify({
-            title: '成功',
-            message: '删除成功',
-            type: 'success',
-            duration: 2000
+          deletFly(row).then(response => {
+            this.$notify({
+              title: '成功',
+              message: '删除成功',
+              type: 'success',
+              duration: 2000
+            })
+            this.getList();
           })
-          const index = this.pageData.indexOf(row);
-          this.pageData.splice(index, 1);
+//          const index = this.pageData.indexOf(row);
+//          this.pageData.splice(index, 1);
         },
         handleUpdate(row) {
           this.temp = Object.assign({}, row) // copy obj
-//          this.temp.date = new Date(this.temp.date)
+//          this.temp.taskStartTime = new Date(this.temp.taskStartTime)
           this.dialogStatus = 'update'
           this.dialogFormVisible = true
           this.$nextTick(() => {
@@ -276,15 +278,15 @@
           this.$refs['dataForm'].validate((valid) => {
             if (valid) {
               const tempData = Object.assign({}, this.temp)
-//              tempData.date = +new Date(tempData.date) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-              updateArticle(tempData).then(() => {
-                for (const v of this.pageData) {
-                  if (v.id === this.temp.id) {
-                    const index = this.pageData.indexOf(v)
-                    this.pageData.splice(index, 1, this.temp)
-                    break
-                  }
-                }
+//              tempData.taskStartTime = +new Date(tempData.taskStartTime) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
+              updateFly(tempData).then(() => {
+//                for (const v of this.pageData) {
+//                  if (v.id === this.temp.id) {
+//                    const index = this.pageData.indexOf(v)
+//                    this.pageData.splice(index, 1, this.temp)
+//                    break
+//                  }
+//                }
                 this.dialogFormVisible = false
                 this.$notify({
                   title: '成功',
@@ -292,6 +294,7 @@
                   type: 'success',
                   duration: 2000
                 })
+                this.getList();
               })
             }
           })
@@ -299,9 +302,9 @@
         createData() {
           this.$refs['dataForm'].validate((valid) => {
             if (valid) {
-              this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-              createArticle(this.temp).then(() => {
-                this.pageData.unshift(this.temp)
+//              this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
+              createFly(this.temp).then(() => {
+//                this.tableData.unshift(this.temp)
                 this.dialogFormVisible = false
                 this.$notify({
                   title: '成功',
@@ -309,6 +312,7 @@
                   type: 'success',
                   duration: 2000
                 })
+                this.getList();
               })
             }
           })
@@ -317,7 +321,7 @@
           this.listQuery= {
             page: 1,
             limit: 20,
-            taskType: undefined,
+            taskType: {id:''},
             deviceId: undefined,
             route: {},
             order: '+id',
@@ -327,10 +331,10 @@
         resetTemp() {
           this.temp = {
             id: undefined,
-            deviceId: {},
-            date:'',
-//            date:new Date(),
-            taskType:{},
+            deviceId: "",
+            taskStartTime:'',
+//            taskStartTime:new Date(),
+            taskTypeId:"",
             route:{},
             longitude:'',
             latitude:''
@@ -347,8 +351,8 @@
         handleDownload() {
           this.downloadLoading = true
           import('@/vendor/Export2Excel').then(excel => {
-            const tHeader = ['deviceId', 'date', 'taskType', 'route', 'longitude','latitude']
-            const filterVal = ['deviceId', 'date', 'taskType', 'route', 'longitude','latitude']
+            const tHeader = ['deviceId', 'taskStartTime', 'taskType', 'route', 'longitude','latitude']
+            const filterVal = ['deviceId', 'taskStartTime', 'taskType', 'route', 'longitude','latitude']
             const data = this.formatJson(filterVal, this.tableData)
             excel.export_json_to_excel({
               header: tHeader,

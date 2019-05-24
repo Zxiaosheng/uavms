@@ -6,9 +6,10 @@ export default {
   historycount: {
     id: 'ID',
     typeId: 'TaskType',
-    date: 'Date',
+    date: 'StartTime',
     location: 'TaskRoute',
-    result: 'TaskResult'
+    result: 'TaskResult',
+    refresh:'Refresh'
   },
   // user用户列表的数据、
   user: {

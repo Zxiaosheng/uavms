@@ -14,6 +14,7 @@ export function fetchTasklist(query) {
 export function fetchTaskTypelist() {
   return request({
     url: '/serve'+'/tasktype/getall',
+
     method: 'get',
   })
 }

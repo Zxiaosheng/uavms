@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
     <div class="demo-input-size">
-      <el-input v-model="listQuery.start" :placeholder="$t('flight.start')" style="width: 150px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-input v-model="listQuery.end" :placeholder="$t('flight.end')" style="width: 150px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-date-picker v-model="listQuery.date1" type="date" value-format="yyyy-MM-dd" :placeholder="$t('flight.date1')" />
-      <el-date-picker v-model="listQuery.date2" type="date" value-format="yyyy-MM-dd" :placeholder="$t('flight.date2')" />
-      <el-select v-model="listQuery.type" value-key="id" :placeholder="$t('flight.typeId')" clearable class="filter-item" style="width: 130px" @change="getList">
+      <el-input v-model="listQuery.routeLeave" :placeholder="$t('flight.start')" style="width: 150px;" class="filter-item" @keyup.enter.native="getList" />
+      <el-input v-model="listQuery.routeArrival" :placeholder="$t('flight.end')" style="width: 150px;" class="filter-item" @keyup.enter.native="getList" />
+      <el-date-picker v-model="listQuery.routeStart" type="date" value-format="yyyy-MM-dd" :placeholder="$t('flight.date1')" />
+      <el-date-picker v-model="listQuery.routeEnd" type="date" value-format="yyyy-MM-dd" :placeholder="$t('flight.date2')" />
+      <el-select v-model="listQuery.taskTypeId" value-key="id" :placeholder="$t('flight.typeId')" clearable class="filter-item" style="width: 130px" @change="getList">
         <el-option v-for="item in typeId" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
@@ -20,17 +20,17 @@
     </div>
     <el-table v-loading="listLoading" :data="pageData" border fit highlight-current-row style="width: 100%;magin-top:20px;text-align: center">
 
-      <el-table-column prop="id" :label="$t('flight.id')" sortable align="center" width="150" />
+      <el-table-column prop="routeNo" :label="$t('flight.id')" sortable align="center" width="150" />
 
-      <el-table-column prop="typeId.typeName" :label="$t('flight.typeId')" align="center" width="133" />
+      <el-table-column prop="taskType.typeName" :label="$t('flight.typeId')" align="center" width="133" />
 
-      <el-table-column prop="date1" :label="$t('flight.date1')" sortable align="center" width="150" />
+      <el-table-column prop="routeStart" :label="$t('flight.date1')" sortable align="center" width="150" />
 
-      <el-table-column prop="date2" :label="$t('flight.date2')" sortable align="center" width="150" />
+      <el-table-column prop="routeEnd" :label="$t('flight.date2')" sortable align="center" width="150" />
 
-      <el-table-column prop="start" :label="$t('flight.start')" align="center" width="150" />
+      <el-table-column prop="leave.locationName" :label="$t('flight.start')" align="center" width="150" />
 
-      <el-table-column prop="end" :label="$t('flight.end')" align="center" width="150" />
+      <el-table-column prop="arrival.locationName" :label="$t('flight.end')" align="center" width="150" />
 
       <el-table-column :label="$t('table.actions')" align="center"  class-name="small-padding fixed-width">
         <template slot-scope="{row}">
@@ -148,6 +148,8 @@ export default {
       listLoading: false,
       total: 0,
       pageData: [],
+      allTaskType:[], //存放任务类型
+      location:[], //存放城市
       typeId: [{ id: '1', typeName: '救援型' }, { id: '2', typeName: '测绘型' }, { id: '3', typeName: '拍摄型' }, { id: '4', typeName: '交通型' }],
       textMap: {
         update: 'Edit',
@@ -172,12 +174,14 @@ export default {
       listQuery: {
         page: 1,
         limit: 20,
+        routeNo:undefined,
         id: undefined,
-        date1: undefined,
-        date2: undefined,
-        start: undefined,
-        end: undefined,
-        type: undefined
+        routeStart: undefined,
+        routeEnd: undefined,
+        routeLeave: undefined,
+        routeArrival: undefined,
+        type: undefined,
+        taskTypeId:undefined,
 
       },
       downloadLoading: false
@@ -197,7 +201,7 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      const { page, limit, id, date1, date2, start, end, type } = this.listQuery
+      /*const { page, limit, id, date1, date2, start, end, type } = this.listQuery
 
       const fiterData = this.list.filter(item => {
         if (id && item.id.indexOf(id) < 0) return false
@@ -211,13 +215,19 @@ export default {
 
       this.pageData = fiterData.filter((item, index) => {
         return index < page * limit && index >= limit * (page - 1)
+      })*/
+      fetchList(this.listQuery).then(response => {
+        this.pageData = response.data.list;
+        this.total = response.data.total;
+        //关闭加载框
+        this.listLoading=false;
       })
-      this.listLoading = false
+      // this.listLoading = false
     },
-    handleFilter() {
-      this.listQuery.page = 1
-      this.getList()
-    },
+    // handleFilter() {
+    //   this.listQuery.page = 1
+    //   this.getList()
+    // },
     handleUpdate(row) {
       this.temp = Object.assign({}, row) // copy obj
       // this.temp.timestamp = new Date(this.temp.timestamp)

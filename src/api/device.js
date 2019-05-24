@@ -12,9 +12,25 @@ export function fetchList(query) {
   })
 }
 
+export function editDev(data) {
+  return request({
+    url: '/serve/dev/edit',
+    method: 'post',
+    data
+  })
+}
+
+export function editStatus(data) {
+  return request({
+    url: '/serve/dev/edit/status',
+    method: 'get',
+    params: data
+  })
+}
+
 export function createDev(data) {
   return request({
-    url: '/device/add',
+    url: '/serve/dev/add',
     method: 'post',
     data
   })
@@ -22,8 +38,11 @@ export function createDev(data) {
 
 export function uploadFile(data) {
   return request({
-    url: '/upload/dev/file',
+    url: '/serve/dev/file/import',
     method: 'post',
+    headers: {
+      contentType: 'multipart/form-data'
+    },
     data
   })
 }
