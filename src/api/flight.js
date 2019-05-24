@@ -2,8 +2,13 @@ import request from '@/utils/request'
 
 export function fetchList(query) {
   return request({
-    url: '/flight/list',
+    /*url: '/flight/list',
     method: 'get',
+    params: query*/
+    url: '/serve/route/list',
+    content_type: 'application/json',
+    data: query,
+    method: 'post',
     params: query
   })
 }
