@@ -34,7 +34,7 @@ const mocks = [
   ...userManager,
   ...historycount,
   ...trouble,
-  ...flight,
+  // ...flight,
   ...troubleechart
 ]
 
