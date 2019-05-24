@@ -36,7 +36,7 @@
       <el-table-column :label="$t('user.caption')">
         <template slot-scope="scope" align="center">
           <!--修改用户权限-->
-          <el-button type="success" size="mini" @click="showEdtDialog(scope.row)">编辑</el-button>
+          <el-button type="primary" size="mini" @click="showEdtDialog(scope.row)">编辑</el-button>
           <!--编辑对话框的设置-->
           <el-dialog title="编辑用户信息" :visible.sync="dialogFormVisible">
             <el-form ref="dataForm" :model="form" label-position="left" label-width="70px"
@@ -85,7 +85,7 @@
             </div>
           </el-dialog>
 
-          <el-button size="mini" type="danger" @click="delNews(scope.row)">删除</el-button>
+          <el-button size="mini" type="warning" @click="delNews(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -148,7 +148,7 @@
           userName: undefined,
           userPri: undefined,
           userSex: undefined,
-          sort: '+id'
+          isDelete: 0,
         },
         isDelObj: {
           userId: ""
@@ -166,7 +166,6 @@
         this.listLoading = true;
         //首次挂载新闻列表组件时获得所有新闻数据
         userList(this.listQuery).then(response => {
-          console.log("response", response);
           this.tableData = response.data.list
           // 获得数据总数
           this.total = response.data.total;
@@ -197,7 +196,6 @@
       },
       createData() {
         this.$refs['dataForm'].validate((valid) => {
-          console.log('表单验证')
           if (valid) {
             this.form.userId = parseInt(Math.random() * 100) + 1024 // mock a id
             userAdd(this.form).then(() => {
@@ -228,21 +226,17 @@
           this.dialogFormVisible = !this.dialogFormVisible
         let {userId, userCompany, userDate, userName, userPrivileges, userSex, userTelephone, isDelete} = row;
         this.form = {userId, userCompany, userDate, userName, userPrivileges, userSex, userTelephone, isDelete};
-        console.log('编辑处的数据', this.form)
         this.$nextTick(() => {
           this.$refs['dataForm'].clearValidate()
         })
       },
       // 编辑按钮的保存操作
       saveData() {
-        console.log('编辑保存数据')
         this.dialogFormVisible = !this.dialogFormVisible
         let num = -1
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
-            console.log('valid', valid)
             const tempData = Object.assign({}, this.form)
-            console.log('编辑后的数据', tempData)
             userUpdate(tempData).then(() => {
               this.$notify({
                 title: '成功',
@@ -264,13 +258,9 @@
           type: 'warning'
         }).then(() => {
           let index = 0
-          console.log(row)
-          console.log("111", row.userId);
           let userId = row.userId
           this.isDelObj = {userId}
-          console.log(this.isDelObj)
           const delData = Object.assign({}, this.isDelObj)
-          console.log('eeeee',delData)
           isDel(delData).then(() => {
             this.$notify({
               title: '成功',

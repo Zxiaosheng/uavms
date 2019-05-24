@@ -56,7 +56,7 @@ export function userDel(query) {
 export function isDel(query) {
   return request({
     url: '/serve/user/delStatu',
-    method: 'get',
+    method: 'post',
     data:query,
     params: query
   })
@@ -68,7 +68,7 @@ export function isDel(query) {
 //导出用户视图页的数据
 export function userMap(query) {
   return request({
-    url: '/userMap',
+    url: process.env.VUE_APP_BASE_API+'/userMap',
     method: 'get',
     params: query
   })
