@@ -20,6 +20,7 @@
           <el-option label="小型" value="小型"></el-option>
           <el-option label="中型" value="中型"></el-option>
           <el-option label="大型" value="大型"></el-option>
+          <el-option label="特大型" value="特大型"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="状态" prop="devStatus">

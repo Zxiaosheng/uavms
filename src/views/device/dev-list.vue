@@ -67,6 +67,7 @@
       :expand-row-keys="expands"
       :row-key='getRowKeys'
       @expand-change="expandSelect"
+      v-loading="listLoading"
       border>
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -219,6 +220,7 @@
     name: "dev-list",
     data(){
       return{
+        listLoading: false,
         filters:[
           { text: '飞行中', value: '飞行中' },
           { text: '充电中', value: '充电中' },

@@ -46,3 +46,17 @@ export function uploadFile(data) {
     data
   })
 }
+
+export function getAllType(){
+  return request({
+    url: '/serve/dev/type/list',
+    method: 'get'
+  })
+}
+
+export function getAllSta(){
+  return request({
+    url: '/serve/dev/stat/type',
+    method: 'get'
+  })
+}
