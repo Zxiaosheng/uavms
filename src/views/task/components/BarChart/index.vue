@@ -46,14 +46,17 @@
     },
     mounted() {
       //数据包装处理
+      console.log('biao')
       this.data.map(item=>{
         let length=this.taskData.length;
         let count=this.taskData.filter(data=>{
+//          console.log(data.taskType.typeName)
          return data.taskType.typeName===item[2]
+//          return 0
         }).length
         if(typeof item[1] === 'number' && typeof item[0] === 'number'){
           item[1] = count
-          item[0] = parseFloat((count/length)*100)
+          item[0] = parseFloat((count/length)*300)
         }
       })
       this.initChart();

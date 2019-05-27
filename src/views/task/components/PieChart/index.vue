@@ -27,6 +27,7 @@
         type: String,
         default: '300px'
       }
+
     },
     data() {
       return {
@@ -34,42 +35,42 @@
         result:[
           {
             value:10,
-            name:'消防任务',
+            name:'消防',
             itemStyle:{
               color:'#FF9900'
             }
           },
           {
             value:25,
-            name:'医疗任务',
+            name:'医疗',
             itemStyle:{
               color:'#44cc9f'
             }
           },
           {
             value:15,
-            name:'交通任务',
+            name:'交通',
             itemStyle:{
               color:'#00CCCC'
             }
           },
           {
             value:25,
-            name:'物流任务',
+            name:'物流',
             itemStyle:{
               color:'#996666'
             }
           },
           {
             value:20,
-            name:'巡警任务',
+            name:'巡警',
             itemStyle:{
               color:'#00CCFF'
             }
           },
           {
             value:35,
-            name:'其他任务',
+            name:'其他',
             itemStyle:{
               color:'#FF9999'
             }
@@ -80,11 +81,11 @@
     mounted() {
       //初始化Echarts实例
       this.initChart()
-      fetchTasklist({}).then(resp=>{
+      fetchTasklist().then(resp=>{
         for (let i = 0; i < this.result.length; i++){
-          this.result[i].value = this.countLen(resp.data.items,this.result[i].name)
+          this.result[i].value = this.countLen(resp.data.data.items,this.result[i].name)
         }
-        //console.log(this.result)
+//        console.log(resp)
         this.initChart()
       })
     },
@@ -98,9 +99,11 @@
     methods:{
       //根据领域名称判断领域任务类型数据
       countLen(list,typeName){
+        console.log(list[0].taskType.typeName.includes(typeName)   )
         return list.filter(item=>{
-          return item.taskTypes.typeName.includes(typeName)
+          return item.taskType.typeName.includes(typeName)
         }).length;
+//          return 1
       },
       initChart(){
         //创建echarts实例
