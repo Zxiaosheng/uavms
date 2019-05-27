@@ -90,6 +90,8 @@
     },
     methods:{
       changeMonth(value){
+        this.successCnt=[];
+        this.failCnt=[];
         if(value === 3){
           this.xAxisLabel = march
           this.dayCnt = 31

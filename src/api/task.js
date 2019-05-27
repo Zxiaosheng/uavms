@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function fetchTasklist(query) {
+export function searchTasklist(query) {
   let {limit,page}=query
   return request({
     // url: process.env.VUE_APP_BASE_API+'/taskdev/search',
@@ -11,10 +11,19 @@ export function fetchTasklist(query) {
     data:query
   })
 }
+
+export function fetchTasklist() {
+  return request({
+    url: '/serve'+'/taskdev/list',
+    method: 'post',
+    data:{}
+  })
+}
+
+
 export function fetchTaskTypelist() {
   return request({
     url: '/serve'+'/tasktype/getall',
-
     method: 'get',
   })
 }
@@ -34,14 +43,14 @@ export function taskDelete(query) {
 
 export function updateTask(data) {
   return request({
-    url: process.env.VUE_APP_BASE_API+'/task/update',
+    url: 'serve'+'/taskdev/change',
     method: 'post',
     data
   })
 }
 export function createTask(data) {
   return request({
-    url:process.env.VUE_APP_BASE_API+ '/task/create',
+    url:'/serve'+ '/taskdev/create',
     method: 'post',
     data
   })

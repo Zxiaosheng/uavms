@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-container">
+  <div v-if="taskList.length!=0" class="chart-container">
     <el-row :gutter="20">
       <el-col :span="6">
         <div class="grid-content bg-purple">
@@ -85,7 +85,7 @@
       </el-col>
       <el-col :span="12">
         <div class="grid-content bg-purple-light" style="padding:0 20px 0 20px">
-          <bar-chart style="background-color:rgb(31,45,61);" :id="barChartId" width="100%"></bar-chart>
+          <bar-chart  style="background-color:rgb(31,45,61);" :id="barChartId" :taskData="taskList" width="100%"></bar-chart>
         </div>
       </el-col>
     </el-row>
@@ -99,7 +99,7 @@
   import GaugeChart from './components/GaugeChart'
   // 分类型统计年度服务领域
   import BarChart from './components/BarChart'
-  import {getTaskCount,fetchTasklist} from '@/api/task'
+  import {fetchTasklist} from '@/api/task'
   export default {
     name: 'dashboard',
     components:{
@@ -110,10 +110,11 @@
     mounted(){
       // 获取任务列表
       fetchTasklist({}).then(resp=>{
-        this.taskList = resp.data.items
+        this.taskList = resp.data.data.items;
+        this.taskCount = resp.data.data.total;
       })
       // 获取总任务数
-      getTaskCount().then(resp=>this.taskCount = resp.data.count)
+//      getTaskCount().then(resp=>this.taskCount = resp.data.count)
     },
     data(){
       return {
@@ -121,7 +122,7 @@
         gaugeChartId:'gauge',
         barChartId:'bar',
         taskCount:0,
-        taskWaitCount:0,
+        taskaCount:0,
         taskConcurrentCount:0,
         taskTimeOutCount:0,
         taskList:[]
@@ -146,28 +147,29 @@
     computed:{
       //计算已完成任务百分比
       finishedRate(){
-        return this.rateCalc('Finished')
+
+        return this.rateCalc('c')
       },
       //计算等待百分比
       waitRate(){
-        return this.rateCalc('Wait')
+        return this.rateCalc('a')
       },
       waitTargets(){
-        return this.countTaskTarget('Wait')
+        return this.countTaskTarget('a')
       },
       //计算正在并发进行百分比
       concurrentRate(){
-        return this.rateCalc('Normal')
+        return this.rateCalc('b')
       },
       concurrentTargets(){
-        return this.countTaskTarget('Normal')
+        return this.countTaskTarget('b')
       },
       //计算超时百分比
       timeOutRate(){
-        return this.rateCalc('OutTime')
+        return this.rateCalc('e')
       },
       timeOutTargets(){
-        return this.countTaskTarget('OutTime')
+        return this.countTaskTarget('e')
       }
     }
   }

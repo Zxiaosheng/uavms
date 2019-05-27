@@ -89,7 +89,7 @@
           <span>{{ scope.row.taskHeader }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('task.taskUav')" align="center" width="150">
+      <el-table-column :label="$t('task.device')" align="center" width="150">
       <template slot-scope="scope">
       <span>{{ scope.row.device }}</span>
       </template>
@@ -133,18 +133,18 @@
         <el-form-item :label="$t('task.taskEndTime')" prop="taskEndTime">
           <el-date-picker v-model="temp.taskEndTime" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="请选择结束时间" style="width: 100%"/>
         </el-form-item>
-        <el-form-item :label="$t('task.taskUav')" prop="device">
+        <el-form-item :label="$t('task.device')" prop="deviceId">
           <!--<el-input v-model="temp.device" />-->
           <el-select v-model="temp.deviceId" class="filter-item" placeholder="请选择机型" style="width: 100%">
-            <el-option v-for="(item,index) in device" :key="index" :label="item" :value="item.id"/>
+            <el-option v-for="item in device" :key="item.id" :label="item.deviceName" :value="item.id"/>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('task.taskTypeId')" prop="taskType">
+        <el-form-item :label="$t('task.taskType')" prop="taskType">
           <el-select v-model="temp.taskTypeId" class="filter-item" placeholder="请选择任务类型" style="width: 100%">
             <el-option v-for="item in taskType" :key="item.id" :label="item.typeName" :value="item.id"/>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('task.rodeId')" prop="rodes">
+        <el-form-item :label="$t('task.routeName')" prop="rodes">
           <el-select v-model="temp.rodeId" class="filter-item" placeholder="请选择任务类型" style="width: 100%">
             <el-option v-for="item in rodes" :key="item.id" :label="item.routeName" :value="item.id"/>
           </el-select>
@@ -168,7 +168,7 @@
 </template>
 
 <script>
-import { fetchTasklist,updateTask,createTask,fetchTaskTypelist,fetchDevicelist,taskDelete } from '@/api/task'
+import { searchTasklist,updateTask,createTask,fetchTaskTypelist,fetchDevicelist,taskDelete } from '@/api/task'
 import {formatDate} from './utils.js'
 import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination'
@@ -196,6 +196,8 @@ export default {
       },
       taskType:[
       ],
+      upData:{id:'',
+      taskStatus:''},
       rodes:[
         {id:1,routeName:'福州线'},
         {id:2,routeName:'厦门线'},
@@ -249,7 +251,7 @@ export default {
         rodes: [
           { required: true, message: '请选择任务路线', trigger: 'change' }
         ],
-        device: [
+        deviceId: [
           { required: true, message: '请选择任务机型', trigger: 'change' }
         ],
         taskDesc: [
@@ -278,7 +280,7 @@ export default {
       }
     },
     getList() {
-      fetchTasklist(this.listQuery).then(resp => {
+      searchTasklist(this.listQuery).then(resp => {
         this.totalData = resp.data.data.list;
         this.total = resp.data.data.total;
         this.listLoading = false
@@ -322,13 +324,17 @@ export default {
       this.totalData.splice(index, 1)
       this.dialogConfirmVisible = false
     },
+    changeStatus(id,taskStatus){
+      updateTask({id,taskStatus}).then(_=>this.getList())
+    },
     handleModifyStatus(row, status) {
+      console.log(row)
       if(status === 'finished'){
-        row.taskStatus = 'c'
+        this.changeStatus(row.id,'c')
       }else if(status === 'start'){
-        row.taskStatus = 'b'
+        this.changeStatus(row.id,'b')
       }else if(status === 'pause'){
-        row.taskStatus = 'a'
+        this.changeStatus(row.id,'a')
       }else if(status === 'delete'){
         this.dialogConfirmVisible = true
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {

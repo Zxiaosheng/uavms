@@ -24,6 +24,10 @@
       height: {
         type: String,
         default: '400px'
+      },
+      taskData:{
+        type: Array,
+        default:[]
       }
     },
     data(){
@@ -31,21 +35,25 @@
         chart:null,
         data:[
           ['score', 'amount', 'type'],
-          [80, 8000, '其他任务'],
-          [70, 7000, '医疗任务'],
-          [60, 6000, '交通任务'],
-          [50, 5000, '物流任务'],
-          [40, 4000, '巡警任务'],
-          [30, 3000, '消防任务'],
+          [80, 8000, '其他'],
+          [70, 7000, '医疗'],
+          [60, 6000, '交通'],
+          [50, 5000, '物流'],
+          [40, 4000, '巡警'],
+          [30, 3000, '消防'],
         ]
       }
     },
     mounted() {
       //数据包装处理
       this.data.map(item=>{
+        let length=this.taskData.length;
+        let count=this.taskData.filter(data=>{
+         return data.taskType.typeName===item[2]
+        }).length
         if(typeof item[1] === 'number' && typeof item[0] === 'number'){
-          item[1] = this.getRndInteger(0,10000)
-          item[0] = parseFloat((item[1]/10000)*100)
+          item[1] = count
+          item[0] = parseFloat((count/length)*100)
         }
       })
       this.initChart();

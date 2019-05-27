@@ -36,7 +36,7 @@ export default {
     taskType: '任务类型',
     taskStartTime: '开始时间',
     taskEndTime: '结束时间',
-    taskUav: '任务机型',
+    device: '任务机型',
     taskStatus: '任务状态',
     taskHeader: '负责人',
     btnFinished: '完成',
