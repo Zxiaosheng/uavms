@@ -53,3 +53,11 @@ export function deletFly(query) {
     params: query,
   })
 }
+//统计飞行次数
+export function flyCount(taskId) {
+  return axios({
+    url: '/serve/flyTask/flyCount/'+taskId,
+    method: 'get',
+    params: taskId,
+  })
+}
