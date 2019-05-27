@@ -72,8 +72,8 @@
 
                 visualMap: {
                   show: false,
-                  min: 80,
-                  max: 600,
+                  min: 0,
+                  max: 20,
                   inRange: {
                     colorLightness: [0, 1]
                   }
