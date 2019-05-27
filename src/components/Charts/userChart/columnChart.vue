@@ -30,7 +30,7 @@
       this.chart.setOption({
         backgroundColor: '#2c343c',
         title: {
-          text: '用户统计',
+          text: '最近一年用户统计',
           textStyle: {
             color: "white",
             fontWeight: "600",

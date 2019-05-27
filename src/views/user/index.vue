@@ -62,7 +62,7 @@
               <!--性别下拉框的设置-->
               <el-form-item label="用户性别">
                 <el-select v-model="form.userSex" value-key="id" placeholder="请选择" style="width: 120px">
-                  <el-option v-for="type in sexType" :key="type.id" :label="type.typeSex" :value="type.id"/>
+                  <el-option v-for="type in sexType" :key="type.id" :label="type.typeSex" :value="type.typeSex"/>
                 </el-select>
               </el-form-item>
 
@@ -158,7 +158,6 @@
     mounted() {
       this.getList();
     },
-
     methods: {
       // 分页的操作+过滤
       getList() {
@@ -188,20 +187,18 @@
       handleCreate() {
         this.resetTemp()
         this.dialogStatus = 'create',
-          this.dialogFormVisible = !this.dialogFormVisible
-        //
+        this.dialogFormVisible = !this.dialogFormVisible
         this.$nextTick(() => {
           this.$refs['dataForm'].clearValidate()
         })
       },
+      //新增数据的确定操作
       createData() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.form.userId = parseInt(Math.random() * 100) + 1024 // mock a id
             userAdd(this.form).then(() => {
               //创建一个新的对象插入，否则指针会一直指向this.form
-//              const tempData = Object.assign({}, this.form)
-//              this.tableData.unshift(tempData)
               this.dialogFormVisible = false
               this.$notify({
                 title: '成功',
@@ -219,13 +216,14 @@
         this.listQuery.page = 1
         this.getList()
       },
-      // 修改用户权限的操作
       // 编辑按钮的设置
       showEdtDialog(row) {
+        console.log('当前行的数据',row)
         this.dialogStatus = 'update',
           this.dialogFormVisible = !this.dialogFormVisible
         let {userId, userCompany, userDate, userName, userPrivileges, userSex, userTelephone, isDelete} = row;
         this.form = {userId, userCompany, userDate, userName, userPrivileges, userSex, userTelephone, isDelete};
+        console.log('this.form',this.form)
         this.$nextTick(() => {
           this.$refs['dataForm'].clearValidate()
         })

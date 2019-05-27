@@ -2,19 +2,19 @@
   <div class="allBox">
     <h4>无人机用户管理</h4>
     <div class="body">
-      <div class="titleName">近一周关键指标</div>
+      <div class="titleName">近一个月关键指标</div>
       <el-row class="top" style="border-left: 5px">
         <el-col :span="12">
-          <emptyPie v-if="add" :tableData="tableData" :add="add" :del="del" background="#1F2D29"/>
+          <emptyPie v-if="add" :add="add" :del="del" background="#1F2D29"/>
         </el-col>
         <el-col :span="12" class="outCon">
           <div>
             <p>新增人数</p>
-            <p>{{ tableData.add }}</p>
+            <p>{{add}}</p>
           </div>
           <div>
             <p>删除人数</p>
-            <p>{{ tableData.del }}</p>
+            <p>{{del}}</p>
           </div>
           <div>
             <p>净增人数</p>
@@ -24,23 +24,23 @@
       </el-row>
       <el-row style="margin-top: 10px">
         <el-col :xs="24" :sm="24" :lg="24">
-          <lineChart v-if="newNum[0]" :yNum="newNum" :dateData="dateData" background="#1F2D29"/>
+          <lineChart v-if="flag" :yNum="newNum" :dateData="dateData" background="#1F2D29"/>
         </el-col>
       </el-row>
       <el-row :gutter="20" style="margin-top: 10px">
         <el-col :span="12">
-          <sex-chart v-if="newNum[0]" :tableData="tableData" background="#1F2D29"/>
+          <sex-chart v-if="flag" :controlData="controlData" background="#1F2D29"/>
         </el-col>
         <el-col :span="12">
-          <columnChart v-if="newNum[0]" :dateData="dateData" :newNum="newNum"/>
+          <columnChart v-if="flag" :dateData="dateData" :newNum="newNum"/>
         </el-col>
       </el-row>
       <el-row :gutter="20" style="margin-top: 10px">
         <el-col :span="12">
-          <pie-map v-if="newNum[0]" :place="place" :list="list" background="#1F2D29"/>
+          <pie-map v-if="flag" :place="place" :list="list" background="#1F2D29"/>
         </el-col>
         <el-col :span="12">
-          <baiduChart v-if="newNum[0]" :place="place" :list="list" background="#1F2D29"/>
+          <baiduChart v-if="flag" :place="place" :list="list" background="#1F2D29"/>
         </el-col>
       </el-row>
     </div>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-  import {userMap} from '@/api/userManager'
+  import {userMap, getNewData, getArray,getProvince} from '@/api/userManager'
   import resize from '../../components/Charts/mixins/resize'
   import echarts from 'echarts'
   import emptyPie from '@/components/Charts/userChart/emptyPie'
@@ -66,8 +66,10 @@
     },
     data() {
       return {
+        //处理后的数据
+        controlData: {},
         // 从后台获取的总数据
-        tableData: {},
+        provData: {},
         newadd: '',
         value1: [],
         chart1: '',
@@ -78,27 +80,36 @@
         list: [],
         date: [],
         place: [],
+        flag: 0
       }
     },
     created() {
-      // 首次挂载列表组件
-      userMap({}).then(response => {
-        this.tableData = response.data
-        this.total = response.data.total
-        this.newadd = response.data.add - response.data.del
-        this.add = response.data.add
-        this.del = response.data.del
-        for (var i = 0; i < response.data.items.length; i++) {
-          this.list.push(response.data.items[i].totalNum)
-          this.date.push(response.data.items[i].date)
-          this.place.push(response.data.items[i].cadd)
-          let dayNum = this.list;
-          let date = this.date;
-          let item = dayNum[Math.floor(Math.random() * dayNum.length)];
-          let newDate = date[Math.floor(Math.random() * date.length)];
-          this.newNum.push(item);
-          this.dateData.push(newDate);
+      //获取到每个月份对应的数据
+      getArray({}).then(res => {
+        let dateArray = []
+        let numArray = []
+        for (let i = 0; i < res.data.length; i++) {
+          numArray.push(res.data[i].calNum);
+          dateArray.push(res.data[i].show_time);
         }
+        this.newNum = numArray
+        this.dateData = dateArray
+      }).then(_ => {
+        getNewData({}).then(res => {
+          this.controlData = res.data[0]
+          this.newadd = this.controlData.addcount - this.controlData.delcount
+          this.add = this.controlData.addcount
+          this.del = this.controlData.delcount
+        }).then(_ => {
+          getProvince({}).then(response => {
+            this.provData = response.data
+            for (var i = 0; i < response.data.length; i++) {
+              this.list.push(response.data[i].allNum)
+              this.place.push(response.data[i].provin)
+            }
+            this.flag = 1;
+          })
+        })
       })
     },
   }
@@ -140,19 +151,22 @@
   .allBox {
     background: #304156;
   }
-  .outCon{
-    display:flex;
+
+  .outCon {
+    display: flex;
   }
-  .outCon>div{
-    flex:1;
-    display:flex;
+
+  .outCon > div {
+    flex: 1;
+    display: flex;
     flex-direction: column;
-    align-items:center;
-    justify-content:center;
+    align-items: center;
+    justify-content: center;
     border-left: 1px solid white;
     margin-left: 2px;
   }
-  .outCon>div>p{
+
+  .outCon > div > p {
     font-size: 20px;
     color: white;
   }

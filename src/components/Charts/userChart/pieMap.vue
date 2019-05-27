@@ -45,8 +45,8 @@
         },
         visualMap: {
           show: true,
-          min: 80,
-          max: 600,
+          min: 0,
+          max: 20,
           inRange: {
               colorLightness: [0, 1]
           }
@@ -78,9 +78,9 @@
             },
             itemStyle: {
               normal: {
-                color: '#004881',
+                color: '#188DF0',
                 shadowBlur: 200,
-                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
               }
             },
             animationType: 'scale',

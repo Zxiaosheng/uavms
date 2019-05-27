@@ -205,7 +205,6 @@
         //获得每页要显示的数据
        getList() {
           let {page, limit, task, sort, type,area} = this.listQuery;
-
           //过滤查询结果集（先过滤，再分页）
           let filterData = this.tableData.filter(item => {
             if (task && item.task.id!=task) return false
@@ -222,7 +221,6 @@
           )
         },
         handleDelete(row) {
-
           this.$notify({
             title: '成功',
             message: '删除成功',

@@ -30,7 +30,7 @@
       this.chart.setOption({
         backgroundColor: '#2c343c',
         title: {
-          text: '最近一周用户登录趋势',
+          text: '最近一年用户增加趋势',
           textStyle: {
             color: "white",
             fontWeight: "600",

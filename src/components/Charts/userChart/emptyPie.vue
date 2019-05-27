@@ -10,13 +10,10 @@
     name: "UserRoute",
     mixins: [resize],
     props: {
-      tableData: {
-        type: Object
-      },
-      add:{
+      add: {
         type: Number,
       },
-      del:{
+      del: {
         type: Number,
       },
       className: {
@@ -50,7 +47,7 @@
         },
         series: [
           {
-            name: '访问来源',
+            name: '',
             type: 'pie',
             radius: ['40%', '60%'],
             avoidLabelOverlap: false,
@@ -73,9 +70,9 @@
               }
             },
             data: [
-              {value:'78', name: '新增人数'},
+              {value: this.add, name: '新增人数'},
               {value: this.del, name: '删除人数'},
-              {value: this.add , name: '净增人数'}
+              {value: this.add - this.del, name: '净增人数'}
             ]
           }
         ]
