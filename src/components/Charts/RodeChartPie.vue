@@ -27,7 +27,8 @@
             chart: null,
             list:[],
             list1:[],
-            name:''
+            name:'',
+            cityId:''
           }
         },
         mounted() {
@@ -42,13 +43,16 @@
         setChart(){
             //饼图
           this.chart = echarts.init(document.getElementById(this.id));
-
-            fetchChartList().then(response => {
-              this.list = response.data.items
-
-              for(var i=0;i<this.list.length;i++){
-                this.list[i].value+= Math.round(Math.random() * 20)
-              }
+            let id={
+              "cityId":this.cityId
+            }
+            fetchChartList(id).then(response => {
+              console.log(response)
+              this.list = response.data
+              // this.list = response.data.item
+              // for(var i=0;i<this.list.length;i++){
+              //   this.list[i].value+= Math.round(Math.random() * 20)
+              // }
 
               this.chart.setOption({
 
@@ -107,7 +111,6 @@
                         color: '#0f375f',
                       }
                     },
-
                     animationType: 'scale',
                     animationEasing: 'elasticOut',
                     animationDelay: function (idx) {
@@ -117,45 +120,52 @@
                 ]
               })
             })
-
           // console.log(this.name)
          },
         changeCp(){
           switch (this.cp) {
             case 1:
+              this.cityId='A'
               this.name='福州'
               this.setChart()
               break;
             case 2:
+              this.cityId='B'
               this.name='厦门'
-              console.log(this.name)
               this.setChart()
               break;
             case 3:
+              this.cityId='G'
               this.name='南平'
               this.setChart()
               break;
             case 4:
+              this.cityId='C'
               this.name='泉州'
               this.setChart()
               break;
             case 5:
+              this.cityId='D'
               this.name='漳州'
               this.setChart()
               break;
             case 6:
+              this.cityId='H'
               this.name='三明'
               this.setChart()
               break;
             case 7:
+              this.cityId='F'
               this.name='莆田'
               this.setChart()
               break;
             case 8:
+              this.cityId='I'
               this.name='龙岩'
               this.setChart()
               break;
             case 9:
+              this.cityId='E'
               this.name='宁德'
               this.setChart()
               break;

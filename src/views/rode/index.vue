@@ -7,14 +7,14 @@
       <el-select v-model="listQuery.routeArrival" value-key="id" @change="getList" :placeholder="$t('rode.end')" clearable class="filter-item" style="width: 130px">
         <el-option v-for="(item ,idx ) of location" :key="idx" :label="item.locationName" :value="item.id" />
       </el-select>
-     <el-date-picker v-model="listQuery.routeStart" type="date" value-format="yyyy-MM-dd HH:mm:ss" :placeholder="$t('rode.date1')" @change="getList"/>
+      <el-date-picker v-model="listQuery.routeStart" type="date" value-format="yyyy-MM-dd HH:mm:ss" :placeholder="$t('rode.date1')" @change="getList"/>
       <el-date-picker v-model="listQuery.routeEnd" type="date" value-format="yyyy-MM-dd HH:mm:ss" :placeholder="$t('rode.date2')" @change="getList"/>
       <el-select v-model="listQuery.taskTypeId" value-key="id" @change="getList" :placeholder="$t('rode.typeId')" clearable class="filter-item" style="width: 130px">
         <el-option v-for="(item ,idx ) of allTaskType" :key="idx" :label="item.typeName" :value="item.id" />
       </el-select>
-        <el-select v-model="listQuery.routeStatus" value-key="id" @change="getList" :placeholder="$t('rode.taskstatus')" clearable class="filter-item" style="width: 130px">
-          <el-option v-for="(item,idx) in routeStatus" :key="idx" :label="item.msg" :value="item.status" />
-        </el-select>
+      <el-select v-model="listQuery.routeStatus" value-key="id" @change="getList" :placeholder="$t('rode.taskstatus')" clearable class="filter-item" style="width: 130px">
+        <el-option v-for="(item,idx) in routeStatus" :key="idx" :label="item.msg" :value="item.status" />
+      </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
@@ -112,7 +112,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('rode.rodename')"  prop="routeName">
-            <el-input v-model="addtemp.routeName" style="width: 100%"/>
+          <el-input v-model="addtemp.routeName" style="width: 100%"/>
         </el-form-item>
         <el-form-item :label="$t('rode.date1')"  prop="routeStart">
           <el-date-picker v-model="addtemp.routeStart" value-format="yyyy-MM-dd HH:mm:ss" type="date"  placeholder="请选择出发时间" style="width: 100%"/>
@@ -212,7 +212,7 @@
         downloadLoading: false,
         rules: {
           taskType:{
-              typeName:[{ required: true, message: '请选择型号', trigger: 'change' }]
+            typeName:[{ required: true, message: '请选择型号', trigger: 'change' }]
           },
           routeName: [
             { required: true, message: '请输入路线名称', trigger: 'blur' }
@@ -378,9 +378,9 @@
 </script>
 
 <style scoped>
-.el-table{
-  margin-top: 20px;
-}
+  .el-table{
+    margin-top: 20px;
+  }
   .el-table-column {
     align:center
   }

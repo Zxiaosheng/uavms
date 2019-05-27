@@ -24,19 +24,6 @@ export default [
         }
       }
     }
-  },
-  {
-    url: '/rode/mchartlist',
-    type: 'get',
-    response: config => {
-      return {
-        code: 20000,
-        data: {
-          total: List1.length,
-          items: List1
-        }
-      }
-    }
-  },
+  }
 
 ]
