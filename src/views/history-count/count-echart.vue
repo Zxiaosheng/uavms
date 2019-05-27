@@ -5,6 +5,7 @@
 </template>
 
 <script>
+
   import Chart from '@/components/Charts/HistorycountBar'
 
   export default {

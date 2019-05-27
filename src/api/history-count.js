@@ -16,10 +16,25 @@ export function fetchhistoryList(query) {
 }
 
 export function isdeletehistory(data) {
+
   return request({
     url: '/serve/task/isdelete',
     method: 'get',
     params:data
+  })
+}
+
+export function taskechart() {
+  return request({
+    url: '/serve/task/echart',
+    method: 'get',
+  })
+}
+export function taskcount(query) {
+  return request({
+    url: '/serve/task/count',
+    method: 'get',
+    params: query
   })
 }
 export function createhistory(data) {
