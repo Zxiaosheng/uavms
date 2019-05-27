@@ -3,9 +3,9 @@
     <div class="demo-input-size">
       <!--<div class="demo-input-suffix">-->
       <!--<div class="filter-container">-->
-      <el-select v-model="listQuery.taskStatus" value-key="id" @change="getList" :placeholder="$t('historycount.result')" clearable class="filter-item" style="width: 130px">
-        <el-option v-for="item in result" :key="item.typeName" :label="item.typeName" :value="item.id" />
-      </el-select>
+      <!--<el-select v-model="listQuery.taskStatus" value-key="id" @change="getList" :placeholder="$t('historycount.result')" clearable class="filter-item" style="width: 130px">-->
+        <!--<el-option v-for="item in taskStatus" :key="item.typeName" :label="item.typeName" :value="item.id" />-->
+      <!--</el-select>-->
       <el-select v-model="listQuery.taskType.id" value-key="id" @change="getList" :placeholder="$t('historycount.typeId')" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in taskType" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
@@ -42,9 +42,9 @@
 
       <el-table-column :label="$t('table.actions')" align="center"  class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <!--<el-button type="primary" size="mini" @click="handleUpdate(row)">-->
-            <!--{{ $t('table.edit') }}-->
-          <!--</el-button>-->
+          <el-button type="primary" size="mini" @click="handleUpdate(row)">
+            {{ $t('table.edit') }}
+          </el-button>
           <el-button size="mini" type="danger" @click="handleDelete(row)">
             {{ $t('table.delete') }}
           </el-button>
@@ -57,62 +57,20 @@
     <!--编辑弹出窗-->
     <el-dialog title="编辑" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm"  :model="temp"  :rules="rules" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-
-        <el-form-item :label="$t('historycount.result')" prop="result.typeName">
-          <el-select v-model="temp.result.typeName" class="filter-item" placeholder="Please select" style="width:100%">
-            <el-option v-for="item in result"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
+        <el-form-item :label="$t('historycount.typeId')" prop="taskType">
+          <el-select v-model="temp.taskTypeId" class="filter-item" placeholder="请选择型号" style="width: 100%">
+            <el-option v-for="item in taskType"  :key="item.id" :label="item.typeName" :value="item.id"/>
           </el-select>
         </el-form-item>
-
-        <el-form-item :label="$t('historycount.date')" prop="date">
-          <el-date-picker  v-model="temp.date" value-format="yyyy-MM-dd" type="date" placeholder="Please pick a date" style="width:100%"/>
-        </el-form-item>
-
-        <el-form-item :label="$t('historycount.location')" prop="location">
-          <el-input v-model="temp.location" style="width:100%"/>
-        </el-form-item>
-        <el-form-item :label="$t('historycount.typeId')" prop="typeId.typeName">
-          <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select" style="width:100%">
-            <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
-          </el-select>
+        <el-form-item :label="$t('historycount.date')" prop="taskStartTime">
+          <el-date-picker v-model="temp.taskStartTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="请选择出发时间" style="width: 100%"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
-          <!--<el-button @click="resetForm('dataForm')">-->
           {{ $t('table.cancel') }}
         </el-button>
         <el-button type="primary" @click="updateData()">
-          {{ $t('table.confirm') }}
-        </el-button>
-      </div>
-    </el-dialog>
-    <!--新增弹出窗-->
-    <el-dialog title="新增" :visible.sync="dialogFormAdd">
-      <el-form ref="AddForm"  :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item  :label="$t('historycount.typeId')" prop="typeId.typeName">
-          <el-select v-model="temp.typeId.typeName" class="filter-item" placeholder="Please select" style="width:100%">
-            <el-option v-for="item in typeId"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('historycount.date')"  prop="date">
-          <el-date-picker v-model="temp.date" value-format="yyyy-MM-dd" style="width:100%" type="date" placeholder="Please pick a date" />
-        </el-form-item>
-        <el-form-item :label="$t('historycount.location')"  prop="location">
-          <el-input v-model="temp.location" style="width:100%" />
-        </el-form-item>
-        <el-form-item  :label="$t('historycount.result')" prop="result.typeName">
-          <el-select v-model="temp.result.typeName" class="filter-item" style="width:100%" placeholder="Please select">
-            <el-option v-for="item in result"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormAdd = false">
-          <!--<el-button @click="resetForm('AddForm')">-->
-          {{ $t('table.cancel') }}
-        </el-button>
-        <el-button type="primary" @click="addData()">
           {{ $t('table.confirm') }}
         </el-button>
       </div>
@@ -129,7 +87,7 @@
 </template>
 
 <script>
-  import { fetchhistoryList,isdeletehistory} from '@/api/history-count'
+  import { fetchhistoryList,isdeletehistory,updatedata} from '@/api/history-count'
   import {fetchTaskType} from '@/api/rode'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // secondary package based on el-pagination
@@ -165,22 +123,17 @@
         deleterow:0,
         pageData:[],
         typeId:[],
-        result:[],
-//        result:[{id:'a',typeName:'未执行'},{id:'b',typeName:'执行中'},{id:'c',typeName:'已完成'},{id:'d',typeName:'已取消'},{id:'e',typeName:'超时完成'}],
         temp: {
-          id:'',
-          date: new Date(),
-          location: '',
-//          result:'',
-          typeId: [{id:1,typeName:'消防型'}],
-          result: [{id:1,typeName:'Success'}]
+          id:undefined,
+          taskStartTime:undefined,
+          taskTypeId:undefined
         },
         listQuery: {
           page: 1,
           limit: 20,
           taskStatus:undefined,
           taskStartTime:undefined,
-          taskType:{id:''},
+          taskType:{id:'',typeName:''},
           route:{routeName:''}
         },
         downloadLoading: false
@@ -189,9 +142,9 @@
     filters:{
       taskStatusValFilter(value){
         const statusMap = {
-          a:'未执行',
-          b:'执行中',
-          c:'已完成',
+          "a":'未执行',
+          "b":'执行中',
+          "c":'已完成',
           d:'已取消',
           e:'超时完成'
         };
@@ -245,7 +198,6 @@
         })
         fetchTaskType().then(response =>{
           this.taskType = response.data
-//          console.log(this.taskType)
         })
       },
       handleFilter() {
@@ -253,9 +205,9 @@
         this.getList()
       },
       handleUpdate(row) {
-        this.temp = Object.assign({}, row) // copy obj
-        this.temp.timestamp = new Date(this.temp.timestamp)
-        this.dialogStatus = 'update'
+        console.log(row)
+        let {id,taskTypeId,taskStartTime}=row;
+        this.temp={id,taskTypeId,taskStartTime}
         this.dialogFormVisible = true
         this.$nextTick(() => {
           this.$refs['dataForm'].clearValidate()
@@ -301,16 +253,7 @@
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             const tempData = Object.assign({}, this.temp)
-            tempData.timestamp = +new Date(tempData.timestamp)
-            // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-            updatehistory(tempData).then(() => {
-              for (const v of this.pageData) {
-                if (v.id === this.temp.id) {
-                  const index = this.pageData.indexOf(v)
-                  this.pageData.splice(index, 1, this.temp)
-                  break
-                }
-              }
+            updatedata(tempData).then(() => {
               this.dialogFormVisible = false
               this.$notify({
                 title: '成功',
@@ -318,31 +261,22 @@
                 type: 'success',
                 duration: 2000
               })
+              this.getList()
             })
           }
         })
       },
-      handleModifyStatus(row, status) {
-        this.$message({
-          message: '操作成功',
-          type: 'success'
-        })
-        row.status = status
-      },
       handleDelete(row) {
         this.centerDialogVisible = true,
           this.deleterow=row.id;
-//        console.log(this.deleterow);
       },
       deleteData(){
         this.centerDialogVisible = false
-//        const index = this.list.indexOf(row)
-//        this.list.splice(index, 1)
         console.log(this.deleterow);
           isdeletehistory({id:this.deleterow}).then(response =>{
             this.$notify({
               title: '成功',
-              message: '修改成功',
+              message: '删除成功',
               type: 'success',
               duration: 2000
             })
