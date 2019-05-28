@@ -48,7 +48,7 @@
 </template>
 
 <script>
-  import {userMap, getNewData, getArray,getProvince} from '@/api/userManager'
+  import {getNewData, getArray,getProvince} from '@/api/userManager'
   import resize from '../../components/Charts/mixins/resize'
   import echarts from 'echarts'
   import emptyPie from '@/components/Charts/userChart/emptyPie'
@@ -88,6 +88,7 @@
       getArray({}).then(res => {
         let dateArray = []
         let numArray = []
+        console.log('res',res)
         for (let i = 0; i < res.data.length; i++) {
           numArray.push(res.data[i].calNum);
           dateArray.push(res.data[i].show_time);

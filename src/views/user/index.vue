@@ -181,6 +181,7 @@
           userPrivileges: "",
           userSex: "",
           userTelephone: "",
+          isDelete:0,
         }
       },
       // 新增表格数据的操作
