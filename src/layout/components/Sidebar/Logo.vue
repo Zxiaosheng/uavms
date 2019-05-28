@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: '无人机实时数据分析平台',
+      title: '无人机飞行数据分析平台',
       logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
     }
   }
