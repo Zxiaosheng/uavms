@@ -233,7 +233,7 @@
                           color: '#eee'
                         }
                       },
-                      max: 500
+                      max: 20
                     },
                     {
                       gridIndex: 1,

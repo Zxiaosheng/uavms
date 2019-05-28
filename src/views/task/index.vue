@@ -199,17 +199,6 @@ export default {
       upData:{id:'',
       taskStatus:''},
       rodes:[
-        {id:1,routeName:'福州线'},
-        {id:2,routeName:'厦门线'},
-        {id:3,routeName:'漳州线'},
-        {id:4,routeName:'泉州线'},
-        {id:5,routeName:'龙岩线'},
-        {id:6,routeName:'南平线'},
-        {id:7,routeName:'莆田线'},
-        {id:8,routeName:'三明线'},
-        {id:9,routeName:'平潭线'},
-        {id:10,routeName:'福清线'},
-        {id:11,routeName:'宁德线'}
       ],
       device:[],
       // 生成ID正序和倒序的选择框

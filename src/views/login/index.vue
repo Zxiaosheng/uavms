@@ -9,13 +9,13 @@
         <lang-select class="set-language" />
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="userNo">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
           ref="username"
-          v-model="loginForm.username"
+          v-model="loginForm.userNo"
           :placeholder="$t('login.username')"
           name="username"
           type="text"
@@ -25,14 +25,14 @@
       </el-form-item>
 
       <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
-        <el-form-item prop="password">
+        <el-form-item prop="userPwd">
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
           <el-input
             :key="passwordType"
             ref="password"
-            v-model="loginForm.password"
+            v-model="loginForm.userPwd"
             :type="passwordType"
             :placeholder="$t('login.password')"
             name="password"
@@ -71,9 +71,9 @@
       <el-button :loading="loading" type="primary" style="width:100%;margin:30px 0;" @click.native.prevent="handleLogin" >
         {{ $t('login.logIn') }}
       </el-button>
-      <el-button class='reg' :loading="loading"  style="width:100%;margin-bottom:30px;" @click="handleRegiest" >
-        {{ $t('login.register') }}
-      </el-button>
+      <!--<el-button class='reg' :loading="loading"  style="width:100%;margin-bottom:30px;" @click="handleRegiest" >-->
+        <!--{{ $t('login.register') }}-->
+      <!--</el-button>-->
   </div>
       <el-dialog
         title='注册'
@@ -173,8 +173,8 @@ export default {
       loginForm: {
 //        username: 'admin',
 //        password: '111111'
-        username: '',
-        password: '',
+        userNo: '',
+        userPwd: '',
         repassword: '',
         verifycode:''
       },
@@ -188,8 +188,8 @@ export default {
 
       identifyCode: '',
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        userNo: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        userPwd: [{ required: true, trigger: 'blur', validator: validatePassword }],
         verifycode: [
           { required: true, trigger: 'blur', validator: validateVerifycode }
         ]

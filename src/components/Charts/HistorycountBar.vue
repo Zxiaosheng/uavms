@@ -5,7 +5,6 @@
 <script>
   import echarts from 'echarts'
   import resize from './mixins/resize'
-//  import Mock from 'mockjs'
   import {taskechart,taskcount} from '@/api/history-count'
 
   export default {

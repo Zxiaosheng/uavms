@@ -111,6 +111,7 @@
       // 获取任务列表
       fetchTasklist({}).then(resp=>{
         this.taskList = resp.data.data.items;
+        console.log('yemian')
         this.taskCount = resp.data.data.total;
       })
       // 获取总任务数

@@ -61,3 +61,30 @@ export function flyCount(taskId) {
     params: taskId,
   })
 }
+export function getProvince(){
+  return axios({
+    url :'/serve/flyTask/province',
+    method:'get',
+  })
+}
+export function getCity(id){
+  return axios({
+    url :'/serve/flyTask/city/'+id,
+    method:'get',
+    param:id
+  })
+}
+export function getGrid(id){
+  return axios({
+    url :'/serve/flyTask/grid/'+id,
+    method:'get',
+    param:id
+  })
+}
+export function getLocation(id){
+  return axios({
+    url :'/serve/flyTask/location/'+id,
+    method:'get',
+    param:id
+  })
+}

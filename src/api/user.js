@@ -2,9 +2,10 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: process.env.VUE_APP_BASE_API+'/user/login',
-    method: 'post',
-    data
+    // url: process.env.VUE_APP_BASE_API+'/user/login',
+    url: 'serve/login/user',
+    method: 'get',
+    params:data
   })
 }
 

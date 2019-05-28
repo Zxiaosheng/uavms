@@ -4,7 +4,7 @@
     <!--<panel-group @handleSetLineChartData="handleSetLineChartData" />-->
     <el-row style="height: 8%;min-height: 1.5em" type="flex" align="middle" justify="center">
       <h2 style="margin: auto;color: white">
-        无人机实时数据分析平台
+        无人机飞行数据分析平台
       </h2>
     </el-row>
 

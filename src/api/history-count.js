@@ -37,6 +37,14 @@ export function taskcount(query) {
     params: query
   })
 }
+export function updatedata(data) {
+  return request({
+    url: '/serve/task/update',
+    content_type: 'application/json',
+    method: 'post',
+    data
+  })
+}
 export function createhistory(data) {
   return request({
     url: '/history-count/c',

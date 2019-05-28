@@ -60,3 +60,10 @@ export function getAllSta(){
     method: 'get'
   })
 }
+
+export function getAllTaskSta(){
+  return request({
+    url: '/serve/dev/stat/task',
+    method: 'get'
+  })
+}

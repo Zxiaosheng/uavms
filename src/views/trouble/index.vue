@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <div class="demo-input-size">
-      <el-date-picker v-model="listQuery.createTimeStart" type="date" placeholder="起始日期" style="width: 130px"/>
-      <el-date-picker v-model="listQuery.createTimeEnd" type="date" placeholder="截止日期" style="width: 130px"/>
+      <el-date-picker v-model="listQuery.startTime" type="date" placeholder="起始日期" style="width: 130px"/>
+      <el-date-picker v-model="listQuery.endTime" type="date" placeholder="截止日期" style="width: 130px"/>
       <el-select v-model="listQuery.planType" value-key="id" @change="getList" placeholder="无人机类型" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in planType" :key="item.typeName" :label="item.typeName" :value="item.id" />
       </el-select>
@@ -17,17 +17,17 @@
       </el-button>
     </div>
 
-    <el-table :data="pageData" v-loading="listLoading" border fit  highlight-current-row style="width: 100%;magin-top:20px;text-align: center">
+    <el-table :data="page.list" v-loading="listLoading" border fit  highlight-current-row style="width: 100%;magin-top:20px;text-align: center">
 
-      <el-table-column prop="date" label="日期"  align="center" width="100"></el-table-column>
+      <el-table-column prop="troubleDate" label="具体时间"  align="center" width="100"></el-table-column>
 
-      <el-table-column prop="planType.typeName" label="无人机类型" width="120"></el-table-column>
+      <el-table-column prop="device.deviceName" label="无人机类型" align="center" width="120"></el-table-column>
 
-      <el-table-column prop="troubleType.typeName" label="故障类型" width="100"></el-table-column>
+      <el-table-column prop="troubleType" label="故障类型" align="center" width="100"></el-table-column>
 
-      <el-table-column prop="troubleCount" label="故障次数" width="80"></el-table-column>
+      <el-table-column prop="deviceId" label="设备ID" align="center" width="80"></el-table-column>
 
-      <el-table-column prop="troubleReason" label="故障原因"></el-table-column>
+      <el-table-column prop="troubleReason" label="故障原因" align="center"></el-table-column>
 
       <el-table-column label="操作" align="center" width="160" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
@@ -49,21 +49,21 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm"  :model="temp" label-position="left" label-width="90px" style="width: 400px; margin-left:50px;">
 
-        <el-form-item label="日期" prop="date">
-          <el-date-picker v-model="temp.date" type="date" value-format="yyyy-MM-dd" placeholder="Please pick a date" />
+        <el-form-item label="具体时间" prop="troubleDate">
+          <el-date-picker v-model="temp.troubleDate" type="date" value-format="yyyy-MM-dd" placeholder="Please pick a date" />
         </el-form-item>
         <el-form-item label="无人机类型" prop="planType.typeName">
-          <el-select v-model="temp.planType.typeName" class="filter-item" placeholder="Please select">
+          <el-select v-model="temp.planType" class="filter-item" placeholder="请选择">
             <el-option v-for="item in planType"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
         <el-form-item label="故障类型" prop="troubleType.typeName">
-          <el-select v-model="temp.troubleType.typeName" class="filter-item" placeholder="Please select">
+          <el-select v-model="temp.troubleType" class="filter-item" placeholder="请选择">
             <el-option v-for="item in troubleType"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
-        <el-form-item label="故障次数" prop="troubleCount">
-          <el-input v-model="temp.troubleCount" />
+        <el-form-item label="设备ID" prop="deviceId">
+          <el-input v-model="temp.deviceId" />
         </el-form-item>
         <el-form-item label="故障原因" prop="troubleReason">
           <el-input v-model="temp.troubleReason" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
@@ -82,21 +82,21 @@
     <!--新增弹出窗-->
     <el-dialog title="新增" :visible.sync="dialogFormAdd">
       <el-form ref="AddForm"   :model="addtemp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="日期"  prop="date">
-          <el-date-picker v-model="addtemp.date" type="date"  placeholder="Please pick a date" />
+        <el-form-item label="具体时间"  prop="troubleDate">
+          <el-date-picker v-model="addtemp.troubleDate" type="date"  placeholder="请填写时间" />
         </el-form-item>
         <el-form-item  label="无人机类型" prop="planType.typeName">
-          <el-select v-model="addtemp.planType.typeName" class="filter-item" placeholder="请选择">
+          <el-select v-model="addtemp.planType" class="filter-item" placeholder="请选择">
             <el-option v-for="item in planType"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
         <el-form-item  label="故障类型" prop="troubleType.typeName">
-          <el-select v-model="addtemp.troubleType.typeName" class="filter-item" placeholder="请选择">
+          <el-select v-model="addtemp.troubleType" class="filter-item" placeholder="请选择">
             <el-option v-for="item in troubleType"  :key="item.id" :label="item.typeName" :value="item.typeName"/>
           </el-select>
         </el-form-item>
-        <el-form-item label="故障次数"  prop="troubleCount">
-          <el-input v-model="addtemp.troubleCount" />
+        <el-form-item label="设备ID"  prop="deviceId">
+          <el-input v-model="addtemp.deviceId" />
         </el-form-item>
         <el-form-item label="故障原因"  prop="troubleReason">
           <el-input v-model="addtemp.troubleReason" />
@@ -115,7 +115,7 @@
 </template>
 
 <script>
-  import { fetchNewsList,updateNews,createNews } from '@/api/trouble'
+  import { fetchNewsList,updateNews,createNews,deleteNews } from '@/api/trouble'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
@@ -134,7 +134,7 @@
         dialogStatus: '',
         listLoading:false,
         total: 0,
-        pageData:[],
+        page:[],
         planType: [{id:'1',typeName:'救援无人机'},{id:'2',typeName:'测绘无人机'},{id:'3',typeName:'拍摄无人机'},{id:'4',typeName:'交通无人机'}],
         troubleType: [{id:'1',typeName:'电机故障'},{id:'2',typeName:'电源故障'},{id:'3',typeName:'机翼故障'},{id:'4',typeName:'摄像头故障'},{id:'5',typeName:'底座故障'}],
         textMap: {
@@ -143,28 +143,28 @@
         },
         temp: {
           id:'',
-          date: new Date(),
+          troubleDate: new Date(),
           planType: [{id:'1',typeName:'救援无人机'},{id:'2',typeName:'测绘无人机'},{id:'3',typeName:'拍摄无人机'},{id:'4',typeName:'交通无人机'}],
           troubleType: [{id:'1',typeName:'电机故障'},{id:'2',typeName:'电源故障'},{id:'3',typeName:'机翼故障'},{id:'4',typeName:'摄像头故障'},{id:'5',typeName:'底座故障'}],
-          troubleCount: '',
+          deviceId: '',
           troubleReason:''
         },
         addtemp: {
           id:undefined,
-          date: new Date(),
+          troubleDate: new Date(),
           planType: [{id:'1',typeName:'救援无人机'},{id:'2',typeName:'测绘无人机'},{id:'3',typeName:'拍摄无人机'},{id:'4',typeName:'交通无人机'}],
           troubleType: [{id:'1',typeName:'电机故障'},{id:'2',typeName:'电源故障'},{id:'3',typeName:'机翼故障'},{id:'4',typeName:'摄像头故障'},{id:'5',typeName:'底座故障'}],
-          troubleCount: '',
+          deviceId: '',
           troubleReason: '',
         },
         listQuery: {
           page: 1,
-          limit: 20,
-          date:undefined,
-          troubleCount: undefined,
+          limit: 10,
+          troubleDate:undefined,
+          deviceId: undefined,
           troubleReason: undefined,
-          createTimeStart: undefined,
-          createTimeEnd: undefined
+          startTime: undefined,
+          endTime: undefined
         },
         downloadLoading: false
       }
@@ -173,37 +173,20 @@
       this.listLoading=true;
       //首次挂载列表组件
       fetchNewsList(this.listQuery).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
-        this.getList();
+        this.page = response.data
+        // this.total = response.data.total
+        // this.getList();
         //关闭加载框
         this.listLoading=false;
       })
     },
     methods:{
       getList() {
-        this.listLoading = true;
-        let{page,limit,date,planType,troubleType,troubleCount,troubleReason,createTimeStart,createTimeEnd}=this.listQuery;
-        date=new Date(date)
-        let fiterData=this.list.filter(item=>{
-          let idate = new Date(Date.parse(item.date))
-          if (date && idate < date) return false
-          if (planType && item.planType.id !== planType) return false
-          if (troubleType && item.troubleType.id !== troubleType) return false
-          if (troubleCount && item.troubleCount.indexOf(troubleCount) < 0) return false
-          if (troubleReason && item.troubleReason.indexOf(troubleReason) < 0) return false
-          if (createTimeStart && new Date(createTimeStart) > new Date(item.date))
-            return false
-          if (createTimeEnd && new Date(createTimeEnd) < new Date(item.date))
-            return false
-          return true
-        })
-
-        this.pageData=fiterData.filter((item,index)=>{
-          return index<page*limit && index>=limit*(page-1)
-        });
-        this.listLoading = false;
-        this.total=this.pageData.length
+        this.listLoading=true;
+        const { data } = fetchNewsList(this.listQuery)
+        this.page=data
+        this.listLoading=false;
+        this.total=this.page.length
       },
       handleFilter() {
         this.listQuery.page = 1
@@ -224,16 +207,19 @@
       addData() {
         this.$refs['AddForm'].validate((valid) => {
           if (valid) {
-            let time1 = this.addtemp.date
+            let time1 = this.addtemp.troubleDate
             let m1 = time1.getMonth()+1
             let d1 = time1.getDate()
+            let h2 = time1.getHours()
+            let m2 = time1.getMinutes()
+            let s2 = time1.getSeconds()
             if(d1<9){
               d1='0'+d1;
             }
             this.addtemp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-            this.addtemp.date = time1.getFullYear()+"-"+0+m1+"-"+d1
+            this.addtemp.troubleDate = time1.getFullYear()+"-"+0+m1+"-"+d1+" "+h2+":"+m2+":"+s2
             createNews(this.addtemp).then(() => {
-              this.pageData.unshift(this.addtemp)
+              // this.page.unshift(this.addtemp)
               this.dialogFormAdd = false
               this.$notify({
                 title: '成功',
@@ -254,10 +240,10 @@
           if (valid) {
             const tempData = Object.assign({}, this.temp)
             updateNews(tempData).then(() => {
-              for (const v of this.pageData) {
+              for (const v of this.page) {
                 if (v.id === this.temp.id) {
-                  const index = this.pageData.indexOf(v)
-                  this.pageData.splice(index, 1, this.temp)
+                  const index = this.page.indexOf(v)
+                  this.page.splice(index, 1, this.temp)
                   break
                 }
               }
@@ -275,10 +261,10 @@
       resetTemp() {
         this.addtemp = {
           id:undefined,
-          date: new Date(),
+          troubleDate: new Date(),
           planType: [],
           troubleType: [],
-          troubleCount: '',
+          deviceId: '',
           troubleReason: '',
         }
       },
@@ -296,8 +282,8 @@
           type: 'success',
           duration: 2000
         })
-        const index = this.pageData.indexOf(row)
-        this.pageData.splice(index, 1)
+        const index = this.page.indexOf(row)
+        this.page.splice(index, 1)
       },
       // handleDownload() {
       //   this.downloadLoading = true

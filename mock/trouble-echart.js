@@ -42,4 +42,17 @@ export default [
       }
     }
   },
+  {
+    url: '/trouble/thirdchartlist',
+    type: 'get',
+    response: config => {
+      return {
+        code: 20000,
+        data: {
+          total: List2.length,
+          items: List2
+        }
+      }
+    }
+  },
 ]

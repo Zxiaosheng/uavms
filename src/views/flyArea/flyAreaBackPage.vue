@@ -9,9 +9,20 @@
       <el-select v-model="listQuery.taskType.id" value-key="id" @change="getList" :placeholder="$t('flyArea.task')" clearable class="filter-item" style="width: 110px">
         <el-option v-for="item in allTaskType" :key="item.id" :label="item.typeName" :value="item.id" />
       </el-select>
+
+      <!--省市区检索-->
+      <el-select v-model="listQuery.province.provinceId" @change="getProvince"  placeholder="省" clearable class="filter-item" style="width: 110px">
+        <el-option v-for="item in provinceList" :key="item.provinceId" :label="item.provinceName" :value="item.provinceId" />
+      </el-select>
+      <el-select v-model="listQuery.city.cityId" @change="getProvince" placeholder="市" clearable class="filter-item" style="width: 110px">
+        <el-option v-for="item in cityList" :key="item.cityId" :label="item.cityName" :value="item.cityId" />
+      </el-select>
+      <el-select v-model="listQuery.district.districtId" @change="getProvince" placeholder="区" clearable class="filter-item" style="width: 110px">
+        <el-option v-for="item in gridList" :key="item.districtId" :label="item.districtName" :value="item.districtId" />
+      </el-select>
       <!--飞行区域检索-->
       <el-select v-model="listQuery.route.routeArrival" @change="getList" :placeholder="$t('flyArea.area')" clearable class="filter-item" style="width: 110px">
-        <el-option v-for="item in location" :key="item.id" :label="item.locationName" :value="item.id" />
+        <el-option v-for="item in locationList" :key="item.id" :label="item.locationName" :value="item.id" />
       </el-select>
       <!--ID排序选择-->
       <el-select v-model="listQuery.order" @change="getList" style="width: 140px" class="filter-item">
@@ -109,10 +120,12 @@
 
 <script>
   import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/article'
-  import {fetchflyAreaListBackPage,fetchLocation,fetchTaskType,createFly,updateFly,deletFly} from '@/api/flyAreaBackPage'
+  import {fetchflyAreaListBackPage,fetchLocation,fetchTaskType,createFly,updateFly,deletFly,getProvince,getGrid,getCity,getLocation} from '@/api/flyAreaBackPage'
   import { parseTime } from '@/utils'
   import Pagination from '@/components/Pagination'
   import waves from '@/directive/waves' // waves directive
+
+
   const flyType=[{id:1,typeName:'大型'},{id:2,typeName:'中型'},{id:3,typeName:'小型'},{id:4,typeName:'微型'}]
   const flyTask=[
     {id:1,taskName:'消防'},
@@ -133,10 +146,17 @@
       {id:8,areaName:'漳州'},
       {id:9,areaName:'龙岩'}]
     export default {
-      components:{Pagination},
+      components:{Pagination },
       directives: { waves },
         data() {
             return {
+              provinceList:[],
+              gridList:[],
+              cityList:[],
+              locationList:[],
+              provinceId:null,
+              cityId:null,
+              countyId:null,
               flyType,
               flyTask,
               flyArea,
@@ -150,6 +170,9 @@
                 deviceId: undefined,
                 route: {},
                 order: '+id',
+                province:{},
+                city:{},
+                district:{}
               },
               //前台每页要呈现的数据
               pageData:[],
@@ -210,6 +233,9 @@
         });
         //获取第一页
         this.getList();
+        //获取省市区
+        this.getProvince();
+
       },
       filters:{
         getDeviceStatus(s){
@@ -240,13 +266,47 @@
         }
       },
       methods: {
+    //获取省市区
+        getProvince(row){
+          getProvince().then(response=>{
+            this.provinceList=response.data;
+            console.log(this.provinceList);
+//              console.log(row);
+            this.provinceId=row;
+//              console.log(this.provinceId);
+            if (this.listQuery.province.provinceId!=""&&this.listQuery.city.cityId!="" && this.listQuery.district.districtId!=""){
+              getCity(this.provinceId).then(response=>{
+//                console.log(this.provinceId);
+                this.cityList=response.data;
+//                console.log(this.cityList);
+                this.cityId=row;
+                if(this.listQuery.city.cityId!=""&& this.listQuery.district.districtId!=""){
+                  getGrid(this.cityId).then(response=>{
+                    this.gridList=response.data;
+                    this.countyId=row;
+//                  console.log(this.gridList);
+                    if(this.listQuery.district.districtId!=""){
+                      getLocation(this.countyId).then(response=>{
+                        this.locationList=response.data;
+//                  console.log(this.locationList);
+                      })
+                    }
 
+                  })
+                }
+
+              })
+            }
+
+
+          })
+        },
         //获得每页要显示的数据
        getList() {
          //首次挂载新闻列表组件时获得所有新闻数据
          fetchflyAreaListBackPage(this.listQuery).then(response=>{
           console.log(response);
-           this.tableData=response.data.list
+           this.tableData=response.data.list;
            //获得数据总数
            this.total=response.data.total;
 
@@ -321,10 +381,13 @@
           this.listQuery= {
             page: 1,
             limit: 20,
-            taskType: {id:''},
+            taskType: {},
             deviceId: undefined,
             route: {},
             order: '+id',
+            province:{},
+            city:{},
+            district:{}
           }
           this.getList();
         },
@@ -377,7 +440,10 @@
               return v[j]
             }
           }))
-        }
+        },
+
+
+
       }
     }
 </script>

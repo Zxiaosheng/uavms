@@ -1,5 +1,5 @@
 module.exports = {
-  title: '无人机实时数据分析平台',
+  title: '无人机飞行数据分析平台',
 
   /**
    * @type {boolean} true | false
