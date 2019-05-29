@@ -19,6 +19,7 @@ export default {
     telephone: '电话号码',
     caption: '操作',
     company:'公司',
+    provin:"省份",
     head: {
       search: '搜索',
       type: '类型',

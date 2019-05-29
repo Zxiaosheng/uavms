@@ -24,13 +24,14 @@
       </el-button>
     </div>
     <!--表格的渲染-->
-    <el-table :data="tableData" border style="width: 100%;text-align: center" align="center">
+    <el-table :data="tableData" border style="width: 100%;text-align: center" align="center" v-loading="listLoading">
       <el-table-column prop="userId" align="center" sortable :label="$t('user.id')" width="130"/>
-      <el-table-column prop="userName" sortable :label="$t('user.name')" width="150" align="center"/>
-      <el-table-column prop="userDate" sortable :label="$t('user.date')" width="150" align="center"/>
-      <el-table-column prop="userPrivileges" sortable :label="$t('user.userType')" align="center" width="140"/>
-      <el-table-column prop="userSex" sortable :label="$t('user.sex')" align="center" width="140"/>
+      <el-table-column prop="userName" sortable :label="$t('user.name')" width="120" align="center"/>
+      <el-table-column prop="userDate" sortable :label="$t('user.date')" width="120" align="center"/>
+      <el-table-column prop="userPrivileges" sortable :label="$t('user.userType')" align="center" width="120"/>
+      <el-table-column prop="userSex" sortable :label="$t('user.sex')" align="center" width="100"/>
       <el-table-column prop="userCompany" sortable :label="$t('user.company')" align="center" width="140"/>
+      <el-table-column prop="province" sortable :label="$t('user.provin')" align="center" width="100"/>
       <el-table-column prop="userTelephone" sortable :label="$t('user.telephone')" align="center" width="150"/>
       <!--操作的设置-->
       <el-table-column :label="$t('user.caption')">
@@ -39,7 +40,7 @@
           <el-button type="primary" size="mini" @click="showEdtDialog(scope.row)">编辑</el-button>
           <!--编辑对话框的设置-->
           <el-dialog title="编辑用户信息" :visible.sync="dialogFormVisible">
-            <el-form ref="dataForm" :model="form" label-position="left" label-width="70px"
+            <el-form ref="dataForm" :rules="rules" :model="form" label-position="left" label-width="70px"
                      style="width: 400px; margin-left:50px;">
 
               <el-form-item label="姓名">
@@ -67,14 +68,19 @@
               </el-form-item>
 
               <!--电话号码的设置-->
-              <el-form-item label="电话号码">
-                <el-input v-model="form.userTelephone" width="60"></el-input>
+              <el-form-item label="电话号码" prop="taskHeader">
+                <el-input v-model="form.userTelephone" width="150"></el-input>
               </el-form-item>
-
 
               <!--公司的设置-->
               <el-form-item label="公司">
                 <el-input v-model="form.userCompany" width="60"></el-input>
+              </el-form-item>
+              <!--省份的来源-->
+              <el-form-item label="省份">
+                <el-select v-model="form.province" value-key="id" placeholder="请选择" style="width: 120px">
+                  <el-option v-for="type in province" :key="type.id" :label="type.priName" :value="type.priName"/>
+                </el-select>
               </el-form-item>
             </el-form>
 
@@ -131,8 +137,15 @@
           userPrivileges: "",
           userSex: "",
           userTelephone: "",
-          isDelete: 0
+          isDelete: 0,
+          province: ""
         },
+        province: [
+          {id: 1, priName: '北京市'},
+          {id: 2, priName: '安徽省'},
+          {id: 3, priName: '福建省'},
+          {id: 4, priName: '甘肃省'},
+        ],
         userType: [
           {id: 1, typeName: '普通用户'},
           {id: 2, typeName: '管理员'}
@@ -152,10 +165,18 @@
         },
         isDelObj: {
           userId: ""
-        }
+        },
+        //表单验证
+//        rules: {
+//          taskHeader: [
+//            {required: true, message: '请输入电话号码', trigger: 'blur'},
+//            {min: 0, max: 9, message: '长度不超过11位', trigger: 'blur'}
+//          ],
+//        }
       }
     },
     mounted() {
+
       this.getList();
     },
     methods: {
@@ -181,14 +202,14 @@
           userPrivileges: "",
           userSex: "",
           userTelephone: "",
-          isDelete:0,
+          isDelete: 0,
         }
       },
       // 新增表格数据的操作
       handleCreate() {
         this.resetTemp()
         this.dialogStatus = 'create',
-        this.dialogFormVisible = !this.dialogFormVisible
+          this.dialogFormVisible = !this.dialogFormVisible
         this.$nextTick(() => {
           this.$refs['dataForm'].clearValidate()
         })
@@ -198,6 +219,7 @@
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.form.userId = parseInt(Math.random() * 100) + 1024 // mock a id
+            console.log('this.form', this.form)
             userAdd(this.form).then(() => {
               //创建一个新的对象插入，否则指针会一直指向this.form
               this.dialogFormVisible = false
@@ -219,12 +241,12 @@
       },
       // 编辑按钮的设置
       showEdtDialog(row) {
-        console.log('当前行的数据',row)
+        console.log('当前行的数据', row)
         this.dialogStatus = 'update',
           this.dialogFormVisible = !this.dialogFormVisible
         let {userId, userCompany, userDate, userName, userPrivileges, userSex, userTelephone, isDelete} = row;
         this.form = {userId, userCompany, userDate, userName, userPrivileges, userSex, userTelephone, isDelete};
-        console.log('this.form',this.form)
+        console.log('this.form', this.form)
         this.$nextTick(() => {
           this.$refs['dataForm'].clearValidate()
         })

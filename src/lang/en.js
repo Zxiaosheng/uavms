@@ -21,6 +21,7 @@ export default {
     telephone: 'Telephone',
     caption: 'Caption',
     company:'Company',
+    provin:"provin",
     head: {
       search: 'Search',
       type: 'Type',
