@@ -107,6 +107,7 @@
               let datalist1 = new Array()
               datalist1 = response.data
 
+              console.log(datalist1)
               for (var i = 0; i < datalist1.length; i++) {
                   var date = new Date(dottedBase -= 3600 * 24 * 1000)
                   category.push([
@@ -116,10 +117,10 @@
                   ].join('-'));
                 this.list1.push(datalist1[i].value)
               }
-              fetchChartLine1(id).then(response => {
+              fetchChartLine2(id).then(response => {
                 let datalist2 = new Array();
                 datalist2= response.data
-
+                console.log(datalist2)
                 for(var n = 0;n < datalist2.length; n++){
                   this.list2.push(datalist2[n].value)
                 }
@@ -233,7 +234,7 @@
                           color: '#eee'
                         }
                       },
-                      max: 20
+                      max: 200
                     },
                     {
                       gridIndex: 1,
@@ -244,6 +245,7 @@
                           color: '#eee'
                         }
                       },
+                      max: 50,
                       inverse: true
                     }
                   ],
